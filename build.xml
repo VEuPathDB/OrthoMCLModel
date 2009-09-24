@@ -1,4 +1,4 @@
-<project name="DJob" default="Installation" basedir=".">
+<project name="OrthoMCLService" default="Installation" basedir=".">
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooo  Dependencies  oooooooooooooooooooooooooo -->
@@ -23,7 +23,7 @@
   <!-- oooooooooooooooooooooooooo    Checkout    oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="DJob-ChildCheckout">
+  <target name="OrthoMCLService-ChildCheckout">
     <available file="../CBIL" type="dir" property="CBIL.present" />
     <antcall target="CBIL-Checkout" />
   </target>
@@ -33,7 +33,7 @@
   <!-- oooooooooooooooooooooooooo    Update    oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="DJob-ChildUpdate" >
+  <target name="OrthoMCLService-ChildUpdate" >
     <ant target="defaultProjectUpdate">
       <property name="project" value="CBIL"/>
     </ant>
@@ -44,8 +44,8 @@
   <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="DJob-Installation" depends="CBIL-Installation,
-                                            DJob/DistribJobTasks-Installation">
+  <target name="OrthoMCLService-Installation" depends="CBIL-Installation,
+                                            OrthoMCLService/Main-Installation">
 
     <ant target="defaultProjectInstall"/>
 
@@ -54,8 +54,8 @@
 
   <!-- oooooooooooooooooo  Installation Postprocess  ooooooooooooooooooooo -->
 
-  <target name="DJob-Installation-postprocess">
-    <echo message="Postprocessing the DJob installation"/>
+  <target name="OrthoMCLService-Installation-postprocess">
+    <echo message="Postprocessing the OrthoMCLService installation"/>
 
     <replace dir="${targetDir}/bin" 
              propertyFile="${targetDir}/config/replacements.prop" > 
@@ -68,17 +68,10 @@
 
   <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
 
-  <target name="DJob/DistribJobTasks-Installation" depends="DJob/DistribJob-Installation">
+  <target name="OrthoMCLService/Main-Installation" depends="ProjectTree">
     <ant target="defaultComponentInstall">
-      <property name="project" value="DJob"/>
-      <property name="component" value="DistribJobTasks"/>
-    </ant>
-  </target>  
-
-  <target name="DJob/DistribJob-Installation" depends="ProjectTree">
-    <ant target="defaultComponentInstall">
-      <property name="project" value="DJob"/>
-      <property name="component" value="DistribJob"/>
+      <property name="project" value="OrthoMCLService"/>
+      <property name="component" value="Main"/>
     </ant>
   </target>  
 
@@ -87,7 +80,7 @@
   <!-- oooooooooooooooooooooooooo  Distributable  ooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="DJob-Distributable" depends="ProjectTree">
+  <target name="OrthoMCLService-Distributable" depends="ProjectTree">
 
     <copy todir="${targetDir}">
       <fileset dir="${projectsDir}" >
