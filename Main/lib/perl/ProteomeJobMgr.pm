@@ -1,7 +1,7 @@
-package OrthoMCLData::Load::ProteomeJobMgr;
+package OrthoMCLService::Main::ProteomeJobMgr;
 
 use strict;
-use GUS::Workflow::SshCluster;
+use CBIL::Util::SshCluster;
 use Carp;
 
 sub new {
@@ -39,7 +39,7 @@ sub getCluster {
     if (!$self->{cluster}) {
 	my $clusterServer = $self->getConfig('clusterServer');
 	my $clusterUser = $self->getConfig('clusterUserName');
-	$self->{cluster} = GUS::Workflow::SshCluster->new($clusterServer,
+	$self->{cluster} = CBIL::Util::SshCluster->new($clusterServer,
 							  $clusterUser,
 							  $self);
     }

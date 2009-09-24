@@ -3,8 +3,7 @@
 use lib "$ENV{GUS_HOME}/lib/perl";
 use File::Path;
 use File::Copy;
-use GUS::Workflow::SshCluster;
-use OrthoMCLData::Load::ProteomeJobMgr;
+use OrthoMCLService::Main::ProteomeJobMgr;
 use Digest::MD5 qw(md5_hex);
 
 use strict;
@@ -82,7 +81,7 @@ my $clusterServerDir;
 my $dbSize;
 my $fakeTaxonAbbrev = 'xxxx';
 
-my $mgr = OrthoMCLData::Load::ProteomeJobMgr->new($configFile);
+my $mgr = OrthoMCLService::Main::ProteomeJobMgr->new($configFile);
 
 eval {
     $controlDir = $mgr->getConfig('controlDir');
