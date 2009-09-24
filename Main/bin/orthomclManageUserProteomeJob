@@ -460,7 +460,7 @@ sub handleFailedJobs {
     foreach my $failedJob (@$failedJobs) {
 
       $mgr->log("Handling $phase failed job: $failedJob");
-      mkpath("$localRunningDir/$failedJob");
+      mkpath("$localFailedDir");
       move("$localRunningDir/$failedJob", "$localFailedDir/$failedJob");
 
       # clean up cluster dir
