@@ -263,6 +263,7 @@ sub deliverResult {
     $mgr->runCmd(0, "zip -rj $donePhase2JobDir/orthomclResult $donePhase2JobDir/orthomclResult");
 
     # move zipped result to delivery dir
+    mkpath($resultDir);
     move("$donePhase2JobDir/orthomclResult.zip", "$resultDir/orthomclResult-$jobId.zip");
 
     # email result
@@ -459,12 +460,14 @@ sub handleFailedJobs {
 
     foreach my $failedJob (@$failedJobs) {
 
+      mailServerError("$localRunningDir/$failedJob/info.txt", $failedJob);
       $mgr->log("Handling $phase failed job: $failedJob");
+      $mgr->log("  moving local job to $phase failed dir");
       mkpath("$localFailedDir");
       move("$localRunningDir/$failedJob", "$localFailedDir/$failedJob");
 
       # clean up cluster dir
-      $mgr->log("  moving cluster job to failed dir");
+      $mgr->log("  moving cluster job to $phase cluster failed dir");
       my $clusterRunningJobDir = "$clusterServerDir/$phase/runningJobs/$failedJob";
       $mgr->runCmd(0, "ssh -2 $clusterUserName\@$clusterServer '/bin/bash -login -c \"mv $clusterRunningJobDir $clusterServerDir/$phase/failedJobs\"'");
     }
@@ -477,6 +480,15 @@ sub mailSubmit {
 has been submitted.  You will get a mail when it is done (6 to 24 hours).
 ";
   mailJob($infoFile, $jobId, "OrthoMCL Job - submitted", $msg);
+}
+
+sub mailServerError {
+  my ($infoFile, $jobId) = @_;
+
+  my $msg = "
+has failed because of a server error.  Please try again, or respond to this mail to report the problem.
+";
+  mailJob($infoFile, $jobId, "OrthoMCL Job - server error", $msg);
 }
 
 sub mailInvalidFasta {
