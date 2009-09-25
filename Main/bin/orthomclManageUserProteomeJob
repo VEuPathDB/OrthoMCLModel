@@ -87,6 +87,8 @@ eval {
     $controlDir = $mgr->getConfig('controlDir');
     $clusterServerDir = $mgr->getConfig('clusterServerDir');
 
+    mk_local_dirs();
+
     # phase 1 (self-self blast of user proteome)
     my ($doneJobs, $failedJobs) = checkRunningJobs('phase1');
 
@@ -551,6 +553,12 @@ The OrthoMCL Team
   print SENDMAIL "Content-type: text/plain\n\n";
   print SENDMAIL $body;
   close(SENDMAIL);
+}
+
+sub mk_local_dirs {
+    qx(mkdir -p $controlDir/{results,newJobs});
+    qx(mkdir -p $controlDir/phase1/{runningJobs,doneJobs});
+    qx(mkdir -p $controlDir/phase2/{runningJobs,doneJobs});
 }
 
 sub usage {
