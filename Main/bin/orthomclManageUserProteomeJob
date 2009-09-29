@@ -479,7 +479,7 @@ sub mailSubmit {
   my ($infoFile, $jobId) = @_;
 
   my $msg = "
-has been submitted.  You will get a mail when it is done (6 to 24 hours).
+has been submitted.  You will get a mail when it is done (4 to 12 hours).
 ";
   mailJob($infoFile, $jobId, "OrthoMCL Job - submitted", $msg);
 }
@@ -540,7 +540,7 @@ Your OrthoMCL job:
   ID:         $jobId
   Name:       $info->{jobName}
   Fasta file: $info->{fastaFileName}
-  Submitted:  $info->{submitted}
+  Submitted:  $info->{submitted} (EST)
 $message
 Thank you for using OrthoMCL,
 The OrthoMCL Team
