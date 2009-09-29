@@ -1,4 +1,4 @@
-<project name="OrthoMCLService" default="Installation" basedir=".">
+<project name="OrthoMCLShared" default="Installation" basedir=".">
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooo  Dependencies  oooooooooooooooooooooooooo -->
@@ -23,7 +23,7 @@
   <!-- oooooooooooooooooooooooooo    Checkout    oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLService-ChildCheckout">
+  <target name="OrthoMCLShared-ChildCheckout">
     <available file="../CBIL" type="dir" property="CBIL.present" />
     <antcall target="CBIL-Checkout" />
   </target>
@@ -33,7 +33,7 @@
   <!-- oooooooooooooooooooooooooo    Update    oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLService-ChildUpdate" >
+  <target name="OrthoMCLShared-ChildUpdate" >
     <ant target="defaultProjectUpdate">
       <property name="project" value="CBIL"/>
     </ant>
@@ -44,8 +44,9 @@
   <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLService-Installation" depends="CBIL-Installation,
-                                            OrthoMCLService/Main-Installation">
+  <target name="OrthoMCLShared-Installation" depends="CBIL-Installation,
+                                            OrthoMCLShared/MapProteomeService-Installation,
+                                            OrthoMCLShared/Ppe-Installation">
 
     <ant target="defaultProjectInstall"/>
 
@@ -54,8 +55,8 @@
 
   <!-- oooooooooooooooooo  Installation Postprocess  ooooooooooooooooooooo -->
 
-  <target name="OrthoMCLService-Installation-postprocess">
-    <echo message="Postprocessing the OrthoMCLService installation"/>
+  <target name="OrthoMCLShared-Installation-postprocess">
+    <echo message="Postprocessing the OrthoMCLShared installation"/>
 
     <replace dir="${targetDir}/bin" 
              propertyFile="${targetDir}/config/replacements.prop" > 
@@ -68,10 +69,17 @@
 
   <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLService/Main-Installation" depends="ProjectTree">
+  <target name="OrthoMCLShared/MapProteomeService-Installation" depends="ProjectTree">
     <ant target="defaultComponentInstall">
-      <property name="project" value="OrthoMCLService"/>
-      <property name="component" value="Main"/>
+      <property name="project" value="OrthoMCLShared"/>
+      <property name="component" value="MapProteomeService"/>
+    </ant>
+  </target>  
+
+  <target name="OrthoMCLShared/Ppe-Installation" depends="ProjectTree">
+    <ant target="defaultComponentInstall">
+      <property name="project" value="OrthoMCLShared"/>
+      <property name="component" value="Ppe"/>
     </ant>
   </target>  
 
@@ -80,7 +88,7 @@
   <!-- oooooooooooooooooooooooooo  Distributable  ooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLService-Distributable" depends="ProjectTree">
+  <target name="OrthoMCLShared-Distributable" depends="ProjectTree">
 
     <copy todir="${targetDir}">
       <fileset dir="${projectsDir}" >

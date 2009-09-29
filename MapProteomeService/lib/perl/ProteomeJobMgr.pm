@@ -1,4 +1,4 @@
-package OrthoMCLService::Main::ProteomeJobMgr;
+package OrthoMCLShared::MapProteomeService::ProteomeJobMgr;
 
 use strict;
 use CBIL::Util::SshCluster;
