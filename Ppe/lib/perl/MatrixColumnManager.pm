@@ -1,4 +1,4 @@
-package OrthoMCLData::Load::MatrixColumnManager;
+package OrthoMCLShared::Ppe::MatrixColumnManager;
 
 use strict;
 use Data::Dumper;
