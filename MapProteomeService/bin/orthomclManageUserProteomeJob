@@ -358,14 +358,14 @@ sub validateProteomeFile {
 	$seqCount += 1 if /^\>\S+/;
     }
     close(P);
-    return ($seqCount && $seqCount <= 100000 && $length <= $seqCount * 1000);
+    return ($seqCount && $seqCount <= 100000 && $length <= $seqCount * 5000);
 }
 
 sub correctProteomeFile {
     my ($orig_proteomeFile, $proteomeFile) = @_;
 
-    open(O, $orig_proteomeFile) || die "can't open file $orig_proteomeFile";
-    open(N, ">$proteomeFile") || die "can't open file $proteomeFile for writing";
+    open(O, $orig_proteomeFile) || die "can't open file $orig_proteomeFile\n";
+    open(N, ">$proteomeFile") || die "can't open file $proteomeFile for writing\n";
     while (<O>) {
 	s/\>/\>$fakeTaxonAbbrev\|/ if (/\>/);
 	print N $_;
@@ -376,7 +376,7 @@ sub correctProteomeFile {
 
 sub makeTaskFile {
     my ($localInputDir, $clusterInputDir, $clusterRunningJobDir, $dbFilePath, $dbSize) = @_;
-      open(F, ">$localInputDir/task.prop") || die "Can't open task prop file '$localInputDir/task.prop' for writing";
+      open(F, ">$localInputDir/task.prop") || die "Can't open task prop file '$localInputDir/task.prop' for writing\n";
 
     my $blastBinDir = $mgr->getConfig('blastBinDir');
     my $clusterUserName = $mgr->getConfig('clusterUserName');
@@ -397,8 +397,8 @@ printSimSeqsFile=yes
 
     # make blastParams file
     my $blastArgs = $mgr->getConfig('blastArgs');
-    die "error: do not include -z arg in blastArgs property.  it is discovered dynamically" if $blastArgs =~ /z/;
-    open(F, ">$localInputDir/blastParams") || die "Can't open blast params file '$localInputDir/blastParams' for writing";;
+    die "error: do not include -z arg in blastArgs property.  it is discovered dynamically\n" if $blastArgs =~ /z/;
+    open(F, ">$localInputDir/blastParams") || die "Can't open blast params file '$localInputDir/blastParams' for writing\n";;
     print F "$blastArgs -z $dbSize\n";
     close(F);
 }
@@ -520,7 +520,7 @@ They will be available for 48 hours.
 sub mailJob {
   my ($infoFile, $jobId, $subject, $message) = @_;
 
-  open(I, $infoFile) || die "Can't open info file '$infoFile'";
+  open(I, $infoFile) || die "Can't open info file '$infoFile'\n";
   my $info;
   while (<I>) {
     chomp;
@@ -546,7 +546,7 @@ Thank you for using OrthoMCL,
 The OrthoMCL Team
 ";
 
-  open(SENDMAIL, "|/usr/sbin/sendmail -t") or die "Cannot open sendmail: $!";
+  open(SENDMAIL, "|/usr/sbin/sendmail -t") or die "Cannot open sendmail: $!\n";
   print SENDMAIL "Subject: $subject\n";
   print SENDMAIL "To: $info->{email}\n";
   print SENDMAIL "From: help\@orthomcl.org\n";
