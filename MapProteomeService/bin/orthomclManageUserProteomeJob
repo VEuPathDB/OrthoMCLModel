@@ -233,12 +233,20 @@ sub deliverResults {
     my @donePhase2Jobs = readdir(DIR);
     closedir(DIR);
 
+    mkpath("$controlDir/phase2/doneJobsDebug");
+
     foreach my $phase2DoneJob (@donePhase2Jobs) {
       next if $phase2DoneJob =~ /^\./;
       $mgr->log("Final processing for $phase2DoneJob");
       deliverResult("$controlDir/phase2/doneJobs/$phase2DoneJob", $phase2DoneJob);
       $mgr->log("  cleaning up local phase2 job dir");
-      rmtree("$controlDir/phase2/doneJobs/$phase2DoneJob");
+
+      # move to archive for debugging
+      rename("$controlDir/phase2/doneJobs/$phase2DoneJob",
+	  "$controlDir/phase2/doneJobsDebug/$phase2DoneJob");
+
+      # remove from archive unless debugging
+      rmtree("$controlDir/phase2/doneJobsDebug/$phase2DoneJob");
     }
 }
 
@@ -258,6 +266,12 @@ sub deliverResult {
     open(L, "$donePhase2JobDir/log");
     while(<L>) {print STDERR $_;}
     close(L);
+
+    # make README
+    my $readmeFile = "$donePhase2JobDir/orthomclResult/README";
+    open(R, $readmeFile) || die "Can't open readme file '$readmeFile' for writing";
+    print R readme();
+    close(R);
 
     # zip result
     copy("$donePhase2JobDir/info.txt", "$donePhase2JobDir/orthomclResult");
@@ -352,7 +366,9 @@ sub validateProteomeFile {
     my ($proteomeFile) = @_;
     my $length;
     my $seqCount;
-    open(P, $proteomeFile) || die "\n";
+    die "Fasta file '$proteomeFile' does not exist" unless -e $proteomeFile;
+    system("dos2unix $proteomeFile");
+    open(P, $proteomeFile) || die "Can't open fasta file '$proteomeFile'\n";
     while(<P>) {
 	$length += length($_);
 	$seqCount += 1 if /^\>\S+/;
@@ -588,6 +604,35 @@ mclBin=               (location of mcl executable)
 resultDir             (dir to write result zip file to)
 resultBaseUrl=          (URL to append job key to)
 ";
+
+sub readme {
+    return "
+Output: A .zip file containing the following text files:
+
+orthomclResults/
+  orthologGroups    a map between your proteins and OrthoMCL groups. Tab 
+                    delimited.  Columns: your_protein, orthomcl_group, 
+                    seq_id_of_best_hit, evalue_mantissa, evalue_exponent,
+                    percent_identity, percent_match.
+  paralogPairs      reciprocal best hits among those proteins in your genome
+                    that were not mapped to OrthoMCL groups, as described
+                    below in the Algorithms section.
+  paralogGroups     the proteins in paralogPairs clustered into groups by
+                    the mcl program, as described below in the Algorithms
+                    section.
+
+
+
+Algorithm
+
+Please refer to the OrthoMCL Algorithm Document ()for details about how OrthoMCL-DB is created.
+
+    * BLASTP of your proteins against self and against OrthoMCL proteins. Cutoff of e-5, and 50% match.
+    * For proteins that have an above-threshold match: assign the group from the best matching OrthoMCL protein. If the best OrthoMCL protein does not have a group, assign NO_GROUP.
+    * For remaining proteins: use the InParalog algorithm described in the OrthoMCL Algorithm Document to find potential paralog pairs.
+    * Submit those pairs to the MCL program (see the OrthoMCL Algorithm Document). 
+";
+}
 
 exit(1);
 
