@@ -269,7 +269,7 @@ sub deliverResult {
 
     # make README
     my $readmeFile = "$donePhase2JobDir/orthomclResult/README";
-    open(R, $readmeFile) || die "Can't open readme file '$readmeFile' for writing";
+    open(R, ">$readmeFile") || die "Can't open readme file '$readmeFile' for writing";
     print R readme();
     close(R);
 
