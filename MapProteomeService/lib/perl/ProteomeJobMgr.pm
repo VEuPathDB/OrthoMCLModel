@@ -50,7 +50,7 @@ sub getCluster {
 sub runCmd {
     my ($self, $testmode, $cmd) = @_;
 
-
+    $self->log("Running cmd:\n$cmd\n");
     my $output = `$cmd`;
     my $status = $? >> 8;
     $self->error("Failed with status $status running: \n$cmd") if ($status);
@@ -60,6 +60,7 @@ sub runCmd {
 sub runCmdInBackground {
     my ($self, $cmd) = @_;
 
+    $self->log("Running cmd:\n$cmd &\n");
     system("$cmd &");
     my $status = $? >> 8;
     $self->error("Failed running '$cmd' with stderr:\n $!") if ($status);
