@@ -84,7 +84,6 @@ sub runClusterTask {
     if (!$self->clusterTaskRunning($processIdFile, $user, $server)) {
 	my $cmd = "workflowclustertask $controllerPropFile $logFile $processIdFile $numNodes $time $queue $ppn";
 	my $sshCmd = "ssh -2 $user\@$server '/bin/bash -login -c \"$cmd\"'";
-	$self->log("Running cmd: $sshCmd");
 	$self->runCmdInBackground($sshCmd);
     }
 
