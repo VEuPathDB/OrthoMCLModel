@@ -349,9 +349,13 @@ sub handleNewJobs {
 	$mgr->getCluster()->copyTo($localRunningDir, $newJob, $clusterRunningDir);
 
 	if ($phase eq 'phase1') {
-	    # format db
+
+	    # formatdb does not return proper exit code.  generate one by
+	    # grepping its log for 'Error'
 	    my $blastBinDir = $mgr->getConfig('blastBinDir');
-	    my $cmd = "$blastBinDir/formatdb -i $dbFilePath -p T";
+	    my $formatdbLog = "$clusterRunningJobDir/formatdb.log";
+	    my $cmd = "$blastBinDir/formatdb -i $dbFilePath -l $formatdbLog -p T;grep ERROR $formatdbLog; if [ \\\$? -eq 0 ]; then false; else true; fi";
+
 	    $mgr->log("Formatting proteome.fasta for self-self blast");
 	    $mgr->runCmd(0, "ssh -2 $clusterUserName\@$clusterServer '/bin/bash -login -c \"$cmd\"'");
 	}
@@ -383,6 +387,7 @@ sub correctProteomeFile {
     open(O, $orig_proteomeFile) || die "can't open file $orig_proteomeFile\n";
     open(N, ">$proteomeFile") || die "can't open file $proteomeFile for writing\n";
     while (<O>) {
+        s/\t/ /g;  # lose tab chars.  formatdb fails on them.
 	s/\>/\>$fakeTaxonAbbrev\|/ if (/\>/);
 	print N $_;
     }
