@@ -182,7 +182,7 @@ sub usage {
     print STDERR "
 Map an input proteome to OrthoMCL groups.
 
-usage:  orthomclMapProteomeToGroups similarity_file self_similarity_file groups_file taxon_abbrev output_dir mcl_bin
+usage:  orthomclMapProteomeToGroups self_similarity_file similarity_file groups_file taxon_abbrev output_dir mcl_bin log
 
 where:
   similarity_file:         concise (orthomcl-style) similarity output for input
@@ -196,6 +196,7 @@ where:
   taxon_abbrev             taxon abbreviation that has been prepended to protein IDs
   output_dir:              where to write output files
   mcl_bin:                 location of mcl binary
+  log                      log file path
 
 note: simseqs format output by blastSimilarity is sorted by query_id, evalue
 
