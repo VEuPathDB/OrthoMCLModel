@@ -20,6 +20,9 @@ open(LOG, ">$log") || die "could not open log file '$log'";
 ###########################################
 # make hash of orthomcl proteins to groups
 ###########################################
+
+die "groups file '$groupsFile' does not exist\n" unless -e $groupsFile;
+
 if ($groupsFile =~ m/\.gz$/) {
   open(G, "gunzip -c $groupsFile |") or die "can't open groups file '$groupsFile'\n";
 }
