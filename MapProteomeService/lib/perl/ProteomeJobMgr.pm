@@ -82,7 +82,7 @@ sub runClusterTask {
 
     # if not already started, start it up (otherwise the local process was restarted)
     if (!$self->clusterTaskRunning($processIdFile, $user, $server)) {
-	my $cmd = "workflowclustertask $controllerPropFile $logFile $processIdFile $numNodes $time $queue $ppn";
+	my $cmd = "workflowRunDistribJob $controllerPropFile $logFile $processIdFile $numNodes $time $queue $ppn";
 	my $sshCmd = "ssh -2 $user\@$server '/bin/bash -login -c \"$cmd\"'";
 	$self->runCmdInBackground($sshCmd);
     }
