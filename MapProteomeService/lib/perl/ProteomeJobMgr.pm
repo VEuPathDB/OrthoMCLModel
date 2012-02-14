@@ -37,11 +37,11 @@ sub getCluster {
     my ($self) = @_;
 
     if (!$self->{cluster}) {
-	my $clusterServer = $self->getConfig('clusterServer');
-	my $clusterUser = $self->getConfig('clusterUserName');
-	$self->{cluster} = CBIL::Util::SshCluster->new($clusterServer,
-							  $clusterUser,
-							  $self);
+    my $clusterServer = $self->getConfig('clusterServer');
+    my $clusterUser = $self->getConfig('clusterUserName');
+    $self->{cluster} = CBIL::Util::SshCluster->new($clusterServer,
+                              $clusterUser,
+                              $self);
     }
     return $self->{cluster};
 }
@@ -60,15 +60,23 @@ sub runCmd {
 sub runCmdInBackground {
     my ($self, $cmd) = @_;
 
-    $self->log("Running cmd:\n$cmd &\n");
-    system("$cmd &");
-    my $status = $? >> 8;
-    $self->error("Failed running '$cmd' with stderr:\n $!") if ($status);
+    $self->log("Running background cmd:\n$cmd\n");
+
+    my $pid = fork();
+
+    if (not defined $pid) {
+        $self->log("Failed fork for background cmd:\n$cmd\n");
+    } elsif ($pid == 0) {
+        my $status = system("$cmd");
+        warn "Failed running background cmd $cmd' with stderr:\n $!" if ($status);
+        exit($status);
+    } else {
+        # parent proceeds without waiting
+    }
 }
 
 sub error {
     my ($self, $msg) = @_;
-
     confess("$msg\n\n");
 }
 
@@ -78,16 +86,16 @@ sub log {
 }
 
 sub runClusterTask {
-    my ($self, $user, $server, $processIdFile, $logFile, $controllerPropFile, $numNodes, $time, $queue, $ppn) = @_;
+    my ($self, $user, $rcfile, $server, $processIdFile, $logFile, $controllerPropFile, $numNodes, $time, $queue, $ppn) = @_;
 
     # if not already started, start it up (otherwise the local process was restarted)
     if (!$self->clusterTaskRunning($processIdFile, $user, $server)) {
-	my $cmd = "workflowRunDistribJob $controllerPropFile $logFile $processIdFile $numNodes $time $queue $ppn";
-	my $sshCmd = "ssh -2 $user\@$server '/bin/bash -login -c \"$cmd\"'";
-	$self->runCmdInBackground($sshCmd);
+        my $cmd = "workflowRunDistribJob $controllerPropFile $logFile $processIdFile $numNodes $time $queue $ppn";
+        my $sshCmd = "ssh -2 $user\@$server '/bin/bash -rcfile $rcfile -i -c \"$cmd\"'";
+        $self->runCmdInBackground($sshCmd);
     }
 
-    my $done = $self->runCmd(0, "ssh -2 $user\@$server '/bin/bash -login -c \"if [ -a $logFile ]; then tail -1 $logFile; fi\"'");
+    my $done = $self->runCmd(0, "ssh -2 $user\@$server '/bin/bash -rcfile $rcfile -i -c \"if [ -a $logFile ]; then tail -1 $logFile; fi\"'");
 
     return $done && $done =~ /Done/;
 }
