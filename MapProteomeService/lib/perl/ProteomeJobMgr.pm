@@ -94,10 +94,6 @@ sub runClusterTask {
         my $sshCmd = "ssh -2 $user\@$server '/bin/bash -rcfile $rcfile -i -c \"$cmd\"'";
         $self->runCmdInBackground($sshCmd);
     }
-
-    my $done = $self->runCmd(0, "ssh -2 $user\@$server '/bin/bash -rcfile $rcfile -i -c \"if [ -a $logFile ]; then tail -1 $logFile; fi\"'");
-
-    return $done && $done =~ /Done/;
 }
 
 sub clusterTaskRunning {
