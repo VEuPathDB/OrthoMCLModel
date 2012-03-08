@@ -566,7 +566,7 @@ sub mailSubmit {
   my ($infoFile, $jobId) = @_;
 
   my $msg = "
-has been submitted.  You will get a mail when it is done (6 to 48 hours).
+has been submitted.  You will get a mail when it is done (6 to 72 hours).
 ";
   mailJob($infoFile, $jobId, "OrthoMCL Job - submitted", $msg);
 }
