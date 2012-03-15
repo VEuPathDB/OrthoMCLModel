@@ -333,13 +333,14 @@ sub handleNewJobs {
 
     if ($phase eq 'phase1') {
         my $validateResultError = validateProteomeFile($newJobDir, "proteome.fasta");
-        my $formatResultError = formatProteomeFile($newJobDir, "proteome.fasta") if ( ! $validateResultError);
+        my $maskedSeqError = checkProteomeFileForFullMaskSeqs($newJobDir, "proteome.fasta") if ( ! $validateResultError);
+        my $formatResultError = formatProteomeFile($newJobDir, "proteome.fasta") if ( ! $validateResultError && ! $maskedSeqError);
 
-        if (! $validateResultError && ! $formatResultError) {
+        if (! $validateResultError && ! $maskedSeqError && ! $formatResultError) {
             mailSubmit("$newJobDir/info.txt", $newJob);
         } else {
             $mgr->log("  invalid fasta");
-            my $reason = $validateResultError . "\n" . $formatResultError;
+            my $reason = $validateResultError . "\n" . $maskedSeqError . "\n" . $formatResultError;
             mailInvalidFasta("$newJobDir/info.txt", $newJob, $reason);
             rmtree($newJobDir);
             next;
@@ -385,6 +386,46 @@ sub handleNewJobs {
     startJob("$clusterRunningJobDir", $newJob);
     }
 
+}
+
+# blastall fails on fully masked sequences - all X's .
+sub checkProteomeFileForFullMaskSeqs {
+    my ($newJobDir, $proteomeFilename) = @_;
+    my $proteomeFilePath = "$newJobDir/$proteomeFilename";
+    my %invalid_seqs;
+    my $id;
+    my $seq_is_ok = 0;
+    die "Fasta file '$proteomeFilePath' does not exist" unless -e $proteomeFilePath;
+    system("dos2unix $proteomeFilePath");
+    open(P, $proteomeFilePath) || die "Can't open fasta file '$proteomeFilePath'\n";
+    while(<P>) {
+        chomp;
+        if (m/^>/) {
+            $seq_is_ok = 0;
+            ($id) = $_ =~ m/>$fakeTaxonAbbrev\|(\S+)/;
+            delete $invalid_seqs{$id};
+            next;
+        }
+    
+        my $l = length($_);
+    
+        # check for run of X's over full length of line
+        if ( m/^X{$l}/i) {
+           next if $seq_is_ok; # a previous line of sequence was not a full run of X's
+           $invalid_seqs{$id}++;
+        } else {
+           $seq_is_ok = 1;
+           delete $invalid_seqs{$id};
+           next;
+        }
+    }
+    close(P);
+    my $error = "";
+    if (keys(%invalid_seqs) > 0) {
+        $error  = "The following sequences are 100% masked (all 'X') and are not valid input.\n";
+        $error .= join ("\n", keys %invalid_seqs) . "\n";
+    }
+    return $error;
 }
 
 # format proteome file with NCBI formatdb and return empty string if successful, error message otherwise
