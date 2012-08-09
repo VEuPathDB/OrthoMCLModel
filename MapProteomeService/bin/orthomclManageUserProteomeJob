@@ -3,6 +3,7 @@
 use lib "$ENV{GUS_HOME}/lib/perl";
 use File::Path;
 use File::Copy;
+use Sys::Hostname;
 use OrthoMCLShared::MapProteomeService::ProteomeJobMgr;
 use Digest::MD5 qw(md5_hex);
 use strict;
@@ -75,6 +76,8 @@ jobName=
 
 usage() unless scalar(@ARGV) == 1;
 
+$SIG{'INT'} = 'CLEANUP';
+
 my $configFile = $ARGV[0];
 
 my $controlDir;
@@ -91,6 +94,8 @@ eval {
     warn "[DEBUG] using controlDir $controlDir\n" if DEBUG;
     warn "[DEBUG] using clusterServerDir $clusterServerDir\n" if DEBUG;
 
+    preventConcurrentRun($controlDir);
+    
     mk_local_dirs();
 
     # phase 1 (self-self blast of user proteome)
@@ -121,10 +126,37 @@ eval {
     # deliver results (process blast results, and deliver results to user)
     # for each phase 2 done job, process it, and delete when done
     deliverResults();
+sleep 20;    
+    removeConcurrentRunLock($controlDir);
 };
 
 $mgr->error("error: '$@'") if $@;
 
+sub preventConcurrentRun {
+    my ($controlDir) = @_;
+    my $lockfile = "$controlDir/lock";
+    
+    if ( -e $lockfile ) {
+        # looks to be already running
+        my $runningJob = `cat $lockfile`;
+        my $msg = "Lock file found for $runningJob, not starting another process.\n" .
+            "If this is in error, remove $lockfile and try again.\n";
+        print $msg;
+        exit 1;
+    }
+
+    # not currently running, write lockfile with PID information
+    open(LOCK, ">$lockfile") or die "could not open lockfile $lockfile\n";
+    print LOCK "$$ on " . hostname();
+}
+
+sub removeConcurrentRunLock {
+    my ($controlDir) = @_;
+    my $lockfile = "$controlDir/lock";
+    if ( -e $lockfile ) {
+        unlink $lockfile;
+    }
+}
 
 sub findDbSize {
     my ($localRunningDir, $clusterRunningDir) = @_;
@@ -735,6 +767,12 @@ sub mk_local_dirs {
     qx(mkdir -p $controlDir/phase2/{runningJobs,doneJobs});
     qx(chmod 1777 $controlDir/newJobs);
 }
+
+sub CLEANUP {
+    removeConcurrentRunLock($controlDir);
+    exit(1);
+}
+
 
 sub usage {
   print STDERR "
