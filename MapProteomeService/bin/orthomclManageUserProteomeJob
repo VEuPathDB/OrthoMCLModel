@@ -126,7 +126,7 @@ eval {
     # deliver results (process blast results, and deliver results to user)
     # for each phase 2 done job, process it, and delete when done
     deliverResults();
-sleep 20;    
+
     removeConcurrentRunLock($controlDir);
 };
 
