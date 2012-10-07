@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+    <modelName displayName="OrthoMCL" version="5.0" releaseDate="31 October 2012 10:32"/>
+
+    <!-- ******************* -->
+    <!-- model introduction  -->
+    <!-- ******************* -->
+    <introduction>
+	<![CDATA[
+        Welcome to OrthoMCL DB
+	]]>
+    </introduction>
+    
+    <!-- import the group related pieces -->
+    <import file="OrthoMCL/records/groupRecord.xml" />
+    <import file="OrthoMCL/records/groupRecordQueries.xml" />
+    <import file="OrthoMCL/questions/groupQuestions.xml" />
+    <import file="OrthoMCL/questions/queries/groupIdQueries.xml" />
+    <import file="OrthoMCL/questions/params/groupParams.xml" />
+    
+    <!-- import the sequence related pieces -->
+    <import file="OrthoMCL/records/sequenceRecord.xml" />
+    <import file="OrthoMCL/records/sequenceRecordQueries.xml" />
+    <import file="OrthoMCL/questions/sequenceQuestions.xml" />
+    <import file="OrthoMCL/questions/queries/sequenceIdQueries.xml" />
+    <import file="OrthoMCL/questions/params/sequenceParams.xml" />
+
+
+
+
+    <!-- import the helper related pieces -->
+
+    <import file="OrthoMCL/records/helperRecord.xml" />
+    <import file="OrthoMCL/records/helperRecordQueries.xml" />
+    <import file="OrthoMCL/questions/helperQuestions.xml" />
+    <import file="OrthoMCL/questions/queries/helperIdQueries.xml" />
+
+    <!-- import common pieces -->
+    <import file="OrthoMCL/questions/params/sharedParams.xml" />
+    <import file="OrthoMCL/questions/categories.xml"/>
+
+</wdkModel>

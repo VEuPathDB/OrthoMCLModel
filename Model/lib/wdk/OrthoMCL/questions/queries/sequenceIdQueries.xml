@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+
+    <!-- *************** -->
+    <!-- model querySets -->
+    <!-- *************** -->
+
+    <!--
+    A "query" obtains tabular values from a data source.  It has columns
+    and parameters.  So far, only SQL data sources are supported, but others,
+    such as flat files are coming.  
+
+    Queries are used for different purposes: providing primary keys to a 
+    question; providing attributes and tables to a record; and, providing
+    vocabularies to vocabulary parameters.
+
+    A "query set" is a grouping of queries.  It is useful in organizing the
+    model xml file.  
+
+    The full name of a query is of the form "set_name.name."
+    -->
+
+
+    <!-- Queries that return RNA primary keys (for use in questions and nested records.). -->
+
+    <querySet name="SequenceIds" queryType="id">
+        <sqlQuery name="ByIdList" isCacheable="true">
+            <paramRef ref="sequenceParams.source_ids"/>
+            <column name="full_id"/>
+            <sql>
+                <![CDATA[
+SELECT eas.secondary_identifier AS full_id 
+FROM dots.ExternalAaSequence eas, ($$source_ids$$) ds
+WHERE lower(eas.source_id) = lower(ds.full_id)
+   OR lower(eas.secondary_identifier) = lower(ds.full_id)
+UNION
+SELECT eas.secondary_identifier AS full_id
+FROM dots.ExternalAaSequence eas, Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
+     Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr,
+	 ($$source_ids$$) ds
+WHERE eas.aa_sequence_id = seqref.aa_sequence_id
+  AND seqref.db_ref_id = ref.db_ref_id
+  AND ref.external_database_release_id = dbr.external_database_release_id
+  AND dbr.external_database_id = db.external_database_id
+  AND db.name = 'OrthoMCL Old Seqs'
+  AND (lower(ref.primary_identifier) = lower(ds.full_id)
+       OR
+       lower(ref.secondary_identifier) = lower(ds.full_id))
+				]]>
+            </sql>
+        </sqlQuery>  
+
+
+        <sqlQuery name="ByAccession" isCacheable="true">
+            <paramRef ref="sequenceParams.accession"/>
+            <column name="full_id"/>
+            <sql>
+                <![CDATA[
+SELECT eas.secondary_identifier AS full_id
+FROM dots.ExternalAaSequence eas
+WHERE eas.source_id LIKE replace($$accession$$, '*', '%')
+   OR eas.secondary_identifier LIKE replace($$accession$$, '*', '%')
+UNION
+SELECT eas.secondary_identifier AS full_id
+FROM Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
+     Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr,
+     dots.ExternalAaSequence eas
+WHERE eas.aa_sequence_id = seqref.aa_sequence_id
+  AND seqref.db_ref_id = ref.db_ref_id
+  AND ref.external_database_release_id = dbr.external_database_release_id
+  AND dbr.external_database_id = db.external_database_id
+  AND db.name IN ('OrthoMCL Old Groups', 'OrthoMCL Old Sequences')
+  AND (ref.primary_identifier LIKE replace($$accession$$, '*', '%')
+       OR
+       ref.secondary_identifier LIKE replace($$accession$$, '*', '%'))
+UNION
+SELECT eas.secondary_identifier AS full_id
+FROM dots.ExternalAaSequence eas, apidb.OrthologGroup og,
+     apidb.OrthologGroupAaSequence ogs
+WHERE eas.aa_sequence_id = ogs.aa_sequence_id
+  AND ogs.ortholog_group_id = og.ortholog_group_id
+  AND og.name = $$accession$$
+               ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="ByKeyword" isCacheable="true">
+            <paramRef ref="sharedParams.keyword"/>
+            <column name="full_id"/>
+            <sql>
+                <![CDATA[
+SELECT eas.secondary_identifier AS full_id 
+FROM dots.AaSequenceImp asi, dots.ExternalAaSequence eas
+WHERE asi.subclass_view = 'ExternalAASequence'
+  AND CATSEARCH(asi.description, $$keyword$$, '') > 0
+  AND asi.aa_sequence_id = eas.aa_sequence_id
+               ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="ByPFamName" isCacheable="true">
+            <paramRef ref="sharedParams.pfam_name"/>
+            <column name="full_id"/>
+            <sql>
+                <![CDATA[
+SELECT DISTINCT eas.secondary_identifier AS full_id
+FROM dots.ExternalAaSequence eas,
+     dots.DomainFeature df,
+     dots.DbRefAaFeature dbaf,
+     sres.DbRef db
+WHERE eas.aa_sequence_id = df.aa_sequence_id
+  AND df.aa_feature_id = dbaf.aa_feature_id
+  AND dbaf.db_ref_id = db.db_ref_id
+  AND db.primary_identifier LIKE replace($$pfam_name$$, '*', '%')
+                ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="ByPFamKeyword">
+            <paramRef ref="sharedParams.pfam_keyword"/>
+            <column name="full_id"/>
+            <sql>
+                <![CDATA[
+SELECT DISTINCT eas.secondary_identifier AS full_id
+FROM dots.ExternalAaSequence eas,
+     dots.DomainFeature df,
+     dots.DbRefAaFeature dbaf,
+     sres.DbRef db
+WHERE eas.aa_sequence_id = df.aa_sequence_id
+  AND df.aa_feature_id = dbaf.aa_feature_id
+  AND dbaf.db_ref_id = db.db_ref_id
+  AND  CATSEARCH(db.secondary_identifier, $$pfam_keyword$$, '') > 0
+UNION
+SELECT DISTINCT eas.secondary_identifier AS full_id
+FROM (  SELECT db_ref_id
+        from sres.DbRef
+        where CATSEARCH(secondary_identifier, 'CANNOT_HAVE_TWO_QUERYCODES', '') > 0
+     union
+       select db_ref_id
+        from sres.DbRef
+        where CATSEARCH(remark, $$pfam_keyword$$, '') > 0
+     ) db,
+     dots.ExternalAaSequence eas,
+     dots.DomainFeature df,
+     dots.DbRefAaFeature dbaf
+WHERE eas.aa_sequence_id = df.aa_sequence_id
+  AND df.aa_feature_id = dbaf.aa_feature_id
+  AND dbaf.db_ref_id = db.db_ref_id
+               ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="ByTaxonomy" isCacheable="true">
+            <paramRef ref="sharedParams.taxon"/>
+            <column name="full_id"/>
+            <sql>
+                <![CDATA[
+SELECT eas.secondary_identifier AS full_id 
+FROM dots.ExternalAaSequence eas, apidb.OrthomclTaxon ot
+WHERE eas.taxon_id = ot.taxon_id
+  AND (ot.three_letter_abbrev LIKE replace($$taxon$$, '*', '%')
+       OR ot.name LIKE replace($$taxon$$, '*', '%'))
+               ]]>
+            </sql>
+        </sqlQuery>
+
+
+	<!-- PLANA_TEMPORARY -->
+        <sqlQuery name="ByPlanAGroupId" isCacheable="true">
+            <paramRef ref="sharedParams.planAGroupId"/>
+            <column name="full_id"/>
+            <sql>
+                <![CDATA[
+SELECT protein_id AS full_id 
+FROM apidb.ProteinToPlanAGroupId
+WHERE plan_a_group_id = $$planAGroupId$$
+               ]]>
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="ByPlanAAvgScoreChange" isCacheable="true">
+            <paramRef ref="sharedParams.minAvgScore"/>
+            <paramRef ref="sharedParams.maxAvgScore"/>
+            <column name="full_id"/>
+            <sql>
+                <![CDATA[
+SELECT protein_id AS full_id 
+FROM apidb.ProteinToPlanAGroupId
+WHERE avg_score >= $$minAvgScore$$
+and avg_score <= $$maxAvgScore$$
+and avg_score is not null
+               ]]>
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="ByPlanASynScoreChange" isCacheable="true">
+            <paramRef ref="sharedParams.minSynScore"/>
+            <paramRef ref="sharedParams.maxSynScore"/>
+            <column name="full_id"/>
+            <sql>
+                <![CDATA[
+SELECT protein_id AS full_id 
+FROM apidb.ProteinToPlanAGroupId
+WHERE syn_score >= $$minSynScore$$
+and syn_score <= $$maxSynScore$$
+               ]]>
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="ByPlanAScoreChange" isCacheable="true">
+            <paramRef ref="sharedParams.minScore"/>
+            <paramRef ref="sharedParams.maxScore"/>
+            <column name="full_id"/>
+            <sql>
+                <![CDATA[
+SELECT protein_id AS full_id 
+FROM apidb.ProteinToPlanAGroupId
+WHERE score >= $$minScore$$
+and score <= $$maxScore$$
+and score is not null
+               ]]>
+            </sql>
+        </sqlQuery>
+
+    <!-- END_TEMPORARY -->
+
+    <processQuery name="ByBlast" local="true"
+             processName="org.orthomcl.model.wsfplugin.BlastPlugin">
+
+        <testParamValues>
+            <paramValue name="BlastAlgorithm">blastp</paramValue>
+            <paramValue name="BlastQuerySequence">ESEGARVGTPEGTDNNVRRPEEEKGREGERNGFLKSCALCLRGLGCAWCCQDFDAYELS</paramValue>
+        </testParamValues>
+
+       <paramRef ref="sequenceParams.BlastAlgorithm" />
+       <paramRef ref="sequenceParams.BlastQuerySequence"/>
+       <paramRef ref="sequenceParams.-e"/>
+       <paramRef ref="sequenceParams.-v"/>
+       <paramRef ref="sequenceParams.-b"/>
+       <paramRef ref="sequenceParams.-F" quote="false" />
+       <wsColumn name="full_id" width="100"/>
+       <wsColumn name="evalue_mant" columnType="float" width="10"/>
+       <wsColumn name="evalue_exp" columnType="number" width="5"/>  
+       <wsColumn name="score" columnType="number" width="30"/>
+    </processQuery>
+
+
+    <processQuery name="ByMotif" local="true"
+                  processName="org.orthomcl.model.wsfplugin.MotifPlugin">
+      <testParamValues>
+        <paramValue name="motif_expression">CC6+RK</paramValue>
+        <paramValue name="organism">pfal</paramValue>
+      </testParamValues>
+
+       <paramRef ref="sequenceParams.motif_expression" />
+       <paramRef ref="sharedParams.organism" />
+       <wsColumn name="full_id" width="100" />
+       <wsColumn name="Locations" width="3999"/>
+       <wsColumn name="MatchCount" width="10"/>
+       <wsColumn name="Sequence" width="3999"/>
+    </processQuery>
+
+
+        <sqlQuery name="FromGroups" isCacheable="true">
+            <paramRef ref="sharedParams.group_answer"/>
+            <column name="source_id"/>
+            <column name="wdk_weight"/>
+            <sql>
+                <![CDATA[
+SELECT eas.secondary_identifier AS full_id, max(ga.wdk_weight) AS wdk_weight
+FROM dots.ExternalAaSequence eas, apidb.OrthologGroup og,
+     apidb.OrthologGroupAaSequence ogs, ($$group_answer$$) ga
+WHERE eas.aa_sequence_id = ogs.aa_sequence_id
+  AND ogs.ortholog_group_id = og.ortholog_group_id
+  AND og.name = ga.group_name
+GROUP BY eas.secondary_identifier
+               ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="AllSequences" isCacheable="false">
+            <column name="source_id"/>
+            <sql>
+                <![CDATA[
+SELECT eas.secondary_identifier AS full_id FROM dots.ExternalAaSequence eas
+               ]]>
+            </sql>
+        </sqlQuery>
+
+  </querySet>
+
+</wdkModel>

@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+
+    <!-- ************ -->
+    <!-- questionSets -->
+    <!-- ************ -->
+    
+    <!-- 
+    A question is "a query that returns a list of records."  (Regular queries 
+    return columns and rows.)  They are formed by pairing a query with a
+    record class.  The query must be one that returns one column containing
+    a list of primary keys.  The record class must be one that expects as
+    a primary key the type of key returned by the query.
+    
+    A question set is a grouping of questions.  It may be used in the
+    user interface to present the enclosed questions in one choice box.  
+    -->
+
+
+    <!-- questions that return RNA records -->
+
+
+    <questionSet name="SequenceQuestions"
+                 displayName="Search to find protein sequences">
+
+        <description>
+          Search for Protein Sequences
+        </description>
+
+
+        <question name="ByIdList" queryRef="SequenceIds.ByIdList" 
+				  displayName="Sequence ID(s)"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+			<![CDATA[
+                Find protein sequences by the id assigned by current or previous releases of OrthoMCL.
+			]]>
+            </description>
+        </question>
+
+	<!-- PLANA_TEMPORARY -->
+        <question name="ByPlanAGroupId" queryRef="SequenceIds.ByPlanAGroupId" 
+				  displayName="Plan A Group ID"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+			<![CDATA[Find sequences by their Plan A Group ID.
+			]]>
+            </description>
+        </question>
+
+        <question name="ByPlanAScoreChange" queryRef="SequenceIds.ByPlanAScoreChange" 
+				  displayName="Plan A Score Change"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+			<![CDATA[Find sequences by the amount their connectivity score changed from Rel 5 to Plan A.  A protein's connectivity score in a group is computed by summing it edge weights (average evalue exponent per pair).  A protein's change score is its connectivity score in Plan A minus its connectivity score in Rel 5.  Negative scores show a decrease in connectivity in Plan A.  <b>The range for this score is about -2000 to 2000.</b>
+			]]>
+            </description>
+        </question>
+
+        <question name="ByPlanAAvgScoreChange" queryRef="SequenceIds.ByPlanAAvgScoreChange" 
+				  displayName="Plan A Averaged-Score Change"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+			<![CDATA[Find sequences by the amount their averaged connectivity score changed from Rel 5 to Plan A.  A protein's averaged connectivity score in a group is computed by summing it edge weights (average evalue exponent per pair) and dividing by the number of possible edges (group size minus 1).  A protein's change score is its averaged connectivity score in Plan A minus its averaged connectivity score in Rel 5.  Negative scores show a decrease in average connectivity in Plan A.  <b>The range for this score is about -5 to 5.</b>
+			]]>
+            </description>
+        </question>
+
+        <question name="ByPlanASynScoreChange" queryRef="SequenceIds.ByPlanASynScoreChange" 
+				  displayName="Plan A Synteny Score Change"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+			<![CDATA[Find sequences by the amount their synteny score changed from Rel 5 to Plan A. Negative number indicates a worsening.  <b>The range for this score is about -500 to 500.</b>
+			]]>
+            </description>
+        </question>
+
+	<!-- END_TEMPORARY -->
+
+
+        <question name="ByAccession" queryRef="SequenceIds.ByAccession" 
+                  displayName="Seq Accession"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass"
+                  noSummaryOnSingleRecord="true">
+            <description>
+                        <![CDATA[
+                Find protein sequences by the source id or the group name it belongs to.
+                        ]]>
+            </description>
+        </question>
+
+
+        <question name="ByKeyword" queryRef="SequenceIds.ByKeyword" 
+				  displayName="Keyword"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+			<![CDATA[
+                Find protein sequences by the keyword.
+			]]>
+            </description>
+        </question>
+
+
+        <question name="ByPFamName" queryRef="SequenceIds.ByPFamName" 
+				  displayName="PFam Name"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+			<![CDATA[
+                Find protein sequences by the PFam.
+			]]>
+            </description>
+        </question>
+
+
+
+        <question name="ByTaxonomy" queryRef="SequenceIds.ByTaxonomy" 
+				  displayName="Taxonomy"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+			<![CDATA[
+                Find protein sequences by the Taxonomy abbreviation or taxon name.
+			]]>
+            </description>
+        </question>
+
+    <question name="ByBlast"
+         displayName="BLAST"
+         shortDisplayName="BLAST"
+         searchCategory="Similarity/Pattern"
+         queryRef="SequenceIds.ByBlast"
+         recordClassRef="SequenceRecordClasses.SequenceRecordClass"
+         fullAnswer="true">
+        <attributesList
+         summary="score, evalue, group_name, taxon_name, abbreviation, length, product"
+         sorting="evalue asc"
+         /> 
+         <summary>
+           Find genes that have BLAST similarity to your input sequence.
+         </summary>
+
+         <description>
+           <![CDATA[
+             Find genes that have BLAST similarity to your input query sequence.
+             <p>The search uses <a href="http://blast.wustl.edu/" target="_blank">WU BLAST</a>.
+          ]]>
+         </description>
+
+         <summaryView name="blast" display="BLAST" default="true"
+                      jsp="/wdkCustomization/jsp/results/blast.jsp" />
+
+         <dynamicAttributes>
+             <columnAttribute name="evalue_mant" displayName="E-Value-Mant"
+                              internal="true" inReportMaker="false"/>
+             <columnAttribute name="evalue_exp" displayName="E-Value-Exp"
+                              internal="true" inReportMaker="false"/>
+             <columnAttribute name="score" displayName="Score">
+                    <plugin name="histogram" display="Histogram"
+                            description="Display the histogram of the values of this attribute"
+                            implementation="org.gusdb.wdk.model.attribute.plugin.HistogramAttributePlugin"
+                            view="/wdk/jsp/results/histogram.jsp" />
+             </columnAttribute>
+             <textAttribute name="evalue" displayName="E-Value">
+                 <display>
+                     <![CDATA[
+                     <span style="display:none">$$evalue_exp$$ $$evalue_mant$$</span>$$evalue_mant$$E$$evalue_exp$$
+                     ]]>
+                 </display>
+                 <text>$$evalue_mant$$E$$evalue_exp$$</text>
+             </textAttribute>
+         </dynamicAttributes>
+    </question>
+
+    <question name="ByMotif"
+         displayName="Protein Motif Pattern"
+         shortDisplayName="Prot Motif"
+         searchCategory="Similarity/Pattern"
+         queryRef="SequenceIds.ByMotif"
+         recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+        <attributesList
+         summary="MatchCount, Locations, group_name, taxon_name, abbreviation, length, product, Sequence"
+         sorting="MatchCount desc"
+        /> 
+
+        <summary>
+             <![CDATA[
+              Find genes whose protein product contains a motif pattern that you specify, e.g.: two cysteines followed by one or more hydrophobic amino acids, followed by arginine, then lysine.
+              ]]>
+         </summary>
+         <description>
+           <![CDATA[
+             Find genes whose protein product contains a motif pattern that
+             you specify., e.g. "CC6+RK", which means "two cysteines followed
+             by one or more hydrophobic amino acids, followed by arginine,
+             then lysine". The pattern need not be well conserved. If 
+             you can describe it in
+             words, you can probably use this tool to create an "expression"
+             that can search other proteins for similar patterns.  
+             <br><br>
+
+             Another example is the pattern of the
+             <a href="http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=15591202&query_hl=2">
+             Pexel motif</a>, which can be represented as "R.L.[EQD]", meaning
+             "an arginine, then any amino acid, then a leucine, then any amino
+             acid, then either an aspartic acid, a glutamic acid, or a
+             glutamine".
+             <br><br>
+
+             The pattern need not be well conserved. If you can describe it in
+             words, you can probably use this tool to create an "expression"
+             that can search other proteins for similar patterns.
+             <br><br>
+
+             Specify the pattern with a (Perl style) "regular expression".
+             (Regular expressions are more powerful than PROSITE patterns.)
+             For a description of how to create regular expressions,
+             please see the <a href="regexp.jsp">Regular Expression Tutorial</a>.
+             <br><br>
+
+             The following codes can be used to represent classes of amino acids.
+		<table border columns=3>
+                   <TR>
+                      <TD><B>AA property</B>
+                      </TD>
+                      <TD><B>Amino acids</B>
+                      </TD>
+                      <TD><B>Code</B>
+                      </TD>
+                   </TR>
+
+                   <TR>
+                      <TD>
+                      <B>Acidic</B>
+                      </TD>
+                      <TD><B>DE</B>
+                      </TD>
+                      <TD><B>0</B>
+                      </TD>
+                   </TR>
+                   <TR>
+                      <TD><B>Alcohol</B>
+                      </TD>
+                      <TD><B>ST</B>
+                      </TD>
+                      <TD><B>1</B>
+                      </TD>
+                   </TR>
+                   <TR>
+                      <TD><B>Aliphatic</B>
+                      </TD>
+                      <TD><B>ILV</B>
+                      </TD>
+                      <TD><B>2</B>
+                      </TD>
+                   </TR>
+                   <TR>
+                      <TD><B>Aromatic</B>
+                      </TD>
+                      <TD><B>FHWY</B>
+                      </TD>
+                      <TD><B>3</B>
+                      </TD>
+                   </TR>
+                   <TR>
+                      <TD><B>Basic</B>
+                      </TD>
+                      <TD><B>KRH</B>
+                      </TD>
+                      <TD><B>4</B>
+                      </TD>
+                   </TR>
+                   <TR>
+                      <TD><B>Charged</B>
+                      </TD>
+                      <TD><B>DEHKR</B>
+                      </TD>
+                      <TD><B>5</B>
+                      </TD>
+                   </TR>
+                   <TR>
+                      <TD><B>Hydrophobic</B>
+                      </TD>
+                      <TD><B>AVILMFYW</B>
+                      </TD>
+                      <TD><B>6</B>
+                      </TD>
+                   </TR>
+                   <TR>
+                      <TD><B>Hydrophilic</B>
+                      </TD>
+                      <TD><B>KRHDENQ</B>
+                      </TD>
+                      <TD><B>7</B>
+                      </TD>
+                   </TR>
+                   <TR>
+                      <TD><B>Polar</B>
+                      </TD>
+                      <TD><B>CDEHKNQRST</B>
+                      </TD>
+                      <TD><B>8</B>
+                      </TD>
+                   </TR>
+                   <TR>
+                      <TD><B>Small</B>
+                      </TD>
+                      <TD><B>ACDGNPSTV</B>
+                      </TD>
+                      <TD><B>9</B>
+                      </TD>
+                   </TR>
+                   <TR>
+                      <TD><B>Tiny</B>
+                      </TD>
+                      <TD><B>AGS</B>
+                      </TD>
+                      <TD><B>B</B>
+                      </TD>
+                   </TR>
+                   <TR>
+                      <TD><B>Turnlike</B>
+                      </TD>
+                      <TD><B>ACDEGHKNQRST</B>
+                      </TD>
+                      <TD><B>Z</B>
+                      </TD>
+                   </TR>
+                   <TR>
+                      <TD><B>Any</B>
+                      </TD>
+                      <TD><b>ACDEFGHIKLM<br>
+                             NPQRSTVWY</b>
+                      </TD>
+                      <TD><B>.</B>
+                      </TD>
+                   </TR>
+                   </table>
+          ]]>
+         </description>
+         <dynamicAttributes>
+           <columnAttribute name="Locations" displayName="Match Locations" align="center"/>
+           <columnAttribute name="MatchCount" displayName="Match Count" align="center">
+                    <plugin name="histogram" display="Histogram"
+                            description="Display the histogram of the values of this attribute"
+                            implementation="org.gusdb.wdk.model.attribute.plugin.HistogramAttributePlugin"
+                            view="/wdk/jsp/results/histogram.jsp" />
+           </columnAttribute>
+           <columnAttribute name="Sequence" displayName="Motif" inReportMaker="false" truncateTo="4000"/>
+         </dynamicAttributes>
+       </question>
+
+
+        <question name="FromGroups" queryRef="SequenceIds.FromGroups" 
+                  displayName="Transform to Sequences" shortDisplayName="To Sequences"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+                        <![CDATA[ Transform group results into sequences. ]]>
+            </description>
+            <attributesList summary="group_name, taxon_name, abbreviation, length, product"
+                           sorting="group_name ASC"/>
+        </question>
+
+        <question name="AllSequences" queryRef="SequenceIds.AllSequences" 
+                                  displayName="All Sequences"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+                        <![CDATA[
+                Find all protein sequences in the current release of OrthoMCL.
+                        ]]>
+            </description>
+        </question>
+
+    </questionSet>
+
+</wdkModel>

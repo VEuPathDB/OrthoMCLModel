@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+
+    <!-- *************** -->
+    <!-- model querySets -->
+    <!-- *************** -->
+
+    <!--
+    A "query" obtains tabular values from a data source.  It has columns
+    and parameters.  So far, only SQL data sources are supported, but others,
+    such as flat files are coming.  
+
+    Queries are used for different purposes: providing primary keys to a 
+    question; providing attributes and tables to a record; and, providing
+    vocabularies to vocabulary parameters.
+
+    A "query set" is a grouping of queries.  It is useful in organizing the
+    model xml file.  
+
+    The full name of a query is of the form "set_name.name."
+    -->
+
+    <!-- 
+    Group Attribute Queries                                     
+    -->
+    
+    <querySet name="GroupAttributes" queryType="attribute">
+
+       <defaultTestParamValues>
+            <paramValue name="group_name">OG5_228447</paramValue>
+       </defaultTestParamValues>
+
+        <testRowCountSql>
+            SELECT count(*) FROM apidb.OrthologGroup
+        </testRowCountSql>
+
+
+        <sqlQuery name="GroupAttrs">
+            <column name="group_name"/>
+            <column name="number_of_members"/>
+            <column name="number_of_match_pairs"/>
+            <column name="avg_percent_identity"/>
+            <column name="avg_percent_match"/>
+            <column name="avg_evalue_mant"/>
+            <column name="avg_evalue_exp"/>
+            <column name="avg_connectivity"/>
+            <sql>
+            <![CDATA[
+                SELECT g.name AS group_name, g.number_of_members,
+                       g.number_of_match_pairs, g.avg_percent_identity,
+					   g.avg_percent_match, g.avg_connectivity,
+					   g.avg_evalue_mant, g.avg_evalue_exp
+                FROM apidb.OrthologGroup g
+			]]>
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="MSA">
+            <column name="group_name"/>
+            <column name="msa"/>
+            <sql>
+            <![CDATA[
+                SELECT g.name AS group_name, g.multiple_sequence_alignment AS msa
+                FROM apidb.OrthologGroup g
+                        ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="MaxSequenceLength">
+            <column name="group_name"/>
+            <column name="max_length"/>
+            <sql>
+            <![CDATA[
+SELECT og.name AS group_name, MAX(eas.length) AS max_length
+FROM apidb.OrthologGroup og,
+     apidb.OrthologGroupAaSequence ogs,
+     dots.ExternalAaSequence eas,
+     apidb.OrthomclTaxon ot
+WHERE og.ortholog_group_id = ogs.ortholog_group_id
+  AND ogs.aa_sequence_id = eas.aa_sequence_id
+  AND eas.taxon_id = ot.taxon_id
+GROUP BY og.name
+                        ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="SVG">
+            <column name="group_name"/>
+            <column name="svg_content"/>
+            <sql>
+            <![CDATA[
+                SELECT g.name AS group_name, g.svg_content
+                FROM apidb.OrthologGroup g
+                        ]]>
+            </sql>
+        </sqlQuery>
+
+        <!-- PLANA_TEMPORARY -->
+        <sqlQuery name="GroupPlanAInfo">
+            <column name="group_name"/>
+            <column name="min_score"/>
+            <column name="max_score"/>
+            <column name="sum_score"/>
+            <column name="avg_score"/>
+            <sql>
+			<![CDATA[
+            SELECT group_id AS group_name, round(min_score, 2) as min_score, round(max_score, 2) as max_score, round(sum_score, 2) as sum_score, avg_score
+            FROM apidb.GroupsChangedInPlanA
+ 			]]>
+            </sql>
+        </sqlQuery>
+        <!-- END_TEMPORARY -->
+
+    </querySet>
+
+
+
+    <!-- 
+    Group Table Queries                                     
+    -->
+
+    <querySet name="GroupTables" queryType="table">
+
+       <defaultTestParamValues>
+            <paramValue name="group_name">OG5_228447</paramValue>
+       </defaultTestParamValues>
+
+
+        <sqlQuery name="TaxonCounts">
+            <column name="group_name"/>
+            <column name="taxon_id"/>
+            <column name="abbrev"/>
+            <column name="count"/>
+            <sql>
+                        <![CDATA[
+SELECT og.name as group_name, ot.orthomcl_taxon_id AS taxon_id, 
+       ot.three_letter_abbrev AS abbrev, count(*) as count
+FROM apidb.OrthologGroup og, 
+     APIDB.ORTHOLOGGROUPAASEQUENCE ogs, 
+     DOTS.externalaasequence eas,
+     apidb.OrthomclTaxon ot
+WHERE og.ortholog_group_id = ogs.ortholog_group_id
+  AND ogs.aa_sequence_id = eas.aa_sequence_id
+  AND eas.taxon_id = ot.taxon_id
+GROUP BY og.name, ot.orthomcl_taxon_id, ot.three_letter_abbrev
+                        ]]>
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="Proteins">
+            <column name="group_name"/>
+            <column name="full_id"/>
+            <column name="taxon_name"/>
+            <column name="length"/>
+            <column name="previous_groups"/>
+            <column name="description"/>
+            <sql>
+                        <![CDATA[
+SELECT og.name AS group_name,
+       eas.secondary_identifier AS full_id,
+       ot.name AS taxon_name,
+       eas.length,
+       -- PLANA_TEMPORARY
+       planagrp.plan_a_group_id,
+       planagrp.grp_sz as plan_a_group_sz,
+       round(planagrp.score,2) as plan_a_score,
+       round(planagrp.avg_score,2) as plan_a_avg_score,
+       planagrp.syn_score as plan_a_syn_score,
+       planagrp.is_rep,
+       planagrp.tieroneclade as tier_one_clade_id,
+       -- END_TEMPORARY
+       eas.description,
+       (SELECT apidb.tab_to_string(CAST(COLLECT(ref.primary_identifier) AS apidb.varchartab), ', ')
+        FROM Sres.DbRef ref, 
+             Sres.ExternalDatabase db, 
+             Sres.ExternalDatabaseRelease dbr,
+             Dots.AaSequenceDbRef seqref
+        WHERE db.name = 'OrthoMCL Old Groups'
+          and dbr.external_database_id = db.external_database_id
+          and ref.external_database_release_id = dbr.external_database_release_id
+          and seqref.db_ref_id = ref.db_ref_id
+          and seqref.aa_sequence_id = eas.aa_sequence_id) AS previous_groups
+FROM apidb.OrthologGroup og,
+     apidb.OrthologGroupAaSequence ogs,
+     dots.ExternalAaSequence eas,
+     apidb.OrthomclResource orr,
+     -- PLANA_TEMPORARY
+     apidb.ProteinToPlanAGroupId planagrp,
+     -- END_TEMPORARY
+     apidb.OrthomclTaxon ot
+WHERE og.ortholog_group_id = ogs.ortholog_group_id
+  AND ogs.aa_sequence_id = eas.aa_sequence_id
+  AND ot.orthomcl_taxon_id = orr.orthomcl_taxon_id
+  AND eas.taxon_id = ot.taxon_id
+     -- PLANA_TEMPORARY
+  and planagrp.protein_id = eas.secondary_identifier
+     -- END_TEMPORARY
+                        ]]>
+            </sql>
+        </sqlQuery>
+
+
+
+        <sqlQuery name="PFams">
+            <column name="group_name"/>
+            <column name="primary_identifier"/>
+            <column name="secondary_identifier"/>
+            <column name="remark"/>
+            <sql>
+                        <![CDATA[
+SELECT DISTINCT og.name AS group_name, db.primary_identifier,
+db.secondary_identifier, db.remark
+FROM apidb.OrthologGroup og,
+     apidb.OrthologGroupAaSequence ogs,
+     dots.DomainFeature df,
+     dots.DbRefAaFeature dbaf,
+     sres.DbRef db,
+     dots.AaLocation al
+WHERE og.ortholog_group_id = ogs.ortholog_group_id
+  AND ogs.aa_sequence_id = df.aa_sequence_id
+  AND df.aa_feature_id = dbaf.aa_feature_id
+  AND dbaf.db_ref_id = db.db_ref_id
+  AND df.aa_feature_id = al.aa_feature_id
+ORDER BY db.primary_identifier
+                        ]]>
+            </sql>
+        </sqlQuery>
+
+
+
+        <sqlQuery name="ProteinPFams">
+            <column name="group_name"/>
+            <column name="primary_identifier"/>
+            <column name="source_id"/>
+            <column name="length"/>
+            <column name="start_min"/>
+            <column name="end_max"/>
+            <sql>
+                        <![CDATA[
+SELECT DISTINCT og.name AS group_name, eas.secondary_identifier AS source_id, eas.length,
+       da.primary_identifier, da.start_min, da.end_max
+FROM apidb.OrthologGroup og,
+     apidb.OrthologGroupAaSequence ogs,
+     dots.ExternalAaSequence eas
+     LEFT JOIN
+     (SELECT df.aa_sequence_id, db.primary_identifier, al.start_min, al.end_max
+      FROM dots.DomainFeature df,
+           dots.DbRefAaFeature dbaf,
+           sres.DbRef db,
+           dots.AaLocation al
+      WHERE df.aa_feature_id = al.aa_feature_id
+        AND df.aa_feature_id = dbaf.aa_feature_id
+        AND dbaf.db_ref_id = db.db_ref_id
+     ) da
+     ON eas.aa_sequence_id = da.aa_sequence_id
+WHERE og.ortholog_group_id = ogs.ortholog_group_id
+  AND ogs.aa_sequence_id = eas.aa_sequence_id
+ORDER BY eas.secondary_identifier ASC, da.start_min ASC
+                        ]]>
+            </sql>
+        </sqlQuery>
+
+    </querySet>
+</wdkModel>

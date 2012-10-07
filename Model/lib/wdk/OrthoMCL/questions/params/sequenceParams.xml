@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+
+    <!-- parameters used by primary key queries -->
+
+    <paramSet name="sequenceParams">
+
+        <datasetParam name="source_ids" prompt="Sequence Ids"
+		      recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <help>A list of source ids of the protein sequences.</help>
+            <suggest default="PF11_0344" />
+        </datasetParam>
+
+
+        <stringParam name="accession" prompt="Accession" number="false">
+            <help>Sequence source ids from current or previous releases. Wild card is supported</help>
+            <suggest default="PF11_0344" />
+        </stringParam>
+       
+        <stringParam name="motif_expression" prompt="Pattern" number="false">
+            <noTranslation value="true"  />
+            <help>
+                <![CDATA[
+                Enter a Perl regular expression describing the desired motif.  Example: 'CC6+RK' searches for 
+                two consecutive cysteine residues followed by a stretch of hydrophobic amino acids followed 
+                by the aminoacids arginine and lysine.
+                ]]>
+                </help>
+            <suggest sample="(Example: CC6+RK)" default="CC6+RK"/>
+        </stringParam>
+
+        <enumParam name="BlastAlgorithm"
+             prompt="BLAST Program"
+             displayType="radioBox"  quote="false"
+             multiPick="false">
+            <help>
+                <![CDATA[
+                The Blast Program that will be executed: &#60;b&#62; blastp &#60;/b&#62;  compares an 
+                aminoacid query sequence against a protein sequence database; blastx  &#60;/b&#62; 
+                compares the six-frame conceptual translation products of a nucleotide query sequence 
+                (both strands) against a protein sequence database.
+                ]]>
+            </help>
+            <enumList>  
+                <enumValue default="true">
+                    <term>blastp</term>
+                    <internal>blastp</internal>
+                </enumValue>   
+                <enumValue>
+                    <term>blastx</term>
+                    <internal>blastx</internal>
+                </enumValue>   
+            </enumList>
+        </enumParam>
+
+        <stringParam name="BlastQuerySequence"
+                     prompt="Input Sequence"
+                     length="31000"
+                     number="false">
+            <noTranslation value="true"  />
+            <help>BLAST Input Sequence (upto 31K bps)</help>
+            <suggest sample=""/>
+        </stringParam>
+
+        <enumParam name="-F" quote="false" multiPick="false"
+                   prompt="Low complexity filter">
+            <help>
+              If this filter is set to yes, you will omit results which contain repetitive and low complexity sequence. 
+            </help>
+            <enumList>   
+                <enumValue default="true">
+                    <term>yes</term>
+                    <internal>T</internal>
+                </enumValue>
+                <enumValue>
+                    <term>no</term>
+                    <internal>F</internal>
+                </enumValue>
+            </enumList>   
+        </enumParam>
+
+        <stringParam name="-e"
+                      prompt="Expectation value" number="true">
+             <help>Expected number of hits with at least this score. The lower the e- value the more significant the hit.</help>
+             <suggest default="1e-5" sample="1e-10"/>
+        </stringParam>
+
+        <stringParam name="-v"
+                      prompt="Maximum descriptions (V)" number="true">
+            <help>Number of one-line descriptions to show</help>
+            <suggest default="50"/>
+            <regex>\d+</regex>
+        </stringParam>
+
+        <stringParam name="-b"
+                      prompt="Maximum alignments (B)" number="true">
+            <help>Number of alignments to show</help>
+            <suggest default="50"/>
+            <regex>\d+</regex>
+        </stringParam>
+
+    </paramSet>
+    
+</wdkModel>

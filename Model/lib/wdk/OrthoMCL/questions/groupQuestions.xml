@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+
+    <!-- ************ -->
+    <!-- questionSets -->
+    <!-- ************ -->
+    
+    <!-- 
+    A question is "a query that returns a list of records."  (Regular queries 
+    return columns and rows.)  They are formed by pairing a query with a
+    record class.  The query must be one that returns one column containing
+    a list of primary keys.  The record class must be one that expects as
+    a primary key the type of key returned by the query.
+    
+    A question set is a grouping of questions.  It may be used in the
+    user interface to present the enclosed questions in one choice box.  
+    -->
+
+
+    <!-- questions that return RNA records -->
+
+
+    <questionSet name="GroupQuestions"
+                 displayName="Searches to find Orthologous Groups">
+        <description>
+		<![CDATA[
+          Search for Orthologous groups.
+        ]]>
+		</description>
+
+        <question name="ByNameList" queryRef="GroupIds.ByNameList" 
+				  displayName="Group ID(s)"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+			<![CDATA[
+                Find Orthologous groups by the id assigned by current or previous releases of OrthoMCL.
+			]]>
+            </description>
+        </question>
+
+	<!-- PLANA_TEMPORARY -->
+        <question name="ByIsChangedInPlanA" queryRef="GroupIds.ByIsChangedInPlanA" 
+				  displayName="Changed in Plan A"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+			<![CDATA[Find Release 5 groups that do not match a Plan A group exactly.
+			]]>
+            </description>
+        </question>
+
+        <question name="ByIsChangedInPlanASingleClade" queryRef="GroupIds.ByIsChangedInPlanASingleClade" 
+				  displayName="Changed in Plan A (single-taxon-clades)"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+			<![CDATA[Find Release 5 groups that do not match a Plan A group exactly ONLY considering proteins that are in "single-taxon-clades" (clades with only one taxon).  Groups in Rel 5 and Plan A are compared after multi-taxon-clade proteins are filtered away. Proteins in single-taxon-clades are not involved in Plan A's Tier One, so presumably should be very stable between Rel 5 and Plan A.  When they have moved in Plan A relative to the other single-taxon-clade-proteins they were grouped with in Rel 5, it is worth investigating.
+			]]>
+            </description>
+        </question>
+	<!-- END_TEMPORARY -->
+
+        <question name="ByAccession" queryRef="GroupIds.ByAccession" 
+                  displayName="Group or Sequence id"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass"
+                  noSummaryOnSingleRecord="true">
+            <description>
+                        <![CDATA[
+                Find Orthologous groups by the id assigned by current or previous releases of OrthoMCL.
+                        ]]>
+            </description>
+        </question>
+
+        <question name="ByKeyword" queryRef="GroupIds.ByKeyword" 
+				  displayName="Keyword"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+			<![CDATA[
+                Find Orthologous groups by the keyword.
+			]]>
+            </description>
+        </question>
+
+
+        <question name="ByPFamName" queryRef="GroupIds.ByPFamName" 
+				  displayName="PFam Accession"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+			<![CDATA[
+                Find Orthologous groups by the PFam.
+			]]>
+            </description>
+        </question>
+
+
+        <question name="ByPFamKeyword" queryRef="GroupIds.ByPFamKeyword" 
+                                  displayName="PFam Keyword"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+                        <![CDATA[
+                Find Orthologous groups by the PFam.
+                        ]]>
+            </description>
+        </question>
+
+
+        <question name="BySequenceCount" queryRef="GroupIds.BySequenceCount" 
+                                  displayName="#Sequences"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+                        <![CDATA[
+                Find Orthologous groups by the number of sequences a group has
+                        ]]>
+            </description>
+        </question>
+
+
+        <question name="ByGenomeCount" queryRef="GroupIds.ByGenomeCount" 
+                                  displayName="#Genomes"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+                        <![CDATA[
+                Find Orthologous groups by the number of genomes a group has
+                        ]]>
+            </description>
+        </question>
+
+
+        <question name="ByPercentMatchPairs" queryRef="GroupIds.ByPercentMatchPairs" 
+                                  displayName="%Match Pairs"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+                        <![CDATA[
+                Find Orthologous groups by the percentage match pairs.
+                        ]]>
+            </description>
+        </question>
+
+
+        <question name="ByPercentIdentity" queryRef="GroupIds.ByPercentIdentity" 
+                                  displayName="AVG %Identity"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+                        <![CDATA[
+                Find Orthologous groups by the average percentage identities.
+                        ]]>
+            </description>
+        </question>
+
+
+        <question name="ByPercentMatch" queryRef="GroupIds.ByPercentMatch" 
+                                  displayName="AVG %Match"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+                        <![CDATA[
+                Find Orthologous groups by the average percentage matches.
+                        ]]>
+            </description>
+        </question>
+
+		
+        <question name="ByPhyleticPattern" queryRef="GroupIds.ByPhyleticPattern" 
+		  displayName="Phyletic Patterns" shortDisplayName="Phyletic"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+			<![CDATA[
+<p>Find Orthologous groups by the Phyletic pattern.</p>
+
+<p>Phyletic Pattern Expression is a flexible way to do queries of ortholog groups. By using this tool, you can specify the presence or absence of genome (i.e. whether this genome has certain gene or not), and the number of copies (i.e. how many duplicates certain gene has in a specific genome).</p>
+
+<p>*PPE Grammar: Individual grammatical units of PPE expressions are composed of two parts:</p>
+<ol>
+	<li> A species specification, composed of a three-letter species abbreviation (e.g. "tgon"), or a list of species abbreviations linked by plus sign "+" (e.g. "tgon+pfal+hsap"). Several abbreviations are also permitted, such as "BACT" for all Eubacteria genomes, "EUKA" for all eukaryotic genomes, "APIC" for all apicomplexan genomes, "ALL" to represent all the genomes in the current OrthoMCL (clade abbreviations are indicated on the form).</li>
+	<li> A logical comparison operator, such as >, <, =, >=, or <=, and a number representing the number of sequences from these species that must be present in the ortholog group (e.g. "tgon>5" specifies ortholog groups containing at least 5 in-paralogs from Toxoplasma gondii. Alternatively, when appended with the character "T" (for Taxa), this number represents the number of species that must be represented in the ortholog group.</li>
+</ol>
+<p>Multiple expression units may be combined using "AND" or "OR", and may use parentheses to provide explicit execution ordering.</p>
+
+<p>Examples & Explanations:</p>
+<ul>
+    <li>"hsap+ecol=2T" would generate ortholog groups in which both human and E. coli are present.</li>
+    <li>"hsap+ecol=1T" would generate ortholog groups in which only one species of human and E. coli is present.</li>
+    <li>"ALL=150T" would generate ortholog groups representing all 150 species.</li>
+    <li>"EUKA=35T" would generate Eukaryota-universal ortholog groups (representing all 35 eukaryotic species).</li>
+    <li>"EUKA>=5T AND hsap>=10" would generate all ortholog groups representing at least five eukaryotic species and containing at least 10 human proteins.</li>
+</ul>
+
+<p>Tips:</p>
+<ul>
+    <li> Please prevent redundancy in your PPE query, e.g. "hsap>=1" is equal to "hsap=1T", so no need to mention them twice.</li>
+    <li> Please merge different PPE units to save time in query, e.g. "hsap=1T AND mmus=1T" can be merged as "hsap+mmus=2T".</li>
+</ul>
+			]]>
+            </description>
+        </question>
+
+
+        <question name="FromSequences" queryRef="GroupIds.FromSequences" 
+                  displayName="Transform to Groups" shortDisplayName="To Groups"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+                        <![CDATA[ Transform sequence results into groups. ]]>
+            </description>
+        </question>
+
+
+        <question name="AllGroups" queryRef="GroupIds.AllGroups" 
+                                  displayName="All Groups"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+                        <![CDATA[
+                Find all Orthologous groups in the current release of OrthoMCL.
+                        ]]>
+            </description>
+        </question>
+
+    </questionSet>
+
+</wdkModel>

@@ -1,0 +1,76 @@
+<wdkModel>
+
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <!-- Ortholog Group Questions  -->
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++-->
+  
+    <searchCategory name="GroupRecordClasses.GroupRecordClass" displayName="Search for Groups by:" />
+    
+	<searchCategory name="group-keyword" displayName="Text, IDs"
+                        parentRef="GroupRecordClasses.GroupRecordClass">
+            <questionRef>GroupQuestions.ByNameList</questionRef>
+            <questionRef>GroupQuestions.ByKeyword</questionRef>
+	</searchCategory>
+				
+	<searchCategory name="group-evolution" displayName="Evolution"
+                        parentRef="GroupRecordClasses.GroupRecordClass">
+     	    <questionRef>GroupQuestions.ByPhyleticPattern</questionRef>
+        </searchCategory>
+
+	<searchCategory name="group-pfam" displayName="Pfam Domains"
+                        parentRef="GroupRecordClasses.GroupRecordClass">
+     	    <questionRef>GroupQuestions.ByPFamName</questionRef>
+     	    <questionRef>GroupQuestions.ByPFamKeyword</questionRef>
+        </searchCategory>
+		
+		
+	<searchCategory name="group-properties" displayName="Group Attributes"
+                        parentRef="GroupRecordClasses.GroupRecordClass">
+	    <!-- PLANA_TEMPORARY -->
+     	    <questionRef>GroupQuestions.ByIsChangedInPlanA</questionRef>
+     	    <questionRef>GroupQuestions.ByIsChangedInPlanASingleClade</questionRef>
+	    <!-- END_TEMPORARY -->
+     	    <questionRef>GroupQuestions.BySequenceCount</questionRef>
+     	    <questionRef>GroupQuestions.ByGenomeCount</questionRef>
+     	    <questionRef>GroupQuestions.ByPercentMatchPairs</questionRef>
+     	    <questionRef>GroupQuestions.ByPercentIdentity</questionRef>
+     	    <questionRef>GroupQuestions.ByPercentMatch</questionRef>
+        </searchCategory>
+     
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <!-- Sequence Questions  -->
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++-->
+     
+   
+      <searchCategory name="SequenceRecordClasses.SequenceRecordClass" displayName="Search for Sequences by:" />
+     
+	<searchCategory name="sequence-keyword" displayName="Text, IDs"
+                        parentRef="SequenceRecordClasses.SequenceRecordClass">
+            <questionRef>SequenceQuestions.ByIdList</questionRef>
+            <questionRef>SequenceQuestions.ByKeyword</questionRef>
+       </searchCategory>
+
+	<searchCategory name="sequence-pfam" displayName="Pfam Domains"
+                        parentRef="SequenceRecordClasses.SequenceRecordClass">
+     	    <questionRef>SequenceQuestions.ByPFamName</questionRef>
+     	    <questionRef>SequenceQuestions.ByPFamKeyword</questionRef>
+        </searchCategory>
+		
+	<searchCategory name="sequence-similarity" displayName="Similarity/Pattern"
+                        parentRef="SequenceRecordClasses.SequenceRecordClass">
+     	    <questionRef>SequenceQuestions.ByBlast</questionRef>
+     	    <questionRef>SequenceQuestions.ByMotif</questionRef>
+        </searchCategory>
+		
+	<searchCategory name="sequence-properties" displayName="Sequence Attributes"
+                        parentRef="SequenceRecordClasses.SequenceRecordClass">
+            <questionRef>SequenceQuestions.ByTaxonomy</questionRef>
+	    <!-- PLANA_TEMPORARY -->
+            <questionRef>SequenceQuestions.ByPlanAGroupId</questionRef>
+            <questionRef>SequenceQuestions.ByPlanAScoreChange</questionRef>
+            <questionRef>SequenceQuestions.ByPlanAAvgScoreChange</questionRef>
+            <questionRef>SequenceQuestions.ByPlanASynScoreChange</questionRef>
+	    <!-- END_TEMPORARY -->
+        </searchCategory>
+     
+</wdkModel>
