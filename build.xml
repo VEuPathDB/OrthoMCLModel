@@ -46,7 +46,8 @@
 
   <target name="OrthoMCLShared-Installation" depends="CBIL-Installation,
                                             OrthoMCLShared/MapProteomeService-Installation,
-                                            OrthoMCLShared/Ppe-Installation">
+                                            OrthoMCLShared/Ppe-Installation",
+                                            OrthoMCLShared/Model-Installation>
 
     <ant target="defaultProjectInstall"/>
 
@@ -80,6 +81,13 @@
     <ant target="defaultComponentInstall">
       <property name="project" value="OrthoMCLShared"/>
       <property name="component" value="Ppe"/>
+    </ant>
+  </target>  
+
+  <target name="OrthoMCLShared/Model-Installation" depends="ProjectTree">
+    <ant target="defaultComponentInstall">
+      <property name="project" value="OrthoMCLShared"/>
+      <property name="component" value="Model"/>
     </ant>
   </target>  
 
