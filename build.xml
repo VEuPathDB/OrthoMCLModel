@@ -46,8 +46,8 @@
 
   <target name="OrthoMCLShared-Installation" depends="CBIL-Installation,
                                             OrthoMCLShared/MapProteomeService-Installation,
-                                            OrthoMCLShared/Ppe-Installation",
-                                            OrthoMCLShared/Model-Installation>
+                                            OrthoMCLShared/Ppe-Installation,
+                                            OrthoMCLShared/Model-Installation">
 
     <ant target="defaultProjectInstall"/>
 
