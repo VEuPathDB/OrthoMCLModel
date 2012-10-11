@@ -162,8 +162,8 @@ WHERE eas.aa_sequence_id = df.aa_sequence_id
 SELECT eas.secondary_identifier AS full_id 
 FROM dots.ExternalAaSequence eas, apidb.OrthomclTaxon ot
 WHERE eas.taxon_id = ot.taxon_id
-  AND (ot.three_letter_abbrev LIKE replace($$taxon$$, '*', '%')
-       OR ot.name LIKE replace($$taxon$$, '*', '%'))
+  AND (lower(ot.three_letter_abbrev) LIKE lower(replace($$taxon$$, '*', '%'))
+       OR lower(ot.name) LIKE lower(replace($$taxon$$, '*', '%')))
                ]]>
             </sql>
         </sqlQuery>
