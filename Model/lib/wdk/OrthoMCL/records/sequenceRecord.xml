@@ -103,6 +103,7 @@
             </primaryKeyAttribute>
 
             <attributeQueryRef ref="SequenceAttributes.SequenceAttrs">  
+                <columnAttribute name="full_id" displayName="Full ID" internal="true" inReportMaker="false" />
                 <columnAttribute name="source_id" displayName="Source ID" />
                 <columnAttribute name="length" displayName="Length">
                     <plugin name="histogram" display="Histogram"
@@ -133,12 +134,7 @@
             
             
             <attributeQueryRef ref="SequenceAttributes.SequenceGroup">
-                <columnAttribute name="group_name" displayName="Group">
-                    <plugin name="wordCloud" display="Word Cloud"
-                            description="Display the terms in the attribute as word clouds"
-                            implementation="org.gusdb.wdk.model.attribute.plugin.WordCloudAttributePlugin"
-                            view="/wdk/jsp/results/wordCloud.jsp" />
-                </columnAttribute>
+                <columnAttribute name="group_name" displayName="Group" internal="true" inReportMaker="false" />
                 <columnAttribute name="group_size" displayName="Group Size" internal="false"/>
             </attributeQueryRef>
 
@@ -177,7 +173,18 @@
 	    <!-- END_TEMPORARY -->
             
             <attributeQueryRef ref="SequenceAttributes.SequenceSequence">
-                <columnAttribute name="sequence" displayName="Sequence" internal="false"/>
+
+              <columnAttribute name="sequence" displayName="Sequence" internal="true"/>
+
+              <textAttribute name="sequence_text" displayName="Protein Sequence" inReportMaker="false">
+                <display>
+                  <![CDATA[ <pre>$$sequence$$</pre> ]]>
+                </display>
+                <text>
+                  <![CDATA[ <pre>$$sequence$$</pre> ]]>
+                </text>
+              </textAttribute>
+
             </attributeQueryRef>
 
         <linkAttribute displayName="Group ID" name="group_link" inReportMaker="false" internal="false" >
