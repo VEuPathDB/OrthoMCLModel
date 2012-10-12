@@ -267,7 +267,7 @@ and score is not null
 
         <sqlQuery name="FromGroups" isCacheable="true">
             <paramRef ref="sharedParams.group_answer"/>
-            <column name="source_id"/>
+            <column name="full_id"/>
             <column name="wdk_weight"/>
             <sql>
                 <![CDATA[
@@ -284,7 +284,7 @@ GROUP BY eas.secondary_identifier
 
 
         <sqlQuery name="AllSequences" isCacheable="false">
-            <column name="source_id"/>
+            <column name="full_id"/>
             <sql>
                 <![CDATA[
 SELECT eas.secondary_identifier AS full_id FROM dots.ExternalAaSequence eas
