@@ -1,0 +1,65 @@
+<wdkModel>
+
+  <xmlQuestionSet name="XmlQuestions" displayName="">
+
+
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <!-- News -->
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+        <xmlQuestion name="News"
+                  displayName="@PROJECT_ID@ News"
+                  recordClassRef="XmlRecordClasses.NewsRecord"
+                  xmlDataURL="@PROJECT_ID@/news.xml">
+        </xmlQuestion>
+
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <!-- News RSS -->
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+        <xmlQuestion name="NewsRss" 
+                  displayName="@PROJECT_ID@ News"
+                  recordClassRef="XmlRecordClasses.NewsRecord"
+                  xmlDataURL="@PROJECT_ID@/news.xml">
+        </xmlQuestion>
+
+
+
+
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <!-- TUTORIALS -->
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+        <xmlQuestion name="Tutorials" 
+                 displayName="Tutorials" 
+                 recordClassRef="XmlRecordClasses.TutorialsRecord" 
+                 xmlDataURL="tutorials.xml"> 
+       </xmlQuestion>
+
+
+
+
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <!-- Strategies Help -->
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+        <xmlQuestion name="StrategiesHelp" 
+                  displayName="Strategies Help"
+                  recordClassRef="XmlRecordClasses.StrategiesHelpRecord"
+                  xmlDataURL="strategiesHelp.xml">
+        </xmlQuestion>
+
+
+
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <!-- External links -->
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+        <xmlQuestion name="ExternalLinks"
+                  displayName="Community Links"
+                  recordClassRef="XmlRecordClasses.ExternalLinksRecord"
+                  xmlDataURL="@PROJECT_ID@/externalLinks.xml">
+        </xmlQuestion>
+
+    </xmlQuestionSet>
+</wdkModel>
