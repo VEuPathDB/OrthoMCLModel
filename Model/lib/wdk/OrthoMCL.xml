@@ -25,8 +25,9 @@
     <import file="OrthoMCL/questions/queries/sequenceIdQueries.xml" />
     <import file="OrthoMCL/questions/params/sequenceParams.xml" />
 
-
-
+    <!-- XML -->
+    <import file="OrthoMCL/records/xmlRecords.xml"/>
+    <import file="OrthoMCL/questions/xmlQuestions.xml"/>
 
     <!-- import the helper related pieces -->
 
