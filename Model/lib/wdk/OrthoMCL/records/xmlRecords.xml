@@ -82,7 +82,23 @@
                <xmlAttribute name="url"/>
             </xmlTable>
 
-         </xmlRecordClass>
+ </xmlRecordClass>
+
+
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <!-- External links -->
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+  
+        <xmlRecordClass 
+            name="VerbiageRecord"
+            type="Verbiage"
+            idPrefix="Verb."
+            delimiter="@">
+            <xmlAttribute name="title"/>
+            <xmlAttribute name="content"/>
+
+        </xmlRecordClass>
 
 
 

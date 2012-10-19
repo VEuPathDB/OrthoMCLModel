@@ -61,5 +61,16 @@
                   xmlDataURL="@PROJECT_ID@/externalLinks.xml">
         </xmlQuestion>
 
+
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <!-- External links -->
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+        <xmlQuestion name="Verbiage"
+                  displayName="Verbiage"
+                  recordClassRef="XmlRecordClasses.VerbiageRecord"
+                  xmlDataURL="verbiage.xml">
+        </xmlQuestion>
+
     </xmlQuestionSet>
 </wdkModel>
