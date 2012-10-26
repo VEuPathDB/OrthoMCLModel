@@ -33,7 +33,17 @@
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
 			<![CDATA[
-                Find protein sequences by the id assigned by current or previous releases of OrthoMCL.
+                Find protein sequences by OrthoMCL Sequence ID(s) (from the current or previous releases of OrthoMCL).
+			]]>
+            </description>
+        </question>
+
+        <question name="ByGroupIdList" queryRef="SequenceIds.ByGroupIdList" 
+				  displayName="Group ID(s)"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+			<![CDATA[
+                Find protein sequences by OrthoMCL Group ID(s) (from the current or previous releases of OrthoMCL).
 			]]>
             </description>
         </question>

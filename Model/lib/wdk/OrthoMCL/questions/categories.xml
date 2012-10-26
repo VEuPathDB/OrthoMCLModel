@@ -47,6 +47,7 @@
 	<searchCategory name="sequence-keyword" displayName="Text, IDs"
                         parentRef="SequenceRecordClasses.SequenceRecordClass">
             <questionRef>SequenceQuestions.ByIdList</questionRef>
+            <questionRef>SequenceQuestions.ByGroupIdList</questionRef>
             <questionRef>SequenceQuestions.ByKeyword</questionRef>
        </searchCategory>
 
