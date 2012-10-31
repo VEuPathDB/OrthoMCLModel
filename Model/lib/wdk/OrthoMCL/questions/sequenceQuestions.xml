@@ -111,12 +111,12 @@
         </question>
 
 
-        <question name="ByPFamName" queryRef="SequenceIds.ByPFamName" 
-				  displayName="PFam Name"
+        <question name="ByPFamIdOrKeyword" queryRef="SequenceIds.ByPfamIdOrKeyword" 
+				  displayName="PFam ID or Keyword"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
 			<![CDATA[
-                Find protein sequences by the PFam.
+                Find protein sequences that have a specified PFam domain.
 			]]>
             </description>
         </question>

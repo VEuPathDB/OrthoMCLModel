@@ -20,6 +20,14 @@
             <suggest default="SH3_1" />
         </stringParam>
 
+         <flatVocabParam name="pfam_id_type_ahead"
+                     queryRef="SharedVQ.PfamTypeAhead"
+                     prompt="Pfam ID or Keyword"
+                     displayType="typeAhead">
+            <help>Start typing and then choose a domain from the list. As you type the list narrows to the entries that match what you have typed.</help>
+        </flatVocabParam>
+
+
         <stringParam name="taxon" prompt="Taxonomy" number="false">
             <help>The abbreviation or the name of a taxonomy. Wild card is supported.</help>
             <suggest default="pfal" />
@@ -97,6 +105,26 @@ SELECT t.name AS display, t.three_letter_abbrev AS term, t.three_letter_abbrev A
         WHERE p.orthomcl_taxon_id = t.parent_id) AS parentTerm
 FROM apidb.OrthomclTaxon t
                 ]]>
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="PfamTypeAhead">
+            <column name="internal" />
+            <column name="term" />
+            <column name="display"/>
+            <sql>
+                SELECT dr.primary_identifier AS internal,
+                       dr.primary_identifier || ' : ' || dr.secondary_identifier AS term,
+                       dr.primary_identifier || ' : ' || dr.secondary_identifier || ' ' ||
+                       dr.remark AS display,
+                       dr.secondary_identifier,dr.remark
+                FROM sres.DbRef dr, sres.ExternalDatabaseRelease edr,
+                     sres.ExternalDatabase ed, ApidbTuning.TypeAheadCounts tac
+                WHERE lower(ed.name) like '%pfam%'
+                  AND edr.external_database_id = ed.external_database_id
+                  AND dr.external_database_release_id = edr.external_database_release_id
+                  AND tac.option_id = dr.primary_identifier
+                  ORDER BY lower(dr.secondary_identifier),lower(dr.remark)
             </sql>
         </sqlQuery>
 

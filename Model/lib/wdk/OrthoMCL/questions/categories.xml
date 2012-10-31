@@ -19,8 +19,7 @@
 
 	<searchCategory name="group-pfam" displayName="Pfam Domains"
                         parentRef="GroupRecordClasses.GroupRecordClass">
-     	    <questionRef>GroupQuestions.ByPFamName</questionRef>
-     	    <questionRef>GroupQuestions.ByPFamKeyword</questionRef>
+     	    <questionRef>GroupQuestions.ByPFamIdOrKeyword</questionRef>
         </searchCategory>
 		
 		
@@ -54,7 +53,7 @@
 	<searchCategory name="sequence-pfam" displayName="Pfam Domains"
                         parentRef="SequenceRecordClasses.SequenceRecordClass">
      	    <questionRef>SequenceQuestions.ByPFamName</questionRef>
-     	    <questionRef>SequenceQuestions.ByPFamKeyword</questionRef>
+     	    <questionRef>SequenceQuestions.ByPFamIdOrKeyword</questionRef>
         </searchCategory>
 		
 	<searchCategory name="sequence-similarity" displayName="Similarity/Pattern"

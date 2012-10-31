@@ -147,58 +147,32 @@ WHERE asi.subclass_view = 'ExternalAASequence'
         </sqlQuery>
 
 
-        <sqlQuery name="ByPFamName" isCacheable="true">
-            <paramRef ref="sharedParams.pfam_name"/>
-            <column name="full_id"/>
-            <sql>
-                <![CDATA[
-SELECT DISTINCT eas.secondary_identifier AS full_id
-FROM dots.ExternalAaSequence eas,
-     dots.DomainFeature df,
-     dots.DbRefAaFeature dbaf,
-     sres.DbRef db
-WHERE eas.aa_sequence_id = df.aa_sequence_id
-  AND df.aa_feature_id = dbaf.aa_feature_id
-  AND dbaf.db_ref_id = db.db_ref_id
-  AND db.primary_identifier LIKE replace($$pfam_name$$, '*', '%')
-                ]]>
-            </sql>
-        </sqlQuery>
+    <sqlQuery name="ByPfamIdOrKeyword" 
+			isCacheable="true" doNotTest="true">
 
+       <paramRef ref="sharedParams.pfam_id_type_ahead"/>
+       <column name="full_id"/>
 
-        <sqlQuery name="ByPFamKeyword">
-            <paramRef ref="sharedParams.pfam_keyword"/>
-            <column name="full_id"/>
-            <sql>
-                <![CDATA[
-SELECT DISTINCT eas.secondary_identifier AS full_id
-FROM dots.ExternalAaSequence eas,
-     dots.DomainFeature df,
-     dots.DbRefAaFeature dbaf,
-     sres.DbRef db
-WHERE eas.aa_sequence_id = df.aa_sequence_id
-  AND df.aa_feature_id = dbaf.aa_feature_id
-  AND dbaf.db_ref_id = db.db_ref_id
-  AND  CATSEARCH(db.secondary_identifier, $$pfam_keyword$$, '') > 0
-UNION
-SELECT DISTINCT eas.secondary_identifier AS full_id
-FROM (  SELECT db_ref_id
-        from sres.DbRef
-        where CATSEARCH(secondary_identifier, 'CANNOT_HAVE_TWO_QUERYCODES', '') > 0
-     union
-       select db_ref_id
-        from sres.DbRef
-        where CATSEARCH(remark, $$pfam_keyword$$, '') > 0
-     ) db,
-     dots.ExternalAaSequence eas,
-     dots.DomainFeature df,
-     dots.DbRefAaFeature dbaf
-WHERE eas.aa_sequence_id = df.aa_sequence_id
-  AND df.aa_feature_id = dbaf.aa_feature_id
-  AND dbaf.db_ref_id = db.db_ref_id
-               ]]>
-            </sql>
-        </sqlQuery>
+        <sql>
+            <![CDATA[
+            SELECT distinct eas.secondary_identifier AS full_id 
+            FROM dots.ExternalAaSequence eas, dots.DomainFeature df,
+                 dots.DbRefAaFeature draf, sres.DbRef dr, sres.ExternalDatabase ed, sres.ExternalDatabaseRelease edr
+            WHERE lower(ed.name) like '%pfam%'
+              AND edr.external_database_id = ed.external_database_id
+              AND dr.external_database_release_id = edr.external_database_release_id 
+              AND draf.db_ref_id = dr.db_ref_id
+              AND df.aa_feature_id = draf.aa_feature_id
+              AND eas.aa_sequence_id = df.aa_sequence_id
+              AND (dr.primary_identifier
+                  LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
+                  OR dr.secondary_identifier
+                  LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
+                  OR dr.remark
+                  LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
+            ]]>
+       </sql>
+    </sqlQuery>
 
 
         <sqlQuery name="ByTaxonomy" isCacheable="true">

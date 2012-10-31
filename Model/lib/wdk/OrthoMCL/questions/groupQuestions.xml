@@ -80,23 +80,12 @@
         </question>
 
 
-        <question name="ByPFamName" queryRef="GroupIds.ByPFamName" 
-				  displayName="PFam Accession"
-                  recordClassRef="GroupRecordClasses.GroupRecordClass">
-            <description>
-			<![CDATA[
-                Find Orthologous groups by the PFam.
-			]]>
-            </description>
-        </question>
-
-
-        <question name="ByPFamKeyword" queryRef="GroupIds.ByPFamKeyword" 
-                                  displayName="PFam Keyword"
+        <question name="ByPFamIdorKeyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
+                                  displayName="PFam ID or Keyword"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
                         <![CDATA[
-                Find Orthologous groups by the PFam.
+                Find Orthologous groups that contain one or more seququences with the specified PFam domain.
                         ]]>
             </description>
         </question>
