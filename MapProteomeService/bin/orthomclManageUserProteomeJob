@@ -141,8 +141,7 @@ sub preventConcurrentRun {
         my $runningJob = `cat $lockfile`;
         my $msg = "Lock file found for $runningJob, not starting another process.\n" .
             "If this is in error, remove $lockfile and try again.\n";
-        print $msg;
-        exit 1;
+        die $msg;
     }
 
     # not currently running, write lockfile with PID information
@@ -676,13 +675,14 @@ sub mailResult {
   my ($infoFile, $jobId) = @_;
 
   my $baseUrl = $mgr->getConfig('resultBaseUrl');
+  my $purgeWindow = $mgr->getConfig('purgeWindow');
   my $link = "$baseUrl$jobId";
 
   my $msg = "
 is complete.  The results are now available at:
   $link
 
-They will be available for 48 hours.
+They will be available for $purgeWindow days.
 ";
   mailJob($infoFile, $jobId, "OrthoMCL Job - done", $msg);
 }
