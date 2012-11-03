@@ -5,11 +5,12 @@ use CBIL::Util::SshCluster;
 use Carp;
 
 sub new {
-  my ($class, $configFile) = @_;
+  my ($class, $serverConfigFile, $clusterConfigFile) = @_;
 
   my $self = {};
   bless($self,$class);
-  $self->{configFile} = $configFile;
+  $self->{serverConfigFile} = $serverConfigFile;
+  $self->{clusterConfigFile} = $clusterConfigFile;
   return $self;
 }
 
@@ -17,20 +18,28 @@ sub getConfig {
   my ($self, $tag) = @_;
 
   if (!$self->{config}) {
-    open(F, $self->{configFile}) || $self->error("Can't open config file '$self->{configFile}'\n");
-
-    while(<F>) {
-      chomp;
-      s/\s+$//;
-      next if /^\#/ or /^$/;
-      /^(\w+)\=(.+)/ || die "illegal line '$_' in config file '$self->{configFile}'\n";
-      my $key=$1;
-      my $val=$2;
-      $self->{config}->{$key} = $val;
-    }
+    $self->readConfigFile($self->{serverConfigFile});
+    $self->readConfigFile($self->{clusterConfigFile});
   }
-  $self->error("Config file does not have a property '$tag'") unless defined($self->{config}->{$tag});
+  $self->error("Config files do not have a property '$tag'") unless defined($self->{config}->{$tag});
   return $self->{config}->{$tag};
+}
+
+sub readConfigFile {
+  my ($self, $file) = @_;
+
+  open(F, $file) || $self->error("Can't open config file '$file'\n");
+
+  while (<F>) {
+    chomp;
+    s/\s+$//;
+    next if /^\#/ or /^$/;
+    /^(\w+)\=(.+)/ || die "illegal line '$_' in config file '$file'\n";
+    my $key=$1;
+    my $val=$2;
+    $self->{config}->{$key} = $val;
+  }
+
 }
 
 sub getCluster {
@@ -86,12 +95,12 @@ sub log {
 }
 
 sub runClusterTask {
-    my ($self, $user, $rcfile, $server, $processIdFile, $logFile, $controllerPropFile, $numNodes, $time, $queue, $ppn) = @_;
+    my ($self, $user, $rcfile, $server, $processIdFile, $logFile, $controllerPropFile, $numNodes, $time, $queue, $ppn, $maxMem) = @_;
 
     # if not already started, start it up (otherwise the local process was restarted)
     if (!$self->clusterTaskRunning($processIdFile, $user, $server)) {
-        my $cmd = "workflowRunDistribJob $controllerPropFile $logFile $processIdFile $numNodes $time $queue $ppn";
-        my $sshCmd = "ssh -2 $user\@$server '/bin/bash -rcfile $rcfile -i -c \"$cmd\"'";
+        my $cmd = "workflowRunDistribJob $controllerPropFile $logFile $processIdFile $numNodes $time $queue $ppn $maxMem";
+        my $sshCmd = "ssh -q -2 $user\@$server '/bin/bash -rcfile $rcfile -i -c \"$cmd\"'";
         $self->runCmdInBackground($sshCmd);
     }
 }
@@ -99,13 +108,13 @@ sub runClusterTask {
 sub clusterTaskRunning {
     my ($self, $processIdFile, $user, $server) = @_;
 
-    my $processId = `ssh -2 $user\@$server 'if [ -a $processIdFile ];then cat $processIdFile; fi'`;
+    my $processId = `ssh -q -2 $user\@$server 'if [ -a $processIdFile ];then cat $processIdFile; fi'`;
 
     chomp $processId;
 
     my $status = 0;
     if ($processId) {
-      system("ssh -2 $user\@$server 'ps -p $processId > /dev/null'");
+      system("ssh -q -2 $user\@$server 'ps -p $processId > /dev/null'");
       $status = $? >> 8;
       $status = !$status;
     }

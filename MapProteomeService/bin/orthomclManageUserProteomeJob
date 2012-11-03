@@ -74,58 +74,61 @@ jobName=
 
 =cut
 
-usage() unless scalar(@ARGV) == 1;
+usage() unless scalar(@ARGV) == 2;
 
 $SIG{'INT'} = 'CLEANUP';
 
-my $configFile = $ARGV[0];
+my $serverConfigFile = $ARGV[0];
+my $clusterConfigFile = $ARGV[1];
 
-my $controlDir;
-my $clusterServerDir;
-my $dbSize;
 my $fakeTaxonAbbrev = 'xxxx';
+my $dbSize;  # number of proteins in user input.  global because expensive to compute
 
-my $mgr = OrthoMCLShared::MapProteomeService::ProteomeJobMgr->new($configFile);
+my $mgr = OrthoMCLShared::MapProteomeService::ProteomeJobMgr->new($serverConfigFile, $clusterConfigFile);
 
 eval {
-    $controlDir = $mgr->getConfig('controlDir');
-    $clusterServerDir = $mgr->getConfig('clusterServerDir');
+    my $controlDir = $mgr->getConfig('serverControlDir');
+    my $clusterServerDir = $mgr->getConfig('clusterServerDir');
+    my $clusterServer = $mgr->getConfig('clusterServer');
+    my $clusterUserName = $mgr->getConfig('clusterUserName');
 
     warn "[DEBUG] using controlDir $controlDir\n" if DEBUG;
     warn "[DEBUG] using clusterServerDir $clusterServerDir\n" if DEBUG;
 
     preventConcurrentRun($controlDir);
-    
-    mk_local_dirs();
+
+    makeLocalDirs($controlDir);
 
     # phase 1 (self-self blast of user proteome)
-    my ($doneJobs, $failedJobs) = checkRunningJobs('phase1');
+    my ($doneJobs, $failedJobs) = checkRunningJobs('phase1', $controlDir, $clusterServerDir);
 
-    handleDoneJobs($doneJobs, 'phase1');
+    handleDoneJobs($doneJobs, 'phase1', $controlDir, $clusterServerDir);
 
-    handleFailedJobs($failedJobs, 'phase1');
+    handleFailedJobs($failedJobs, 'phase1', $controlDir, $clusterServerDir);
 
     handleNewJobs("$controlDir/newJobs",
           "$controlDir/phase1/runningJobs",
           "$clusterServerDir/phase1/runningJobs",
-          'phase1', $dbSize);
+          'phase1');
 
     # phase 2 (blast of user proteome against orthomcl proteins)
 
-    my ($doneJobs, $failedJobs) = checkRunningJobs('phase2');
+    my ($doneJobs, $failedJobs) = checkRunningJobs('phase2', $controlDir, $clusterServerDir);
 
-    handleDoneJobs($doneJobs, 'phase2');
+    handleDoneJobs($doneJobs, 'phase2', $controlDir, $clusterServerDir);
 
-    handleFailedJobs($failedJobs, 'phase2');
+    handleFailedJobs($failedJobs, 'phase2', $controlDir, $clusterServerDir);
 
     handleNewJobs("$controlDir/phase1/doneJobs",
           "$controlDir/phase2/runningJobs",
           "$clusterServerDir/phase2/runningJobs",
-          'phase2', $dbSize);
+          'phase2');
 
     # deliver results (process blast results, and deliver results to user)
     # for each phase 2 done job, process it, and delete when done
-    deliverResults();
+    deliverResults($controlDir);
+
+#    removeStaleFiles($controlDir, $clusterServer, $clusterUserName, $clusterServerDir);
 
     removeConcurrentRunLock($controlDir);
 };
@@ -157,29 +160,28 @@ sub removeConcurrentRunLock {
     }
 }
 
-sub findDbSize {
-    my ($localRunningDir, $clusterRunningDir) = @_;
+sub removeStaleFiles {
+    my ($controlDir, $clusterServer, $clusterUserName, $clusterServerDir) = @_;
 
-    my $clusterUserName = $mgr->getConfig('clusterUserName');
-    my $rcfile = $mgr->getConfig('rcfile');
-    my $clusterServer = $mgr->getConfig('clusterServer');
-    my $dbFilePath = $mgr->getConfig('blastDbFilePath');
+    my $purgeWindow = $mgr->getConfig('purgeWindow');
+    foreach my $subdir ('newJobs', 'phase1', 'phase2', 'results') {
+      my $cmd = "ssh -q -2 $clusterUserName\@$clusterServer 'find $clusterServerDir/*/$subdir -mtime $purgeWindow -delete'";
+      warn "Running cmd: $cmd \n" if DEBUG;
+      system($cmd);
 
-    $mgr->log("Counting proteins in $dbFilePath");
-
-    # discover size of blast db (ie, count of orthomcl proteins)
-    my $dbSizeOut = $mgr->runCmd(0, "ssh -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"grep \\> $dbFilePath |wc -l\"'");
-    my @a = split(/\s/, $dbSizeOut);  # ignore output from login
-    my $dbSize = $a[$#a];
-    return $dbSize;
+      my $cmd = "find $controlDir/*/$subdir -mtime $purgeWindow -delete";
+      warn "Running cmd: $cmd \n" if DEBUG;
+      system($cmd);
+  }
 }
+
 
 ##################################################
 # handle running jobs
 ##################################################
 
 sub checkRunningJobs {
-    my ($phase) = @_;
+    my ($phase, $controlDir, $clusterServerDir) = @_;
 
     warn "[DEBUG] checkRunningJobs() for phase $phase\n" if DEBUG;
     
@@ -201,7 +203,7 @@ sub checkRunningJobs {
     if (!clusterTaskRunning($clusterRunningJobDir, $clusterUserName, $clusterServer)) {
       $mgr->log("Found $phase job that has finished running: $runningJob");
       my $logFile = "$clusterRunningJobDir/$runningJob.log";
-      my $done = $mgr->runCmd(0, "ssh -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"if [ -a $logFile ]; then tail -1 $logFile; fi\"'");
+      my $done = $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"if [ -a $logFile ]; then tail -1 $logFile; fi\"'");
       if ($done && $done =~ /Done/) {
         push(@$doneJobs, $runningJob);
       } else {
@@ -218,13 +220,13 @@ sub clusterTaskRunning {
 
     warn "[DEBUG] clusterTaskRunning() for user $clusterUserName to server $clusterServer in job directory $clusterJobDir \n" if DEBUG;
 
-    my $processId = `ssh -2 $clusterUserName\@$clusterServer 'if [ -a $clusterJobDir/processId ];then cat $clusterJobDir/processId; fi'`;
+    my $processId = `ssh -q -2 $clusterUserName\@$clusterServer 'if [ -a $clusterJobDir/processId ];then cat $clusterJobDir/processId; fi'`;
 
     chomp $processId;
 
     my $status = 0;
     if ($processId) {
-      system("ssh -2 $clusterUserName\@$clusterServer 'ps -p $processId > /dev/null'");
+      system("ssh -q -2 $clusterUserName\@$clusterServer 'ps -p $processId > /dev/null'");
       $status = $? >> 8;
       $status = !$status;
     }
@@ -236,7 +238,7 @@ sub clusterTaskRunning {
 # handle completed jobs
 ##################################################
 sub handleDoneJobs {
-    my ($doneJobs, $phase) = @_;
+    my ($doneJobs, $phase, $controlDir, $clusterServerDir) = @_;
 
     warn "[DEBUG] handleDoneJobs() for $doneJobs in phase $phase\n" if DEBUG;
 
@@ -255,7 +257,7 @@ sub handleDoneJobs {
       # zip blast result
       $mgr->log("  gzipping blast result on cluster");
       my $clusterRunningJobDir = "$clusterServerDir/$phase/runningJobs/$doneJob";
-      $mgr->runCmd(0, "ssh -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"gzip $clusterRunningJobDir/master/mainresult/blastSimilarity.out\"'");
+      $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"gzip $clusterRunningJobDir/master/mainresult/blastSimilarity.out\"'");
 
       # copy result from cluster
       $mgr->log("  copying from cluster");
@@ -265,13 +267,13 @@ sub handleDoneJobs {
 
       # clean up cluster dir
       $mgr->log("  cleaning up cluster job dir");
-      $mgr->runCmd(0, "ssh -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"rm -rf $clusterRunningJobDir\"'");
+      $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"rm -rf $clusterRunningJobDir\"'");
 
     }
 }
 
 sub deliverResults {
-
+    my ($controlDir) = @_;
     my $phase2DoneDir = "$controlDir/phase2/doneJobs";
     opendir(DIR, $phase2DoneDir) || die "Can't open phase2 doneJobs/ directory '$phase2DoneDir'\n";
     my @donePhase2Jobs = readdir(DIR);
@@ -299,7 +301,7 @@ sub deliverResult {
 
     my $groupsFile = $mgr->getConfig('groupsFile');
     my $mclBin = $mgr->getConfig('mclBin');
-    my $resultDir = $mgr->getConfig('resultDir');
+    my $resultDir = $mgr->getConfig('serverControlDir') . "/results";
 
     # map to groups
     $mgr->log("  mapping to groups");
@@ -337,16 +339,16 @@ sub deliverResult {
 # handle new jobs
 ##################################################
 sub handleNewJobs {
-    my ($newJobsDir, $localRunningDir, $clusterRunningDir, $phase) = @_;
+  my ($newJobsDir, $localRunningDir, $clusterRunningDir, $phase) = @_;
 
-    warn "[DEBUG] handleNewJobs() from newJobsDir $newJobsDir, localRunningDir $localRunningDir, clusterRunningDir $clusterRunningDir for phase $phase\n" if DEBUG;
+  warn "[DEBUG] handleNewJobs() from newJobsDir $newJobsDir, localRunningDir $localRunningDir, clusterRunningDir $clusterRunningDir for phase $phase\n" if DEBUG;
 
-    # find all subdirs 
-    opendir(DIR, $newJobsDir) || die "Can't open $phase new jobs directory '$newJobsDir'\n";
-    my @newJobs = readdir(DIR);
-    closedir(DIR);
+  # find all subdirs 
+  opendir(DIR, $newJobsDir) || die "Can't open $phase new jobs directory '$newJobsDir'\n";
+  my @newJobs = readdir(DIR);
+  closedir(DIR);
 
-    foreach my $newJob (@newJobs) {
+  foreach my $newJob (@newJobs) {
     next if $newJob =~ /^\./;
     $mgr->log("New $phase job: $newJob");
 
@@ -363,25 +365,22 @@ sub handleNewJobs {
     correctProteomeFile("$newJobDir/orig_proteome.fasta", "$newJobDir/proteome.fasta");
 
     if ($phase eq 'phase1') {
-        my $validateResultError = validateProteomeFile($newJobDir, "proteome.fasta");
-        my $maskedSeqError = checkProteomeFileForFullMaskSeqs($newJobDir, "proteome.fasta") if ( ! $validateResultError);
-        my $formatResultError = formatProteomeFile($newJobDir, "proteome.fasta") if ( ! $validateResultError && ! $maskedSeqError);
+      my $validateResultError = validateProteomeFile($newJobDir, "proteome.fasta");
+      my $maskedSeqError = checkProteomeFileForFullMaskSeqs($newJobDir, "proteome.fasta") if ( ! $validateResultError);
+      my $formatResultError = formatProteomeFile($newJobDir, "proteome.fasta") if ( ! $validateResultError && ! $maskedSeqError);
 
-        if (! $validateResultError && ! $maskedSeqError && ! $formatResultError) {
-            mailSubmit("$newJobDir/info.txt", $newJob);
-        } else {
-            $mgr->log("  invalid fasta");
-            my $reason = $validateResultError . "\n" . $maskedSeqError . "\n" . $formatResultError;
-            mailInvalidFasta("$newJobDir/info.txt", $newJob, $reason);
-            rmtree($newJobDir);
-            next;
-        }
+      if (! $validateResultError && ! $maskedSeqError && ! $formatResultError) {
+	mailSubmit("$newJobDir/info.txt", $newJob);
+      } else {
+	$mgr->log("  invalid fasta");
+	my $reason = $validateResultError . "\n" . $maskedSeqError . "\n" . $formatResultError;
+	mailInvalidFasta("$newJobDir/info.txt", $newJob, $reason);
+	rmtree($newJobDir);
+	next;
+      }
     }
 
-    # discover size of orthomcl blast database
-    $dbSize = findDbSize() unless $dbSize;
-
-        # move new job dir to running/
+    # move new job dir to running/
     mkpath($runningJobDir);
     move("$newJobsDir/$newJob", $runningJobDir);
 
@@ -394,29 +393,28 @@ sub handleNewJobs {
         $mgr->getConfig('blastDbFilePath');
 
     # build input/ dir
-    makeTaskFile($localInputDir, $clusterInputDir, $clusterRunningJobDir, $dbFilePath, $dbSize);
+    makeTaskFile($localInputDir, $clusterInputDir, $clusterRunningJobDir, $dbFilePath);
     makeControllerFile($localInputDir, $clusterInputDir);
 
     # mirror job to cluster
     $mgr->log("Mirroring $newJob/ to cluster");
     $mgr->getCluster()->copyTo($localRunningDir, $newJob, $clusterRunningDir);
 
-#     if ($phase eq 'phase1') {
-# 
-#         # formatdb does not return proper exit code.  generate one by
-#         # grepping its log for 'Error'
-#         my $blastBinDir = $mgr->getConfig('blastBinDir');
-#         my $formatdbLog = "$clusterRunningJobDir/formatdb.log";
-#         my $cmd = "$blastBinDir/formatdb -i $dbFilePath -l $formatdbLog -p T;grep ERROR $formatdbLog; if [ \\\$? -eq 0 ]; then false; else true; fi";
-# 
-#         $mgr->log("Formatting proteome.fasta for self-self blast");
-#         $mgr->runCmd(0, "ssh -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"$cmd\"'");
-#     }
+    #     if ($phase eq 'phase1') {
+    # 
+    #         # formatdb does not return proper exit code.  generate one by
+    #         # grepping its log for 'Error'
+    #         my $blastBinDir = $mgr->getConfig('blastBinDir');
+    #         my $formatdbLog = "$clusterRunningJobDir/formatdb.log";
+    #         my $cmd = "$blastBinDir/formatdb -i $dbFilePath -l $formatdbLog -p T;grep ERROR $formatdbLog; if [ \\\$? -eq 0 ]; then false; else true; fi";
+    # 
+    #         $mgr->log("Formatting proteome.fasta for self-self blast");
+    #         $mgr->runCmd(0, "ssh -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"$cmd\"'");
+    #     }
 
     # start cluster job
     startJob("$clusterRunningJobDir", $newJob);
-    }
-
+  }
 }
 
 # blastall fails on fully masked sequences - all X's .
@@ -523,8 +521,9 @@ sub correctProteomeFile {
 }
 
 sub makeTaskFile {
-    my ($localInputDir, $clusterInputDir, $clusterRunningJobDir, $dbFilePath, $dbSize) = @_;
-      open(F, ">$localInputDir/task.prop") || die "Can't open task prop file '$localInputDir/task.prop' for writing\n";
+    my ($localInputDir, $clusterInputDir, $clusterRunningJobDir, $dbFilePath) = @_;
+
+    open(F, ">$localInputDir/task.prop") || die "Can't open task prop file '$localInputDir/task.prop' for writing\n";
 
     my $blastBinDir = $mgr->getConfig('blastBinDir');
     my $clusterUserName = $mgr->getConfig('clusterUserName');
@@ -544,12 +543,33 @@ printSimSeqsFile=yes
 ";
     close(F);
 
+    my $dbSz = findDbSize();
+
     # make blastParams file
     my $blastArgs = $mgr->getConfig('blastArgs');
     die "error: do not include -z arg in blastArgs property.  it is discovered dynamically\n" if $blastArgs =~ /z/;
     open(F, ">$localInputDir/blastParams") || die "Can't open blast params file '$localInputDir/blastParams' for writing\n";;
-    print F "$blastArgs -z $dbSize\n";
+    print F "$blastArgs -z $dbSz\n";
     close(F);
+}
+
+sub findDbSize {
+    my ($localRunningDir, $clusterRunningDir) = @_;
+
+    if (!$dbSize) {
+      my $clusterUserName = $mgr->getConfig('clusterUserName');
+      my $rcfile = $mgr->getConfig('rcfile');
+      my $clusterServer = $mgr->getConfig('clusterServer');
+      my $dbFilePath = $mgr->getConfig('blastDbFilePath');
+
+      $mgr->log("Counting proteins in $dbFilePath");
+
+      # discover size of blast db (ie, count of orthomcl proteins)
+      my $dbSizeOut = $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"grep \\> $dbFilePath |wc -l\"'");
+      my @a = split(/\s/, $dbSizeOut); # ignore output from login
+      $dbSize = $a[$#a];
+    }
+    return $dbSize;
 }
 
 sub makeControllerFile {
@@ -579,7 +599,6 @@ slotspernode=$slotsPerNode
 subtasksize=$taskSize
 taskclass=$taskClass
 nodeclass=$nodeClass
-restart=no
 ";
     close(F);
 }
@@ -594,10 +613,11 @@ sub startJob {
     my $clusterServer = $mgr->getConfig('clusterServer');
     my $numNodes = $mgr->getConfig('numNodes');
     my $clusterQueue = $mgr->getConfig('clusterQueue');
+    my $clusterMaxMem = $mgr->getConfig('clusterMaxGigsPerNode');
     my $ppn = $mgr->getConfig('ppn');
 
     $mgr->log("Starting job on cluster in $clusterJobDir");
-    $mgr->runClusterTask($clusterUserName, $rcfile, $clusterServer, "$clusterJobDir/processId", "$clusterJobDir/$jobId.log", "$clusterJobDir/input/controller.prop", $numNodes, 14400, $clusterQueue, $ppn);
+    $mgr->runClusterTask($clusterUserName, $rcfile, $clusterServer, "$clusterJobDir/processId", "$clusterJobDir/$jobId.log", "$clusterJobDir/input/controller.prop", $numNodes, 14400, $clusterQueue, $ppn, $clusterMaxMem);
 }
 
 
@@ -605,7 +625,7 @@ sub startJob {
 # handle failed jobs
 ##################################################
 sub handleFailedJobs {
-    my ($failedJobs, $phase) = @_;
+    my ($failedJobs, $phase, $controlDir, $clusterServerDir) = @_;
 
     warn "[DEBUG] handleFailedJobs() for $failedJobs in phase $phase\n" if DEBUG;
 
@@ -630,7 +650,7 @@ sub handleFailedJobs {
       
       mailServerErrorToAdmin("$localFailedDir/$failedJob/info.txt", $failedJob, "$localFailedDir/$failedJob", $clusterFailedJobDir);
 
-      $mgr->runCmd(0, "ssh -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"mv $clusterRunningJobDir $clusterFailedJobDir\"'");
+      $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"mv $clusterRunningJobDir $clusterFailedJobDir\"'");
     }
 }
 
@@ -761,7 +781,8 @@ The OrthoMCL Team
   close(SENDMAIL);
 }
 
-sub mk_local_dirs {
+sub makeLocalDirs {
+  my ($controlDir) = @_;
     qx(mkdir -p $controlDir/{results,newJobs});
     qx(mkdir -p $controlDir/phase1/{runningJobs,doneJobs});
     qx(mkdir -p $controlDir/phase2/{runningJobs,doneJobs});
@@ -769,6 +790,7 @@ sub mk_local_dirs {
 }
 
 sub CLEANUP {
+    my $controlDir = $mgr->getConfig('serverControlDir');
     removeConcurrentRunLock($controlDir);
     exit(1);
 }
@@ -778,12 +800,19 @@ sub usage {
   print STDERR "
 
 usage:
-   orthomclManageUserProteomeJob config_file
+   orthomclManageUserProteomeJob server_config_file cluster_config_file
 
-** config file **
-blastDbFilePath= (blast database file)
+** server_config file **
 groupsFile=           (orthomcl groups to map blast results to)
-controlDir=           (local dir to control this job)
+mclBin=               (location of mcl executable)
+resultBaseUrl=        (URL to append job key to)
+adminEmail=           (email of admin for err msgs)
+uploadIsOffline=      (0/1 indicates if service has been taken offline)
+purgeWindow=          (number of days we promise user results will be available for)
+formatdbBinDir=       (location of NCBI's formatdb command on webserver)
+
+serverControlDir=     (local dir to control this job)
+blastDbFilePath=      (blast database file)
 clusterUserName=      (login to use to get into cluster server)
 rcfile=               (rcfile to prepare bash environment)
 clusterServer=        (name of machine)
@@ -798,10 +827,9 @@ taskSize=             (number of seqs to process in one batch)
 taskClass=            (perl class to manage that processing)
 blastArgs=            (arguments for blast)
 blastBinDir=          (location of blast executable)
-mclBin=               (location of mcl executable)
-resultDir             (dir to write result zip file to)
-resultBaseUrl=          (URL to append job key to)
 ";
+  exit(1);
+}
 
 sub readme {
     return "
@@ -831,9 +859,3 @@ Please refer to the OrthoMCL Algorithm Document ()for details about how OrthoMCL
     * Submit those pairs to the MCL program (see the OrthoMCL Algorithm Document). 
 ";
 }
-
-exit(1);
-
-}
-
-
