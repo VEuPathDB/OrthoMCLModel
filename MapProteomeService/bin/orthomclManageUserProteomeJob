@@ -500,19 +500,27 @@ sub validateProteomeFile {
     my $proteomeFilePath = "$newJobDir/$proteomeFilename";
     my $length;
     my $seqCount;
+    my $error;
     die "Fasta file '$proteomeFilePath' does not exist" unless -e $proteomeFilePath;
     system("dos2unix $proteomeFilePath");
     open(P, $proteomeFilePath) || die "Can't open fasta file '$proteomeFilePath'\n";
+    my $foundFirstLine;
+    my $badFirstLine;
     while(<P>) {
+	next if /^\s*$/;  # skip blank lines
+	if (!$foundFirstLine) {
+	    $badFirstLine = 1 if !/^\>/;  # first non-blank line must start with >
+	    $foundFirstLine = 1;
+	}
         $length += length($_);
         $seqCount += 1 if /^\>\S+/;
     }
     close(P);
-    my $error;
-    if ($seqCount && $seqCount <= 100000 && $length <= $seqCount * 5000) {
-        $error = ""
-    } else {
-        $error = "The file must be in FASTA format and contain no more than 100,000 protein sequences."
+    if ($badFirstLine || !$seqCount || $seqCount > 100000 || $length > $seqCount * 5000)) {
+        $error = 
+"The file must be in FASTA format, contain protein sequences, and have not more than 100,000 sequences.
+The first line must be blank or be the description line for the first protein.
+"
     }
     return $error;
 }
