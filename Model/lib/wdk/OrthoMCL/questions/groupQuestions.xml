@@ -80,7 +80,7 @@
         </question>
 
 
-        <question name="ByPFamIdorKeyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
+        <question name="ByPFamIdOrKeyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
                                   displayName="PFam ID or Keyword"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>

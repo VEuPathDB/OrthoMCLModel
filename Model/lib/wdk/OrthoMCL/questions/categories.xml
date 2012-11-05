@@ -52,7 +52,6 @@
 
 	<searchCategory name="sequence-pfam" displayName="Pfam Domains"
                         parentRef="SequenceRecordClasses.SequenceRecordClass">
-     	    <questionRef>SequenceQuestions.ByPFamName</questionRef>
      	    <questionRef>SequenceQuestions.ByPFamIdOrKeyword</questionRef>
         </searchCategory>
 		
