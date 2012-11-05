@@ -10,6 +10,9 @@ use strict;
 
 use constant DEBUG => 0;
 
+# Let's face it, this program started out as a simple script and has grown too big.
+# Ideally it would be rewritten using a standard OO approach
+
 =pod 
 
 probe the state of orthomcl user's proteome analysis jobs
@@ -168,13 +171,10 @@ sub removeStaleFiles {
 
       my $cmd = "ssh -q -2 $clusterUserName\@$clusterServer 'if [ -a $clusterServerDir/$subdir ]; then find $clusterServerDir/$subdir -mtime $purgeWindow -delete; fi'";
       warn "Running cmd: $cmd \n" if DEBUG;
-      print STDERR "$cmd\n";
       system($cmd);
 
       $cmd = "if [ -a $controlDir/$subdir ]; then find $controlDir/$subdir -mtime $purgeWindow -delete; fi";
       warn "Running cmd: $cmd \n" if DEBUG;
-      print STDERR "$cmd\n";
-
       system($cmd);
   }
 }
@@ -250,6 +250,7 @@ sub handleDoneJobs {
     my $clusterServer = $mgr->getConfig('clusterServer');
     my $localRunningDir = "$controlDir/$phase/runningJobs";
     my $localDoneDir = "$controlDir/$phase/doneJobs";
+    my $localFailedDir = "$controlDir/$phase/failedJobs";
 
     foreach my $doneJob (@$doneJobs) {
 
@@ -264,12 +265,21 @@ sub handleDoneJobs {
       # copy result from cluster
       $mgr->log("  copying from cluster");
       $mgr->getCluster()->copyFrom("$clusterRunningJobDir/master/mainresult", 'blastSimilarity.out.gz', "$localDoneDir/$doneJob");
+
       move("$localDoneDir/$doneJob/blastSimilarity.out.gz", "$localDoneDir/$doneJob/${phase}BlastSimilarity.out.gz");
 
-
-      # clean up cluster dir
-      $mgr->log("  cleaning up cluster job dir");
-      $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"rm -rf $clusterRunningJobDir\"'");
+      # check that phase 2 had non-empty blast results
+      if ($phase eq 'phase2' && -s "$localDoneDir/$doneJob/${phase}BlastSimilarity.out.gz" == 0) {
+	# oops, bad blast result.   move to failure dirs locally and on cluster, and mail user
+	$mgr->log("  empty phase2 blast results for job $doneJob.  Moving to failures dir and sending user mail.");
+	$mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"mv $clusterRunningJobDir $clusterServerDir/$phase/failedJobs\"'");
+	move("$localDoneDir/$doneJob", "$localFailedDir/$doneJob");
+	mailNoBlastResults("$localFailedDir/$doneJob/info.txt", $doneJob);
+      } else {
+	# clean up cluster dir
+	$mgr->log("  cleaning up cluster job dir");
+	$mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"rm -rf $clusterRunningJobDir\"'");
+      }
 
     }
 }
@@ -689,6 +699,21 @@ $reason
 Please resubmit with a valid file.
 ";
   mailJob($infoFile, $jobId, "OrthoMCL Job - invalid file", $msg);
+}
+
+sub mailNoBlastResults {
+  my ($infoFile, $jobId) = @_;
+
+  my $msg = "
+did not have any blast matches to the OrthoMCL-DB sequences.
+
+The most likely reason is an invalid fasta file.  Please read the instructions on the web form
+to be sure you are submitting a valid proteins fasta file.  If you are not sure, send us a
+snippet of your fasta file.
+
+If you believe your fasta file is correct, please write back.   It is possible the cause is server error.
+";
+  mailJob($infoFile, $jobId, "OrthoMCL Job - no matches", $msg);
 }
 
 sub mailResult {
