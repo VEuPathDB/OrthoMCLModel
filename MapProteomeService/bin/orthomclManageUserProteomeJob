@@ -440,6 +440,7 @@ sub checkProteomeFileForFullMaskSeqs {
     open(P, $proteomeFilePath) || die "Can't open fasta file '$proteomeFilePath'\n";
     while(<P>) {
         chomp;
+	next if /^\s*$/;
         if (m/^>/) {
             $seq_is_ok = 0;
             ($id) = $_ =~ m/>$fakeTaxonAbbrev\|(\S+)/;
@@ -516,7 +517,7 @@ sub validateProteomeFile {
         $seqCount += 1 if /^\>\S+/;
     }
     close(P);
-    if ($badFirstLine || !$seqCount || $seqCount > 100000 || $length > $seqCount * 5000)) {
+    if ($badFirstLine || !$seqCount || $seqCount > 100000 || $length > $seqCount * 5000) {
         $error = 
 "The file must be in FASTA format, contain protein sequences, and have not more than 100,000 sequences.
 The first line must be blank or be the description line for the first protein.
