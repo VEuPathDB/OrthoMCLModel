@@ -128,7 +128,7 @@ eval {
     # for each phase 2 done job, process it, and delete when done
     deliverResults($controlDir);
 
-#    removeStaleFiles($controlDir, $clusterServer, $clusterUserName, $clusterServerDir);
+    removeStaleFiles($controlDir, $clusterServer, $clusterUserName, $clusterServerDir);
 
     removeConcurrentRunLock($controlDir);
 };
@@ -164,13 +164,17 @@ sub removeStaleFiles {
     my ($controlDir, $clusterServer, $clusterUserName, $clusterServerDir) = @_;
 
     my $purgeWindow = $mgr->getConfig('purgeWindow');
-    foreach my $subdir ('newJobs', 'phase1', 'phase2', 'results') {
-      my $cmd = "ssh -q -2 $clusterUserName\@$clusterServer 'find $clusterServerDir/*/$subdir -mtime $purgeWindow -delete'";
+    foreach my $subdir ('newJobs', 'phase1/failedJobs', 'phase2/failedJobs', 'phase1/doneJobs', 'phase2/doneJobs', 'results') {
+
+      my $cmd = "ssh -q -2 $clusterUserName\@$clusterServer 'if [ -a $clusterServerDir/$subdir ]; then find $clusterServerDir/$subdir -mtime $purgeWindow -delete; fi'";
       warn "Running cmd: $cmd \n" if DEBUG;
+      print STDERR "$cmd\n";
       system($cmd);
 
-      my $cmd = "find $controlDir/*/$subdir -mtime $purgeWindow -delete";
+      $cmd = "if [ -a $controlDir/$subdir ]; then find $controlDir/$subdir -mtime $purgeWindow -delete; fi";
       warn "Running cmd: $cmd \n" if DEBUG;
+      print STDERR "$cmd\n";
+
       system($cmd);
   }
 }
@@ -190,7 +194,6 @@ sub checkRunningJobs {
     my $clusterServer = $mgr->getConfig('clusterServer');
 
     my $runningJobsDir = "$controlDir/$phase/runningJobs";
-    mkpath($runningJobsDir);
     opendir(DIR, $runningJobsDir) || die "Can't open $phase runningJobs/ directory '$runningJobsDir'\n";
     my @runningJobs = readdir(DIR);
     closedir(DIR);
@@ -251,7 +254,6 @@ sub handleDoneJobs {
     foreach my $doneJob (@$doneJobs) {
 
       $mgr->log("Handling done $phase cluster job: $doneJob");
-      mkpath($localDoneDir);
       move("$localRunningDir/$doneJob", "$localDoneDir/$doneJob");
 
       # zip blast result
@@ -325,7 +327,6 @@ sub deliverResult {
     $mgr->runCmd(0, "zip -rj $donePhase2JobDir/orthomclResult $donePhase2JobDir/orthomclResult");
 
     # move zipped result to delivery dir
-    mkpath($resultDir);
     $mgr->log("  moving final result to $resultDir/orthomclResult-$jobId.zip");
     move("$donePhase2JobDir/orthomclResult.zip", "$resultDir/orthomclResult-$jobId.zip");
 
@@ -640,7 +641,6 @@ sub handleFailedJobs {
       mailServerError("$localRunningDir/$failedJob/info.txt", $failedJob);
       $mgr->log("Handling $phase failed job: $failedJob");
       $mgr->log("  moving local job to $phase failed dir");
-      mkpath("$localFailedDir");
       move("$localRunningDir/$failedJob", "$localFailedDir/$failedJob");
 
       # clean up cluster dir
@@ -781,11 +781,12 @@ The OrthoMCL Team
   close(SENDMAIL);
 }
 
+# include here all dirs that removeStaleFiles with clean up, so the clean up has a place to clean up.
 sub makeLocalDirs {
   my ($controlDir) = @_;
     qx(mkdir -p $controlDir/{results,newJobs});
-    qx(mkdir -p $controlDir/phase1/{runningJobs,doneJobs});
-    qx(mkdir -p $controlDir/phase2/{runningJobs,doneJobs});
+    qx(mkdir -p $controlDir/phase1/{runningJobs,doneJobs,failedJobs});
+    qx(mkdir -p $controlDir/phase2/{runningJobs,doneJobs,failedJobs});
     qx(chmod 1777 $controlDir/newJobs);
 }
 
