@@ -563,19 +563,17 @@ printSimSeqsFile=yes
 ";
     close(F);
 
-    my $dbSz = findDbSize();
+    my $orthomclDbSz = findOrthomclDbSize();   # use this size for both phases, to make them consistent.
 
     # make blastParams file
     my $blastArgs = $mgr->getConfig('blastArgs');
     die "error: do not include -z arg in blastArgs property.  it is discovered dynamically\n" if $blastArgs =~ /z/;
     open(F, ">$localInputDir/blastParams") || die "Can't open blast params file '$localInputDir/blastParams' for writing\n";;
-    print F "$blastArgs -z $dbSz\n";
+    print F "$blastArgs -z $orthomclDbSz\n";
     close(F);
 }
 
-sub findDbSize {
-    my ($localRunningDir, $clusterRunningDir) = @_;
-
+sub findOrthomclDbSize {
     if (!$dbSize) {
       my $clusterUserName = $mgr->getConfig('clusterUserName');
       my $rcfile = $mgr->getConfig('rcfile');
@@ -728,9 +726,9 @@ If you believe your fasta file is correct, please write back.   It is possible t
 sub mailResult {
   my ($infoFile, $jobId) = @_;
 
-  my $baseUrl = $mgr->getConfig('resultBaseUrl');
   my $purgeWindow = $mgr->getConfig('purgeWindow');
-  my $link = "$baseUrl$jobId";
+  my $info = readInfoFile($infoFile);
+  my $link = $info->{resultUrl};
 
   my $msg = "
 is complete.  The results are now available at:
@@ -746,14 +744,7 @@ sub mailAdmin {
 
   my $adminEmail = $mgr->getConfig('adminEmail');
 
-  open(I, $infoFile) || die "Can't open info file '$infoFile'\n";
-  my $info;
-  while (<I>) {
-    chomp;
-    my($key, $value) = split(/\=/);
-    $info->{$key} = $value;
-  }
-  close(I);
+  my $info = readInfoFile($infoFile);
   $info->{email} =~ /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i or die "Illegal email address: '$info->{email}'\n";
 
   my @a = split(/\@/, $info->{email});
@@ -780,14 +771,7 @@ $message
 sub mailJob {
   my ($infoFile, $jobId, $subject, $message) = @_;
 
-  open(I, $infoFile) || die "Can't open info file '$infoFile'\n";
-  my $info;
-  while (<I>) {
-    chomp;
-    my($key, $value) = split(/\=/);
-    $info->{$key} = $value;
-  }
-  close(I);
+  my $info = readInfoFile($infoFile);
   $info->{email} =~ /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i or die "Illegal email address: '$info->{email}'\n";
 
   my @a = split(/\@/, $info->{email});
@@ -815,6 +799,22 @@ The OrthoMCL Team
   close(SENDMAIL);
 }
 
+sub readInfoFile {
+  my ($infoFile) = @_;
+
+  open(I, $infoFile) || die "Can't open info file '$infoFile'\n";
+  my $info;
+  while (<I>) {
+    chomp;
+    my @array = split(/\=/);
+    my $key = shift(@array);
+    my $value = join('=', @array);
+    $info->{$key} = $value;
+  }
+  close(I);
+  return $info;
+}
+
 # include here all dirs that removeStaleFiles with clean up, so the clean up has a place to clean up.
 sub makeLocalDirs {
   my ($controlDir) = @_;
@@ -840,7 +840,6 @@ usage:
 ** server_config file **
 groupsFile=           (orthomcl groups to map blast results to)
 mclBin=               (location of mcl executable)
-resultBaseUrl=        (URL to append job key to)
 adminEmail=           (email of admin for err msgs)
 uploadIsOffline=      (0/1 indicates if service has been taken offline)
 purgeWindow=          (number of days we promise user results will be available for)
