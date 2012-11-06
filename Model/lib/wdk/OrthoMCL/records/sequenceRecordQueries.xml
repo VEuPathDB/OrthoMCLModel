@@ -82,25 +82,6 @@ WHERE eas.taxon_id = ot.taxon_id
             </sql>
         </sqlQuery>
 
-	<!-- PLANA_TEMPORARY -->
-        <sqlQuery name="SequencePlanAInfo">
-            <column name="full_id"/>
-            <column name="plan_a_group_id"/>
-            <column name="plan_a_score"/>
-            <column name="plan_a_avg_score"/>
-            <column name="plan_a_syn_score"/>
-            <column name="plan_a_group_sz"/>
-            <column name="is_rep"/>
-            <column name="tier_one_clade_id"/>
-            <sql>
-			<![CDATA[
-            SELECT protein_id AS full_id, plan_a_group_id, round(score,2) as plan_a_score, round(avg_score,2) as plan_a_avg_score, syn_score as plan_a_syn_score, grp_sz as plan_a_group_sz, is_rep, tieroneclade as tier_one_clade_id
-            FROM apidb.ProteinToPlanAGroupId
- 			]]>
-            </sql>
-        </sqlQuery>
-	<!-- END_TEMPORARY -->
-
     </querySet>
 
     <querySet name="SequenceTables" queryType="table">

@@ -33,43 +33,6 @@
             <suggest default="pfal" />
         </stringParam>
 
-        <!-- PLANA_TEMPORARY -->
-        <stringParam name="planAGroupId" prompt="Plan A Group ID" number="false">
-            <help></help>
-            <suggest default="OG6_400507" />
-        </stringParam>
-
-        <stringParam name="minAvgScore" prompt="Min changed average score" number="false">
-            <help>Range: -5 to 5</help>
-            <suggest default="-5" />
-        </stringParam>
-
-        <stringParam name="maxAvgScore" prompt="Max changed average score" number="false">
-            <help>Range: -5 to 5</help>
-            <suggest default="-1" />
-        </stringParam>
-
-        <stringParam name="minScore" prompt="Min changed score" number="false">
-            <help>Range: -2000 to 2000</help>
-            <suggest default="-2000" />
-        </stringParam>
-
-        <stringParam name="maxScore" prompt="Max changed score" number="false">
-            <help>Range: -2000 to 2000</help>
-            <suggest default="-1000" />
-        </stringParam>
-
-        <stringParam name="minSynScore" prompt="Min changed score" number="false">
-            <help>Range: -500 to 500</help>
-            <suggest default="-500" />
-        </stringParam>
-
-        <stringParam name="maxSynScore" prompt="Max changed score" number="false">
-            <help>Range: -500 to 500</help>
-            <suggest default="-100" />
-        </stringParam>
-        <!-- END_TEMPORARY -->
-
         <answerParam name="group_answer" readonly="true">
             <recordClass ref="GroupRecordClasses.GroupRecordClass" />
         </answerParam>

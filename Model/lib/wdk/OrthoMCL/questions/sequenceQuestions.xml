@@ -48,45 +48,6 @@
             </description>
         </question>
 
-	<!-- PLANA_TEMPORARY -->
-        <question name="ByPlanAGroupId" queryRef="SequenceIds.ByPlanAGroupId" 
-				  displayName="Plan A Group ID"
-                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
-            <description>
-			<![CDATA[Find sequences by their Plan A Group ID.
-			]]>
-            </description>
-        </question>
-
-        <question name="ByPlanAScoreChange" queryRef="SequenceIds.ByPlanAScoreChange" 
-				  displayName="Plan A Score Change"
-                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
-            <description>
-			<![CDATA[Find sequences by the amount their connectivity score changed from Rel 5 to Plan A.  A protein's connectivity score in a group is computed by summing it edge weights (average evalue exponent per pair).  A protein's change score is its connectivity score in Plan A minus its connectivity score in Rel 5.  Negative scores show a decrease in connectivity in Plan A.  <b>The range for this score is about -2000 to 2000.</b>
-			]]>
-            </description>
-        </question>
-
-        <question name="ByPlanAAvgScoreChange" queryRef="SequenceIds.ByPlanAAvgScoreChange" 
-				  displayName="Plan A Averaged-Score Change"
-                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
-            <description>
-			<![CDATA[Find sequences by the amount their averaged connectivity score changed from Rel 5 to Plan A.  A protein's averaged connectivity score in a group is computed by summing it edge weights (average evalue exponent per pair) and dividing by the number of possible edges (group size minus 1).  A protein's change score is its averaged connectivity score in Plan A minus its averaged connectivity score in Rel 5.  Negative scores show a decrease in average connectivity in Plan A.  <b>The range for this score is about -5 to 5.</b>
-			]]>
-            </description>
-        </question>
-
-        <question name="ByPlanASynScoreChange" queryRef="SequenceIds.ByPlanASynScoreChange" 
-				  displayName="Plan A Synteny Score Change"
-                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
-            <description>
-			<![CDATA[Find sequences by the amount their synteny score changed from Rel 5 to Plan A. Negative number indicates a worsening.  <b>The range for this score is about -500 to 500.</b>
-			]]>
-            </description>
-        </question>
-
-	<!-- END_TEMPORARY -->
-
 
         <question name="ByAccession" queryRef="SequenceIds.ByAccession" 
                   displayName="Seq Accession"

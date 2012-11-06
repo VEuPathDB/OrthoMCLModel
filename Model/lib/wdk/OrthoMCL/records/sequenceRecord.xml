@@ -73,9 +73,8 @@
       <!--  Default summary attributes and sorting attributes -->  
       <!-- =============================================================== -->
             
-	<!-- PLANA_TEMPORARY -->
          <attributesList
-           summary="group_link, group_size, taxon_name, abbreviation, length, product, plan_a_group_link, plan_a_group_sz, plan_a_score, plan_a_avg_score, plan_a_syn_score, is_rep, tier_one_clade_id"
+           summary="group_link, group_size, taxon_name, abbreviation, length, product"
            sorting="primary_key asc"/>
 
 
@@ -138,41 +137,7 @@
                 <columnAttribute name="group_size" displayName="Group Size" internal="false"/>
             </attributeQueryRef>
 
-	    <!-- PLANA_TEMPORARY -->
-            <attributeQueryRef ref="SequenceAttributes.SequencePlanAInfo">
-                <columnAttribute name="plan_a_group_id" displayName="Plan A Group" internal="true">
-                    <plugin name="wordCloud" display="Word Cloud"
-                            description="Display the terms in the attribute as word clouds"
-                            implementation="org.gusdb.wdk.model.attribute.plugin.WordCloudAttributePlugin"
-                            view="/wdk/jsp/results/wordCloud.jsp" />
-                </columnAttribute>
-                <columnAttribute name="plan_a_group_sz" displayName="Plan A Grp Sz" internal="false" help="The size of the Plan A group this protein is part of." />
-                <columnAttribute name="plan_a_score" displayName="Plan A Sum Conn Score Delta" internal="false" help="The delta between Plan A and Rel 5 of this protein's 'summed connectivity score.'  This score, in each build respectively, is the sum of this protein's (normalized) edge scores (average e-value) within its group.  A negative value means the score got worse in Plan A"/>
-                <columnAttribute name="plan_a_avg_score" displayName="Plan A Avg Conn Score Delta" internal="false" help="The delta between Plan A and Rel 5 of this protein's 'average connectivity score.'  This score, in each build respectively, is the average of this protein's (normalized) edge scores (average e-value) within its group. A negative value means the score got worse in Plan A." />
-                <columnAttribute name="plan_a_syn_score" displayName="Plan A Syn Score Delta" internal="false" help="The delta between this protein's synteny score in Plan A and Rel 5.  A negative value means the score got worse in Plan A."/>
-                <columnAttribute name="is_rep" displayName="Plan A is Rep" internal="false" help="This protein in Plan A was a representative protein in Tier 2."/>
-                <columnAttribute name="tier_one_clade_id" displayName="Tier 1 Clade TaxId" internal="false" help="The NCBI Taxon ID of this protein's Tier 1 clade (typically genus).  Null if this protein is in a single-taxon clade." />
-            </attributeQueryRef>
- 
-       <linkAttribute displayName="Plan A Group" name="plan_a_group_link" inReportMaker="false" internal="false" >
-                    <plugin name="wordCloud" display="Word Cloud"
-                            description="Display the terms in the attribute as word clouds"
-                            implementation="org.gusdb.wdk.model.attribute.plugin.WordCloudAttributePlugin"
-                            view="/wdk/jsp/results/wordCloud.jsp" />
-           <displayText>
-            <![CDATA[ $$plan_a_group_id$$  ]]>
-           </displayText>
-           <url>
-            <![CDATA[
-              showQuestion.do?questionFullName=SequenceQuestions.ByPlanAGroupId&value%28planAGroupId%29=$$plan_a_group_id$$
-              ]]>
-            </url>
-
-        </linkAttribute>
-
-	    <!-- END_TEMPORARY -->
-            
-            <attributeQueryRef ref="SequenceAttributes.SequenceSequence">
+                        <attributeQueryRef ref="SequenceAttributes.SequenceSequence">
 
               <columnAttribute name="sequence" displayName="Sequence" internal="true"/>
 

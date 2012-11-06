@@ -145,31 +145,6 @@ WHERE og.number_of_members >= $$sequence_count_min$$
             </sql>
         </sqlQuery>
 
-
-	<!-- PLANA_TEMPORARY -->
-        <sqlQuery name="ByIsChangedInPlanA">
-            <column name="group_name"/>
-            <sql>
-                <![CDATA[
-SELECT group_id AS group_name
-FROM apidb.GroupsChangedInPlanA
-where min_score is not null
-                ]]>
-            </sql>
-        </sqlQuery>
-
-        <sqlQuery name="ByIsChangedInPlanASingleClade">
-            <column name="group_name"/>
-            <sql>
-                <![CDATA[
-SELECT group_id AS group_name
-FROM apidb.GroupsChangedInPlanA
-where single_clades_changed is not null
-                ]]>
-            </sql>
-        </sqlQuery>
-	<!-- END_TEMPORARY -->
-
         <sqlQuery name="ByGenomeCount">
             <paramRef ref="groupParams.genome_count_min"/>
             <paramRef ref="groupParams.genome_count_max"/>

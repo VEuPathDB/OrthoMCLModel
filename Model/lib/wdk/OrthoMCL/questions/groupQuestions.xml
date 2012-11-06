@@ -38,26 +38,6 @@
             </description>
         </question>
 
-	<!-- PLANA_TEMPORARY -->
-        <question name="ByIsChangedInPlanA" queryRef="GroupIds.ByIsChangedInPlanA" 
-				  displayName="Changed in Plan A"
-                  recordClassRef="GroupRecordClasses.GroupRecordClass">
-            <description>
-			<![CDATA[Find Release 5 groups that do not match a Plan A group exactly.
-			]]>
-            </description>
-        </question>
-
-        <question name="ByIsChangedInPlanASingleClade" queryRef="GroupIds.ByIsChangedInPlanASingleClade" 
-				  displayName="Changed in Plan A (single-taxon-clades)"
-                  recordClassRef="GroupRecordClasses.GroupRecordClass">
-            <description>
-			<![CDATA[Find Release 5 groups that do not match a Plan A group exactly ONLY considering proteins that are in "single-taxon-clades" (clades with only one taxon).  Groups in Rel 5 and Plan A are compared after multi-taxon-clade proteins are filtered away. Proteins in single-taxon-clades are not involved in Plan A's Tier One, so presumably should be very stable between Rel 5 and Plan A.  When they have moved in Plan A relative to the other single-taxon-clade-proteins they were grouped with in Rel 5, it is worth investigating.
-			]]>
-            </description>
-        </question>
-	<!-- END_TEMPORARY -->
-
         <question name="ByAccession" queryRef="GroupIds.ByAccession" 
                   displayName="Group or Sequence id"
                   recordClassRef="GroupRecordClasses.GroupRecordClass"

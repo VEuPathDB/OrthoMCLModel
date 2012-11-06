@@ -97,22 +97,6 @@ GROUP BY og.name
             </sql>
         </sqlQuery>
 
-        <!-- PLANA_TEMPORARY -->
-        <sqlQuery name="GroupPlanAInfo">
-            <column name="group_name"/>
-            <column name="min_score"/>
-            <column name="max_score"/>
-            <column name="sum_score"/>
-            <column name="avg_score"/>
-            <sql>
-			<![CDATA[
-            SELECT group_id AS group_name, round(min_score, 2) as min_score, round(max_score, 2) as max_score, round(sum_score, 2) as sum_score, avg_score
-            FROM apidb.GroupsChangedInPlanA
- 			]]>
-            </sql>
-        </sqlQuery>
-        <!-- END_TEMPORARY -->
-
     </querySet>
 
 
@@ -162,15 +146,6 @@ SELECT og.name AS group_name,
        eas.secondary_identifier AS full_id,
        ot.name AS taxon_name,
        eas.length,
-       -- PLANA_TEMPORARY
-       planagrp.plan_a_group_id,
-       planagrp.grp_sz as plan_a_group_sz,
-       round(planagrp.score,2) as plan_a_score,
-       round(planagrp.avg_score,2) as plan_a_avg_score,
-       planagrp.syn_score as plan_a_syn_score,
-       planagrp.is_rep,
-       planagrp.tieroneclade as tier_one_clade_id,
-       -- END_TEMPORARY
        eas.description,
        (SELECT apidb.tab_to_string(CAST(COLLECT(ref.primary_identifier) AS apidb.varchartab), ', ')
         FROM Sres.DbRef ref, 
@@ -186,17 +161,11 @@ FROM apidb.OrthologGroup og,
      apidb.OrthologGroupAaSequence ogs,
      dots.ExternalAaSequence eas,
      apidb.OrthomclResource orr,
-     -- PLANA_TEMPORARY
-     apidb.ProteinToPlanAGroupId planagrp,
-     -- END_TEMPORARY
      apidb.OrthomclTaxon ot
 WHERE og.ortholog_group_id = ogs.ortholog_group_id
   AND ogs.aa_sequence_id = eas.aa_sequence_id
   AND ot.orthomcl_taxon_id = orr.orthomcl_taxon_id
   AND eas.taxon_id = ot.taxon_id
-     -- PLANA_TEMPORARY
-  and planagrp.protein_id = eas.secondary_identifier
-     -- END_TEMPORARY
                         ]]>
             </sql>
         </sqlQuery>

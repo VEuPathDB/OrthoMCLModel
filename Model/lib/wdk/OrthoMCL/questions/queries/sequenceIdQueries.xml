@@ -190,64 +190,6 @@ WHERE eas.taxon_id = ot.taxon_id
         </sqlQuery>
 
 
-	<!-- PLANA_TEMPORARY -->
-        <sqlQuery name="ByPlanAGroupId" isCacheable="true">
-            <paramRef ref="sharedParams.planAGroupId"/>
-            <column name="full_id"/>
-            <sql>
-                <![CDATA[
-SELECT protein_id AS full_id 
-FROM apidb.ProteinToPlanAGroupId
-WHERE plan_a_group_id = $$planAGroupId$$
-               ]]>
-            </sql>
-        </sqlQuery>
-
-        <sqlQuery name="ByPlanAAvgScoreChange" isCacheable="true">
-            <paramRef ref="sharedParams.minAvgScore"/>
-            <paramRef ref="sharedParams.maxAvgScore"/>
-            <column name="full_id"/>
-            <sql>
-                <![CDATA[
-SELECT protein_id AS full_id 
-FROM apidb.ProteinToPlanAGroupId
-WHERE avg_score >= $$minAvgScore$$
-and avg_score <= $$maxAvgScore$$
-and avg_score is not null
-               ]]>
-            </sql>
-        </sqlQuery>
-
-        <sqlQuery name="ByPlanASynScoreChange" isCacheable="true">
-            <paramRef ref="sharedParams.minSynScore"/>
-            <paramRef ref="sharedParams.maxSynScore"/>
-            <column name="full_id"/>
-            <sql>
-                <![CDATA[
-SELECT protein_id AS full_id 
-FROM apidb.ProteinToPlanAGroupId
-WHERE syn_score >= $$minSynScore$$
-and syn_score <= $$maxSynScore$$
-               ]]>
-            </sql>
-        </sqlQuery>
-
-        <sqlQuery name="ByPlanAScoreChange" isCacheable="true">
-            <paramRef ref="sharedParams.minScore"/>
-            <paramRef ref="sharedParams.maxScore"/>
-            <column name="full_id"/>
-            <sql>
-                <![CDATA[
-SELECT protein_id AS full_id 
-FROM apidb.ProteinToPlanAGroupId
-WHERE score >= $$minScore$$
-and score <= $$maxScore$$
-and score is not null
-               ]]>
-            </sql>
-        </sqlQuery>
-
-    <!-- END_TEMPORARY -->
 
     <processQuery name="ByBlast" local="true"
              processName="org.orthomcl.model.wsfplugin.BlastPlugin">

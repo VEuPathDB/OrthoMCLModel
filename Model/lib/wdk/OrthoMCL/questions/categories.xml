@@ -25,10 +25,6 @@
 		
 	<searchCategory name="group-properties" displayName="Group Attributes"
                         parentRef="GroupRecordClasses.GroupRecordClass">
-	    <!-- PLANA_TEMPORARY -->
-     	    <questionRef>GroupQuestions.ByIsChangedInPlanA</questionRef>
-     	    <questionRef>GroupQuestions.ByIsChangedInPlanASingleClade</questionRef>
-	    <!-- END_TEMPORARY -->
      	    <questionRef>GroupQuestions.BySequenceCount</questionRef>
      	    <questionRef>GroupQuestions.ByGenomeCount</questionRef>
      	    <questionRef>GroupQuestions.ByPercentMatchPairs</questionRef>
@@ -64,12 +60,6 @@
 	<searchCategory name="sequence-properties" displayName="Sequence Attributes"
                         parentRef="SequenceRecordClasses.SequenceRecordClass">
             <questionRef>SequenceQuestions.ByTaxonomy</questionRef>
-	    <!-- PLANA_TEMPORARY -->
-            <questionRef>SequenceQuestions.ByPlanAGroupId</questionRef>
-            <questionRef>SequenceQuestions.ByPlanAScoreChange</questionRef>
-            <questionRef>SequenceQuestions.ByPlanAAvgScoreChange</questionRef>
-            <questionRef>SequenceQuestions.ByPlanASynScoreChange</questionRef>
-	    <!-- END_TEMPORARY -->
         </searchCategory>
      
 </wdkModel>
