@@ -59,6 +59,16 @@
             </description>
         </question>
 
+        <question name="ByTextSearch" queryRef="GroupIds.ByTextSearch"
+				  displayName="Text Search"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+			<![CDATA[
+                Find ortholog groups based on text (taxon, product, PFam domains, etc.)
+			]]>
+            </description>
+        </question>
+
 
         <question name="ByPFamIdOrKeyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
                                   displayName="PFam ID or Keyword"

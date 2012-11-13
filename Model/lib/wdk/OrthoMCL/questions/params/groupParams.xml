@@ -56,6 +56,28 @@
             <suggest default="EUKA>=5T AND hsap>=10" />
         </stringParam>
 
+        <enumParam name="text_fields" 
+                         prompt="Fields"
+                         multiPick="true">
+          <help>
+                 Choose which text fields to search.
+          </help>
+          <enumList>
+            <enumValue  default="true">
+              <term>PFam domain names and descriptions</term>
+              <internal>PFam</internal>
+            </enumValue>
+            <enumValue default="true">
+              <term>Taxon</term>
+              <internal>TaxonCounts</internal>
+            </enumValue>
+            <enumValue default="true">
+              <term>Sequences</term>
+              <internal>Sequences</internal>
+            </enumValue>
+          </enumList>
+        </enumParam>
+
     </paramSet>
 
 </wdkModel>
