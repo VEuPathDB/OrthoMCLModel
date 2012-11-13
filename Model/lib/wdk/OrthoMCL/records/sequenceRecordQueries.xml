@@ -54,7 +54,6 @@ WHERE eas.taxon_id = ot.taxon_id
             </sql>
         </sqlQuery>
 
-
         <sqlQuery name="SequenceGroup">
             <column name="full_id"/>
             <column name="group_name"/>
@@ -182,6 +181,34 @@ ORDER BY al.start_min ASC, al.end_max ASC
             </sql>
         </sqlQuery>
 
+        <!-- one-row tables for text search -->
+
+        <sqlQuery name="Product">
+            <column name="full_id"/>
+            <column name="product"/>
+            <sql>
+		<![CDATA[
+                  SELECT eas.secondary_identifier AS full_id,
+                         eas.description AS product
+                  FROM dots.ExternalAaSequence eas
+ 		]]>
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="Taxon">
+            <column name="full_id"/>
+            <column name="taxon"/>
+            <column name="abbreviation"/>
+            <sql>
+		<![CDATA[
+                  SELECT eas.secondary_identifier AS full_id,
+                         ot.three_letter_abbrev AS abbreviation
+                         ot.name AS taxon_name
+                  FROM dots.ExternalAaSequence eas, apidb.orthomcltaxon ot
+                  WHERE eas.taxon_id = ot.taxon_id
+ 		]]>
+            </sql>
+        </sqlQuery>
 
     </querySet>
 

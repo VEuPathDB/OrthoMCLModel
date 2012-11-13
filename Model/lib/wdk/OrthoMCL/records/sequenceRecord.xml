@@ -204,6 +204,22 @@
                 <columnAttribute name="start_min" displayName="End" />
                 <columnAttribute name="end_max" displayName="Start" />
             </table>
+
+            <!-- one-row tables for text search -->
+
+            <table name="Product" internal="true" inReportMaker="false"
+                   displayName="Product"
+                   queryRef="SequenceTables.Product">
+                <columnAttribute name="product" displayName="Product" />
+            </table>
+
+            <table name="Taxon" internal="true" inReportMaker="false"
+                   displayName="Taxon"
+                   queryRef="SequenceTables.Taxon">
+                <columnAttribute name="taxon" displayName="Taxon" />
+                <columnAttribute name="abbreviation" displayName="Abbreviation" />
+            </table>
+
         </recordClass>
 
     </recordClassSet>
