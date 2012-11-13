@@ -202,7 +202,7 @@ ORDER BY al.start_min ASC, al.end_max ASC
             <sql>
 		<![CDATA[
                   SELECT eas.secondary_identifier AS full_id,
-                         ot.three_letter_abbrev AS abbreviation
+                         ot.three_letter_abbrev AS abbreviation,
                          ot.name AS taxon_name
                   FROM dots.ExternalAaSequence eas, apidb.orthomcltaxon ot
                   WHERE eas.taxon_id = ot.taxon_id
