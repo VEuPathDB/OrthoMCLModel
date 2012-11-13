@@ -89,18 +89,21 @@
   <!-- External links -->
   <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 
+
+
   
-        <xmlRecordClass 
-            name="VerbiageRecord"
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <!-- WdkVerbiage -->
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+        <xmlRecordClass
+            name="WdkVerbiageRecord"
             type="Verbiage"
             idPrefix="Verb."
             delimiter="@">
             <xmlAttribute name="title"/>
             <xmlAttribute name="content"/>
-
-        </xmlRecordClass>
-
-
+         </xmlRecordClass>
 
     </xmlRecordClassSet>
 
