@@ -68,11 +68,7 @@
               <internal>PFam</internal>
             </enumValue>
             <enumValue default="true">
-              <term>Taxon</term>
-              <internal>TaxonCounts</internal>
-            </enumValue>
-            <enumValue default="true">
-              <term>Sequences</term>
+              <term>Sequence IDs descriptions and taxa</term>
               <internal>Sequences</internal>
             </enumValue>
           </enumList>
