@@ -252,16 +252,22 @@ SELECT og.name AS group_name FROM apidb.OrthologGroup og
             </sql>
         </sqlQuery>
 
-    <processQuery name="ByTextSearch" local="true"
-             processName="org.apidb.apicomplexa.wsfplugin.textsearch.OrthomclKeywordSearchPlugin">
+    <processQuery name="ByTextSearch" local="false"
+             processName="org.apidb.apicomplexa.wsfplugin.textsearch.OrthomclKeywordSearchPlugin"
+            isCacheable="false">
 
         <testParamValues>
             <paramValue name="text_expression">kinase</paramValue>
         </testParamValues>
 
+       <paramRef ref="sharedParams.wdk_record_type" default="group"/>
        <paramRef ref="sharedParams.text_expression"/>
        <paramRef ref="groupParams.text_fields"/>
-       <wsColumn name="group_name" width="100"/>
+       <paramRef ref="sharedParams.detail_table" default="apidb.GroupDetail"/>
+       <paramRef ref="sharedParams.primary_key_column" default="group_name"/>
+       <paramRef ref="sharedParams.project_id" default="OrthoMCL"/>
+       <wsColumn name="group_name" width="100" wsName="RecordID"/>
+       <wsColumn name="project_id" width="20" wsName="ProjectId"/>
        <wsColumn name="max_score" width="10" wsName="MaxScore" columnType="float"/>
        <wsColumn name="fields_matched" width="64" wsName="Datasets"/>
     </processQuery>

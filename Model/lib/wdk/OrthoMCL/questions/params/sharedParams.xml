@@ -52,6 +52,8 @@
             <suggest default="pfal"/>
         </flatVocabParam>
 
+        <!-- text search parameters -->
+
         <stringParam name="text_expression"
                      prompt="Text term (use * as wildcard)" number="false">
             <help>Enter text you would like to search for. Multiple words may be entered, for example: membrane receptor signal inner. Use an asterisk as a wildcard to match partial words.</help>
@@ -59,6 +61,21 @@
            <regex>.*[^*].*</regex>
         </stringParam>
 
+        <stringParam name="wdk_record_type"
+                     visible="false" number="false">
+        </stringParam>
+
+        <stringParam name="detail_table"
+                     visible="false" number="false">
+        </stringParam>
+
+        <stringParam name="primary_key_column"
+                     visible="false" number="false">
+        </stringParam>
+
+        <stringParam name="project_id"
+                     visible="false" number="false">
+        </stringParam>
 
     </paramSet>
 
