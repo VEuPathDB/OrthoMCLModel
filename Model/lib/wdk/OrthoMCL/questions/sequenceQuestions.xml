@@ -340,6 +340,16 @@
             </description>
         </question>
 
+        <question name="ByTextSearch" queryRef="SequenceIds.ByTextSearch"
+				  displayName="Text Search"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+			<![CDATA[
+                Find sequences based on text (taxon, product, PFam domains, etc.)
+			]]>
+            </description>
+        </question>
+
     </questionSet>
 
 </wdkModel>

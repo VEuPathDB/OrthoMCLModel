@@ -99,6 +99,32 @@
             <regex>\d+</regex>
         </stringParam>
 
+        <enumParam name="text_fields" 
+                         prompt="Fields"
+                         multiPick="true">
+          <help>
+                 Choose which text fields to search.
+          </help>
+          <enumList>
+            <enumValue default="true">
+              <term>Product</term>
+              <internal>Product</internal>
+            </enumValue>
+            <enumValue  default="true">
+              <term>PFam domain names and descriptions</term>
+              <internal>PFam</internal>
+            </enumValue>
+            <enumValue default="true">
+              <term>Taxon</term>
+              <internal>Taxon</internal>
+            </enumValue>
+            <enumValue default="true">
+              <term>Old OrthoMCL groups (from previous releases)</term>
+              <internal>OldGroups</internal>
+            </enumValue>
+          </enumList>
+        </enumParam>
+
     </paramSet>
     
 </wdkModel>
