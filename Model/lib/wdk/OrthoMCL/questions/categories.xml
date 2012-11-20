@@ -9,7 +9,8 @@
 	<searchCategory name="group-keyword" displayName="Text, IDs"
                         parentRef="GroupRecordClasses.GroupRecordClass">
             <questionRef>GroupQuestions.ByNameList</questionRef>
-            <questionRef>GroupQuestions.ByKeyword</questionRef>
+            <!-- questionRef>GroupQuestions.ByKeyword</questionRef -->
+            <questionRef>GroupQuestions.ByTextSearch</questionRef>
 	</searchCategory>
 				
 	<searchCategory name="group-evolution" displayName="Evolution"
@@ -43,7 +44,8 @@
                         parentRef="SequenceRecordClasses.SequenceRecordClass">
             <questionRef>SequenceQuestions.ByIdList</questionRef>
             <questionRef>SequenceQuestions.ByGroupIdList</questionRef>
-            <questionRef>SequenceQuestions.ByKeyword</questionRef>
+            <!-- questionRef>SequenceQuestions.ByKeyword</questionRef -->
+            <questionRef>SequenceQuestions.ByTextSearch</questionRef>
        </searchCategory>
 
 	<searchCategory name="sequence-pfam" displayName="Pfam Domains"

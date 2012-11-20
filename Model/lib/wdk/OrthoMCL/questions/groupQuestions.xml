@@ -60,7 +60,8 @@
         </question>
 
         <question name="ByTextSearch" queryRef="GroupIds.ByTextSearch"
-				  displayName="Text Search"
+                  displayName="Text (taxa, proteins, domains)"
+                  shortDisplayName="Text"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
 			<![CDATA[

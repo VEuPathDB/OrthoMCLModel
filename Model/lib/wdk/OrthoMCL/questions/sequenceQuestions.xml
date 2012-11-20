@@ -341,13 +341,23 @@
         </question>
 
         <question name="ByTextSearch" queryRef="SequenceIds.ByTextSearch"
-				  displayName="Text Search"
+                  displayName="Text (attributes, domains, previous-release groups)"
+                  shortDisplayName="Text"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
-			<![CDATA[
-                Find sequences based on text (taxon, product, PFam domains, etc.)
-			]]>
+                <![CDATA[
+                    Find sequences based on text (taxon, product, PFam domains, etc.)
+                  ]]>
             </description>
+            <dynamicAttributes>
+                <columnAttribute name="fields_matched"
+                           displayName="Found in"/>
+                <columnAttribute name="max_score"
+                           displayName="Score" align="center"/>
+            </dynamicAttributes>
+            <attributesList
+                 summary="full_id,max_score,fields_matched,group_name,taxon_name,abbreviation,length,product"
+                 sorting="max_score desc,full_id asc"/> 
         </question>
 
     </questionSet>
