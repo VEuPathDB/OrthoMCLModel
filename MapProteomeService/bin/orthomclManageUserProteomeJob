@@ -450,8 +450,7 @@ sub checkProteomeFileForFullMaskSeqs {
     
         my $l = length($_);
     
-        # check for run of X's over full length of line
-        if ( m/^X{$l}/i) {
+        if ( lineIsFullyMasked($_) ) {
            next if $seq_is_ok; # a previous line of sequence was not a full run of X's
            $invalid_seqs{$id}++;
         } else {
@@ -467,6 +466,15 @@ sub checkProteomeFileForFullMaskSeqs {
         $error .= join ("\n", keys %invalid_seqs) . "\n";
     }
     return $error;
+}
+
+# check for run of X's over full length of line
+sub lineIsFullyMasked {
+    my ($line) = @_;
+    while ($line =~ /(.)/g) {
+       return 0 if ($1 !~ m/X/i);
+    }
+    return 1;
 }
 
 # format proteome file with NCBI formatdb and return empty string if successful, error message otherwise
