@@ -33,7 +33,7 @@
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
 			<![CDATA[
-                Find protein sequences by OrthoMCL Sequence ID(s) (from the current or previous releases of OrthoMCL).
+                Find Sequences by OrthoMCL Sequence ID(s) (from the current or previous releases of OrthoMCL).
 			]]>
             </description>
         </question>
@@ -43,7 +43,7 @@
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
 			<![CDATA[
-                Find protein sequences by OrthoMCL Group ID(s) (from the current or previous releases of OrthoMCL).
+                Find Sequences by OrthoMCL Group ID(s) (from the current or previous releases of OrthoMCL).
 			]]>
             </description>
         </question>
@@ -55,19 +55,8 @@
                   noSummaryOnSingleRecord="true">
             <description>
                         <![CDATA[
-                Find protein sequences by the source id or the group name it belongs to.
+                Find Sequences by a Sequence ID or Group ID.
                         ]]>
-            </description>
-        </question>
-
-
-        <question name="ByKeyword" queryRef="SequenceIds.ByKeyword" 
-				  displayName="Keyword"
-                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
-            <description>
-			<![CDATA[
-                Find protein sequences by the keyword.
-			]]>
             </description>
         </question>
 
@@ -77,7 +66,7 @@
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
 			<![CDATA[
-                Find protein sequences that have a specified PFam domain.
+                Find Sequences that have a specified PFam domain.
 			]]>
             </description>
         </question>
@@ -89,7 +78,7 @@
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
 			<![CDATA[
-                Find protein sequences by the Taxonomy abbreviation or taxon name.
+                Find Sequences by the taxon abbreviation or taxon name.
 			]]>
             </description>
         </question>
@@ -106,12 +95,12 @@
          sorting="evalue asc"
          /> 
          <summary>
-           Find genes that have BLAST similarity to your input sequence.
+           Find Sequences that have BLAST similarity to your input sequence.
          </summary>
 
          <description>
            <![CDATA[
-             Find genes that have BLAST similarity to your input query sequence.
+             Find Sequences that have BLAST similarity to your input query sequence.
              <p>The search uses <a href="http://blast.wustl.edu/" target="_blank">WU BLAST</a>.
           ]]>
          </description>
@@ -154,12 +143,12 @@
 
         <summary>
              <![CDATA[
-              Find genes whose protein product contains a motif pattern that you specify, e.g.: two cysteines followed by one or more hydrophobic amino acids, followed by arginine, then lysine.
+              Find Sequences that contain a motif pattern that you specify, e.g.: two cysteines followed by one or more hydrophobic amino acids, followed by arginine, then lysine.
               ]]>
          </summary>
          <description>
            <![CDATA[
-             Find genes whose protein product contains a motif pattern that
+             Find Sequences that contain a motif pattern that
              you specify., e.g. "CC6+RK", which means "two cysteines followed
              by one or more hydrophobic amino acids, followed by arginine,
              then lysine". The pattern need not be well conserved. If 
@@ -324,7 +313,7 @@
                   displayName="Transform to Sequences" shortDisplayName="To Sequences"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
-                        <![CDATA[ Transform group results into sequences. ]]>
+                        <![CDATA[ Transform a Groups result into Sequences. ]]>
             </description>
             <attributesList summary="group_name, taxon_name, abbreviation, length, product"
                            sorting="group_name ASC"/>
@@ -335,18 +324,18 @@
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
                         <![CDATA[
-                Find all protein sequences in the current release of OrthoMCL.
+                Find all Sequences in the current release of OrthoMCL.
                         ]]>
             </description>
         </question>
 
         <question name="ByTextSearch" queryRef="SequenceIds.ByTextSearch"
-                  displayName="Text (attributes, domains, previous-release groups)"
+                  displayName="Text Terms"
                   shortDisplayName="Text"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
                 <![CDATA[
-                    Find sequences based on text (taxon, product, PFam domains, etc.)
+                    Find Sequences based on Text Terms
                   ]]>
             </description>
             <dynamicAttributes>

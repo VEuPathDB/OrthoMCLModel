@@ -21,10 +21,10 @@
 
 
     <questionSet name="GroupQuestions"
-                 displayName="Searches to find Orthologous Groups">
+                 displayName="Searches to find Ortholog Groups">
         <description>
 		<![CDATA[
-          Search for Orthologous groups.
+          Search for Ortholog Groups.
         ]]>
 		</description>
 
@@ -33,7 +33,7 @@
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
 			<![CDATA[
-                Find Orthologous groups by the id assigned by current or previous releases of OrthoMCL.
+                Find Ortholog Groups by ID(s) assigned in the current or previous releases of OrthoMCL.
 			]]>
             </description>
         </question>
@@ -44,28 +44,18 @@
                   noSummaryOnSingleRecord="true">
             <description>
                         <![CDATA[
-                Find Orthologous groups by the id assigned by current or previous releases of OrthoMCL.
+                Find Ortholog Groups by an ID assigned in the current or previous releases of OrthoMCL.
                         ]]>
             </description>
         </question>
 
-        <question name="ByKeyword" queryRef="GroupIds.ByKeyword" 
-				  displayName="Keyword"
-                  recordClassRef="GroupRecordClasses.GroupRecordClass">
-            <description>
-			<![CDATA[
-                Find Orthologous groups by the keyword.
-			]]>
-            </description>
-        </question>
-
         <question name="ByTextSearch" queryRef="GroupIds.ByTextSearch"
-                  displayName="Text (taxa, proteins, domains)"
+                  displayName="Text Terms"
                   shortDisplayName="Text"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
 			<![CDATA[
-                Find ortholog groups based on text (taxon, product, PFam domains, etc.)
+                Find Ortholog Groups based on text terms
 			]]>
             </description>
         </question>
@@ -76,62 +66,62 @@
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
                         <![CDATA[
-                Find Orthologous groups that contain one or more seququences with the specified PFam domain.
+                Find Ortholog Groups that contain one or more Sequences with the specified PFam domain.
                         ]]>
             </description>
         </question>
 
 
         <question name="BySequenceCount" queryRef="GroupIds.BySequenceCount" 
-                                  displayName="#Sequences"
+                                  displayName="Number of Sequences"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
                         <![CDATA[
-                Find Orthologous groups by the number of sequences a group has
+                Find Ortholog Groups that contain a specified number of Sequences.
                         ]]>
             </description>
         </question>
 
 
         <question name="ByGenomeCount" queryRef="GroupIds.ByGenomeCount" 
-                                  displayName="#Genomes"
+                                  displayName="Number of Taxa"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
                         <![CDATA[
-                Find Orthologous groups by the number of genomes a group has
+                Find Ortholog Groups that contain a specified number of taxa.
                         ]]>
             </description>
         </question>
 
 
         <question name="ByPercentMatchPairs" queryRef="GroupIds.ByPercentMatchPairs" 
-                                  displayName="%Match Pairs"
+                                  displayName="Percent Significant Pairs"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
                         <![CDATA[
-                Find Orthologous groups by the percentage match pairs.
+                Find Ortholog Groups by the percentage of their Sequence pairs that have significant similarity.
                         ]]>
             </description>
         </question>
 
 
         <question name="ByPercentIdentity" queryRef="GroupIds.ByPercentIdentity" 
-                                  displayName="AVG %Identity"
+                                  displayName="Avg % Identity"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
                         <![CDATA[
-                Find Orthologous groups by the average percentage identities.
+                Find Ortholog Groups by the average percent identity of all their Sequence pairs that have significant similarity of all Sequence pairs that have significant similarity.
                         ]]>
             </description>
         </question>
 
 
         <question name="ByPercentMatch" queryRef="GroupIds.ByPercentMatch" 
-                                  displayName="AVG %Match"
+                                  displayName="Avg % Match"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
                         <![CDATA[
-                Find Orthologous groups by the average percentage matches.
+                Find Ortholog Groups by the average percent match of all their Sequence pairs that have significant similarity.
                         ]]>
             </description>
         </question>
@@ -142,7 +132,7 @@
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
 			<![CDATA[
-<p>Find Orthologous groups by the Phyletic pattern.</p>
+<p>Find Ortholog Groups by phyletic pattern.</p>
 
 <p>Phyletic Pattern Expression is a flexible way to do queries of ortholog groups. By using this tool, you can specify the presence or absence of genome (i.e. whether this genome has certain gene or not), and the number of copies (i.e. how many duplicates certain gene has in a specific genome).</p>
 
@@ -176,7 +166,7 @@
                   displayName="Transform to Groups" shortDisplayName="To Groups"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
-                        <![CDATA[ Transform sequence results into groups. ]]>
+                        <![CDATA[ Transform Sequence results into Groups. ]]>
             </description>
         </question>
 
@@ -186,7 +176,7 @@
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
                         <![CDATA[
-                Find all Orthologous groups in the current release of OrthoMCL.
+                Find all Ortholog Groups in the current release of OrthoMCL.
                         ]]>
             </description>
         </question>
