@@ -253,7 +253,7 @@ SELECT og.name AS group_name FROM apidb.OrthologGroup og
         </sqlQuery>
 
     <processQuery name="ByTextSearch" local="false"
-             processName="org.apidb.apicomplexa.wsfplugin.textsearch.OrthomclKeywordSearchPlugin"
+             processName="org.orthomcl.wsfplugin.KeywordSearchPlugin"
             isCacheable="false">
 
         <testParamValues>
