@@ -74,7 +74,7 @@
             <summaryView name="phyletic" display="Phyletic pattern"
                          jsp="/wdkCustomization/jsp/results/phyletic.jsp"/>
 
-            <recordView name="_default" display="Statistics &amp; Proteins"
+            <recordView name="_default" display="Sequences &amp; Statistics"
                          jsp="/wdkCustomization/jsp/records/group-default.jsp"/>
 
             <recordView name="pfam-domain-graph" display="PFam domain (graphic)"
