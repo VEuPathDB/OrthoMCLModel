@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wdkModel>
-    <modelName displayName="OrthoMCL" buildNumber="5"  version="5.0" releaseDate="31 October 2012 10:32" />
+
+    <constant name="releaseDate" includeProjects="OrthoMCL">1 January 1970 00:00</constant>
+    <constant name="releaseVersion" includeProjects="OrthoMCL">5</constant>
+    <constant name="buildNumber" includeProjects="OrthoMCL">5</constant>
+
+    <modelName includeProjects="OrthoMCL" displayName="OrthoMCL" 
+      version="%%releaseVersion%%" releaseDate="%%releaseDate%%" buildNumber="%%buildNumber%%" />
 
     <!-- ******************* -->
     <!-- model introduction  -->
