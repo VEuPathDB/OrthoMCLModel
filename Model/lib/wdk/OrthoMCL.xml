@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wdkModel>
-    <modelName displayName="OrthoMCL" buildNumber="5"  releaseVersion="5.0" releaseDate="31 October 2012 10:32" />
+    <modelName displayName="OrthoMCL" buildNumber="5"  version="5.0" releaseDate="31 October 2012 10:32" />
 
     <!-- ******************* -->
     <!-- model introduction  -->
