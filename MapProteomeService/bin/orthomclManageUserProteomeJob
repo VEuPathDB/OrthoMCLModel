@@ -147,7 +147,8 @@ sub preventConcurrentRun {
         my $runningJob = `cat $lockfile`;
         my $msg = "Lock file found for $runningJob, not starting another process.\n" .
             "If this is in error, remove $lockfile and try again.\n";
-        die $msg;
+        $mgr->log($msg);
+        exit 1; # not using "die" to avoid stackstrace from confess in ProteomeJobMgr
     }
 
     # not currently running, write lockfile with PID information
