@@ -119,25 +119,25 @@
                 <columnAttribute name="number_of_members" displayName="#Sequences">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
-                            implementation="org.gusdb.wdk.model.attribute.plugin.HistogramAttributePlugin"
+                            implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
                 <columnAttribute name="number_of_match_pairs" displayName="#Edges">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
-                            implementation="org.gusdb.wdk.model.attribute.plugin.HistogramAttributePlugin"
+                            implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
                 <columnAttribute name="avg_percent_identity" displayName="Average % Identity">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
-                            implementation="org.gusdb.wdk.model.attribute.plugin.HistogramAttributePlugin"
+                            implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
                 <columnAttribute name="avg_percent_match" displayName="Average % Match">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
-                            implementation="org.gusdb.wdk.model.attribute.plugin.HistogramAttributePlugin"
+                            implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
                 <columnAttribute name="avg_evalue_mant" displayName="Average E-value Mant" internal="true" />
@@ -145,7 +145,7 @@
                 <columnAttribute name="avg_connectivity" displayName="Average Connectivity">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
-                            implementation="org.gusdb.wdk.model.attribute.plugin.HistogramAttributePlugin"
+                            implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
             </attributeQueryRef>
