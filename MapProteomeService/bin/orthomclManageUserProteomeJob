@@ -306,7 +306,7 @@ sub deliverResults {
       "$controlDir/phase2/doneJobsDebug/$phase2DoneJob");
 
       # remove from archive unless debugging
-      rmtree("$controlDir/phase2/doneJobsDebug/$phase2DoneJob") unless $DEBUG;
+      rmtree("$controlDir/phase2/doneJobsDebug/$phase2DoneJob") unless DEBUG;
     }
 }
 
