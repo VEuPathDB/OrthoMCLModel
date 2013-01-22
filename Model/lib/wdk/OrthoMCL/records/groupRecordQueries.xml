@@ -197,8 +197,6 @@ ORDER BY db.primary_identifier
             </sql>
         </sqlQuery>
 
-
-
         <sqlQuery name="ProteinPFams">
             <column name="group_name"/>
             <column name="primary_identifier"/>
@@ -228,6 +226,34 @@ WHERE og.ortholog_group_id = ogs.ortholog_group_id
   AND ogs.aa_sequence_id = eas.aa_sequence_id
 ORDER BY eas.secondary_identifier ASC, da.start_min ASC
                         ]]>
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="EcNumber">
+            <column name="group_name"/>
+            <column name="ec_number"/>
+            <column name="description"/>
+            <column name="expasy_url"/>
+            <column name="sequence_count"/>
+            <sql>
+                <![CDATA[
+                    select og.name as group_name, ec_map.ec_number, ec_map.description,
+                           ec_map.expasy_url, count(*) as sequence_count
+                    from apidb.OrthologGroupAaSequence ogs, apidb.OrthologGroup og,
+                         (select distinct eas.aa_sequence_id, ec.ec_number, ec.description,
+                                 'http://enzyme.expasy.org/cgi-bin/enzyme/enzyme-search-ec?field1=' || ec.ec_number_1
+                                 || chr(38) || 'field2=' || ec.ec_number_2
+                                 || chr(38) || 'field3=' || ec.ec_number_3
+                                 || chr(38) || 'field4=' || ec.ec_number_4 as expasy_url
+                          from dots.ExternalAaSequence eas,
+                               dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
+                          where eas.aa_sequence_id = asec.aa_sequence_id
+                            and asec.enzyme_class_id = ec.enzyme_class_id) ec_map
+                    where ec_map.aa_sequence_id = ogs.aa_sequence_id
+                            and ogs.ortholog_group_id = og.ortholog_group_id
+                    group by og.name, ec_map.ec_number, ec_map.description, ec_map.expasy_url
+                    order by og.name, sequence_count desc
+                ]]>
             </sql>
         </sqlQuery>
 
