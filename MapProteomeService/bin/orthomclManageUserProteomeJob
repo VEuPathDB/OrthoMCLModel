@@ -315,7 +315,7 @@ sub deliverResult {
 
     my $groupsFile = $mgr->getConfig('groupsFile');
     my $mclBin = $mgr->getConfig('mclBin');
-    my $resultDir = $mgr->getConfig('resultDir');
+    my $resultDir = $mgr->getConfig('resultsDir');
 
     # map to groups
     $mgr->log("  mapping to groups");
