@@ -221,9 +221,28 @@
                 <columnAttribute name="end_max" displayName="Start" />
             </table>
 
+          <table name="EcNumber"
+                   displayName="EC Number"
+                   queryRef="GroupTables.EcNumber">
+              <columnAttribute name="ec_number" internal="true" inReportMaker="true"/>
+              <linkAttribute name="ec_number_link" inReportMaker="false"
+                             displayName="EC Number">
+                   <displayText>
+                      <![CDATA[
+                      $$ec_number$$
+                      ]]>
+                   </displayText>
+                   <url>
+                      <![CDATA[http://enzyme.expasy.org/EC/$$ec_number$$]]>
+                   </url>
+              </linkAttribute>
+              <columnAttribute displayName="EC Description"
+                               name="description"/>
+              <columnAttribute name="sequence_count" displayName="Sequences"/>
+            </table>
+
         </recordClass>
 
     </recordClassSet>
-
 
 </wdkModel>
