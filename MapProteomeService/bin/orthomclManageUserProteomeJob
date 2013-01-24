@@ -854,7 +854,7 @@ adminEmail=           (email of admin for err msgs)
 uploadIsOffline=      (0/1 indicates if service has been taken offline)
 purgeWindow=          (number of days we promise user results will be available for)
 formatdbBinDir=       (location of NCBI's formatdb command on webserver)
-resultDir=            (directory in which to put final result, zipped and named after job id)
+resultsDir=            (directory in which to put final result, zipped and named after job id)
 
 serverControlDir=     (local dir to control this job)
 blastDbFilePath=      (blast database file)
