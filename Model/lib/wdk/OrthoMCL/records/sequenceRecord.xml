@@ -188,6 +188,24 @@
                 <columnAttribute name="end_max" displayName="Start" />
             </table>
                      
+            <table name="EcNumbers"
+                   displayName="Enzyme Commission Assignments"
+                   queryRef="SequenceTables.EcNumbers">
+              <columnAttribute name="ec_number" internal="true" inReportMaker="true"/>
+              <linkAttribute name="ec_number_link" inReportMaker="false"
+                             displayName="EC Number">
+                   <displayText>
+                      <![CDATA[
+                      $$ec_number$$
+                      ]]>
+                   </displayText>
+                   <url>
+                      <![CDATA[http://enzyme.expasy.org/EC/$$ec_number$$]]>
+                   </url>
+              </linkAttribute>
+              <columnAttribute name="description" displayName="Description" />
+            </table>
+                     
             <table name="PFams" internal="true" inReportMaker="false"
                    displayName="Pfam Domain Architecture"
                    queryRef="SequenceTables.PFams">
