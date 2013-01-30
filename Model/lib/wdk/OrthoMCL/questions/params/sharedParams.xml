@@ -10,21 +10,19 @@
             <suggest default="kinase" />
         </stringParam>
 
-        <stringParam name="pfam_name" prompt="Pfam Domain" number="false">
-            <help>The  accession of the Pfam Domain. Wild card is supported.</help>
-            <suggest default="PF00018" />
-        </stringParam>
-
-        <stringParam name="pfam_keyword" prompt="Pfam Keyword" number="false">
-            <help>The name or description of the Pfam Domain. Wild card is supported.</help>
-            <suggest default="SH3_1" />
-        </stringParam>
-
          <flatVocabParam name="pfam_id_type_ahead"
                      queryRef="SharedVQ.PfamTypeAhead"
-                     prompt="Pfam ID or Keyword"
+                     prompt="Pfam ID or Name"
                      displayType="typeAhead">
             <help>Start typing and then choose a domain from the list. As you type the list narrows to the entries that match what you have typed.</help>
+        </flatVocabParam>
+
+
+         <flatVocabParam name="ec_number_type_ahead"
+                     queryRef="SharedVQ.EcNumberTypeAhead"
+                     prompt="EC Number or Name"
+                     displayType="typeAhead">
+            <help>Start typing and then choose an entry from the list. As you type the list narrows to the entries that match what you have typed.</help>
         </flatVocabParam>
 
 
@@ -116,6 +114,20 @@ FROM apidb.OrthomclTaxon t
             </sql>
         </sqlQuery>
 
+        <sqlQuery name="EcNumberTypeAhead">
+            <column name="internal" />
+            <column name="term" />
+            <column name="display"/>
+            <sql>
+               SELECT ec2.ec_number AS internal,
+                      ec2.ec_number AS term,
+                      ec2.ec_number || ' (' || ec2.description || ')' AS display
+               FROM 
+                 (select distinct ec.ec_number, ec.description
+                  from dots.aaSequenceEnzymeClass asec, sres.enzymeClass ec
+                  where asec.enzyme_class_id = ec.enzyme_class_id) ec2
+             </sql>
+        </sqlQuery>
     </querySet>
     
 </wdkModel>

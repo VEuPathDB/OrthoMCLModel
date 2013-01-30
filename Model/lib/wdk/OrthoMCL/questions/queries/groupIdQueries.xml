@@ -226,6 +226,22 @@ WHERE og.ortholog_group_id = ex.ortholog_group_id
         </sqlQuery>
 
 
+        <sqlQuery name="ByEcNumber" isCacheable="true">
+            <paramRef ref="sharedParams.ec_number_type_ahead"/>
+            <column name="group_name"/>
+            <sql>
+                <![CDATA[
+                    select og.name as group_name 
+                    from apidb.OrthologGroupAaSequence ogs, apidb.OrthologGroup og, dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
+                    where ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_number_type_ahead$$),' ',''),'-', '%'),'*','%'),'any','%')
+                    and asec.enzyme_class_id = ec.enzyme_class_id
+                    and ogs.aa_sequence_id = asec.aa_sequence_id
+                    and og.ortholog_group_id = ogs.ortholog_group_id
+                    
+                 ]]>
+            </sql>
+        </sqlQuery>
+
         <sqlQuery name="FromSequences">
             <paramRef ref="sharedParams.sequence_answer"/>
             <column name="group_name"/>

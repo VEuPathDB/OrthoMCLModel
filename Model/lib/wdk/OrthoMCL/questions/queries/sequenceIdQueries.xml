@@ -189,6 +189,21 @@ WHERE eas.taxon_id = ot.taxon_id
             </sql>
         </sqlQuery>
 
+        <sqlQuery name="ByEcNumber" isCacheable="true">
+            <paramRef ref="sharedParams.ec_number_type_ahead"/>
+            <column name="full_id"/>
+            <sql>
+                <![CDATA[
+                     SELECT eas.secondary_identifier as full_id
+                    FROM dots.ExternalAaSequence eas,
+                         dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
+                    WHERE eas.aa_sequence_id = asec.aa_sequence_id
+                      AND asec.enzyme_class_id = ec.enzyme_class_id
+              AND ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_number_type_ahead$$),' ',''),'-', '%'),'*','%'),'any','%')
+                 ]]>
+            </sql>
+        </sqlQuery>
+
 
 
     <processQuery name="ByBlast" local="true"

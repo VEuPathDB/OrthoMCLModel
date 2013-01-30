@@ -315,8 +315,14 @@
             <description>
                         <![CDATA[ Transform a Groups result into Sequences. ]]>
             </description>
-            <attributesList summary="group_name, taxon_name, abbreviation, length, product"
-                           sorting="group_name ASC"/>
+        </question>
+
+        <question name="ByEcNumber" queryRef="SequenceIds.ByEcNumber" 
+                  displayName="Enzyme Commission Assignment" shortDisplayName="EC Assign"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+                        <![CDATA[ Find sequences that are assigned to a specified Enzyme Commission Number]]>
+            </description>
         </question>
 
         <question name="AllSequences" queryRef="SequenceIds.AllSequences" 

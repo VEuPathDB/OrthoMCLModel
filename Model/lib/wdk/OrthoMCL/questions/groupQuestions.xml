@@ -72,6 +72,14 @@
         </question>
 
 
+        <question name="ByEcNumber" queryRef="GroupIds.ByEcNumber" 
+                  displayName="Enzyme Commission Assignment" shortDisplayName="EC Assign"
+                  recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <description>
+                        <![CDATA[ Find groups that have one or more Sequences with the specified Enzyme Commission Number]]>
+            </description>
+        </question>
+
         <question name="BySequenceCount" queryRef="GroupIds.BySequenceCount" 
                                   displayName="Number of Sequences"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">

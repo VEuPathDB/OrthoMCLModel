@@ -18,9 +18,10 @@
      	    <questionRef>GroupQuestions.ByPhyleticPattern</questionRef>
         </searchCategory>
 
-	<searchCategory name="group-pfam" displayName="Pfam Domains"
+	<searchCategory name="group-function" displayName="Function"
                         parentRef="GroupRecordClasses.GroupRecordClass">
      	    <questionRef>GroupQuestions.ByPFamIdOrKeyword</questionRef>
+     	    <questionRef>GroupQuestions.ByEcNumber</questionRef>
         </searchCategory>
 		
 		
@@ -48,9 +49,10 @@
             <questionRef>SequenceQuestions.ByTextSearch</questionRef>
        </searchCategory>
 
-	<searchCategory name="sequence-pfam" displayName="Pfam Domains"
+	<searchCategory name="sequence-function" displayName="Function"
                         parentRef="SequenceRecordClasses.SequenceRecordClass">
      	    <questionRef>SequenceQuestions.ByPFamIdOrKeyword</questionRef>
+     	    <questionRef>SequenceQuestions.ByEcNumber</questionRef>
         </searchCategory>
 		
 	<searchCategory name="sequence-similarity" displayName="Similarity/Pattern"
