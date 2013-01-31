@@ -74,7 +74,7 @@
       <!-- =============================================================== -->
             
          <attributesList
-           summary="group_link, group_size, taxon_name, abbreviation, length, product"
+           summary="group_link, group_size, taxon_name, abbreviation, length, product, ec_numbers"
            sorting="primary_key asc"/>
 
 
@@ -122,6 +122,7 @@
                             implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
+                <columnAttribute name="ec_numbers" displayName="EC Numbers">
                 <columnAttribute name="abbreviation" displayName="Taxon Code">
                     <plugin name="wordCloud" display="Word Cloud"
                             description="Display the terms in the attribute as word clouds"

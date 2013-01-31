@@ -41,13 +41,20 @@
             <column name="molecular_weight"/>
             <column name="abbreviation"/>
             <column name="taxon_name"/>          
+            <column name="ec_numbers"/>          
             <sql>
 		<![CDATA[
 SELECT eas.secondary_identifier AS full_id, eas.source_id,
        eas.length, eas.description AS product,
        eas.molecular_weight,
        ot.three_letter_abbrev AS abbreviation, 
-       ot.name AS taxon_name
+       ot.name AS taxon_name,
+       (SELECT  apidb.tab_to_string(set(cast(collect(ec.ec_number) as apidb.varchartab)), ', ')
+                    FROM dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
+                   WHERE eas.aa_sequence_id = asec.aa_sequence_id
+                     AND asec.enzyme_class_id = ec.enzyme_class_id
+               GROUP by eas.secondary_identifier
+              ) as ec_numbers
 FROM dots.ExternalAaSequence eas, apidb.orthomcltaxon ot
 WHERE eas.taxon_id = ot.taxon_id
  		]]>
