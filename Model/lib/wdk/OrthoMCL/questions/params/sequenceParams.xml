@@ -17,6 +17,13 @@
             <suggest default="PF11_0344" />
         </stringParam>
        
+         <flatVocabParam name="taxon_type_ahead"
+                     queryRef="SequenceVQ.TaxonTypeAhead"
+                     prompt="Taxon"
+                     displayType="typeAhead">
+            <help>Start typing and then choose an entry from the list. As you type the list narrows to the entries that match what you have typed.  Use "*" as a wildcard.</help>
+        </flatVocabParam>
+   
         <stringParam name="motif_expression" prompt="Pattern" number="false">
             <noTranslation value="true"  />
             <help>
@@ -126,5 +133,21 @@
         </enumParam>
 
     </paramSet>
-    
+
+  <querySet name="SequenceVQ" queryType="vocab">
+
+         <sqlQuery name="TaxonTypeAhead">
+            <column name="internal" />
+            <column name="term" />
+            <column name="display"/>
+            <sql>
+               SELECT ot.three_letter_abbrev AS internal,
+                      ot.three_letter_abbrev AS term,
+                      ot.three_letter_abbrev || ' (' || ot.name || ')' AS display
+               FROM apidb.orthomcltaxon ot
+               where is_species = 1
+             </sql>
+        </sqlQuery>
+    </querySet>
+   
 </wdkModel>

@@ -25,12 +25,6 @@
             <help>Start typing and then choose an entry from the list. As you type the list narrows to the entries that match what you have typed.</help>
         </flatVocabParam>
 
-
-        <stringParam name="taxon" prompt="Taxonomy" number="false">
-            <help>The abbreviation or the name of a taxonomy. Wild card is supported.</help>
-            <suggest default="pfal" />
-        </stringParam>
-
         <answerParam name="group_answer" readonly="true">
             <recordClass ref="GroupRecordClasses.GroupRecordClass" />
         </answerParam>
@@ -127,7 +121,7 @@ FROM apidb.OrthomclTaxon t
                   from dots.aaSequenceEnzymeClass asec, sres.enzymeClass ec
                   where asec.enzyme_class_id = ec.enzyme_class_id) ec2
              </sql>
-        </sqlQuery>
+         </sqlQuery>   
+ 
     </querySet>
-    
 </wdkModel>

@@ -94,9 +94,8 @@
       <!--  Default summary attributes and sorting attributes -->  
       <!-- =============================================================== -->
             
-         <!-- the last four of these are temporary PlanA attributes -->
          <attributesList
-           summary="number_of_members"
+           summary="number_of_members, ec_numbers"
            sorting="number_of_members desc"/>
 
       <!-- =============================================================== -->
@@ -164,6 +163,10 @@
 
             <attributeQueryRef ref="GroupAttributes.MaxSequenceLength">
                 <columnAttribute name="max_length" displayName="Longest Sequence" internal="true" inReportMaker="false" />
+            </attributeQueryRef>
+
+            <attributeQueryRef ref="GroupAttributes.EcNumbers">
+                <columnAttribute name="ec_numbers" displayName="EC Numbers" internal="false" inReportMaker="true" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.SVG">

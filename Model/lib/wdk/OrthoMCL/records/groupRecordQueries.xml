@@ -97,6 +97,25 @@ GROUP BY og.name
             </sql>
         </sqlQuery>
 
+	<sqlQuery name="EcNumbers">
+	  <column name="group_name" />
+	  <column name="ec_numbers" />
+	  <sql>
+            SELECT og.name as group_name, 
+              (SELECT  apidb.tab_to_string(set(cast(collect(ec_map.ec_number || ' (' || count(ec_map.ec_number) || ')') as apidb.varchartab)), ', ')
+               FROM apidb.OrthologGroupAaSequence ogs, 
+                  (SELECT distinct eas.aa_sequence_id, ec.ec_number
+                   FROM dots.ExternalAaSequence eas, dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
+                   WHERE eas.aa_sequence_id = asec.aa_sequence_id
+                     AND asec.enzyme_class_id = ec.enzyme_class_id) ec_map
+               WHERE ec_map.aa_sequence_id = ogs.aa_sequence_id
+               AND ogs.ortholog_group_id = og.ortholog_group_id
+               GROUP by og.name, ec_map.ec_number
+              ) as ec_numbers 
+            FROM apidb.OrthologGroup og
+	  </sql>
+	</sqlQuery>
+
     </querySet>
 
 
@@ -233,25 +252,19 @@ ORDER BY eas.secondary_identifier ASC, da.start_min ASC
             <column name="group_name"/>
             <column name="ec_number"/>
             <column name="description"/>
-            <column name="expasy_url"/>
             <column name="sequence_count"/>
             <sql>
                 <![CDATA[
-                    select og.name as group_name, ec_map.ec_number, ec_map.description,
-                           ec_map.expasy_url, count(*) as sequence_count
+                    select og.name as group_name, ec_map.ec_number, ec_map.description, count(*) as sequence_count
                     from apidb.OrthologGroupAaSequence ogs, apidb.OrthologGroup og,
-                         (select distinct eas.aa_sequence_id, ec.ec_number, ec.description,
-                                 'http://enzyme.expasy.org/cgi-bin/enzyme/enzyme-search-ec?field1=' || ec.ec_number_1
-                                 || chr(38) || 'field2=' || ec.ec_number_2
-                                 || chr(38) || 'field3=' || ec.ec_number_3
-                                 || chr(38) || 'field4=' || ec.ec_number_4 as expasy_url
+                         (select distinct eas.aa_sequence_id, ec.ec_number, ec.description
                           from dots.ExternalAaSequence eas,
                                dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
                           where eas.aa_sequence_id = asec.aa_sequence_id
                             and asec.enzyme_class_id = ec.enzyme_class_id) ec_map
                     where ec_map.aa_sequence_id = ogs.aa_sequence_id
-                            and ogs.ortholog_group_id = og.ortholog_group_id
-                    group by og.name, ec_map.ec_number, ec_map.description, ec_map.expasy_url
+                      and ogs.ortholog_group_id = og.ortholog_group_id
+                    group by og.name, ec_map.ec_number, ec_map.description
                     order by og.name, sequence_count desc
                 ]]>
             </sql>
