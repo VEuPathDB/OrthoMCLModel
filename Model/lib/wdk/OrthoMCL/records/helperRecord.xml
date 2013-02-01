@@ -42,7 +42,7 @@
     <recordClassSet name="HelperRecordClasses">
     
         <recordClass name="HelperRecordClass"
-                     type="Helper">
+                     displayName="Helper">
             
             <testParamValues>
                <paramValue name="helper_id">helper</paramValue>

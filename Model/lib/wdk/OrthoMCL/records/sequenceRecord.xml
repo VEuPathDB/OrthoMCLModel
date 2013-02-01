@@ -40,7 +40,7 @@
     <recordClassSet name="SequenceRecordClasses">
     
         <recordClass name="SequenceRecordClass"
-                     type="Sequence">
+                     displayName="Sequence">
             
             <testParamValues>
                <paramValue name="full_id">aaeg|AAEL000450-PA</paramValue>

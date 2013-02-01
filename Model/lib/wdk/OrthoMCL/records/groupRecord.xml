@@ -42,7 +42,7 @@
     <recordClassSet name="GroupRecordClasses">
     
         <recordClass name="GroupRecordClass"
-                     type="Group">
+               displayName="Group">
             
             <testParamValues>
                <paramValue name="group_name">9644248</paramValue>
