@@ -159,6 +159,7 @@ GROUP BY og.name, ot.orthomcl_taxon_id, ot.three_letter_abbrev
             <column name="length"/>
             <column name="previous_groups"/>
             <column name="description"/>
+            <column name="ec_numbers"/>
             <sql>
                         <![CDATA[
 SELECT og.name AS group_name,
@@ -175,7 +176,13 @@ SELECT og.name AS group_name,
           and dbr.external_database_id = db.external_database_id
           and ref.external_database_release_id = dbr.external_database_release_id
           and seqref.db_ref_id = ref.db_ref_id
-          and seqref.aa_sequence_id = eas.aa_sequence_id) AS previous_groups
+          and seqref.aa_sequence_id = eas.aa_sequence_id) AS previous_groups,
+       (SELECT  apidb.tab_to_string(set(cast(collect(ec.ec_number) as apidb.varchartab)), ', ')
+                    FROM dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
+                   WHERE eas.aa_sequence_id = asec.aa_sequence_id
+                     AND asec.enzyme_class_id = ec.enzyme_class_id
+               GROUP by eas.secondary_identifier
+              ) as ec_numbers
 FROM apidb.OrthologGroup og,
      apidb.OrthologGroupAaSequence ogs,
      dots.ExternalAaSequence eas,
