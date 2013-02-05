@@ -30,6 +30,7 @@
 
         <question name="ByIdList" queryRef="SequenceIds.ByIdList" 
 				  displayName="Sequence ID(s)"
+				  shortDisplayName="Seq ID(s)"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
 			<![CDATA[
@@ -63,6 +64,7 @@
 
         <question name="ByPFamIdOrKeyword" queryRef="SequenceIds.ByPfamIdOrKeyword" 
 				  displayName="PFam ID or Keyword"
+				  shortDisplayName="PFam"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
 			<![CDATA[
@@ -132,7 +134,7 @@
 
     <question name="ByMotif"
          displayName="Protein Motif Pattern"
-         shortDisplayName="Prot Motif"
+         shortDisplayName="Motif"
          searchCategory="Similarity/Pattern"
          queryRef="SequenceIds.ByMotif"
          recordClassRef="SequenceRecordClasses.SequenceRecordClass">
@@ -318,7 +320,7 @@
         </question>
 
         <question name="ByEcNumber" queryRef="SequenceIds.ByEcNumber" 
-                  displayName="Enzyme Commission Assignment" shortDisplayName="EC Assign"
+                  displayName="Enzyme Commission Assignment" shortDisplayName="Enzymes"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
                         <![CDATA[ Find sequences that are assigned to a specified Enzyme Commission Number]]>
@@ -327,6 +329,7 @@
 
         <question name="AllSequences" queryRef="SequenceIds.AllSequences" 
                                   displayName="All Sequences"
+                                  shortDisplayName="All"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
                         <![CDATA[

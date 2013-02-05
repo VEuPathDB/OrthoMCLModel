@@ -39,7 +39,7 @@
         </question>
 
         <question name="ByAccession" queryRef="GroupIds.ByAccession" 
-                  displayName="Group or Sequence id"
+                  displayName="Group or Sequence ID"
                   recordClassRef="GroupRecordClasses.GroupRecordClass"
                   noSummaryOnSingleRecord="true">
             <description>
@@ -63,6 +63,7 @@
 
         <question name="ByPFamIdOrKeyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
                                   displayName="PFam ID or Keyword"
+                                  shortDisplayName="PFam"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
                         <![CDATA[
@@ -73,7 +74,7 @@
 
 
         <question name="ByEcNumber" queryRef="GroupIds.ByEcNumber" 
-                  displayName="Enzyme Commission Assignment" shortDisplayName="EC Assign"
+                  displayName="Enzyme Commission Assignment" shortDisplayName="Enzymes"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
                         <![CDATA[ Find groups that have one or more Sequences with the specified Enzyme Commission Number]]>
@@ -82,6 +83,7 @@
 
         <question name="BySequenceCount" queryRef="GroupIds.BySequenceCount" 
                                   displayName="Number of Sequences"
+                                  shortDisplayName="Number Seqs"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
                         <![CDATA[
@@ -104,6 +106,7 @@
 
         <question name="ByPercentMatchPairs" queryRef="GroupIds.ByPercentMatchPairs" 
                                   displayName="Percent Significant Pairs"
+                                  shortDisplayName="% Sig Pairs"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
             <description>
                         <![CDATA[
