@@ -114,7 +114,7 @@ WHERE og.ortholog_group_id = ogs.ortholog_group_id
        </sql>
     </sqlQuery>
 
-        <sqlQuery name="ByKeyword">
+        <sqlQuery name="ByKeyword" isCacheable="true">
             <paramRef ref="sharedParams.keyword"/>
             <column name="group_name"/>
             <sql>
@@ -131,7 +131,7 @@ WHERE og.ortholog_group_id = ogs.ortholog_group_id
         </sqlQuery>
 
 
-        <sqlQuery name="BySequenceCount">
+        <sqlQuery name="BySequenceCount" isCacheable="true">
             <paramRef ref="groupParams.sequence_count_min"/>
             <paramRef ref="groupParams.sequence_count_max"/>
             <column name="group_name"/>
@@ -145,7 +145,7 @@ WHERE og.number_of_members >= $$sequence_count_min$$
             </sql>
         </sqlQuery>
 
-        <sqlQuery name="ByGenomeCount">
+        <sqlQuery name="ByGenomeCount" isCacheable="true">
             <paramRef ref="groupParams.genome_count_min"/>
             <paramRef ref="groupParams.genome_count_max"/>
             <column name="group_name"/>
@@ -166,7 +166,7 @@ WHERE genome_count >= $$genome_count_min$$
         </sqlQuery>
 
 
-        <sqlQuery name="ByPercentMatchPairs">
+        <sqlQuery name="ByPercentMatchPairs" isCacheable="true">
             <paramRef ref="groupParams.percent_min"/>
             <paramRef ref="groupParams.percent_max"/>
             <column name="group_name"/>
@@ -183,7 +183,7 @@ WHERE percent_match_pairs >= $$percent_min$$
         </sqlQuery>
 
 
-        <sqlQuery name="ByPercentIdentity">
+        <sqlQuery name="ByPercentIdentity" isCacheable="true">
             <paramRef ref="groupParams.percent_min"/>
             <paramRef ref="groupParams.percent_max"/>
             <column name="group_name"/>
@@ -198,7 +198,7 @@ WHERE og.avg_percent_identity >= $$percent_min$$
         </sqlQuery>
 
 
-        <sqlQuery name="ByPercentMatch">
+        <sqlQuery name="ByPercentMatch" isCacheable="true">
             <paramRef ref="groupParams.percent_min"/>
             <paramRef ref="groupParams.percent_max"/>
             <column name="group_name"/>
@@ -213,7 +213,7 @@ WHERE og.avg_percent_match >= $$percent_min$$
         </sqlQuery>
 
 
-        <sqlQuery name="ByPhyleticPattern">
+        <sqlQuery name="ByPhyleticPattern" isCacheable="true">
             <paramRef ref="groupParams.phyletic_expression"/>
             <column name="group_name"/>
             <sql>
