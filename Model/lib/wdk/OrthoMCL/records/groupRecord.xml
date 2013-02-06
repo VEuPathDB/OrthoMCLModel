@@ -77,10 +77,10 @@
             <recordView name="_default" display="Sequences &amp; Statistics"
                          jsp="/wdkCustomization/jsp/records/group-default.jsp"/>
 
-            <recordView name="pfam-domain-graph" display="PFam domain (graphic)"
+            <recordView name="pfam-domain-graph" display="PFam domains (graphic)"
                          jsp="/wdkCustomization/jsp/records/group-pfam-graph.jsp"/>
 
-            <recordView name="pfam-domain-list" display="PFam domain (list)"
+            <recordView name="pfam-domain-list" display="PFam domains (details)"
                          jsp="/wdkCustomization/jsp/records/group-pfam-list.jsp"/>
 
             <recordView name="msa" display="MSA"
