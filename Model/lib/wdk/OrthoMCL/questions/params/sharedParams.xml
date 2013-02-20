@@ -71,7 +71,7 @@
 
     </paramSet>
 
-  <querySet name="SharedVQ" queryType="vocab">
+  <querySet name="SharedVQ" queryType="vocab" isCacheable="true">
 
         <sqlQuery name="AllOrganisms">
             <column name="term" />

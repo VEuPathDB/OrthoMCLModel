@@ -22,7 +22,7 @@
 
     <!-- Queries that retrieve attributes of ESTs -->
     
-    <querySet name="SequenceAttributes" queryType="attribute">
+    <querySet name="SequenceAttributes" queryType="attribute" isCacheable="false">
 
        <defaultTestParamValues>
             <paramValue name="full_id">pfal|PF11_0344</paramValue>
@@ -90,7 +90,7 @@ WHERE eas.taxon_id = ot.taxon_id
 
     </querySet>
 
-    <querySet name="SequenceTables" queryType="table">
+    <querySet name="SequenceTables" queryType="table" isCacheable="false">
 
         <sqlQuery name="OldGroups">
             <column name="full_id"/>

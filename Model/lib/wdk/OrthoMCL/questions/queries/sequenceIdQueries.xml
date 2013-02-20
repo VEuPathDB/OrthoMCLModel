@@ -23,7 +23,7 @@
 
     <!-- Queries that return RNA primary keys (for use in questions and nested records.). -->
 
-    <querySet name="SequenceIds" queryType="id">
+    <querySet name="SequenceIds" queryType="id" isCacheable="false">
         <sqlQuery name="ByIdList" isCacheable="true">
             <paramRef ref="sequenceParams.source_ids"/>
             <column name="full_id"/>
@@ -271,8 +271,7 @@ SELECT eas.secondary_identifier AS full_id FROM dots.ExternalAaSequence eas
         </sqlQuery>
 
     <processQuery name="ByTextSearch" local="false"
-             processName="org.orthomcl.wsfplugin.KeywordSearchPlugin"
-            isCacheable="false">
+             processName="org.orthomcl.wsfplugin.KeywordSearchPlugin">
 
         <testParamValues>
             <paramValue name="text_expression">kinase</paramValue>

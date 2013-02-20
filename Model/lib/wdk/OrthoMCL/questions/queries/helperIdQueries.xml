@@ -23,8 +23,8 @@
 
     <!-- Queries that return RNA primary keys (for use in questions and nested records.). -->
 
-    <querySet name="HelperIds" queryType="id">
-        <sqlQuery name="ByDefault" isCacheable="false">
+    <querySet name="HelperIds" queryType="id" isCacheable="false">
+        <sqlQuery name="ByDefault">
             <column name="helper_id"/>
             <sql>
                 <![CDATA[

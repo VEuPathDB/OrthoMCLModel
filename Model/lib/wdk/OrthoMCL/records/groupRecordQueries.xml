@@ -24,7 +24,7 @@
     Group Attribute Queries                                     
     -->
     
-    <querySet name="GroupAttributes" queryType="attribute">
+    <querySet name="GroupAttributes" queryType="attribute" isCacheable="false">
 
        <defaultTestParamValues>
             <paramValue name="group_name">OG5_228447</paramValue>
@@ -124,7 +124,7 @@ GROUP BY og.name
     Group Table Queries                                     
     -->
 
-    <querySet name="GroupTables" queryType="table">
+    <querySet name="GroupTables" queryType="table"  isCacheable="false">
 
        <defaultTestParamValues>
             <paramValue name="group_name">OG5_228447</paramValue>

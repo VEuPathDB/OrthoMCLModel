@@ -22,7 +22,7 @@
 
     <!-- Queries that retrieve attributes of ESTs -->
 
-    <querySet name="HelperAttributes" queryType="attribute">
+    <querySet name="HelperAttributes" queryType="attribute"  isCacheable="false">
 
         <sqlQuery name="Counts" isCacheable="true">
             <column name="helper_id"/>
@@ -42,7 +42,7 @@ FROM dots.ExternalAaSequence
 
     </querySet>
     
-    <querySet name="HelperTables" queryType="table">
+    <querySet name="HelperTables" queryType="table"  isCacheable="false">
 
        <defaultTestParamValues>
             <paramValue name="helper_id">helper</paramValue>

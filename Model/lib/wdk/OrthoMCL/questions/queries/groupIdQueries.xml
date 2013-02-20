@@ -23,7 +23,7 @@
 
     <!-- Queries that return RNA primary keys (for use in questions and nested records.). -->
 
-    <querySet name="GroupIds" queryType="id">
+    <querySet name="GroupIds" queryType="id" isCacheable="false">
 
         <sqlQuery name="ByNameList" isCacheable="true">
             <paramRef ref="groupParams.group_names"/>
@@ -269,8 +269,7 @@ SELECT og.name AS group_name FROM apidb.OrthologGroup og
         </sqlQuery>
 
     <processQuery name="ByTextSearch" local="false"
-             processName="org.orthomcl.wsfplugin.KeywordSearchPlugin"
-            isCacheable="false">
+             processName="org.orthomcl.wsfplugin.KeywordSearchPlugin">
 
         <testParamValues>
             <paramValue name="text_expression">kinase</paramValue>

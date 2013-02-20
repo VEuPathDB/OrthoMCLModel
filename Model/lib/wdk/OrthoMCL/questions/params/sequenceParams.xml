@@ -134,7 +134,7 @@
 
     </paramSet>
 
-  <querySet name="SequenceVQ" queryType="vocab">
+  <querySet name="SequenceVQ" queryType="vocab" isCacheable="true">
 
          <sqlQuery name="TaxonTypeAhead">
             <column name="internal" />
