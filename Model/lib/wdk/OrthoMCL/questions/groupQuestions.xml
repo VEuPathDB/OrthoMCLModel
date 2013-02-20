@@ -108,6 +108,10 @@
                                   displayName="Percent Significant Pairs"
                                   shortDisplayName="% Sig Pairs"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <attributesList
+             summary="number_of_members, avg_percent_identity, avg_percent_match, percent_match_pairs, avg_connectivity, ec_numbers"
+             sorting="percent_match_pairs desc"
+            /> 
             <description>
                         <![CDATA[
                 Find Ortholog Groups by the percentage of their Sequence pairs that have significant similarity.
@@ -119,6 +123,10 @@
         <question name="ByPercentIdentity" queryRef="GroupIds.ByPercentIdentity" 
                                   displayName="Avg % Identity"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
+            <attributesList
+             summary="number_of_members, avg_percent_identity, avg_percent_match, percent_match_pairs, avg_connectivity, ec_numbers"
+             sorting="avg_percent_identity desc"
+            /> 
             <description>
                         <![CDATA[
                 Find Ortholog Groups by the average percent identity of all their Sequence pairs that have significant similarity of all Sequence pairs that have significant similarity.
@@ -130,7 +138,11 @@
         <question name="ByPercentMatch" queryRef="GroupIds.ByPercentMatch" 
                                   displayName="Avg % Match"
                   recordClassRef="GroupRecordClasses.GroupRecordClass">
-            <description>
+             <attributesList
+             summary="number_of_members, avg_percent_identity, avg_percent_match, percent_match_pairs, avg_connectivity, ec_numbers"
+             sorting="avg_percent_match desc"
+            /> 
+           <description>
                         <![CDATA[
                 Find Ortholog Groups by the average percent match of all their Sequence pairs that have significant similarity.
                         ]]>

@@ -173,8 +173,8 @@ WHERE genome_count >= $$genome_count_min$$
             <sql>
                 <![CDATA[
 SELECT group_name FROM (
-SELECT og.name AS group_name, number_of_match_pairs / (number_of_members * (number_of_members - 1)) AS percent_match_pairs
-FROM apidb.OrthologGroup og
+  SELECT og.name AS group_name, 100 * number_of_match_pairs / (number_of_members * (number_of_members - 1)) AS percent_match_pairs
+  FROM apidb.OrthologGroup og
 )
 WHERE percent_match_pairs >= $$percent_min$$
   AND percent_match_pairs <= $$percent_max$$

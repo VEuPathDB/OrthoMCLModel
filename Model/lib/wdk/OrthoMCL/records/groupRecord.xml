@@ -95,7 +95,7 @@
       <!-- =============================================================== -->
             
          <attributesList
-           summary="number_of_members, ec_numbers"
+           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers"
            sorting="number_of_members desc"/>
 
       <!-- =============================================================== -->
@@ -115,19 +115,25 @@
 
             <attributeQueryRef ref="GroupAttributes.GroupAttrs">  
                 <columnAttribute name="group_name" displayName="Group Name" internal="true" />
-                <columnAttribute name="number_of_members" displayName="#Sequences">
+                <columnAttribute name="number_of_members" displayName="# Sequences">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
                             implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
-                <columnAttribute name="number_of_match_pairs" displayName="#Edges">
+                <columnAttribute name="number_of_match_pairs" displayName="# Edges">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
                             implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
-                <columnAttribute name="avg_percent_identity" displayName="Average % Identity">
+                 <columnAttribute name="percent_match_pairs" displayName="% Significant Pairs">
+                    <plugin name="histogram" display="Histogram"
+                            description="Display the histogram of the values of this attribute"
+                            implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
+                            view="/wdk/jsp/results/histogram.jsp" />
+                </columnAttribute>
+               <columnAttribute name="avg_percent_identity" displayName="Average % Identity">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
                             implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"

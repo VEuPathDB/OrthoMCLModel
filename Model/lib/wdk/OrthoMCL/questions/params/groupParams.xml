@@ -43,7 +43,7 @@
 
         <stringParam name="percent_max" prompt="Max Percentage" number="true">
             <help>The maximum percentage</help>
-            <suggest default="800" />
+            <suggest default="80" />
         </stringParam>
 
         <stringParam name="phyletic_expression" prompt="Expression" number="false"

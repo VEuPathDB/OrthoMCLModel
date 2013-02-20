@@ -39,6 +39,7 @@
             <column name="group_name"/>
             <column name="number_of_members"/>
             <column name="number_of_match_pairs"/>
+            <column name="percent_match_pairs"/>
             <column name="avg_percent_identity"/>
             <column name="avg_percent_match"/>
             <column name="avg_evalue_mant"/>
@@ -47,6 +48,7 @@
             <sql>
             <![CDATA[
                 SELECT g.name AS group_name, g.number_of_members,
+                       round(100 * number_of_match_pairs / (number_of_members * (number_of_members - 1)), 0) as percent_match_pairs,
                        g.number_of_match_pairs, g.avg_percent_identity,
 					   g.avg_percent_match, g.avg_connectivity,
 					   g.avg_evalue_mant, g.avg_evalue_exp
@@ -101,18 +103,30 @@ GROUP BY og.name
 	  <column name="group_name" />
 	  <column name="ec_numbers" />
 	  <sql>
-            SELECT og.name as group_name, 
-              (SELECT  apidb.tab_to_string(set(cast(collect(ec_map.ec_number || ' (' || count(ec_map.ec_number) || ')') as apidb.varchartab)), ', ')
-               FROM apidb.OrthologGroupAaSequence ogs, 
-                  (SELECT distinct eas.aa_sequence_id, ec.ec_number
-                   FROM dots.ExternalAaSequence eas, dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
-                   WHERE eas.aa_sequence_id = asec.aa_sequence_id
-                     AND asec.enzyme_class_id = ec.enzyme_class_id) ec_map
-               WHERE ec_map.aa_sequence_id = ogs.aa_sequence_id
-               AND ogs.ortholog_group_id = og.ortholog_group_id
-               GROUP by og.name, ec_map.ec_number
-              ) as ec_numbers 
-            FROM apidb.OrthologGroup og
+<!-- formatted in SQL Developer -->
+SELECT og.name AS group_name,
+  ecListMap.ec_list as ec_numbers
+FROM apidb.OrthologGroup og,
+  (SELECT ec_map.ortholog_group_id,
+    listagg(ec.ec_number
+    || ' ('
+    || ec_count
+    || ')', ', ') within GROUP (
+  ORDER BY ec.ec_number) AS ec_list
+  FROM sres.EnzymeClass ec,
+    (SELECT ogs.ortholog_group_id,
+      asec.enzyme_class_id,
+      COUNT(*) AS ec_count
+    FROM apidb.OrthologGroupAaSequence ogs,
+      dots.AaSequenceEnzymeClass asec
+    WHERE asec.aa_sequence_id = ogs.aa_sequence_id
+    GROUP BY ogs.ortholog_group_id,
+      asec.enzyme_class_id
+    ) ec_map
+  WHERE ec_map.enzyme_class_id = ec.enzyme_class_id
+  GROUP BY ec_map.ortholog_group_id
+  ) ecListMap
+WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
 	  </sql>
 	</sqlQuery>
 
