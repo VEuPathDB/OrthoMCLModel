@@ -143,29 +143,55 @@
 	  <![CDATA[
 <p>Find Ortholog Groups by phyletic pattern.</p>
 
-<p>A Phyletic Pattern Expression (PPE) is a powerful way to search for Ortholog Groups by the clades they contain. The pattern specifies the presence or absence of one or more clades, and optionally the number of sequences for each clade.</p>
+<p>A Phyletic Pattern Expression (PPE) is a powerful way to search for Ortholog Groups by the species they contain. The pattern specifies groups with the presence or absence of one or more sets of species, and optionally the number of sequences in each set of species.</p>
 
-<p>*The PPE Grammar: Individual grammatical units of PPE expressions are composed of two parts:</p>
+<p><b>Examples</b></p>
+These expressions find ortholog groups in which...
+<dl>
+  <dt><code>hsap>=5</code></dt><dd>there are five or more human sequences</dd>
+  <dt><code>hsap+ecol=2T</code></dt><dd>both human and E. coli are present.</dd>
+  <dt><code>hsap+ecol=1T</code></dt><dd>only one species of human or E. coli is present.</dd>
+  <dt><code>hsap+ecol>=1T</code></dt><dd>only one or both species of human and E. coli is present.</dd>
+  <dt><code>hsap+ecol>=10</code></dt><dd>there are 10 or more human or E. Coli sequences.</dd>
+  <dt><code>hsap+FIRM=2</code></dt><dd>there are exactly 2 human or Gram-positive bacteria sequences</dd>
+  <dt><code>hsap+FIRM=2T</code></dt><dd>there are exactly 2 human or Gram-positive bacteria taxa</dd>
+  <dt><code>EUKA=35T</code></dt><dd>there are all 35 eukaryotic species, ie, Eukaryota-universal groups</dd>
+  <dt><code>EUKA>=5T AND hsap>=10</code></dt><dd>there are at least five eukaryotic species and containing at least 10 human sequences.</dd>
+  <dt><code>(EUKA>=5T AND hsap>=10) OR pfal<20</code></dt><dd>there are at least five eukaryotic species and containing at least 10 human sequences, or there are less than 20 P. falciparum sequences.</dd>
+  <dt><code>ALL=150T</code></dt><dd>there are all 150 OrthoMCL species.</dd>
+</ul>
+
+<p><b>Tips</b></p>
+<ul>
+  <li> Avoid redundancy in your PPE. For example, <code>hsap>=1</code> is equal to <code>hsap=1T</code>, so no need to mention them twice.</li>
+  <li> Merge different PPE units for faster execution.  For example <code>hsap=1T AND mmus=1T</code> can be merged as <code>hsap+mmus=2T</code>.</li>
+</ul>
+
+<p><b>The PPE Grammar in Detail</b></p>
+<p>Individual grammatical units of PPE expressions are composed of two parts:</p>
 <ol>
-  <li> A species specification, composed of a three-letter species abbreviation (e.g. "tgon"), or a list of species abbreviations linked by plus sign "+" (e.g. "tgon+pfal+hsap"). Several abbreviations are also permitted, such as "BACT" for all Eubacteria genomes, "EUKA" for all eukaryotic genomes, "APIC" for all apicomplexan genomes, "ALL" to represent all the genomes in the current OrthoMCL (clade abbreviations are indicated on the form).</li>
-  <li> A logical comparison operator, such as >, <, =, >=, or <=, and a number representing the number of sequences from these species that must be present in the ortholog group (e.g. "tgon>5" specifies ortholog groups containing at least 5 in-paralogs from Toxoplasma gondii. Alternatively, when appended with the character "T" (for Taxa), this number represents the number of species that must be represented in the ortholog group.</li>
+  <li> <b>A taxa specification.</b>  This can be any one of:
+    <ul>
+    <li>a species abbreviation (e.g. <code>tgon</code>)</li>
+    <li>a clade abbreviation (e.g., <code>BACT</code> for all Eubacteria taxa)</li>
+    <li>a list of species or clade abbreviations linked by plus sign "+" (e.g. <code>tgon+pfal+hsap+FIRM</code>). </li>
+    <li><code>ALL</code> to represent all taxa in OrthoMCL.</li>
+    </ul>
+  </li>
+  <li> <b>A logical comparison operator followed by a count.</b> 
+    <ul>
+    <li>operators allowed are: <code>></code>, <code><</code>, <code>=</code>, <code>>=</code>, and <code><=</code></li>
+    <li>the count is either:
+      <ul>
+      <li>a number, such as <code>5</code>.  This is a count of <i>sequences</i> that the operator applies to.</li>
+      <li>a number with a <code>T</code>, such as <code>5T</code>.  This is a count of <i>taxa</i> that the operator applies to.</li>
+      </ul>
+    </ul>
+  </li>
 </ol>
-	<p>Multiple expression units may be combined using "AND" or "OR", and may use parentheses to provide explicit execution ordering.</p>
 
-	<p>Examples & Explanations:</p>
-	<ul>
-	  <li>"hsap+ecol=2T" would generate ortholog groups in which both human and E. coli are present.</li>
-	  <li>"hsap+ecol=1T" would generate ortholog groups in which only one species of human and E. coli is present.</li>
-	  <li>"ALL=150T" would generate ortholog groups representing all 150 species.</li>
-	  <li>"EUKA=35T" would generate Eukaryota-universal ortholog groups (representing all 35 eukaryotic species).</li>
-	  <li>"EUKA>=5T AND hsap>=10" would generate all ortholog groups representing at least five eukaryotic species and containing at least 10 human proteins.</li>
-	</ul>
+<p>Multiple expression units may be combined using <code>AND</code> or <code>OR</code>, and may use parentheses to provide explicit execution ordering.</p>
 
-	<p>Tips:</p>
-	<ul>
-	  <li> Please prevent redundancy in your PPE query, e.g. "hsap>=1" is equal to "hsap=1T", so no need to mention them twice.</li>
-	  <li> Please merge different PPE units to save time in query, e.g. "hsap=1T AND mmus=1T" can be merged as "hsap+mmus=2T".</li>
-	</ul>
 	]]>
         </description>
       </question>
