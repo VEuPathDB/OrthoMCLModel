@@ -26,12 +26,12 @@
             <suggest default="20" />
         </stringParam>
 
-        <stringParam name="genome_count_min" prompt="Min # genomes" number="true">
+        <stringParam name="genome_count_min" prompt="Min # taxa" number="true">
             <help>The minimum number of genomes a group has</help>
             <suggest default="5" />
         </stringParam>
 
-        <stringParam name="genome_count_max" prompt="Max # genomes" number="true">
+        <stringParam name="genome_count_max" prompt="Max # taxa" number="true">
             <help>The maximum number of genomes a group has</help>
             <suggest default="10" />
         </stringParam>
