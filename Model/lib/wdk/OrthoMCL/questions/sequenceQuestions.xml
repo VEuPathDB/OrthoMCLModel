@@ -4,21 +4,7 @@
     <!-- ************ -->
     <!-- questionSets -->
     <!-- ************ -->
-    
-    <!-- 
-    A question is "a query that returns a list of records."  (Regular queries 
-    return columns and rows.)  They are formed by pairing a query with a
-    record class.  The query must be one that returns one column containing
-    a list of primary keys.  The record class must be one that expects as
-    a primary key the type of key returned by the query.
-    
-    A question set is a grouping of questions.  It may be used in the
-    user interface to present the enclosed questions in one choice box.  
-    -->
-
-
-    <!-- questions that return RNA records -->
-
+ 
 
     <questionSet name="SequenceQuestions"
                  displayName="Search to find protein sequences">
@@ -145,7 +131,7 @@
 
         <summary>
              <![CDATA[
-              Find Sequences that contain a motif pattern that you specify, e.g.: two cysteines followed by one or more hydrophobic amino acids, followed by arginine, then lysine.
+              Find Sequences that contain a motif pattern that you specify such as two cysteines followed by one or more hydrophobic amino acids.
               ]]>
          </summary>
          <description>
@@ -165,11 +151,6 @@
              "an arginine, then any amino acid, then a leucine, then any amino
              acid, then either an aspartic acid, a glutamic acid, or a
              glutamine".
-             <br><br>
-
-             The pattern need not be well conserved. If you can describe it in
-             words, you can probably use this tool to create an "expression"
-             that can search other proteins for similar patterns.
              <br><br>
 
              Specify the pattern with a (Perl style) "regular expression".
@@ -315,7 +296,7 @@
                   displayName="Transform to Sequences" shortDisplayName="To Sequences"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
-                        <![CDATA[ Transform a Groups result into Sequences. ]]>
+                        <![CDATA[ Transform a Ortholog Groups result into the Sequences in those groups. ]]>
             </description>
         </question>
 
