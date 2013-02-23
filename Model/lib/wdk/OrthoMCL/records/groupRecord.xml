@@ -76,47 +76,56 @@
 
             <attributeQueryRef ref="GroupAttributes.GroupAttrs">  
                 <columnAttribute name="group_name" displayName="Group Name" internal="true" />
+
                 <columnAttribute name="number_of_members" displayName="# Sequences">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
                             implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
-                <columnAttribute name="number_of_match_pairs" displayName="# Edges">
+
+                <columnAttribute name="number_of_match_pairs" displayName="# Edges" help="Two sequences in a group have an edge if they were identified as a signficant pair in the first phase of the OrthoMCL algorithm.  See the Orthomcl Algorithm Document for details.">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
                             implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
-                 <columnAttribute name="percent_match_pairs" displayName="% Significant Pairs">
+
+                 <columnAttribute name="percent_match_pairs" displayName="% Edges" help="The percent of sequence pairs in a group that have an edge.  See the Orthomcl Algorithm Document for details.">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
                             implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
-               <columnAttribute name="avg_percent_identity" displayName="Average % Identity">
+
+               <columnAttribute name="avg_percent_identity" displayName="Average % Identity" help="The average of the percent identity of all pairs of sequences in a group that have an above threshold similarity.  See the Orthomcl Algorithm Document for details.">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
                             implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
-                <columnAttribute name="avg_percent_match" displayName="Average % Match">
+
+                <columnAttribute name="avg_percent_match" displayName="Average % Match" help="The average of the percent match of all pairs of sequences in a group that have an above threshold similarity.  See the Orthomcl Algorithm Document for details.">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
                             implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
+
                 <columnAttribute name="avg_evalue_mant" displayName="Average E-value Mant" internal="true" />
+
                 <columnAttribute name="avg_evalue_exp" displayName="Average E-value Exp" internal="true" />
-                <columnAttribute name="avg_connectivity" displayName="Average Connectivity">
+
+                <columnAttribute name="avg_connectivity" displayName="Average Connectivity" help="The average connectivity of the sequences in a group.  Each sequence's connectivity is the number of sequences it has an above-threshold similarity to.  (This value should be normalized by the group size but is not in this release of OrthoMCL).  See the Orthomcl Algorithm Document for details.">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
                             implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
+
             </attributeQueryRef>
             
-            <textAttribute name="avg_evalue" displayName="Average E-value">
+            <textAttribute name="avg_evalue" displayName="Average E-value" help="The average of the percent identity of all pairs of sequences in a group that have an above threshold similarity.  See the Orthomcl Algorithm Document for details.">
 				<text>
 				<![CDATA[
 				$$avg_evalue_mant$$E$$avg_evalue_exp$$
