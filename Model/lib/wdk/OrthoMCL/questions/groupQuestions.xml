@@ -147,19 +147,19 @@
 
 <p><b>Examples</b></p>
 These expressions find ortholog groups in which...
-<dl>
-  <dt><code>hsap>=5</code></dt><dd>there are five or more human sequences</dd>
-  <dt><code>hsap+ecol=2T</code></dt><dd>both human and E. coli are present.</dd>
-  <dt><code>hsap+ecol=1T</code></dt><dd>only one species of human or E. coli is present.</dd>
-  <dt><code>hsap+ecol>=1T</code></dt><dd>only one or both species of human and E. coli is present.</dd>
-  <dt><code>hsap+ecol>=10</code></dt><dd>there are 10 or more human or E. Coli sequences.</dd>
-  <dt><code>hsap+FIRM=2</code></dt><dd>there are exactly 2 human or Gram-positive bacteria sequences</dd>
-  <dt><code>hsap+FIRM=2T</code></dt><dd>there are exactly 2 human or Gram-positive bacteria taxa</dd>
-  <dt><code>EUKA=35T</code></dt><dd>there are all 35 eukaryotic species, ie, Eukaryota-universal groups</dd>
-  <dt><code>EUKA>=5T AND hsap>=10</code></dt><dd>there are at least five eukaryotic species and containing at least 10 human sequences.</dd>
-  <dt><code>(EUKA>=5T AND hsap>=10) OR pfal<20</code></dt><dd>there are at least five eukaryotic species and containing at least 10 human sequences, or there are less than 20 P. falciparum sequences.</dd>
-  <dt><code>ALL=150T</code></dt><dd>there are all 150 OrthoMCL species.</dd>
-</ul>
+<table>
+    <tr><th><code>hsap>=5</code></th><td>there are five or more human sequences</td></tr>
+    <tr><th><code>hsap+ecol=2T</code></th><td>both human and E. coli are present.</td></tr>
+    <tr><th><code>hsap+ecol=1T</code></th><td>only one species of human or E. coli is present.</td></tr>
+    <tr><th><code>hsap+ecol>=1T</code></th><td>only one or both species of human and E. coli is present.</td></tr>
+    <tr><th><code>hsap+ecol>=10</code></th><td>there are 10 or more human or E. Coli sequences.</td></tr>
+    <tr><th><code>hsap+FIRM=2</code></th><td>there are exactly 2 human or Gram-positive bacteria sequences</td></tr>
+    <tr><th><code>hsap+FIRM=2T</code></th><td>there are exactly 2 human or Gram-positive bacteria taxa</td></tr>
+    <tr><th><code>EUKA=35T</code></th><td>there are all 35 eukaryotic species, ie, Eukaryota-universal groups</td></tr>
+    <tr><th><code>EUKA>=5T AND hsap>=10</code></th><td>there are at least five eukaryotic species and containing at least 10 human sequences.</td></tr>
+    <tr><th><code>(EUKA>=5T AND hsap>=10) OR pfal<20</code></th><td>there are at least five eukaryotic species and containing at least 10 human sequences, or there are less than 20 P. falciparum sequences.</td></tr>
+    <tr><th><code>ALL=150T</code></th><td>there are all 150 OrthoMCL species.</td></tr>
+</table>
 
 <p><b>Tips</b></p>
 <ul>
