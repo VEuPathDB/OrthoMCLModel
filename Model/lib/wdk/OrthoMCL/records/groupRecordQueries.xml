@@ -51,21 +51,15 @@
 
 
         <sqlQuery name="MaxSequenceLength">
-            <column name="group_name"/>
-            <column name="max_length"/>
-            <sql>
+          <column name="group_name"/>
+          <column name="max_length"/>
+          <sql>
             <![CDATA[
-SELECT og.name AS group_name, MAX(eas.length) AS max_length
-FROM apidb.OrthologGroup og,
-     apidb.OrthologGroupAaSequence ogs,
-     dots.ExternalAaSequence eas,
-     apidb.OrthomclTaxon ot
-WHERE og.ortholog_group_id = ogs.ortholog_group_id
-  AND ogs.aa_sequence_id = eas.aa_sequence_id
-  AND eas.taxon_id = ot.taxon_id
-GROUP BY og.name
-                        ]]>
-            </sql>
+              select group_name, max(length) AS max_length
+              from ApidbTuning.SequenceAttributes
+              group by group_name
+            ]]>
+          </sql>
         </sqlQuery>
 
 
@@ -98,7 +92,7 @@ FROM apidb.OrthologGroup og,
     (SELECT ogs.ortholog_group_id,
       asec.enzyme_class_id,
       COUNT(*) AS ec_count
-    FROM apidb.OrthologGroupAaSequence ogs,
+    FROM ApidbTuning.SequenceAttributes ogs,
       dots.AaSequenceEnzymeClass asec
     WHERE asec.aa_sequence_id = ogs.aa_sequence_id
     GROUP BY ogs.ortholog_group_id,
@@ -121,31 +115,27 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
 
     <querySet name="GroupTables" queryType="table"  isCacheable="false">
 
-       <defaultTestParamValues>
+      <defaultTestParamValues>
             <paramValue name="group_name">OG5_228447</paramValue>
-       </defaultTestParamValues>
+      </defaultTestParamValues>
 
 
-        <sqlQuery name="TaxonCounts">
-            <column name="group_name"/>
-            <column name="taxon_id"/>
-            <column name="abbrev"/>
-            <column name="count"/>
-            <sql>
-                        <![CDATA[
-SELECT og.name as group_name, ot.orthomcl_taxon_id AS taxon_id, 
-       ot.three_letter_abbrev AS abbrev, count(*) as count
-FROM apidb.OrthologGroup og, 
-     APIDB.ORTHOLOGGROUPAASEQUENCE ogs, 
-     DOTS.externalaasequence eas,
-     apidb.OrthomclTaxon ot
-WHERE og.ortholog_group_id = ogs.ortholog_group_id
-  AND ogs.aa_sequence_id = eas.aa_sequence_id
-  AND eas.taxon_id = ot.taxon_id
-GROUP BY og.name, ot.orthomcl_taxon_id, ot.three_letter_abbrev
-                        ]]>
-            </sql>
-        </sqlQuery>
+      <sqlQuery name="TaxonCounts">
+        <column name="group_name"/>
+        <column name="taxon_id"/>
+        <column name="abbrev"/>
+        <column name="count"/>
+        <sql>
+          <![CDATA[
+            select sa.group_name, ot.orthomcl_taxon_id as taxon_id,
+                   ot.three_letter_abbrev as abbrev, count(*) as count
+            from ApidbTuning.SequenceAttributes sa,
+                 apidb.OrthomclTaxon ot
+            where sa.orthomcl_taxon_id = ot.orthomcl_taxon_id
+            group by sa.group_name, ot.orthomcl_taxon_id, ot.three_letter_abbrev
+          ]]>
+        </sql>
+      </sqlQuery>
 
         <sqlQuery name="Proteins">
             <column name="group_name"/>
@@ -166,82 +156,76 @@ GROUP BY og.name, ot.orthomcl_taxon_id, ot.three_letter_abbrev
         </sqlQuery>
 
         <sqlQuery name="PFams">
-            <column name="group_name"/>
-            <column name="primary_identifier"/>
-            <column name="secondary_identifier"/>
-            <column name="remark"/>
-            <sql>
-                        <![CDATA[
-SELECT DISTINCT og.name AS group_name, db.primary_identifier,
-db.secondary_identifier, db.remark
-FROM apidb.OrthologGroup og,
-     apidb.OrthologGroupAaSequence ogs,
-     dots.DomainFeature df,
-     dots.DbRefAaFeature dbaf,
-     sres.DbRef db,
-     dots.AaLocation al
-WHERE og.ortholog_group_id = ogs.ortholog_group_id
-  AND ogs.aa_sequence_id = df.aa_sequence_id
-  AND df.aa_feature_id = dbaf.aa_feature_id
-  AND dbaf.db_ref_id = db.db_ref_id
-  AND df.aa_feature_id = al.aa_feature_id
-ORDER BY db.primary_identifier
-                        ]]>
-            </sql>
+          <column name="group_name"/>
+          <column name="primary_identifier"/>
+          <column name="secondary_identifier"/>
+          <column name="remark"/>
+          <sql>
+            <![CDATA[
+              select sa.group_name, db.primary_identifier,
+                     db.secondary_identifier, db.remark, count(*) as occurrences
+              from ApidbTuning.SequenceAttributes sa, dots.DomainFeature df,
+                   dots.DbRefAaFeature dbaf, sres.DbRef db,
+                   sres.ExternalDatabaseRelease edr, sres.ExternalDatabase ed
+              where sa.aa_sequence_id = df.aa_sequence_id
+                and df.aa_feature_id = dbaf.aa_feature_id
+                and dbaf.db_ref_id = db.db_ref_id
+                and db.external_database_release_id = edr.external_database_release_id
+                and edr.external_database_id = ed.external_database_id
+                and ed.name = 'PFAM'
+              group by sa.group_name, db.primary_identifier,
+                     db.secondary_identifier, db.remark
+              order by db.primary_identifier
+            ]]>
+          </sql>
         </sqlQuery>
 
         <sqlQuery name="ProteinPFams">
-            <column name="group_name"/>
-            <column name="primary_identifier"/>
-            <column name="source_id"/>
-            <column name="length"/>
-            <column name="start_min"/>
-            <column name="end_max"/>
-            <sql>
-                        <![CDATA[
-SELECT DISTINCT og.name AS group_name, eas.secondary_identifier AS source_id, eas.length,
-       da.primary_identifier, da.start_min, da.end_max
-FROM apidb.OrthologGroup og,
-     apidb.OrthologGroupAaSequence ogs,
-     dots.ExternalAaSequence eas
-     LEFT JOIN
-     (SELECT df.aa_sequence_id, db.primary_identifier, al.start_min, al.end_max
-      FROM dots.DomainFeature df,
-           dots.DbRefAaFeature dbaf,
-           sres.DbRef db,
-           dots.AaLocation al
-      WHERE df.aa_feature_id = al.aa_feature_id
-        AND df.aa_feature_id = dbaf.aa_feature_id
-        AND dbaf.db_ref_id = db.db_ref_id
-     ) da
-     ON eas.aa_sequence_id = da.aa_sequence_id
-WHERE og.ortholog_group_id = ogs.ortholog_group_id
-  AND ogs.aa_sequence_id = eas.aa_sequence_id
-ORDER BY eas.secondary_identifier ASC, da.start_min ASC
-                        ]]>
-            </sql>
+          <column name="group_name"/>
+          <column name="primary_identifier"/>
+          <column name="source_id"/>
+          <column name="length"/>
+          <column name="start_min"/>
+          <column name="end_max"/>
+          <sql>
+            <![CDATA[
+              SELECT sa.group_name, sa.source_id, sa.length,
+                     da.primary_identifier, da.start_min, da.end_max
+              FROM ApidbTuning.SequenceAttributes sa
+                   LEFT JOIN
+                   (SELECT df.aa_sequence_id, db.primary_identifier,
+                           al.start_min, al.end_max
+                    FROM dots.DomainFeature df,
+                         dots.DbRefAaFeature dbaf,
+                         sres.DbRef db,
+                         dots.AaLocation al
+                    WHERE df.aa_feature_id = al.aa_feature_id
+                      AND df.aa_feature_id = dbaf.aa_feature_id
+                      AND dbaf.db_ref_id = db.db_ref_id
+                   ) da
+                   ON sa.aa_sequence_id = da.aa_sequence_id
+              ORDER BY sa.source_id, da.start_min
+            ]]>
+          </sql>
         </sqlQuery>
 
         <sqlQuery name="EcNumber">
-            <column name="group_name"/>
-            <column name="ec_number"/>
-            <column name="description"/>
-            <column name="sequence_count"/>
-            <sql>
-                <![CDATA[
-                    select og.name as group_name, ec_map.ec_number, ec_map.description, count(*) as sequence_count
-                    from apidb.OrthologGroupAaSequence ogs, apidb.OrthologGroup og,
-                         (select distinct eas.aa_sequence_id, ec.ec_number, ec.description
-                          from dots.ExternalAaSequence eas,
-                               dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
-                          where eas.aa_sequence_id = asec.aa_sequence_id
-                            and asec.enzyme_class_id = ec.enzyme_class_id) ec_map
-                    where ec_map.aa_sequence_id = ogs.aa_sequence_id
-                      and ogs.ortholog_group_id = og.ortholog_group_id
-                    group by og.name, ec_map.ec_number, ec_map.description
-                    order by og.name, sequence_count desc
-                ]]>
-            </sql>
+          <column name="group_name"/>
+          <column name="ec_number"/>
+          <column name="description"/>
+          <column name="sequence_count"/>
+          <sql>
+            <![CDATA[
+              select sa.group_name, ec_map.ec_number, ec_map.description, count(*) as sequence_count
+              from ApidbTuning.SequenceAttributes sa,
+                   (select distinct asec.aa_sequence_id, ec.ec_number, ec.description
+                    from dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
+                    where asec.enzyme_class_id = ec.enzyme_class_id) ec_map
+              where ec_map.aa_sequence_id = sa.aa_sequence_id
+              group by sa.group_name, ec_map.ec_number, ec_map.description
+              order by sa.group_name, sequence_count desc
+            ]]>
+          </sql>
         </sqlQuery>
 
     </querySet>
