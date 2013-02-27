@@ -65,7 +65,7 @@
           <enumList>
             <enumValue  default="true">
               <term>PFam domain names and descriptions</term>
-              <internal>PFam</internal>
+              <internal>PFams</internal>
             </enumValue>
             <enumValue default="true">
               <term>Sequence IDs descriptions and taxa</term>
