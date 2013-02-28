@@ -103,23 +103,20 @@ ORDER BY ot.name
             <column name="clustered_sequences"/>
             <column name="groups"/>
             <sql>
-            <![CDATA[
-SELECT 'helper' AS helper_id, ot.name, ot.three_letter_abbrev,
-       (SELECT count(DISTINCT eas.aa_sequence_id) 
-        FROM dots.ExternalAASequence eas 
-        WHERE eas.taxon_id = ot.taxon_id) AS sequences,
-       (SELECT count(DISTINCT ogs.aa_sequence_id) 
-        FROM dots.externalAASequence eas, apidb.OrthologGroupAASequence ogs 
-        WHERE eas.taxon_id = ot.taxon_id 
-          AND eas.aa_sequence_id = ogs.aa_sequence_id) AS clustered_sequences,
-       (SELECT count(DISTINCT ogs.ortholog_group_id) 
-        FROM dots.externalAASequence eas, apidb.OrthologGroupAASequence ogs 
-        WHERE eas.taxon_id = ot.taxon_id 
-          AND eas.aa_sequence_id = ogs.aa_sequence_id) AS groups
-FROM apidb.OrthomclTaxon ot
-WHERE ot.is_species != 0
-ORDER BY ot.name
-            ]]>
+              <![CDATA[
+                SELECT 'helper' AS helper_id, ot.name, ot.three_letter_abbrev, stats.sequences,
+                       stats.clustered_sequences, stats.groups
+                FROM apidb.OrthomclTaxon ot,
+                     (select orthomcl_taxon_id, count(*) sequences,
+                             count(distinct ortholog_group_id) groups,
+                             sum(case when ortholog_group_id is null then 0 else 1 end) clustered_sequences
+                      from ApidbTuning.SequenceAttributes
+                      group by orthomcl_taxon_id
+                     ) stats
+                WHERE ot.is_species != 0
+                  AND ot.orthomcl_taxon_id = stats.orthomcl_taxon_id
+                ORDER BY ot.name
+              ]]>
             </sql>
         </sqlQuery>
 
