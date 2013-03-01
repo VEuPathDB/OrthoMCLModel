@@ -137,7 +137,7 @@ WHERE asi.subclass_view = 'ExternalAASequence'
               AND df.aa_feature_id = draf.aa_feature_id
               AND eas.aa_sequence_id = df.aa_sequence_id
               AND (dr.primary_identifier
-                  LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
+                  LIKE UPPER(REPLACE($$pfam_id_type_ahead$$,'*','%'))
                   OR dr.secondary_identifier
                   LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
                   OR dr.remark

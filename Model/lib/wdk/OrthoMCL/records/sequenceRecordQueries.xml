@@ -114,11 +114,12 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             <column name="remark"/>
             <column name="start_min"/>
             <column name="end_max"/>
+            <column name="length"/>
             <sql>
                         <![CDATA[
 SELECT DISTINCT eas.secondary_identifier AS full_id,
        db.primary_identifier, db.secondary_identifier, db.remark,
-       al.start_min, al.end_max
+       al.start_min, al.end_max, al.start_max - al.end_min + 1 as length
 FROM dots.ExternalAaSequence eas,
      dots.DomainFeature df,
      dots.DbRefAaFeature dbaf,
