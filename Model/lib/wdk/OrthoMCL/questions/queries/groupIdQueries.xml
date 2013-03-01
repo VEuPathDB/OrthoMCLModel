@@ -39,7 +39,8 @@
                      Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
                      Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr,
                 	 ($$group_names$$) ds
-                WHERE sa.aa_sequence_id = seqref.aa_sequence_id
+                WHERE sa.group_name is not null
+                  AND sa.aa_sequence_id = seqref.aa_sequence_id
                   AND seqref.db_ref_id = ref.db_ref_id
                   AND ref.external_database_release_id = dbr.external_database_release_id
                   AND dbr.external_database_id = db.external_database_id
@@ -63,7 +64,8 @@
               FROM ApidbTuning.SequenceAttributes sa,
                    Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
                    Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr
-              WHERE sa.aa_sequence_id = seqref.aa_sequence_id
+              WHERE sa.group_name is not null
+                AND sa.aa_sequence_id = seqref.aa_sequence_id
                 AND seqref.db_ref_id = ref.db_ref_id
                 AND ref.external_database_release_id = dbr.external_database_release_id
                 AND dbr.external_database_id = db.external_database_id
@@ -74,6 +76,7 @@
               FROM ApidbTuning.SequenceAttributes sa
               WHERE (sa.source_id LIKE replace($$group_name$$, '*', '%')
                      OR sa.full_id LIKE replace($$group_name$$, '*', '%'))
+                AND sa.group_name is not null
             ]]>
           </sql>
         </sqlQuery>
@@ -91,18 +94,19 @@
                  dots.DomainFeature df,
                  dots.DbRefAaFeature draf, sres.DbRef dr, sres.ExternalDatabase ed,
                   sres.ExternalDatabaseRelease edr
-            WHERE ed.name = 'PFAM'
+            WHERE sa.group_name is not null
+              AND ed.name = 'PFAM'
               AND edr.external_database_id = ed.external_database_id
               AND dr.external_database_release_id = edr.external_database_release_id 
               AND draf.db_ref_id = dr.db_ref_id
               AND df.aa_feature_id = draf.aa_feature_id
               AND sa.aa_sequence_id = df.aa_sequence_id
               AND (dr.primary_identifier
-                  LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
+                   LIKE UPPER(REPLACE($$pfam_id_type_ahead$$,'*','%'))
                   OR dr.secondary_identifier
-                  LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
+                   LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
                   OR dr.remark
-                  LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
+                   LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
             ]]>
        </sql>
     </sqlQuery>
@@ -115,7 +119,8 @@
 SELECT DISTINCT sa.group_name
 FROM ApidbTuning.SequenceAttributes sa,
      dots.AaSequenceImp asi
-WHERE sa.aa_sequence_id = asi.aa_sequence_id
+WHERE sa.group_name is not null
+  AND sa.aa_sequence_id = asi.aa_sequence_id
   AND asi.subclass_view = 'ExternalAASequence'
   AND CATSEARCH(asi.description, $$keyword$$, '')>0
                 ]]>
@@ -143,13 +148,14 @@ WHERE og.number_of_members >= $$sequence_count_min$$
             <column name="group_name"/>
             <column name="genome_count"/>
             <sql>
-                <![CDATA[
-                SELECT sa.group_name, count(DISTINCT taxon_id) genome_count
-                FROM ApidbTuning.SequenceAttributes sa
-                group by sa.group_name
+              <![CDATA[
+                select group_name, count(distinct taxon_id) genome_count
+                from ApidbTuning.SequenceAttributes
+                where group_name is not null
+                group by group_name
                 having count(distinct taxon_id) between $$genome_count_min$$ and $$genome_count_max$$
-                order by count(distinct taxon_id), sa.group_name
-                ]]>
+                order by count(distinct taxon_id), group_name
+              ]]>
             </sql>
         </sqlQuery>
 
@@ -222,9 +228,9 @@ WHERE og.ortholog_group_id = ex.ortholog_group_id
                     select distinct sa.group_name 
                     from ApidbTuning.SequenceAttributes sa, dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
                     where ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_number_type_ahead$$),' ',''),'-', '%'),'*','%'),'any','%')
-                    and asec.enzyme_class_id = ec.enzyme_class_id
-                    and sa.aa_sequence_id = asec.aa_sequence_id
-                    
+                      and asec.enzyme_class_id = ec.enzyme_class_id
+                      and sa.aa_sequence_id = asec.aa_sequence_id
+                      and sa.group_name is not null                    
                  ]]>
             </sql>
         </sqlQuery>
@@ -238,6 +244,7 @@ WHERE og.ortholog_group_id = ex.ortholog_group_id
 SELECT sa.group_name, sum(answer.wdk_weight) AS wdk_weight
 FROM ApidbTuning.SequenceAttributes sa, ($$sequence_answer$$) answer
 WHERE sa.full_id = answer.full_id
+  AND sa.group_name is not null
 GROUP BY og.name
                 ]]>
             </sql>
