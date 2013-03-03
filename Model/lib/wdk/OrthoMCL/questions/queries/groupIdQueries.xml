@@ -166,12 +166,9 @@ WHERE og.number_of_members >= $$sequence_count_min$$
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT group_name FROM (
-  SELECT og.name AS group_name, 100 * number_of_match_pairs / (number_of_members * (number_of_members - 1)) AS percent_match_pairs
-  FROM apidb.OrthologGroup og
-)
-WHERE percent_match_pairs >= $$percent_min$$
-  AND percent_match_pairs <= $$percent_max$$
+SELECT group_name, percent_match_pairs
+FROM apidb.OrthologGroup og
+WHERE percent_match_pairs between $$percent_min$$ AND $$percent_max$$
                 ]]>
             </sql>
         </sqlQuery>
@@ -245,7 +242,7 @@ SELECT sa.group_name, sum(answer.wdk_weight) AS wdk_weight
 FROM ApidbTuning.SequenceAttributes sa, ($$sequence_answer$$) answer
 WHERE sa.full_id = answer.full_id
   AND sa.group_name is not null
-GROUP BY og.name
+GROUP BY sa.group_name
                 ]]>
             </sql>
         </sqlQuery>

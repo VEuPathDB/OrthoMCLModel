@@ -155,7 +155,7 @@ WHERE asi.subclass_view = 'ExternalAASequence'
 SELECT eas.secondary_identifier AS full_id 
 FROM dots.ExternalAaSequence eas, apidb.OrthomclTaxon ot
 WHERE eas.taxon_id = ot.taxon_id
-  AND (lower(ot.three_letter_abbrev) LIKE lower(replace($$taxon_type_ahead$$, '*', '%'))
+  AND (ot.three_letter_abbrev LIKE lower(replace($$taxon_type_ahead$$, '*', '%'))
        OR lower(ot.name) LIKE lower(replace($$taxon_type_ahead$$, '*', '%')))
                ]]>
             </sql>
@@ -166,12 +166,12 @@ WHERE eas.taxon_id = ot.taxon_id
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-                     SELECT distinct eas.secondary_identifier as full_id
+                    SELECT distinct eas.secondary_identifier as full_id
                     FROM dots.ExternalAaSequence eas,
                          dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
                     WHERE eas.aa_sequence_id = asec.aa_sequence_id
                       AND asec.enzyme_class_id = ec.enzyme_class_id
-              AND ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_number_type_ahead$$),' ',''),'-', '%'),'*','%'),'any','%')
+                      AND ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE($$ec_number_type_ahead$$,' ',''),'-', '%'),'*','%'),'any','%')
                  ]]>
             </sql>
         </sqlQuery>
