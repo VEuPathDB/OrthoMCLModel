@@ -166,8 +166,8 @@ WHERE og.number_of_members >= $$sequence_count_min$$
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT group_name, percent_match_pairs
-FROM apidb.OrthologGroup og
+SELECT name as group_name, percent_match_pairs
+FROM apidb.OrthologGroup
 WHERE percent_match_pairs between $$percent_min$$ AND $$percent_max$$
                 ]]>
             </sql>
