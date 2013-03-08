@@ -120,6 +120,39 @@ ORDER BY ot.name
             </sql>
         </sqlQuery>
 
+       <sqlQuery name="RootTaxons" isCacheable="true">
+           <column name="helper_id"/>
+           <column name="taxon_abbrev"/>
+           <column name="color"/>
+           <sql>
+           <![CDATA[
+           SELECT 'helper' AS helper_id, t.* FROM (
+             SELECT 'OBAC' AS taxon_abbrev, '#9999CC' AS color FROM dual
+             UNION
+             SELECT 'FIRM' AS taxon_abbrev, '#33CC99' AS color FROM dual
+             UNION
+             SELECT 'PROT' AS taxon_abbrev, '#99CC66' AS color FROM dual
+             UNION
+             SELECT 'ARCH' AS taxon_abbrev, '#77CCDD' AS color FROM dual
+             UNION
+             SELECT 'OEUK' AS taxon_abbrev, '#CC9999' AS color FROM dual
+             UNION
+             SELECT 'VIRI' AS taxon_abbrev, '#CC9933' AS color FROM dual
+             UNION
+             SELECT 'EUGL' AS taxon_abbrev, '#CCCC66' AS color FROM dual
+             UNION
+             SELECT 'ALVE' AS taxon_abbrev, '#CC3399' AS color FROM dual
+             UNION
+             SELECT 'FUNG' AS taxon_abbrev, '#AA44DD' AS color FROM dual
+             UNION
+             SELECT 'META' AS taxon_abbrev, '#CC6666' AS color FROM dual
+             UNION
+             SELECT 'AMOE' AS taxon_abbrev, '#3399CC' AS color FROM dual
+             ) t
+           ]]>
+           </sql>
+       </sqlQuery>
+
     </querySet>
 
 </wdkModel>

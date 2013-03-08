@@ -83,6 +83,11 @@
             <table name="DataSummary"
                    displayName="Data Summary"
                    queryRef="HelperTables.DataSummary">
+                <textAttribute name="root_taxon" displayName="Category">
+                    <text>
+                        <![CDATA[ This attribute is just a place holder, the content will be determined in jsp  ]]>
+                    </text>
+                </textAttribute>
                 <columnAttribute name="name" displayName="Name" />
                 <columnAttribute name="three_letter_abbrev" displayName="Abbreviation" />
                 <columnAttribute name="resource_name" displayName="Resource" />
@@ -93,6 +98,11 @@
             <table name="ReleaseSummary"
                    displayName="Release Summary"
                    queryRef="HelperTables.ReleaseSummary">
+                <textAttribute name="root_taxon" displayName="Category">
+                  <text>
+                  <![CDATA[ This attribute is just a place holder, the content will be determined in jsp  ]]>
+                  </text>
+                </textAttribute>
                 <columnAttribute name="name" displayName="Name" />
                 <columnAttribute name="three_letter_abbrev" displayName="Abbreviation" />
                 <columnAttribute name="sequences" displayName="# Sequences" />
@@ -100,6 +110,11 @@
                 <columnAttribute name="groups" displayName="# Groups" />    
             </table>                       
  
+            <table name="RootTaxons" queryRef="HelperTables.RootTaxons">
+                <columnAttribute name="taxon_abbrev" />
+                <columnAttribute name="color" />
+            </table>
+
         </recordClass>
 
     </recordClassSet>
