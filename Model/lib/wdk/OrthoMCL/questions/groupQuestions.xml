@@ -137,7 +137,7 @@
 
       
       <question name="ByPhyleticPattern" queryRef="GroupIds.ByPhyleticPattern" 
-		displayName="Phyletic Patterns" shortDisplayName="Phyletic"
+		displayName="Phyletic Pattern" shortDisplayName="Phyletic"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
 	  <![CDATA[

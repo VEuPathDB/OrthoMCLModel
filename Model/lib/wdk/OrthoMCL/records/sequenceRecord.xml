@@ -143,9 +143,9 @@
       <!-- =============================================================== -->
 
             <table name="OldGroups"
-                   displayName="Groups from Previous Releases"
+                   displayName="Previous OrthoMCL Group IDs"
                    queryRef="SequenceTables.OldGroups">
-                <columnAttribute name="group_name" displayName="group_name" />
+                <columnAttribute name="group_name" displayName="Old Group ID" />
             </table>
 
             <table name="PFamDomains"
@@ -177,7 +177,7 @@
             </table>
                      
             <table name="PFams" internal="true" inReportMaker="false"
-                   displayName="Pfam Domain Architecture"
+                   displayName="Pfam Domains"
                    queryRef="SequenceTables.PFamDomains">
                 <columnAttribute name="primary_identifier" displayName="Primary Identifier" />
                 <columnAttribute name="secondary_identifier" displayName="Secondary Identifier" />
@@ -185,7 +185,7 @@
             </table>
 
             <table name="ProteinPFams" internal="true" inReportMaker="false"
-                   displayName="Pfam Domain Architecture"
+                   displayName="Pfam Domains"
                    queryRef="SequenceTables.PFamDomains">
                 <columnAttribute name="primary_identifier" displayName="Primary Identifier" />
                 <columnAttribute name="length" displayName="Length" />
