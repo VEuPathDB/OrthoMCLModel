@@ -51,8 +51,10 @@
       <!--  View definitions -->
       <!-- =============================================================== -->
 
-            <recordView name="pfam-domain" display="PFam domain"
-                         jsp="/wdkCustomization/jsp/records/sequence-pfam.jsp"/>
+
+            <recordView name="_default" display="Sequence Detail"
+                                     jsp="/wdkCustomization/jsp/records/sequence-default.jsp"/>
+
 
  
       <!-- =============================================================== -->
