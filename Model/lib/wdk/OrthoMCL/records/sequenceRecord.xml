@@ -52,7 +52,7 @@
       <!-- =============================================================== -->
 
 
-            <recordView name="_default" display="Sequence Detail"
+            <recordView name="_default" display="Overview"
                                      jsp="/wdkCustomization/jsp/records/sequence-default.jsp"/>
 
 
