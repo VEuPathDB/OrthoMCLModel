@@ -31,7 +31,7 @@
                 SELECT g.name AS group_name, g.number_of_members,
                        round(100 * number_of_match_pairs / (number_of_members * (number_of_members - 1)), 0) as percent_match_pairs,
                        g.number_of_match_pairs, g.avg_percent_identity,
-					   g.avg_percent_match, g.avg_connectivity,
+					   g.avg_percent_match, round(g.avg_connectivity, 1) as avg_connectivity,
 					   g.avg_evalue_mant, g.avg_evalue_exp
                 FROM apidb.OrthologGroup g
 			]]>
