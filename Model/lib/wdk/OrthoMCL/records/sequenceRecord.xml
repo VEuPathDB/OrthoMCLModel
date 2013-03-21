@@ -178,18 +178,13 @@
               <columnAttribute name="description" displayName="Description" />
             </table>
                      
-            <table name="PFams" internal="true" inReportMaker="false"
+
+            <table name="PFamDomains" internal="true" inReportMaker="false"
                    displayName="Pfam Domains"
                    queryRef="SequenceTables.PFamDomains">
                 <columnAttribute name="primary_identifier" displayName="Primary Identifier" />
                 <columnAttribute name="secondary_identifier" displayName="Secondary Identifier" />
                 <columnAttribute name="remark" displayName="Remark" />
-            </table>
-
-            <table name="ProteinPFams" internal="true" inReportMaker="false"
-                   displayName="Pfam Domains"
-                   queryRef="SequenceTables.PFamDomains">
-                <columnAttribute name="primary_identifier" displayName="Primary Identifier" />
                 <columnAttribute name="length" displayName="Length" />
                 <columnAttribute name="start_min" displayName="End" />
                 <columnAttribute name="end_max" displayName="Start" />

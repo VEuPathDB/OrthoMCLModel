@@ -129,7 +129,7 @@ WHERE df.aa_feature_id = al.aa_feature_id
   AND df.aa_feature_id = dbaf.aa_feature_id
   AND dbaf.db_ref_id = db.db_ref_id
   AND df.aa_sequence_id = eas.aa_sequence_id
-ORDER BY al.start_min ASC, al.end_max ASC
+ORDER BY db.primary_identifier ASC, al.start_min ASC, al.end_max ASC
                         ]]>
             </sql>
         </sqlQuery>
