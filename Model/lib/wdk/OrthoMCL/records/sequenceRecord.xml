@@ -19,22 +19,22 @@
       <!-- Reporters -->  
       <!-- =============================================================== -->
 
-            <reporter name="tabular" displayName="Summary - Choose columns only, tab delimited"
+            <reporter name="tabular" displayName="Tab/Excel: summary"
                       implementation="org.gusdb.wdk.model.report.TabularReporter">
             </reporter>
 
-            <reporter name="fullRecord" displayName="Text: choose from columns and/or tables"
+            <reporter name="fullRecord" displayName="Text: details"
                     implementation="org.gusdb.wdk.model.report.FullRecordReporter"/>         
  
-            <reporter name="xml" displayName="XML: choose from columns and/or tables"
+            <reporter name="xml" displayName="XML: details"
                       implementation="org.gusdb.wdk.model.report.XMLReporter">          
             </reporter>         
          
-            <reporter name="json" displayName="json: choose from columns and/or tables"
+            <reporter name="json" displayName="JSON: details"
                       implementation="org.gusdb.wdk.model.report.JSONReporter">          
             </reporter>
          
-            <reporter name="fasta" displayName="Download protein sequences in FASTA format"
+            <reporter name="fasta" displayName="FASTA: protein sequence"
                       implementation="org.orthomcl.model.report.FastaReporter">          
             </reporter>
 
