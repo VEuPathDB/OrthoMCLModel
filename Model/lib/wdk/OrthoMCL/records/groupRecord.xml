@@ -105,7 +105,7 @@
                             view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
 
-                <columnAttribute name="avg_percent_match" displayName="Average % Match" help="The average of the percent match of all pairs of sequences in a group that have an above threshold similarity.  See the Orthomcl Algorithm Document for details.">
+                <columnAttribute name="avg_percent_match" displayName="Average % Match" help="The average of the percent match length of all pairs of sequences in a group that have an above threshold similarity.  See the Orthomcl Algorithm Document for details.">
                     <plugin name="histogram" display="Histogram"
                             description="Display the histogram of the values of this attribute"
                             implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
