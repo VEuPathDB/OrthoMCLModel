@@ -228,5 +228,17 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
           </sql>
         </sqlQuery>
 
+        <sqlQuery name="GroupName">
+          <column name="group_name"/>
+          <column name="name_string"/>
+
+          <sql>
+            <![CDATA[
+              select name as group_name, name as name_string
+              from apidb.OrthologGroup
+            ]]>
+          </sql>
+        </sqlQuery>
+
     </querySet>
 </wdkModel>

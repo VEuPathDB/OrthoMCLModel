@@ -190,12 +190,11 @@
                 <columnAttribute name="end_max" displayName="Start" />
             </table>
 
-            <!-- one-row tables for text search -->
+            <!-- tables for text search -->
 
             <table name="Product" internal="true" inReportMaker="false"
-                   displayName="Product"
                    queryRef="SequenceTables.Product">
-                <columnAttribute name="product" displayName="Product" />
+                <columnAttribute name="product" />
             </table>
 
             <table name="Taxon" internal="true" inReportMaker="false"
@@ -203,6 +202,11 @@
                    queryRef="SequenceTables.Taxon">
                 <columnAttribute name="taxon" displayName="Taxon" />
                 <columnAttribute name="abbreviation" displayName="Abbreviation" />
+            </table>
+
+            <table name="OrthologGroupId" internal="true" inReportMaker="false"
+                   queryRef="SequenceTables.OrthologGroupId">
+                <columnAttribute name="group_name" />
             </table>
 
         </recordClass>

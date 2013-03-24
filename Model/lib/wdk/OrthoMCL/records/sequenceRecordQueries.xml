@@ -134,7 +134,26 @@ ORDER BY db.primary_identifier ASC, al.start_min ASC, al.end_max ASC
             </sql>
         </sqlQuery>
 
-        <!-- one-row tables for text search -->
+        <sqlQuery name="EcNumbers">
+            <column name="full_id"/>
+            <column name="ec_number"/>
+            <column name="description"/>
+            <sql>
+                <![CDATA[
+                    SELECT eas.secondary_identifier as full_id, ec.ec_number, ec.description,
+                                 'http://enzyme.expasy.org/cgi-bin/enzyme/enzyme-search-ec?field1=' || ec.ec_number_1
+                                 || chr(38) || 'field2=' || ec.ec_number_2
+                                 || chr(38) || 'field3=' || ec.ec_number_3
+                                 || chr(38) || 'field4=' || ec.ec_number_4 as expasy_url
+                    FROM dots.ExternalAaSequence eas,
+                         dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
+                    WHERE eas.aa_sequence_id = asec.aa_sequence_id
+                      AND asec.enzyme_class_id = ec.enzyme_class_id
+ 		]]>
+            </sql>
+        </sqlQuery>
+
+        <!-- tables for text search -->
 
         <sqlQuery name="Product">
             <column name="full_id"/>
@@ -163,21 +182,27 @@ ORDER BY db.primary_identifier ASC, al.start_min ASC, al.end_max ASC
             </sql>
         </sqlQuery>
 
-        <sqlQuery name="EcNumbers">
+        <sqlQuery name="OrthologGroupId">
             <column name="full_id"/>
-            <column name="ec_number"/>
-            <column name="description"/>
+            <column name="group_name"/>
             <sql>
                 <![CDATA[
-                    SELECT eas.secondary_identifier as full_id, ec.ec_number, ec.description,
-                                 'http://enzyme.expasy.org/cgi-bin/enzyme/enzyme-search-ec?field1=' || ec.ec_number_1
-                                 || chr(38) || 'field2=' || ec.ec_number_2
-                                 || chr(38) || 'field3=' || ec.ec_number_3
-                                 || chr(38) || 'field4=' || ec.ec_number_4 as expasy_url
-                    FROM dots.ExternalAaSequence eas,
-                         dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
-                    WHERE eas.aa_sequence_id = asec.aa_sequence_id
-                      AND asec.enzyme_class_id = ec.enzyme_class_id
+                    with sequences as
+                         (select full_id, group_name, aa_sequence_id
+                          from ApidbTuning.SequenceAttributes)
+                      select s.full_id, s.group_name
+                      from sequences s
+                      where s.group_name is not null
+                    union
+                      select s.full_id, ref.primary_identifier AS group_name
+                      from sequences s, 
+                           dots.AaSequenceDbRef seqref, Sres.DbRef ref,
+                           sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr
+                      where s.aa_sequence_id = seqref.aa_sequence_id
+                        and seqref.db_ref_id = ref.db_ref_id
+                        and ref.external_database_release_id = dbr.external_database_release_id
+                        and dbr.external_database_id = db.external_database_id
+                        and db.name = 'OrthoMCL Old Groups'
  		]]>
             </sql>
         </sqlQuery>
