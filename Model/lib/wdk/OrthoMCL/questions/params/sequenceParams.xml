@@ -36,6 +36,9 @@
             <suggest sample="(Example: CC6+RK)" default="CC6+RK"/>
         </stringParam>
 
+        <stringParam name="BlastDatabase" number="false" visible="false">
+        </stringParam>
+
         <enumParam name="BlastAlgorithm"
              prompt="BLAST Program"
              displayType="radioBox"  quote="false"
