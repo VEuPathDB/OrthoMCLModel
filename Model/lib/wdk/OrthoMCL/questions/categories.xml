@@ -29,9 +29,11 @@
                         parentRef="GroupRecordClasses.GroupRecordClass">
      	    <questionRef>GroupQuestions.BySequenceCount</questionRef>
      	    <questionRef>GroupQuestions.ByGenomeCount</questionRef>
+     	    <questionRef>GroupQuestions.ByConnectivity</questionRef>
      	    <questionRef>GroupQuestions.ByPercentMatchPairs</questionRef>
      	    <questionRef>GroupQuestions.ByPercentIdentity</questionRef>
      	    <questionRef>GroupQuestions.ByPercentMatch</questionRef>
+     	    <questionRef>GroupQuestions.ByEValue</questionRef>
         </searchCategory>
      
   <!--++++++++++++++++++++++++++++++++++++++++++++++++-->

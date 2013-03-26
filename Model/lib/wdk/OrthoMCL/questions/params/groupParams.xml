@@ -46,6 +46,16 @@
             <suggest default="80" />
         </stringParam>
 
+        <stringParam name="evalue_min" prompt="Min E-Value exponent" number="true">
+            <help>The minimum exponent.</help>
+            <suggest default="-100" />
+        </stringParam>
+
+        <stringParam name="evalue_max" prompt="Max E-Value exponent" number="true">
+            <help>The maximum exponent</help>
+            <suggest default="-5" />
+        </stringParam>
+
         <stringParam name="phyletic_expression" prompt="Expression" number="false"
                      handlerClass="org.orthomcl.model.phyletic.ExpressionParamHandler">
             <help>

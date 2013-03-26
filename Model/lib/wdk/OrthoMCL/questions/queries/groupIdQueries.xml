@@ -5,24 +5,6 @@
     <!-- model querySets -->
     <!-- *************** -->
 
-    <!--
-    A "query" obtains tabular values from a data source.  It has columns
-    and parameters.  So far, only SQL data sources are supported, but others,
-    such as flat files are coming.  
-
-    Queries are used for different purposes: providing primary keys to a 
-    question; providing attributes and tables to a record; and, providing
-    vocabularies to vocabulary parameters.
-
-    A "query set" is a grouping of queries.  It is useful in organizing the
-    model xml file.  
-
-    The full name of a query is of the form "set_name.name."
-    -->
-
-
-    <!-- Queries that return primary keys (for use in questions and nested records.). -->
-
     <querySet name="GroupIds" queryType="id" isCacheable="false">
 
         <sqlQuery name="ByNameList" isCacheable="true">
@@ -160,13 +142,27 @@ WHERE og.number_of_members >= $$sequence_count_min$$
         </sqlQuery>
 
 
+        <sqlQuery name="ByAvgConnectivity" isCacheable="true">
+            <paramRef ref="groupParams.percent_min"/>
+            <paramRef ref="groupParams.percent_max"/>
+            <column name="group_name"/>
+            <sql>
+                <![CDATA[
+SELECT name as group_name
+FROM apidb.OrthologGroup
+WHERE avg_connectivity between $$percent_min$$ AND $$percent_max$$
+                ]]>
+            </sql>
+        </sqlQuery>
+
+
         <sqlQuery name="ByPercentMatchPairs" isCacheable="true">
             <paramRef ref="groupParams.percent_min"/>
             <paramRef ref="groupParams.percent_max"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT name as group_name, percent_match_pairs
+SELECT name as group_name
 FROM apidb.OrthologGroup
 WHERE percent_match_pairs between $$percent_min$$ AND $$percent_max$$
                 ]]>
@@ -199,6 +195,21 @@ SELECT og.name AS group_name
 FROM apidb.OrthologGroup og
 WHERE og.avg_percent_match >= $$percent_min$$
   AND og.avg_percent_match <= $$percent_max$$
+                ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="ByEValue" isCacheable="true">
+            <paramRef ref="groupParams.evalue_min"/>
+            <paramRef ref="groupParams.evalue_max"/>
+            <column name="group_name"/>
+            <sql>
+                <![CDATA[
+SELECT og.name AS group_name
+FROM apidb.OrthologGroup og
+WHERE og.avg_evalue_exp >= $$evalue_min$$
+  AND og.avg_evalue_exp <= $$evalue_max$$
                 ]]>
             </sql>
         </sqlQuery>
