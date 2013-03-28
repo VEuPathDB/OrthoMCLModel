@@ -7,6 +7,7 @@
     <searchCategory name="GroupRecordClasses.GroupRecordClass" displayName="Search for Groups by:" />
     
 	<searchCategory name="group-keyword" displayName="Text, IDs"
+                        flattenInMenu="true"
                         parentRef="GroupRecordClasses.GroupRecordClass">
             <questionRef>GroupQuestions.ByNameList</questionRef>
             <!-- questionRef>GroupQuestions.ByKeyword</questionRef -->
@@ -14,11 +15,13 @@
 	</searchCategory>
 				
 	<searchCategory name="group-evolution" displayName="Evolution"
+                        flattenInMenu="true"
                         parentRef="GroupRecordClasses.GroupRecordClass">
      	    <questionRef>GroupQuestions.ByPhyleticPattern</questionRef>
         </searchCategory>
 
 	<searchCategory name="group-function" displayName="Function"
+                        flattenInMenu="true"
                         parentRef="GroupRecordClasses.GroupRecordClass">
      	    <questionRef>GroupQuestions.ByPFamIdOrKeyword</questionRef>
      	    <questionRef>GroupQuestions.ByEcNumber</questionRef>
@@ -44,6 +47,7 @@
       <searchCategory name="SequenceRecordClasses.SequenceRecordClass" displayName="Search for Sequences by:" />
      
 	<searchCategory name="sequence-keyword" displayName="Text, IDs"
+                        flattenInMenu="true"
                         parentRef="SequenceRecordClasses.SequenceRecordClass">
             <questionRef>SequenceQuestions.ByIdList</questionRef>
             <questionRef>SequenceQuestions.ByGroupIdList</questionRef>
@@ -52,18 +56,21 @@
        </searchCategory>
 
 	<searchCategory name="sequence-function" displayName="Function"
+                        flattenInMenu="true"
                         parentRef="SequenceRecordClasses.SequenceRecordClass">
      	    <questionRef>SequenceQuestions.ByPFamIdOrKeyword</questionRef>
      	    <questionRef>SequenceQuestions.ByEcNumber</questionRef>
         </searchCategory>
 		
 	<searchCategory name="sequence-similarity" displayName="Similarity/Pattern"
+                        flattenInMenu="true"
                         parentRef="SequenceRecordClasses.SequenceRecordClass">
      	    <questionRef>SequenceQuestions.ByBlast</questionRef>
      	    <questionRef>SequenceQuestions.ByMotif</questionRef>
         </searchCategory>
 		
 	<searchCategory name="sequence-properties" displayName="Sequence Attributes"
+                        flattenInMenu="true"
                         parentRef="SequenceRecordClasses.SequenceRecordClass">
             <questionRef>SequenceQuestions.ByTaxonomy</questionRef>
         </searchCategory>
