@@ -118,20 +118,24 @@
           </help>
           <enumList>
             <enumValue default="true">
-              <term>Product</term>
+              <term>product</term>
               <internal>Product</internal>
             </enumValue>
-            <enumValue  default="true">
-              <term>PFam domain names and descriptions</term>
-              <internal>PFam</internal>
-            </enumValue>
             <enumValue default="true">
-              <term>Taxon</term>
+              <term>taxon</term>
               <internal>Taxon</internal>
             </enumValue>
+            <enumValue  default="true">
+              <term>PFam domains (names and descriptions)</term>
+              <internal>PFams</internal>
+            </enumValue>
             <enumValue default="true">
-              <term>Old OrthoMCL groups (from previous releases)</term>
-              <internal>OldGroups</internal>
+              <term>EC numbers (and descriptions)</term>
+              <internal>EcNumbers</internal>
+            </enumValue>
+            <enumValue default="true">
+              <term>ortholog group ID (in current or previous OrthoMCL releases)</term>
+              <internal>OrthologGroupId</internal>
             </enumValue>
           </enumList>
         </enumParam>

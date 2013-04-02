@@ -70,17 +70,30 @@
                          prompt="Fields"
                          multiPick="true">
           <help>
-                 Choose which text fields to search.
+                 Choose which text fields to search
           </help>
           <enumList>
-            <enumValue  default="true">
-              <term>PFam domain names and descriptions</term>
-              <internal>PFams</internal>
-            </enumValue>
+
             <enumValue default="true">
-              <term>Sequence IDs descriptions and taxa</term>
+              <term>sequences (IDs / descriptions / taxa)</term>
               <internal>Sequences</internal>
             </enumValue>
+
+            <enumValue default="true">
+              <term>PFam domains (names and descriptions)</term>
+              <internal>PFams</internal>
+            </enumValue>
+
+            <enumValue default="true">
+              <term>EC numbers (and descriptions)</term>
+              <internal>EcNumber</internal>
+            </enumValue>
+
+            <enumValue default="true">
+              <term>ortholog group ID</term>
+              <internal>GroupName</internal>
+            </enumValue>
+
           </enumList>
         </enumParam>
 
