@@ -44,6 +44,15 @@
                 Find Ortholog Groups based on text terms.
 			]]>
         </description>
+            <dynamicAttributes>
+                <columnAttribute name="fields_matched"
+                           displayName="Found in"/>
+                <columnAttribute name="max_score"
+                           displayName="Score" align="center"/>
+            </dynamicAttributes>
+            <attributesList
+               summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, max_score, fields_matched"
+               sorting="max_score desc,number_of_members desc"/>
       </question>
 
 
