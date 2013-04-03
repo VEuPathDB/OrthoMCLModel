@@ -177,7 +177,7 @@
             </table>
             
             <table name="PFams"
-                   displayName="Pfam Domain Architecture"
+                   displayName="Pfam Domains"
                    queryRef="GroupTables.PFams">
                 <columnAttribute name="primary_identifier" displayName="Primary Identifier" />
                 <columnAttribute name="secondary_identifier" displayName="Secondary Identifier" />
