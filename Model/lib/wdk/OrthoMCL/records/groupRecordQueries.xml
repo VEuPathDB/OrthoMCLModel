@@ -157,13 +157,15 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
 
         <sqlQuery name="PFams">
           <column name="group_name"/>
-          <column name="primary_identifier"/>
-          <column name="secondary_identifier"/>
-          <column name="remark"/>
+          <column name="accession"/>
+          <column name="symbol"/>
+          <column name="description"/>
+          <column name="occurrences"/>
           <sql>
             <![CDATA[
-              select sa.group_name, db.primary_identifier,
-                     db.secondary_identifier, db.remark, count(*) as occurrences
+              select sa.group_name, db.primary_identifier as accession,
+                     db.secondary_identifier as symbol, db.remark as description,
+                     count(*) as occurrences
               from ApidbTuning.SequenceAttributes sa, dots.DomainFeature df,
                    dots.DbRefAaFeature dbaf, sres.DbRef db,
                    sres.ExternalDatabaseRelease edr, sres.ExternalDatabase ed
@@ -182,7 +184,7 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
 
         <sqlQuery name="ProteinPFams">
           <column name="group_name"/>
-          <column name="primary_identifier"/>
+          <column name="accession"/>
           <column name="source_id"/>
           <column name="length"/>
           <column name="start_min"/>
@@ -190,7 +192,7 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
           <sql>
             <![CDATA[
               SELECT sa.group_name, sa.source_id, sa.length,
-                     da.primary_identifier, da.start_min, da.end_max
+                     da.primary_identifier as accession, da.start_min, da.end_max
               FROM ApidbTuning.SequenceAttributes sa
                    LEFT JOIN
                    (SELECT df.aa_sequence_id, db.primary_identifier,
