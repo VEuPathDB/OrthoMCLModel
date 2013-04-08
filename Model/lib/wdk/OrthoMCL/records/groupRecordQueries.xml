@@ -119,7 +119,7 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
                     from apidb.OrthomclGroupKeyword
                     group by ortholog_group_id
                    ) verbiage
-              where og.ortholog_group_id = verbiage.ortholog_group_id
+              where og.ortholog_group_id = verbiage.ortholog_group_id(+)
             ]]>
 	  </sql>
 	</sqlQuery>
