@@ -150,15 +150,6 @@
                 <columnAttribute name="group_name" displayName="Old Group ID" />
             </table>
 
-            <table name="PFamDomains"
-                   displayName="Pfam Domain Architecture"
-                   queryRef="SequenceTables.PFamDomains">
-                <columnAttribute name="primary_identifier" displayName="Primary Identifier" />
-                <columnAttribute name="secondary_identifier" displayName="Secondary Identifier" />
-                <columnAttribute name="remark" displayName="Remark" />
-                <columnAttribute name="start_min" displayName="End" />
-                <columnAttribute name="end_max" displayName="Start" />
-            </table>
                      
             <table name="EcNumbers"
                    displayName="Enzyme Commission Assignments"
@@ -182,12 +173,14 @@
             <table name="PFamDomains" internal="true" inReportMaker="false"
                    displayName="Pfam Domains"
                    queryRef="SequenceTables.PFamDomains">
-                <columnAttribute name="primary_identifier" displayName="Primary Identifier" />
-                <columnAttribute name="secondary_identifier" displayName="Secondary Identifier" />
-                <columnAttribute name="remark" displayName="Remark" />
+                <columnAttribute name="accession" displayName="Primary Identifier" />
+                <columnAttribute name="symbol" displayName="Secondary Identifier" />
+                <columnAttribute name="description" displayName="Remark" />
                 <columnAttribute name="length" displayName="Length" />
                 <columnAttribute name="start_min" displayName="End" />
                 <columnAttribute name="end_max" displayName="Start" />
+                <columnAttribute name="domain_index" internal="true" />
+                <columnAttribute name="max_index" internal="true" />
             </table>
 
             <!-- tables for text search -->

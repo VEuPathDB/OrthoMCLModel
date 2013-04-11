@@ -191,16 +191,19 @@
                 <columnAttribute name="symbol" displayName="Symbol" />
                 <columnAttribute name="description" displayName="Description" />
                 <columnAttribute name="occurrences" displayName="Count" />
+                <columnAttribute name="domain_index" internal="true" />
+                <columnAttribute name="max_index" internal="true" />
             </table>
 
             <table name="ProteinPFams"
                    displayName="Pfam Domain Architecture"
                    queryRef="GroupTables.ProteinPFams">
                 <columnAttribute name="accession" displayName="Accession Number" />
-                <columnAttribute name="source_id" displayName="Source Id" />
+                <columnAttribute name="full_id" displayName="Source Id" />
                 <columnAttribute name="length" displayName="Length" />
                 <columnAttribute name="start_min" displayName="End" />
                 <columnAttribute name="end_max" displayName="Start" />
+                <columnAttribute name="domain_index" internal="true" />
             </table>
 
             <table name="EcNumber"

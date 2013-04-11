@@ -197,23 +197,15 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
           <column name="symbol"/>
           <column name="description"/>
           <column name="occurrences"/>
+          <column name="domain_index"/>
+          <column name="max_index"/>
           <sql>
             <![CDATA[
-              select sa.group_name, db.primary_identifier as accession,
-                     db.secondary_identifier as symbol, db.remark as description,
-                     count(*) as occurrences
-              from ApidbTuning.SequenceAttributes sa, dots.DomainFeature df,
-                   dots.DbRefAaFeature dbaf, sres.DbRef db,
-                   sres.ExternalDatabaseRelease edr, sres.ExternalDatabase ed
-              where sa.aa_sequence_id = df.aa_sequence_id
-                and df.aa_feature_id = dbaf.aa_feature_id
-                and dbaf.db_ref_id = db.db_ref_id
-                and db.external_database_release_id = edr.external_database_release_id
-                and edr.external_database_id = ed.external_database_id
-                and ed.name = 'PFAM'
-              group by sa.group_name, db.primary_identifier,
-                     db.secondary_identifier, db.remark
-              order by db.primary_identifier
+     SELECT group_name, accession, symbol, description, domain_index, COUNT(*) as occurrences,
+            (SELECT MAX(domain_index) FROM ApidbTuning.DomainAssignment) AS max_index
+     FROM ApidbTuning.DomainAssignment
+     GROUP BY group_name, accession, symbol, description, domain_index
+     ORDER BY accession
             ]]>
           </sql>
         </sqlQuery>
@@ -221,28 +213,18 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
         <sqlQuery name="ProteinPFams">
           <column name="group_name"/>
           <column name="accession"/>
-          <column name="source_id"/>
+          <column name="full_id"/>
+          <column name="domain_index"/>
           <column name="length"/>
           <column name="start_min"/>
           <column name="end_max"/>
           <sql>
             <![CDATA[
-              SELECT sa.group_name, sa.source_id, sa.length,
-                     da.primary_identifier as accession, da.start_min, da.end_max
-              FROM ApidbTuning.SequenceAttributes sa
-                   LEFT JOIN
-                   (SELECT df.aa_sequence_id, db.primary_identifier,
-                           al.start_min, al.end_max
-                    FROM dots.DomainFeature df,
-                         dots.DbRefAaFeature dbaf,
-                         sres.DbRef db,
-                         dots.AaLocation al
-                    WHERE df.aa_feature_id = al.aa_feature_id
-                      AND df.aa_feature_id = dbaf.aa_feature_id
-                      AND dbaf.db_ref_id = db.db_ref_id
-                   ) da
-                   ON sa.aa_sequence_id = da.aa_sequence_id
-              ORDER BY sa.source_id, da.start_min
+     SELECT da.group_name, da.full_id, da.accession, da.domain_index,
+            sa.length, da.start_min, da.end_max
+     FROM ApidbTuning.DomainAssignment da, ApidbTuning.SequenceAttributes sa
+     WHERE da.full_id = sa.full_id
+     ORDER BY da.full_id, da.start_min
             ]]>
           </sql>
         </sqlQuery>
