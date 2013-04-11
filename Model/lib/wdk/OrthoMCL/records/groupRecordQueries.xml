@@ -260,5 +260,33 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
           </sql>
         </sqlQuery>
 
+
+        <sqlQuery name="KeywordFrequency">
+          <column name="group_name" />
+          <column name="keyword" />
+          <column name="frequency" />
+          <sql>
+            <![CDATA[
+              select og.name as group_name, k.keyword, k.frequency
+              from apidb.OrthologGroup og, apidb.OrthomclGroupKeyword k
+              WHERE og.ortholog_group_id = k.ortholog_group_id
+            ]]>
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="DomainFrequency">
+          <column name="group_name" />
+          <column name="keyword" />
+          <column name="frequency" />
+          <sql>
+            <![CDATA[
+              select og.name as group_name, d.description AS keyword, d.frequency
+              from apidb.OrthologGroup og, apidb.OrthomclGroupDomain d
+              WHERE og.ortholog_group_id = d.ortholog_group_id
+            ]]>
+          </sql>
+        </sqlQuery>
+
+
     </querySet>
 </wdkModel>

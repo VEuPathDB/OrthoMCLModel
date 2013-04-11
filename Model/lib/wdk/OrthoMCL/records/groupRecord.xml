@@ -231,6 +231,20 @@
               <columnAttribute name="name_string" internal="true" inReportMaker="true"/>
             </table>
 
+
+            <table name="KeywordFrequency" internal="true"
+                   queryRef="GroupTables.KeywordFrequency">
+              <columnAttribute name="keyword"/>
+              <columnAttribute name="frequency"/>
+            </table>
+
+
+            <table name="DomainFrequency" internal="true"
+                   queryRef="GroupTables.DomainFrequency">
+              <columnAttribute name="keyword"/>
+              <columnAttribute name="frequency"/>
+            </table>
+
         </recordClass>
 
     </recordClassSet>
