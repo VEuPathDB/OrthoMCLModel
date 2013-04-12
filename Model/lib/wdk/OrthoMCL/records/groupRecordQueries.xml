@@ -213,6 +213,7 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
         <sqlQuery name="ProteinPFams">
           <column name="group_name"/>
           <column name="accession"/>
+          <column name="symbol"/>
           <column name="full_id"/>
           <column name="domain_index"/>
           <column name="length"/>
@@ -220,10 +221,11 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
           <column name="end_max"/>
           <sql>
             <![CDATA[
-     SELECT da.group_name, da.full_id, da.accession, da.domain_index,
+     SELECT sa.group_name, sa.full_id, da.accession, da.symbol, da.domain_index,
             sa.length, da.start_min, da.end_max
-     FROM ApidbTuning.DomainAssignment da, ApidbTuning.SequenceAttributes sa
-     WHERE da.full_id = sa.full_id
+     from ApidbTuning.SequenceAttributes sa            
+     Left outer join ApidbTuning.DomainAssignment da
+     on da.full_id = sa.full_id
      ORDER BY da.full_id, da.start_min
             ]]>
           </sql>

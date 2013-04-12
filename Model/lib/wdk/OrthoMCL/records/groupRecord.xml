@@ -199,6 +199,7 @@
                    displayName="Pfam Domain Architecture"
                    queryRef="GroupTables.ProteinPFams">
                 <columnAttribute name="accession" displayName="Accession Number" />
+                <columnAttribute name="symbol" displayName="Symbol" />
                 <columnAttribute name="full_id" displayName="Source Id" />
                 <columnAttribute name="length" displayName="Length" />
                 <columnAttribute name="start_min" displayName="End" />

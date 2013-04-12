@@ -28,7 +28,7 @@
         </searchCategory>
 		
 		
-	<searchCategory name="group-properties" displayName="Group Attributes"
+	<searchCategory name="group-properties" displayName="Group Statistics"
                         parentRef="GroupRecordClasses.GroupRecordClass">
      	    <questionRef>GroupQuestions.BySequenceCount</questionRef>
      	    <questionRef>GroupQuestions.ByGenomeCount</questionRef>

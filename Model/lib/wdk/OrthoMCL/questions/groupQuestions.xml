@@ -201,7 +201,8 @@ These expressions find ortholog groups in which...
     <tr><th><code>hsap+ecol=1T</code></th><td>only one species of human or E. coli is present.</td></tr>
     <tr><th><code>hsap+ecol>=1T</code></th><td>only one or both species of human and E. coli is present.</td></tr>
     <tr><th><code>hsap+ecol>=10</code></th><td>there are 10 or more human or E. Coli sequences.</td></tr>
-    <tr><th><code>hsap+FIRM=2</code></th><td>there are exactly 2 human or Gram-positive bacteria sequences</td></tr>
+    <tr><th><code>EUKA=5</code></th><td>there are exactly eukaryotic 5 sequences</td></tr>
+    <tr><th><code>EUKA=5T</code></th><td>there are exactly eukaryotic 5 taxa</td></tr>
     <tr><th><code>hsap+FIRM=2T</code></th><td>there are exactly 2 human or Gram-positive bacteria taxa</td></tr>
     <tr><th><code>EUKA=35T</code></th><td>there are all 35 eukaryotic species, ie, Eukaryota-universal groups</td></tr>
     <tr><th><code>EUKA>=5T AND hsap>=10</code></th><td>there are at least five eukaryotic species and containing at least 10 human sequences.</td></tr>
