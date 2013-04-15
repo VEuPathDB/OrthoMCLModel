@@ -71,23 +71,14 @@
 
        <sql>
             <![CDATA[
-            SELECT DISTINCT sa.group_name
-            FROM ApidbTuning.SequenceAttributes sa,
-                 dots.DomainFeature df,
-                 dots.DbRefAaFeature draf, sres.DbRef dr, sres.ExternalDatabase ed,
-                  sres.ExternalDatabaseRelease edr
-            WHERE sa.group_name is not null
-              AND ed.name = 'PFAM'
-              AND edr.external_database_id = ed.external_database_id
-              AND dr.external_database_release_id = edr.external_database_release_id 
-              AND draf.db_ref_id = dr.db_ref_id
-              AND df.aa_feature_id = draf.aa_feature_id
-              AND sa.aa_sequence_id = df.aa_sequence_id
-              AND (dr.primary_identifier
+            SELECT DISTINCT group_name
+            FROM ApidbTuning.DomainAssignment
+            WHERE group_name is not null
+              AND (accession
                    LIKE UPPER(REPLACE($$pfam_id_type_ahead$$,'*','%'))
-                  OR dr.secondary_identifier
+                  OR symbol
                    LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
-                  OR dr.remark
+                  OR description
                    LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
             ]]>
        </sql>

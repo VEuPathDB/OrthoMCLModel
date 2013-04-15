@@ -127,21 +127,14 @@ WHERE asi.subclass_view = 'ExternalAASequence'
 
         <sql>
             <![CDATA[
-            SELECT distinct eas.secondary_identifier AS full_id 
-            FROM dots.ExternalAaSequence eas, dots.DomainFeature df,
-                 dots.DbRefAaFeature draf, sres.DbRef dr, sres.ExternalDatabase ed, sres.ExternalDatabaseRelease edr
-            WHERE lower(ed.name) like '%pfam%'
-              AND edr.external_database_id = ed.external_database_id
-              AND dr.external_database_release_id = edr.external_database_release_id 
-              AND draf.db_ref_id = dr.db_ref_id
-              AND df.aa_feature_id = draf.aa_feature_id
-              AND eas.aa_sequence_id = df.aa_sequence_id
-              AND (dr.primary_identifier
-                  LIKE UPPER(REPLACE($$pfam_id_type_ahead$$,'*','%'))
-                  OR dr.secondary_identifier
-                  LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
-                  OR dr.remark
-                  LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
+            SELECT distinct full_id 
+            FROM ApidbTuning.DomainAssignment
+            WHERE (accession
+                   LIKE UPPER(REPLACE($$pfam_id_type_ahead$$,'*','%'))
+                  OR symbol
+                   LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
+                  OR description
+                   LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
             ]]>
        </sql>
     </sqlQuery>

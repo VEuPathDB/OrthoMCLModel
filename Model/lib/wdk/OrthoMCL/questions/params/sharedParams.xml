@@ -93,18 +93,13 @@ FROM apidb.OrthomclTaxon t
             <column name="term" />
             <column name="display"/>
             <sql>
-                SELECT dr.primary_identifier AS internal,
-                       dr.primary_identifier || ' : ' || dr.secondary_identifier AS term,
-                       dr.primary_identifier || ' : ' || dr.secondary_identifier || ' ' ||
-                       dr.remark AS display,
-                       dr.secondary_identifier,dr.remark
-                FROM sres.DbRef dr, sres.ExternalDatabaseRelease edr,
-                     sres.ExternalDatabase ed, ApidbTuning.TypeAheadCounts tac
-                WHERE lower(ed.name) like '%pfam%'
-                  AND edr.external_database_id = ed.external_database_id
-                  AND dr.external_database_release_id = edr.external_database_release_id
-                  AND tac.option_id = dr.primary_identifier
-                  ORDER BY lower(dr.secondary_identifier),lower(dr.remark)
+                SELECT distinct accession AS internal,
+                       accession || ' : ' || symbol AS term,
+                       accession || ' : ' || symbol || ' ' ||
+                       description AS display,
+                       symbol, description
+                FROM ApidbTuning.DomainAssignment
+                ORDER BY lower(symbol), lower(description)
             </sql>
         </sqlQuery>
 
