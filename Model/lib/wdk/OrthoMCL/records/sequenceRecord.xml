@@ -188,6 +188,7 @@
             <table name="Product" internal="true" inReportMaker="false"
                    queryRef="SequenceTables.Product">
                 <columnAttribute name="product" />
+                <columnAttribute name="id_string" />
             </table>
 
             <table name="Taxon" internal="true" inReportMaker="false"

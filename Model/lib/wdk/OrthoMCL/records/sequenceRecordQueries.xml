@@ -154,10 +154,12 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
         <sqlQuery name="Product">
             <column name="full_id"/>
             <column name="product"/>
+            <column name="id_string"/>
             <sql>
 		<![CDATA[
                   SELECT eas.secondary_identifier AS full_id,
-                         eas.description AS product
+                         eas.description AS product,
+                         eas.secondary_identifier AS id_string
                   FROM dots.ExternalAaSequence eas
  		]]>
             </sql>
