@@ -138,7 +138,7 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
                     from apidb.OrthomclGroupDomain
                     group by ortholog_group_id
                    ) domains
-              where og.ortholog_group_id = domains.ortholog_group_id
+              where og.ortholog_group_id = domains.ortholog_group_id(+)
             ]]>
 	  </sql>
 	</sqlQuery>
