@@ -243,7 +243,7 @@ SELECT eas.secondary_identifier AS full_id FROM dots.ExternalAaSequence eas
        <paramRef ref="sharedParams.wdk_record_type" default="sequence"/>
        <paramRef ref="sharedParams.text_expression"/>
        <paramRef ref="sequenceParams.text_fields"/>
-       <paramRef ref="sharedParams.detail_table" default="apidb.SequenceDetail"/>
+       <paramRef ref="sharedParams.detail_table" default="apidb.OrthomclSequenceDetail"/>
        <paramRef ref="sharedParams.primary_key_column" default="full_id"/>
        <paramRef ref="sharedParams.project_id" default="OrthoMCL"/>
        <wsColumn name="full_id" width="100" wsName="RecordID"/>
