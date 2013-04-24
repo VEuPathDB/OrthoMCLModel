@@ -677,7 +677,7 @@ sub handleFailedJobs {
       
       mailServerErrorToAdmin("$localFailedDir/$failedJob/info.txt", $failedJob, "$localFailedDir/$failedJob", $clusterFailedJobDir);
 
-      $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"mv $clusterRunningJobDir $clusterFailedJobDir\"'");
+      $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"if [ -d $clusterRunningJobDir ]; then mv $clusterRunningJobDir $clusterFailedJobDir; fi \"'");
     }
 }
 
