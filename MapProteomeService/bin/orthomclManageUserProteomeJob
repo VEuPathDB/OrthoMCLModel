@@ -102,30 +102,31 @@ eval {
 
   makeLocalDirs($controlDir);
 
+  my ($doneJobs1, $failedJobs1, $runningJobsCount1) = checkRunningJobs('phase1', $controlDir, $clusterServerDir);
+  my ($doneJobs2, $failedJobs2, $runningJobsCount2) = checkRunningJobs('phase2', $controlDir, $clusterServerDir);
+
   # phase 1 (self-self blast of user proteome)
-  my ($doneJobs, $failedJobs) = checkRunningJobs('phase1', $controlDir, $clusterServerDir);
 
-  handleDoneJobs($doneJobs, 'phase1', $controlDir, $clusterServerDir);
+  handleDoneJobs($doneJobs1, 'phase1', $controlDir, $clusterServerDir);
 
-  handleFailedJobs($failedJobs, 'phase1', $controlDir, $clusterServerDir);
+  handleFailedJobs($failedJobs1, 'phase1', $controlDir, $clusterServerDir);
 
-  handleNewJobs("$controlDir/newJobs",
-		"$controlDir/phase1/runningJobs",
-		"$clusterServerDir/phase1/runningJobs",
-		'phase1');
+  my $startedJobs = handleNewJobs("$controlDir/newJobs",
+				  "$controlDir/phase1/runningJobs",
+				  "$clusterServerDir/phase1/runningJobs",
+				  'phase1', $runningJobsCount1 + $runningJobsCount2);
 
   # phase 2 (blast of user proteome against orthomcl proteins)
 
-  my ($doneJobs, $failedJobs) = checkRunningJobs('phase2', $controlDir, $clusterServerDir);
 
-  handleDoneJobs($doneJobs, 'phase2', $controlDir, $clusterServerDir);
+  handleDoneJobs($doneJobs2, 'phase2', $controlDir, $clusterServerDir);
 
-  handleFailedJobs($failedJobs, 'phase2', $controlDir, $clusterServerDir);
+  handleFailedJobs($failedJobs2, 'phase2', $controlDir, $clusterServerDir);
 
   handleNewJobs("$controlDir/phase1/doneJobs",
 		"$controlDir/phase2/runningJobs",
 		"$clusterServerDir/phase2/runningJobs",
-		'phase2');
+		'phase2', $runningJobsCount1 + $runningJobsCount2 + $startedJobs);
 
   # deliver results (process blast results, and deliver results to user)
   # for each phase 2 done job, process it, and delete when done
@@ -189,7 +190,7 @@ sub checkRunningJobs {
   my ($phase, $controlDir, $clusterServerDir) = @_;
 
   warn "[DEBUG] checkRunningJobs() for phase $phase\n" if DEBUG;
-    
+
   my $clusterUserName = $mgr->getConfig('clusterUserName');
   my $rcfile = $mgr->getConfig('rcfile');
   my $clusterServer = $mgr->getConfig('clusterServer');
@@ -201,6 +202,7 @@ sub checkRunningJobs {
 
   my $doneJobs;
   my $failedJobs;
+  my $count;
   foreach my $runningJob (@runningJobs) {
     next if $runningJob =~ /^\./;
     my $clusterRunningJobDir = "$clusterServerDir/$phase/runningJobs/$runningJob";
@@ -213,10 +215,12 @@ sub checkRunningJobs {
       } else {
         push(@$failedJobs, $runningJob);
       }
+    } else {
+      $count++
     }
   }
 
-  return ($doneJobs, $failedJobs);
+  return ($doneJobs, $failedJobs, $count);
 }
 
 sub clusterTaskRunning {
@@ -354,22 +358,31 @@ sub deliverResult {
 # handle new jobs
 ##################################################
 sub handleNewJobs {
-  my ($newJobsDir, $localRunningDir, $clusterRunningDir, $phase) = @_;
+  my ($newJobsDir, $localRunningDir, $clusterRunningDir, $phase, $runningJobsCount) = @_;
 
   warn "[DEBUG] handleNewJobs() from newJobsDir $newJobsDir, localRunningDir $localRunningDir, clusterRunningDir $clusterRunningDir for phase $phase\n" if DEBUG;
+
+  my $clusterUserName = $mgr->getConfig('clusterUserName');
+  my $rcfile = $mgr->getConfig('rcfile');
+  my $clusterServer = $mgr->getConfig('clusterServer');
+  my $maxJobs = $mgr->getConfig('maxJobs');
+  $maxJobs = 100000 unless $maxJobs;
 
   # find all subdirs 
   opendir(DIR, $newJobsDir) || die "Can't open $phase new jobs directory '$newJobsDir'\n";
   my @newJobs = readdir(DIR);
   closedir(DIR);
 
+  my $countStarted;
   foreach my $newJob (@newJobs) {
     next if $newJob =~ /^\./;
+    if ($countStarted + $runningJobsCount >= $maxJobs) {
+      $mgr->log("Maximum allowed jobs ($maxJobs) already running.  Can't start $newJob $phase until some complete.");
+      next;
+    }
+    $countStarted++;
     $mgr->log("New $phase job: $newJob");
 
-    my $clusterUserName = $mgr->getConfig('clusterUserName');
-    my $rcfile = $mgr->getConfig('rcfile');
-    my $clusterServer = $mgr->getConfig('clusterServer');
     my $newJobDir = "$newJobsDir/$newJob";
     my $runningJobDir = "$localRunningDir/$newJob";
     my $localInputDir = "$runningJobDir/input";
@@ -430,6 +443,7 @@ sub handleNewJobs {
     # start cluster job
     startJob("$clusterRunningJobDir", $newJob);
   }
+  return $countStarted;
 }
 
 # blastall fails on fully masked sequences - all X's .
@@ -595,7 +609,12 @@ sub findOrthomclDbSize {
     $mgr->log("Counting proteins in $dbFilePath");
 
     # discover size of blast db (ie, count of orthomcl proteins)
-    my $dbSizeOut = $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"grep \\> $dbFilePath |wc -l\"'");
+    # store results in .count file for future runs
+
+    my $cmd = "if [ ! -f $dbFilePath.count ] || [ $dbFilePath.count -ot $dbFilePath ]; then grep \\> $dbFilePath | wc -l > $dbFilePath.count; fi; cat $dbFilePath.count";
+
+    my $dbSizeOut = $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"$cmd\"'");
+
     my @a = split(/\s/, $dbSizeOut); # ignore output from login
     $dbSize = $a[$#a];
   }
@@ -860,6 +879,7 @@ resultsDir=            (directory in which to put final result, zipped and named
 
 ** cluster_config_file **
 serverControlDir=     (local dir to control this job)
+maxJobs=              (maximum number of jobs allowed to run at one time, including both phase 1 and phase 2.  Default 100000)
 blastDbFilePath=      (blast database file)
 clusterUserName=      (login to use to get into cluster server)
 rcfile=               (rcfile to prepare bash environment)
