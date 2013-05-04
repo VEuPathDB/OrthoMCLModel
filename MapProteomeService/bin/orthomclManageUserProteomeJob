@@ -608,10 +608,9 @@ sub findOrthomclDbSize {
 
     $mgr->log("Counting proteins in $dbFilePath");
 
-    # discover size of blast db (ie, count of orthomcl proteins)
-    # store results in .count file for future runs
+    # discover size of blast db (ie, count of orthomcl proteins) from .count file
 
-    my $cmd = "if [ ! -f $dbFilePath.count ] || [ $dbFilePath.count -ot $dbFilePath ]; then grep \\> $dbFilePath | wc -l > $dbFilePath.count; fi; cat $dbFilePath.count";
+    my $cmd = "cat $dbFilePath.count";
 
     my $dbSizeOut = $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"$cmd\"'");
 
