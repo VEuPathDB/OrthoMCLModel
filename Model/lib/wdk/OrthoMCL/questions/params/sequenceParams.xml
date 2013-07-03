@@ -33,7 +33,7 @@
                 by the aminoacids arginine and lysine.
                 ]]>
                 </help>
-            <suggest sample="(Example: CC6+RK)" default="CC6+RK"/>
+            <suggest default="CC6+RK"/>
         </stringParam>
 
         <stringParam name="BlastDatabase" number="false" visible="false">
@@ -70,7 +70,7 @@
                      number="false">
             <noTranslation value="true"  />
             <help>BLAST Input Sequence (upto 31K bps)</help>
-            <suggest sample=""/>
+            <suggest default=""/>
         </stringParam>
 
         <enumParam name="-F" quote="false" multiPick="false"
@@ -93,7 +93,7 @@
         <stringParam name="-e"
                       prompt="Expectation value" number="true">
              <help>Expected number of hits with at least this score. The lower the e- value the more significant the hit.</help>
-             <suggest default="1e-5" sample="1e-10"/>
+             <suggest default="1e-5"/>
         </stringParam>
 
         <stringParam name="-v"
