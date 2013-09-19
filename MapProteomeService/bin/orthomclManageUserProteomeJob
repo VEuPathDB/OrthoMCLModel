@@ -7,6 +7,7 @@ use Sys::Hostname;
 use OrthoMCLShared::MapProteomeService::ProteomeJobMgr;
 use Digest::MD5 qw(md5_hex);
 use strict;
+use Carp qw(cluck);
 
 use constant DEBUG => 0;
 
@@ -113,6 +114,7 @@ eval {
 
   my $startedJobs = handleNewJobs("$controlDir/newJobs",
 				  "$controlDir/phase1/runningJobs",
+				  "$controlDir/phase1/failedJobs",
 				  "$clusterServerDir/phase1/runningJobs",
 				  'phase1', $runningJobsCount1 + $runningJobsCount2);
 
@@ -125,6 +127,7 @@ eval {
 
   handleNewJobs("$controlDir/phase1/doneJobs",
 		"$controlDir/phase2/runningJobs",
+		"$controlDir/phase2/failedJobs",
 		"$clusterServerDir/phase2/runningJobs",
 		'phase2', $runningJobsCount1 + $runningJobsCount2 + $startedJobs);
 
@@ -147,7 +150,7 @@ sub preventConcurrentRun {
     # looks to be already running
     my $runningJob = `cat $lockfile`;
     my $msg = "Lock file found for $runningJob, not starting another process.\n" .
-      "If this is in error, remove $lockfile and try again.\n";
+      "If this is in error, rm $lockfile and try again.\n";
     $mgr->log($msg);
     exit 1; # not using "die" to avoid stackstrace from confess in ProteomeJobMgr
   }
@@ -209,7 +212,11 @@ sub checkRunningJobs {
     if (!clusterTaskRunning($clusterRunningJobDir, $clusterUserName, $clusterServer)) {
       $mgr->log("Found $phase job that has finished running: $runningJob");
       my $logFile = "$clusterRunningJobDir/$runningJob.log";
-      my $done = $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"if [ -a $logFile ]; then tail -1 $logFile; fi\"'");
+      my $done;
+      eval {
+	$done = $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"if [ -a $logFile ]; then tail -1 $logFile; fi\"'");
+      };
+      $mgr->log("Warning: Could not check done status of no-longer-running $phase job $runningJob. Forced to fail the job. $@\n") if $@;
       if ($done && $done =~ /Done/) {
         push(@$doneJobs, $runningJob);
       } else {
@@ -259,33 +266,40 @@ sub handleDoneJobs {
 
   foreach my $doneJob (@$doneJobs) {
 
-    $mgr->log("Handling done $phase cluster job: $doneJob");
-    move("$localRunningDir/$doneJob", "$localDoneDir/$doneJob");
+    eval {
 
-    # zip blast result
-    $mgr->log("  gzipping blast result on cluster");
-    my $clusterRunningJobDir = "$clusterServerDir/$phase/runningJobs/$doneJob";
-    $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"gzip $clusterRunningJobDir/master/mainresult/blastSimilarity.out\"'");
+      $mgr->log("Handling done $phase cluster job: $doneJob");
+      moveFile("$localRunningDir/$doneJob", "$localDoneDir/$doneJob");
 
-    # copy result from cluster
-    $mgr->log("  copying from cluster");
-    $mgr->getCluster()->copyFrom("$clusterRunningJobDir/master/mainresult", 'blastSimilarity.out.gz', "$localDoneDir/$doneJob");
+      # zip blast result
+      $mgr->log("  gzipping blast result on cluster");
+      my $clusterRunningJobDir = "$clusterServerDir/$phase/runningJobs/$doneJob";
+      $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"gzip $clusterRunningJobDir/master/mainresult/blastSimilarity.out\"'");
 
-    move("$localDoneDir/$doneJob/blastSimilarity.out.gz", "$localDoneDir/$doneJob/${phase}BlastSimilarity.out.gz");
+      # copy result from cluster
+      $mgr->log("  copying from cluster");
+      $mgr->getCluster()->copyFrom("$clusterRunningJobDir/master/mainresult", 'blastSimilarity.out.gz', "$localDoneDir/$doneJob");
 
-    # check that phase 2 had non-empty blast results
-    if ($phase eq 'phase2' && -s "$localDoneDir/$doneJob/${phase}BlastSimilarity.out.gz" == 0) {
-      # oops, bad blast result.   move to failure dirs locally and on cluster, and mail user
-      $mgr->log("  empty phase2 blast results for job $doneJob.  Moving to failures dir and sending user mail.");
-      $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"mv $clusterRunningJobDir $clusterServerDir/$phase/failedJobs\"'");
-      move("$localDoneDir/$doneJob", "$localFailedDir/$doneJob");
-      mailNoBlastResults("$localFailedDir/$doneJob/info.txt", $doneJob);
-    } else {
-      # clean up cluster dir
-      $mgr->log("  cleaning up cluster job dir");
-      $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"rm -rf $clusterRunningJobDir\"'");
+      moveFile("$localDoneDir/$doneJob/blastSimilarity.out.gz", "$localDoneDir/$doneJob/${phase}BlastSimilarity.out.gz");
+
+      # check that phase 2 had non-empty blast results
+      if ($phase eq 'phase2' && -s "$localDoneDir/$doneJob/${phase}BlastSimilarity.out.gz" == 0) {
+	# oops, bad blast result.   move to failure dirs locally and on cluster, and mail user
+	$mgr->log("  empty phase2 blast results for job $doneJob.  Moving to failures dir and sending user mail.");
+	$mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"mv $clusterRunningJobDir $clusterServerDir/$phase/failedJobs\"'");
+	moveFile("$localDoneDir/$doneJob", "$localFailedDir/$doneJob");
+	mailNoBlastResults("$localFailedDir/$doneJob/info.txt", $doneJob);
+      } else {
+	# clean up cluster dir
+	$mgr->log("  cleaning up cluster job dir");
+	$mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"rm -rf $clusterRunningJobDir\"'");
+      }
+    };
+    if ($@) {
+      move("$localRunningDir/$doneJob", "$localFailedDir/$doneJob") if -e "$localRunningDir/$doneJob";
+      move("$localDoneDir/$doneJob", "$localFailedDir/$doneJob") if -e "$localDoneDir/$doneJob";
+      handleJobError("$localFailedDir/$doneJob/info.txt", $doneJob, "$localFailedDir/$doneJob", "", "Could not handle $phase done job $doneJob. Moved to failedJobs/. $@");
     }
-
   }
 }
 
@@ -301,16 +315,22 @@ sub deliverResults {
 
   foreach my $phase2DoneJob (@donePhase2Jobs) {
     next if $phase2DoneJob =~ /^\./;
-    $mgr->log("Final processing for $phase2DoneJob");
-    deliverResult("$controlDir/phase2/doneJobs/$phase2DoneJob", $phase2DoneJob);
-    $mgr->log("  cleaning up local phase2 job dir");
+    eval {
+      $mgr->log("Final processing for $phase2DoneJob");
+      deliverResult("$controlDir/phase2/doneJobs/$phase2DoneJob", $phase2DoneJob);
+      $mgr->log("  cleaning up local phase2 job dir");
 
-    # move to archive for debugging
-    rename("$controlDir/phase2/doneJobs/$phase2DoneJob",
-	   "$controlDir/phase2/doneJobsDebug/$phase2DoneJob");
+      # move to archive for debugging
+      rename("$controlDir/phase2/doneJobs/$phase2DoneJob",
+	     "$controlDir/phase2/doneJobsDebug/$phase2DoneJob");
 
-    # remove from archive unless debugging
-    rmtree("$controlDir/phase2/doneJobsDebug/$phase2DoneJob") unless DEBUG;
+      # remove from archive unless debugging
+      rmtree("$controlDir/phase2/doneJobsDebug/$phase2DoneJob") unless DEBUG;
+    };
+    if ($@) {
+      move("$controlDir/phase2/doneJobs/$phase2DoneJob", "$controlDir/phase2/failedJobs/$phase2DoneJob") if -e "$controlDir/phase2/doneJobs/$phase2DoneJob";
+      handleJobError("$controlDir/phase2/failedJobs/$phase2DoneJob/info.txt", $phase2DoneJob, "$controlDir/phase2/failedJobs/$phase2DoneJob", "", "Could not deliver results for job $phase2DoneJob. Moved to failedJobs/. $@");
+    }
   }
 }
 
@@ -346,7 +366,7 @@ sub deliverResult {
 
   # move zipped result to delivery dir
   $mgr->log("  moving final result to $resultDir/orthomclResult-$jobId.zip");
-  move("$donePhase2JobDir/orthomclResult.zip", "$resultDir/orthomclResult-$jobId.zip");
+  moveFile("$donePhase2JobDir/orthomclResult.zip", "$resultDir/orthomclResult-$jobId.zip");
 
   # email result
   $mgr->log("  mailing notification");
@@ -358,7 +378,7 @@ sub deliverResult {
 # handle new jobs
 ##################################################
 sub handleNewJobs {
-  my ($newJobsDir, $localRunningDir, $clusterRunningDir, $phase, $runningJobsCount) = @_;
+  my ($newJobsDir, $localRunningDir, $localFailedDir, $clusterRunningDir, $phase, $runningJobsCount) = @_;
 
   warn "[DEBUG] handleNewJobs() from newJobsDir $newJobsDir, localRunningDir $localRunningDir, clusterRunningDir $clusterRunningDir for phase $phase\n" if DEBUG;
 
@@ -376,6 +396,15 @@ sub handleNewJobs {
   my $countStarted;
   foreach my $newJob (@newJobs) {
     next if $newJob =~ /^\./;
+
+    my $newJobDir = "$newJobsDir/$newJob";
+
+    # tell user the job has been submitted, even if not ready to start yet.
+    if (! (-e "$newJobDir/submitted")) {
+      mailSubmit("$newJobDir/info.txt", $newJob);
+      system("touch $newJobDir/submitted");
+    }
+
     if ($countStarted + $runningJobsCount >= $maxJobs) {
       $mgr->log("Maximum allowed jobs ($maxJobs) already running.  Can't start $newJob $phase until some complete.");
       next;
@@ -383,65 +412,71 @@ sub handleNewJobs {
     $countStarted++;
     $mgr->log("New $phase job: $newJob");
 
-    my $newJobDir = "$newJobsDir/$newJob";
     my $runningJobDir = "$localRunningDir/$newJob";
     my $localInputDir = "$runningJobDir/input";
     my $masterDir = "$runningJobDir/master";
     my $clusterRunningJobDir = "$clusterRunningDir/$newJob";
     my $clusterInputDir = "$clusterRunningJobDir/input";
 
-    correctProteomeFile("$newJobDir/orig_proteome.fasta", "$newJobDir/proteome.fasta");
+    eval {
+      correctProteomeFile("$newJobDir/orig_proteome.fasta", "$newJobDir/proteome.fasta");
 
-    if ($phase eq 'phase1') {
-      my $validateResultError = validateProteomeFile($newJobDir, "proteome.fasta");
-      my $maskedSeqError = checkProteomeFileForFullMaskSeqs($newJobDir, "proteome.fasta") if ( ! $validateResultError);
-      my $formatResultError = formatProteomeFile($newJobDir, "proteome.fasta") if ( ! $validateResultError && ! $maskedSeqError);
+      if ($phase eq 'phase1') {
+	my $validateResultError = validateProteomeFile($newJobDir, "proteome.fasta");
+	my $maskedSeqError = checkProteomeFileForFullMaskSeqs($newJobDir, "proteome.fasta") if ( ! $validateResultError);
+	my $formatResultError = formatProteomeFile($newJobDir, "proteome.fasta") if ( ! $validateResultError && ! $maskedSeqError);
 
-      if (! $validateResultError && ! $maskedSeqError && ! $formatResultError) {
-	mailSubmit("$newJobDir/info.txt", $newJob);
-      } else {
-	$mgr->log("  invalid fasta");
-	my $reason = $validateResultError . "\n" . $maskedSeqError . "\n" . $formatResultError;
-	mailInvalidFasta("$newJobDir/info.txt", $newJob, $reason);
-	rmtree($newJobDir);
-	next;
+	if (! $validateResultError && ! $maskedSeqError && ! $formatResultError) {
+	  mailStarted("$newJobDir/info.txt", $newJob);
+	} else {
+	  $mgr->log("  invalid fasta");
+	  my $reason = $validateResultError . "\n" . $maskedSeqError . "\n" . $formatResultError;
+	  mailInvalidFasta("$newJobDir/info.txt", $newJob, $reason);
+	  rmtree($newJobDir);
+	  next;
+	}
       }
+
+      # move new job dir to running/
+      mkpath($runningJobDir);
+      moveFile("$newJobsDir/$newJob", $runningJobDir);
+
+      # move proteome file to localInputDir
+      mkpath($localInputDir);
+      #$moveFile("$runningJobDir/proteome.fasta", $localInputDir);
+
+      my $dbFilePath =  ($phase eq 'phase1')?
+	"$clusterRunningJobDir/proteome.fasta" :
+	  $mgr->getConfig('blastDbFilePath');
+
+      # build input/ dir
+      makeTaskFile($localInputDir, $clusterInputDir, $clusterRunningJobDir, $dbFilePath);
+      makeControllerFile($localInputDir, $clusterInputDir);
+
+      # mirror job to cluster
+      $mgr->log("Mirroring $newJob/ to cluster");
+      $mgr->getCluster()->copyTo($localRunningDir, $newJob, $clusterRunningDir);
+
+      #     if ($phase eq 'phase1') {
+      # 
+      #         # formatdb does not return proper exit code.  generate one by
+      #         # grepping its log for 'Error'
+      #         my $blastBinDir = $mgr->getConfig('blastBinDir');
+      #         my $formatdbLog = "$clusterRunningJobDir/formatdb.log";
+      #         my $cmd = "$blastBinDir/formatdb -i $dbFilePath -l $formatdbLog -p T;grep ERROR $formatdbLog; if [ \\\$? -eq 0 ]; then false; else true; fi";
+      # 
+      #         $mgr->log("Formatting proteome.fasta for self-self blast");
+      #         $mgr->runCmd(0, "ssh -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"$cmd\"'");
+      #     }
+
+      # start cluster job
+      startJob("$clusterRunningJobDir", $newJob);
+    };
+    if ($@) {
+      move ("$newJobsDir/$newJob", "$localFailedDir/$newJob") if -e "$newJobsDir/$newJob";
+      move ("$localRunningDir/$newJob", "$localFailedDir/$newJob") if -e "$localRunningDir/$newJob";
+      handleJobError("$localFailedDir/$newJob/info.txt", $newJob, "$localFailedDir/$newJob", "", "Could not handle $phase new job $newJob. Moved to failedJobs/. $@");
     }
-
-    # move new job dir to running/
-    mkpath($runningJobDir);
-    move("$newJobsDir/$newJob", $runningJobDir);
-
-    # move proteome file to localInputDir
-    mkpath($localInputDir);
-    #$move("$runningJobDir/proteome.fasta", $localInputDir);
-
-    my $dbFilePath =  ($phase eq 'phase1')?
-      "$clusterRunningJobDir/proteome.fasta" :
-        $mgr->getConfig('blastDbFilePath');
-
-    # build input/ dir
-    makeTaskFile($localInputDir, $clusterInputDir, $clusterRunningJobDir, $dbFilePath);
-    makeControllerFile($localInputDir, $clusterInputDir);
-
-    # mirror job to cluster
-    $mgr->log("Mirroring $newJob/ to cluster");
-    $mgr->getCluster()->copyTo($localRunningDir, $newJob, $clusterRunningDir);
-
-    #     if ($phase eq 'phase1') {
-    # 
-    #         # formatdb does not return proper exit code.  generate one by
-    #         # grepping its log for 'Error'
-    #         my $blastBinDir = $mgr->getConfig('blastBinDir');
-    #         my $formatdbLog = "$clusterRunningJobDir/formatdb.log";
-    #         my $cmd = "$blastBinDir/formatdb -i $dbFilePath -l $formatdbLog -p T;grep ERROR $formatdbLog; if [ \\\$? -eq 0 ]; then false; else true; fi";
-    # 
-    #         $mgr->log("Formatting proteome.fasta for self-self blast");
-    #         $mgr->runCmd(0, "ssh -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"$cmd\"'");
-    #     }
-
-    # start cluster job
-    startJob("$clusterRunningJobDir", $newJob);
   }
   return $countStarted;
 }
@@ -694,8 +729,8 @@ sub handleFailedJobs {
     $mgr->log("  moving cluster job to $phase cluster failed dir");
     my $clusterRunningJobDir = "$clusterServerDir/$phase/runningJobs/$failedJob";
     my $clusterFailedJobDir = "$clusterServerDir/$phase/failedJobs/$failedJob";
-      
-    mailServerErrorToAdmin("$localFailedDir/$failedJob/info.txt", $failedJob, "$localFailedDir/$failedJob", $clusterFailedJobDir);
+
+    mailServerErrorToAdmin("$localFailedDir/$failedJob/info.txt", $failedJob, "$localFailedDir/$failedJob", $clusterFailedJobDir, "Job on cluster not running, but log there does not say 'Done'");
 
     $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"if [ -d $clusterRunningJobDir ]; then mv $clusterRunningJobDir $clusterFailedJobDir; fi \"'");
   }
@@ -705,9 +740,18 @@ sub mailSubmit {
   my ($infoFile, $jobId) = @_;
 
   my $msg = "
-has been submitted.  You will get a mail when it is done (6 to 72 hours).
+has been submitted.  You will get a mail when it starts running (after other jobs in the queue), and another when it is done (6 to 72 hours later).
 ";
-  mailJob($infoFile, $jobId, "OrthoMCL Job - submitted", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job - submitted", $msg);
+}
+
+sub mailStarted {
+  my ($infoFile, $jobId) = @_;
+
+  my $msg = "
+has started running.  You will get a mail when it is done (in 6 to 72 hours).
+";
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job - running", $msg);
 }
 
 sub mailServerError {
@@ -716,15 +760,24 @@ sub mailServerError {
   my $msg = "
 has failed because of a server error.  Please try again, or respond to this mail to report the problem.
 ";
-  mailJob($infoFile, $jobId, "OrthoMCL Job - server error", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job - server error", $msg);
 }
 
 sub mailServerErrorToAdmin {
-  my ($infoFile, $jobId, $localFailedJobPath, $remoteFailedJobPath) = @_;
+  my ($infoFile, $jobId, $localFailedJobPath, $remoteFailedJobPath, $errMsg) = @_;
   my $cluster = $mgr->getConfig('clusterServer');
   my $local = `hostname`;
-  my $msg = "See failed job at $local:$localFailedJobPath and\n$cluster:$remoteFailedJobPath";
-  mailAdmin($infoFile, $jobId, "OrthoMCL Job - server error", $msg);
+  chomp $local;
+  my $msg = "See log and failed job at '$local:$localFailedJobPath' and '$cluster:$remoteFailedJobPath'";
+  sendMailToAdmin($infoFile, $jobId, "OrthoMCL Job - server error", "\n$errMsg\n$msg");
+}
+
+sub handleJobError {
+  my ($infoFile, $jobId, $localFailedJobPath, $remoteFailedJobPath, $errMsg) = @_;
+  $mgr->log("Job Error for $jobId\n$errMsg");
+  cluck;
+  mailServerError($infoFile, $jobId);
+  mailServerErrorToAdmin($infoFile, $jobId, $localFailedJobPath, $remoteFailedJobPath, $errMsg);
 }
 
 sub mailInvalidFasta {
@@ -735,7 +788,7 @@ has an invalid sequence file.
 $reason
 Please resubmit with a valid file.
 ";
-  mailJob($infoFile, $jobId, "OrthoMCL Job - invalid file", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job - invalid file", $msg);
 }
 
 sub mailNoBlastResults {
@@ -750,7 +803,7 @@ snippet of your fasta file.
 
 If you believe your fasta file is correct, please write back.   It is possible the cause is server error.
 ";
-  mailJob($infoFile, $jobId, "OrthoMCL Job - no matches", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job - no matches", $msg);
 }
 
 sub mailResult {
@@ -766,16 +819,22 @@ is complete.  The results are now available at:
 
 They will be available for $purgeWindow days.
 ";
-  mailJob($infoFile, $jobId, "OrthoMCL Job - done", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job - done", $msg);
 }
 
-sub mailAdmin {
+sub sendMailToAdmin {
   my ($infoFile, $jobId, $subject, $message) = @_;
 
   my $adminEmail = $mgr->getConfig('adminEmail');
 
-  my $info = readInfoFile($infoFile);
-  $info->{email} =~ /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i or die "Illegal email address: '$info->{email}'\n";
+  my $info;
+  eval {
+    $info = readInfoFile($infoFile);
+    $info->{email} =~ /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i or die "Illegal email address: '$info->{email}'\n";
+  };
+  if ($@) {
+    $message .= "\nCan't read info file '$infoFile'\n$@\n";
+  }
 
   my @a = split(/\@/, $info->{email});
   my $login = shift(@a);
@@ -798,16 +857,17 @@ $message
   close(SENDMAIL);
 }
 
-sub mailJob {
+sub sendUserMail {
   my ($infoFile, $jobId, $subject, $message) = @_;
 
-  my $info = readInfoFile($infoFile);
-  $info->{email} =~ /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i or die "Illegal email address: '$info->{email}'\n";
+  eval {
+    my $info = readInfoFile($infoFile);
+    $info->{email} =~ /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i or die "Illegal email address: '$info->{email}'\n";
 
-  my @a = split(/\@/, $info->{email});
-  my $login = shift(@a);
+    my @a = split(/\@/, $info->{email});
+    my $login = shift(@a);
 
-  my $body = "
+    my $body = "
 Hello $login,
 
 Your OrthoMCL job:
@@ -820,13 +880,19 @@ Thank you for using OrthoMCL,
 The OrthoMCL Team
 ";
 
-  open(SENDMAIL, "|/usr/sbin/sendmail -t") or die "Cannot open sendmail: $!\n";
-  print SENDMAIL "Subject: $subject\n";
-  print SENDMAIL "To: $info->{email}\n";
-  print SENDMAIL "From: help\@orthomcl.org\n";
-  print SENDMAIL "Content-type: text/plain\n\n";
-  print SENDMAIL $body;
-  close(SENDMAIL);
+    open(SENDMAIL, "|/usr/sbin/sendmail -t") || die "Cound not open '|/usr/sbin/sendmail -'";
+    print SENDMAIL "Subject: $subject\n";
+    print SENDMAIL "To: $info->{email}\n";
+    print SENDMAIL "From: help\@orthomcl.org\n";
+    print SENDMAIL "Content-type: text/plain\n\n";
+    print SENDMAIL $body;
+    close(SENDMAIL);
+  };
+  if ($@) {
+    my $msg = "Could not send user email for $jobId.  $@";
+    $mgr->log($msg);
+    mailServerErrorToAdmin($infoFile, $jobId, "", "", $msg);
+  }
 }
 
 sub readInfoFile {
@@ -843,6 +909,12 @@ sub readInfoFile {
   }
   close(I);
   return $info;
+}
+
+sub moveFile {
+  my ($from, $to) = @_;
+
+ move($from, $to) || die "Could not mv $from $to\n";
 }
 
 # include here all dirs that removeStaleFiles with clean up, so the clean up has a place to clean up.
