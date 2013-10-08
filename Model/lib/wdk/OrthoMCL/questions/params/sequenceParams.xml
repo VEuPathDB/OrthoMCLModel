@@ -73,7 +73,14 @@
             <suggest default=""/>
         </stringParam>
 
-        <enumParam name="-F" quote="false" multiPick="false"
+         <stringParam name="BlastRecordClass" visible="false"
+                      prompt="Record type" number="false">
+             <noTranslation value="true" />
+             <suggest allowEmpty="true" />
+             <help>The record type returned by blast</help>
+         </stringParam>
+
+        <enumParam name="-filter" quote="false" multiPick="false"
                    prompt="Low complexity filter">
             <help>
               If this filter is set to yes, you will omit results which contain repetitive and low complexity sequence. 
@@ -96,12 +103,14 @@
              <suggest default="1e-5"/>
         </stringParam>
 
+<!--
         <stringParam name="-v"
                       prompt="Maximum descriptions (V)" number="true">
             <help>Number of one-line descriptions to show</help>
             <suggest default="50"/>
             <regex>\d+</regex>
         </stringParam>
+-->
 
         <stringParam name="-b"
                       prompt="Maximum alignments (B)" number="true">
@@ -109,6 +118,9 @@
             <suggest default="50"/>
             <regex>\d+</regex>
         </stringParam>
+
+
+
 
         <enumParam name="text_fields" 
                          prompt="Fields"

@@ -172,7 +172,7 @@ WHERE eas.taxon_id = ot.taxon_id
 
 
     <processQuery name="ByBlast" local="true"
-             processName="org.orthomcl.wsfplugin.BlastPlugin">
+             processName="org.orthomcl.wsfplugin.OrthoMCLBlastPlugin">
 
         <testParamValues>
             <paramValue name="BlastAlgorithm">blastp</paramValue>
@@ -182,14 +182,17 @@ WHERE eas.taxon_id = ot.taxon_id
        <paramRef ref="sequenceParams.BlastDatabase" default="@BLASTDB_PATH@/release-%%buildNumber%%/blast/proteinSeqs" />
        <paramRef ref="sequenceParams.BlastAlgorithm" />
        <paramRef ref="sequenceParams.BlastQuerySequence"/>
+       <paramRef ref="sequenceParams.BlastRecordClass" default="SequenceRecordClasses.SequenceRecordClass" />
        <paramRef ref="sequenceParams.-e"/>
-       <paramRef ref="sequenceParams.-v"/>
        <paramRef ref="sequenceParams.-b"/>
-       <paramRef ref="sequenceParams.-F" quote="false" />
-       <wsColumn name="full_id" width="100"/>
+       <paramRef ref="sequenceParams.-filter" quote="false" />
+       <wsColumn name="full_id" width="100" wsName="identifier"/>
+       <wsColumn name="project_id" width="20" />
        <wsColumn name="evalue_mant" columnType="float" width="10"/>
        <wsColumn name="evalue_exp" columnType="number" width="5"/>  
        <wsColumn name="score" columnType="number" width="30"/>
+       <wsColumn name="summary" width="3000"/>
+       <wsColumn name="alignment" columnType="clob"/>       
     </processQuery>
 
 

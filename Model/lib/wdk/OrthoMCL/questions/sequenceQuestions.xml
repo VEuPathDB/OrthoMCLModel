@@ -80,7 +80,7 @@
          fullAnswer="true">
         <attributesList
          summary="group_link, group_size, taxon_name, abbreviation, length, product, ec_numbers, score, evalue"
-         sorting="evalue asc"
+         sorting="score desc"
          /> 
          <summary>
            Find Sequences that have BLAST similarity to your input sequence.
@@ -94,7 +94,7 @@
          </description>
 
          <summaryView name="blast" display="BLAST" default="true"
-                      jsp="/wdkCustomization/jsp/results/blast.jsp" />
+                      jsp="/wdkCustomization/jsp/results/blast-view.jsp" />
 
          <dynamicAttributes>
              <columnAttribute name="evalue_mant" displayName="E-Value-Mant"
@@ -107,6 +107,8 @@
                             implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                             view="/wdk/jsp/results/histogram.jsp" />
              </columnAttribute>
+             <columnAttribute name="summary" displayName="Summary" internal="true" inReportMaker="false"/>
+             <columnAttribute name="alignment" displayName="Alignment" internal="true" inReportMaker="false"/>             
              <textAttribute name="evalue" displayName="E-Value">
                  <display>
                      <![CDATA[
