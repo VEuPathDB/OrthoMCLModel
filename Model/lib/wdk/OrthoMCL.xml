@@ -17,6 +17,8 @@
 	]]>
     </introduction>
     
+    <exampleStratsAuthor name="EuPathDB Example"/>
+  
     <!-- import the group related pieces -->
     <import file="OrthoMCL/records/groupRecord.xml" />
     <import file="OrthoMCL/records/groupRecordQueries.xml" />
