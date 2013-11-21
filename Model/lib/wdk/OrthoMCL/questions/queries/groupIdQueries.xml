@@ -258,7 +258,7 @@ SELECT og.name AS group_name FROM apidb.OrthologGroup og
             </sql>
         </sqlQuery>
 
-    <processQuery name="ByTextSearch" local="false"
+    <processQuery name="ByTextSearch"
              processName="org.orthomcl.wsfplugin.KeywordSearchPlugin">
 
         <testParamValues>
