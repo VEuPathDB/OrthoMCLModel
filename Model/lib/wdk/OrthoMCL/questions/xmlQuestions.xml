@@ -33,7 +33,7 @@
         <xmlQuestion name="Tutorials" 
                  displayName="Tutorials" 
                  recordClassRef="XmlRecordClasses.TutorialsRecord" 
-                 xmlDataURL="@PROJECT_ID@/tutorials.xml"> 
+                 xmlDataURL="tutorials.xml"> 
        </xmlQuestion>
 
 
