@@ -4,6 +4,8 @@
   <!-- oooooooooooooooooooooooooo  Dependencies  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
+  <import file="${projectsDir}/CBIL/build.xml" />
+
   <target name="CBIL-Installation">
     <ant antfile="../CBIL/build.xml" target="CBIL-Installation">
       <property name="project" value="CBIL"/>
