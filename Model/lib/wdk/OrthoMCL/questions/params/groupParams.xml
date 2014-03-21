@@ -56,13 +56,13 @@
             <suggest default="-5" />
         </stringParam>
 
-        <stringParam name="phyletic_expression" prompt="Expression" number="false"
-                     handlerClass="org.orthomcl.model.phyletic.ExpressionParamHandler">
+        <stringParam name="phyletic_expression" prompt="Expression" number="false">
             <help>
 			<![CDATA[
 <p>Phyletic Pattern Expression is a flexible way to do queries of ortholog groups. By using this tool, you can specify the presence or absence of genome (i.e. whether this genome has certain gene or not), and the number of copies (i.e. how many duplicates certain gene has in a specific genome).</p>
 			]]>
 			</help>
+	    <handler implementation="org.orthomcl.model.phyletic.ExpressionParamHandler" />
             <suggest default="EUKA>=5T AND hsap>=10" />
         </stringParam>
 
