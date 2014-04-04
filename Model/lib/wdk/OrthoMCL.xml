@@ -48,4 +48,8 @@
     <import file="OrthoMCL/questions/params/sharedParams.xml" />
     <import file="OrthoMCL/questions/categories.xml"/>
 
+    <stepAnalysisPlugins>
+      <executionConfig fileStoreDirectory="@STEP_ANALYSIS_JOB_DIR@"/>
+    </stepAnalysisPlugins>
+
 </wdkModel>
