@@ -47,8 +47,8 @@
             <recordView name="msa" display="MSA"
                          jsp="/wdkCustomization/jsp/records/group-msa.jsp"/>
 
-            <recordView name="cluster" display="Cluster graph"
-                         jsp="/wdkCustomization/jsp/records/group-cluster.jsp"/>
+            <recordView name="layout" display="Cluster graph"
+                         jsp="/showLayout.do"/>
 
 
       <!-- =============================================================== -->
@@ -138,8 +138,8 @@
                 <columnAttribute name="ec_numbers" displayName="EC Numbers" internal="false" inReportMaker="true" />
             </attributeQueryRef>
 
-            <attributeQueryRef ref="GroupAttributes.SVG">
-                <columnAttribute name="svg_content" displayName="SVG" internal="true" inReportMaker="false" />
+            <attributeQueryRef ref="GroupAttributes.Layout">
+                <columnAttribute name="layout" displayName="Layout" internal="true" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Keywords">
@@ -182,6 +182,7 @@
 	      <columnAttribute name="previous_groups" displayName="Previous Groups" />
 	      <columnAttribute name="ec_numbers" displayName="EC Numbers" />
 	      <columnAttribute name="description" displayName="Description" />
+	      <columnAttribute name="taxon_abbrev" displayName="Taxon Abbreviation" internal="true" inReportMaker="false" />
             </table>
             
             <table name="PFams"
