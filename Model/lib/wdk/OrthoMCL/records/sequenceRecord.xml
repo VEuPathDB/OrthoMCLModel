@@ -94,6 +94,7 @@
 		  view="/wdk/jsp/results/histogram.jsp" />
 	</columnAttribute>
 	<columnAttribute name="ec_numbers" displayName="EC Numbers"/>
+	<columnAttribute name="pfam_domains" displayName="PFam Domains"/>
 	<columnAttribute name="abbreviation" displayName="Taxon Code">
 	  <plugin name="wordCloud" display="Word Cloud"
 		  description="Display the terms in the attribute as word clouds"

@@ -42,6 +42,7 @@
             <column name="abbreviation"/>
             <column name="taxon_name"/>          
             <column name="ec_numbers"/>          
+            <column name="pfam_domains"/>          
             <sql>
 		<![CDATA[
 SELECT eas.secondary_identifier AS full_id, eas.source_id,
@@ -54,7 +55,12 @@ SELECT eas.secondary_identifier AS full_id, eas.source_id,
                    WHERE eas.aa_sequence_id = asec.aa_sequence_id
                      AND asec.enzyme_class_id = ec.enzyme_class_id
                GROUP by eas.secondary_identifier
-              ) as ec_numbers
+              ) as ec_numbers,
+       (SELECT apidb.tab_to_string(set(cast(collect(da.accession) as apidb.varchartab)), ', ')
+        FROM ApidbTuning.DomainAssignment da
+        WHERE da.full_id = eas.secondary_identifier
+        GROUP BY da.full_id
+        ORDER BY da.start_min) as pfam_domains
 FROM dots.ExternalAaSequence eas, apidb.orthomcltaxon ot
 WHERE eas.taxon_id = ot.taxon_id
  		]]>
@@ -134,6 +140,7 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             <column name="full_id"/>
             <column name="ec_number"/>
             <column name="description"/>
+            <column name="expasy_url"/>
             <sql>
                 <![CDATA[
                     SELECT eas.secondary_identifier as full_id, ec.ec_number, ec.description,
