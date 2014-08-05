@@ -51,6 +51,7 @@
       <!--  View definitions -->
       <!-- =============================================================== -->
 
+<!--
        <summaryView name="layout-view" display="Cluster Graph"
                     jsp="/wdkCustomization/jsp/results/sequence-layout.jsp"
                     handlerClass="org.orthomcl.model.view.GeneLayoutViewHandler">
@@ -60,6 +61,7 @@
                ]]>
            </description>
        </summaryView> 
+-->
 
       <recordView name="_default" display="Overview"
 		  jsp="/wdkCustomization/jsp/records/sequence-default.jsp"/>
