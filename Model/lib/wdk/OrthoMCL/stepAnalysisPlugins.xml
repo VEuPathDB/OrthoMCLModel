@@ -1,0 +1,28 @@
+<wdkModel>
+  <stepAnalysisPlugins>
+    
+    <viewConfig prefix="/wdkCustomization/jsp/analysis/" suffix=".jsp"/>
+    <executionConfig threadPoolSize="25" fileStoreDirectory="@STEP_ANALYSIS_JOB_DIR@"/>
+
+    <stepAnalysisPlugin
+        name="sequence-cluster" displayName="Cluster Graph"
+        customThumbnail="wdkCustomization/images/cluster-graph-logo.png"
+        releaseVersion="22"
+        formViewName="clusterGraphForm"
+        analysisViewName="clusterGraphResult"
+        analyzerClass="org.orthomcl.model.analysis.SequenceClusterAnalyzer">
+      <shortDescription>
+        <![CDATA[
+          Cluster the sequenes (no more than 200)
+        ]]>
+      </shortDescription>
+      <description>
+        <![CDATA[
+          <p>Cluster the sequences in the result. (Only available for results with no more than 200 sequences).
+           </p>
+        ]]>
+      </description>
+    </stepAnalysisPlugin>
+
+  </stepAnalysisPlugins>
+</wdkModel>

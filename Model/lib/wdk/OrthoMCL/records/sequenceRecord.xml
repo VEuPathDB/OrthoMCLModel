@@ -14,6 +14,12 @@
       <testParamValues>
 	<paramValue name="full_id">aaeg|AAEL000450-PA</paramValue>
       </testParamValues>
+
+      <!-- =============================================================== -->
+      <!--  Step Analysis Plugins -->
+      <!-- =============================================================== -->
+
+             <stepAnalysisRef name="sequence-cluster"/>
       
       <!-- =============================================================== -->
       <!-- Reporters -->  

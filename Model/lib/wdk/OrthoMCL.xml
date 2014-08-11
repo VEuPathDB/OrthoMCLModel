@@ -47,6 +47,9 @@
     <!-- import common pieces -->
     <import file="OrthoMCL/questions/params/sharedParams.xml" />
     <import file="OrthoMCL/questions/categories.xml"/>
+    
+    <!-- Step Analysis Plugins -->
+    <import file="apiCommonModel/stepAnalysisPlugins.xml"/>
 
     <stepAnalysisPlugins>
       <executionConfig fileStoreDirectory="@STEP_ANALYSIS_JOB_DIR@"/>
