@@ -13,12 +13,12 @@
         analyzerClass="org.orthomcl.model.analysis.SequenceClusterAnalyzer">
       <shortDescription>
         <![CDATA[
-          Cluster the sequenes (no more than 200)
+          Cluster the sequenes (no more than 500)
         ]]>
       </shortDescription>
       <description>
         <![CDATA[
-          <p>Cluster the sequences in the result. (Only available for results with no more than 200 sequences).
+          <p>Cluster the sequences in the result. (Only available for results with no more than 500 sequences).
            </p>
         ]]>
       </description>
