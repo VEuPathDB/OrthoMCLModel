@@ -49,7 +49,7 @@
     <import file="OrthoMCL/questions/categories.xml"/>
     
     <!-- Step Analysis Plugins -->
-    <import file="apiCommonModel/stepAnalysisPlugins.xml"/>
+    <import file="OrthoMCL/stepAnalysisPlugins.xml"/>
 
     <stepAnalysisPlugins>
       <executionConfig fileStoreDirectory="@STEP_ANALYSIS_JOB_DIR@"/>
