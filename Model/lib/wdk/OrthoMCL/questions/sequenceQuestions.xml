@@ -89,7 +89,11 @@
          <description>
            <![CDATA[
              Find Sequences that have BLAST similarity to your input query sequence.
-             <p>The search uses <a href="http://blast.wustl.edu/" target="_blank">WU BLAST</a>.
+           This search uses NCBI-BLAST to determine sequence similarity. 
+			See the 
+		  <a target="_blank" href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs">NCBI-BLAST help</a> for 
+		  more information.
+
           ]]>
          </description>
 
