@@ -14,7 +14,7 @@
               <![CDATA[
                 SELECT og.name AS group_name
                 FROM apidb.OrthologGroup og, ($$group_names$$) ds
-                WHERE og.name = ds.group_name
+                WHERE lower(og.name) = lower(ds.group_name)
                 UNION
                 SELECT sa.group_name
                 FROM ApidbTuning.SequenceAttributes sa,
@@ -27,7 +27,7 @@
                   AND ref.external_database_release_id = dbr.external_database_release_id
                   AND dbr.external_database_id = db.external_database_id
                   AND db.name = 'OrthoMCL Old Groups'
-                  AND ref.primary_identifier = ds.group_name
+                  AND lower(ref.primary_identifier) = lower(ds.group_name)
 	      ]]>
             </sql>
         </sqlQuery>  
