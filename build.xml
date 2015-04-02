@@ -6,13 +6,6 @@
 
   <import file="${projectsDir}/CBIL/build.xml" />
 
-  <target name="CBIL-Installation">
-    <ant antfile="../CBIL/build.xml" target="CBIL-Installation">
-      <property name="project" value="CBIL"/>
-      <property name="version" value="latest"/>
-    </ant>
-  </target>  
-
   <target name="CBIL-Checkout" unless="CBIL.present"> 
     <ant target="defaultProjectCheckout" inheritAll="false">
       <property name="svnurl" value="https://www.cbil.upenn.edu/svn/gus/CBIL" />
@@ -47,14 +40,22 @@
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
   <target name="OrthoMCLShared-Installation" depends="CBIL-Installation,
-                                            OrthoMCLShared/MapProteomeService-Installation,
-                                            OrthoMCLShared/Ppe-Installation,
-                                            OrthoMCLShared/Model-Installation">
+                                                      OrthoMCLShared-MavenInstallation,
+                                                      OrthoMCLShared/MapProteomeService-Installation,
+                                                      OrthoMCLShared/Ppe-Installation,
+                                                      OrthoMCLShared/Model-Installation">
 
     <ant target="defaultProjectInstall"/>
 
   </target>  
-   
+
+  <target name="OrthoMCLShared-MavenInstallation">
+    <ant target="mavenBuildProject">
+      <property name="project" value="OrthoMCLShared"/>
+    </ant>
+    <property name="alreadyBuilt" value="true"/>
+  </target>
+  
 
   <!-- oooooooooooooooooo  Installation Postprocess  ooooooooooooooooooooo -->
 
