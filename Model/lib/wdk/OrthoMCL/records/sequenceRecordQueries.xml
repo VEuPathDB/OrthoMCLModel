@@ -70,9 +70,14 @@ WHERE eas.taxon_id = ot.taxon_id
            <column name="full_id"/>
            <column name="group_name"/>
            <column name="group_size"/>
+           <column name="url"/>
+           <column name="link_text"/>
            <sql>
              <![CDATA[
-               SELECT sa.full_id, sa.group_name, sa.group_size
+               SELECT sa.full_id, sa.group_name, sa.group_size, sa.url,
+                      case when sa.url is null then null
+                           else sa.full_id
+                      end as link_text
                FROM ApidbTuning.SequenceAttributes sa
              ]]>
            </sql>

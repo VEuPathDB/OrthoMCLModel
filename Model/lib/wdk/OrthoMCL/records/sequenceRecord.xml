@@ -125,6 +125,21 @@
       <attributeQueryRef ref="SequenceAttributes.SequenceGroup">
 	<columnAttribute name="group_name" displayName="Group" internal="true" inReportMaker="true" />
 	<columnAttribute name="group_size" displayName="Group Size" internal="false"/>
+	<columnAttribute name="url" displayName="Link" internal="true" inReportMaker="false" />
+	<columnAttribute name="link_text" internal="true" inReportMaker="false" />
+
+	<linkAttribute name="link" inReportMaker="false"
+		       displayName="Link">
+	  <displayText>
+	    <![CDATA[
+		     $$link_text$$
+	    ]]>
+	  </displayText>
+	  <url>
+	    <![CDATA[http://$$url$$]]>
+	  </url>
+	</linkAttribute>
+
       </attributeQueryRef>
 
       <attributeQueryRef ref="SequenceAttributes.SequenceSequence">
