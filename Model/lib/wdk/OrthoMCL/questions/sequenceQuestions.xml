@@ -79,7 +79,7 @@
          recordClassRef="SequenceRecordClasses.SequenceRecordClass"
          fullAnswer="true">
         <attributesList
-         summary="group_link, group_size, taxon_name, abbreviation, length, product, ec_numbers, score, evalue"
+         summary="group_link, group_size, source_link, taxon_name, abbreviation, length, product, ec_numbers, score, evalue"
          sorting="score desc"
          /> 
          <summary>
@@ -131,7 +131,7 @@
          queryRef="SequenceIds.ByMotif"
          recordClassRef="SequenceRecordClasses.SequenceRecordClass">
         <attributesList
-         summary="group_link, group_size, taxon_name, abbreviation, length, product, ec_numbers, MatchCount, Locations"
+         summary="group_link, group_size, source_link, taxon_name, abbreviation, length, product, ec_numbers, MatchCount, Locations"
          sorting="MatchCount desc"
         /> 
 
@@ -341,7 +341,7 @@
                            displayName="Score" align="center"/>
             </dynamicAttributes>
             <attributesList
-                 summary="group_link, group_size, taxon_name, abbreviation, length, product, ec_numbers, max_score, fields_matched"
+                 summary="group_link, group_size, source_link, taxon_name, abbreviation, length, product, ec_numbers, max_score, fields_matched"
                  sorting="max_score desc,full_id asc"/> 
         </question>
 

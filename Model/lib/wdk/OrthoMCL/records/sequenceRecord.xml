@@ -49,7 +49,7 @@
       <!-- =============================================================== -->
       
       <attributesList
-	  summary="group_link, group_size, taxon_name, abbreviation, length, product, ec_numbers"
+	  summary="group_link, group_size, source_link, taxon_name, abbreviation, length, product, ec_numbers"
 	  sorting="primary_key asc"/>
 
 
@@ -128,7 +128,7 @@
 	<columnAttribute name="url" displayName="Source Database Link" internal="true" inReportMaker="true" />
 	<columnAttribute name="link_text" internal="true" inReportMaker="false" />
 
-	<linkAttribute name="link" inReportMaker="false"
+	<linkAttribute name="source_link" inReportMaker="false"
 		       displayName="Source Database Link">
 	  <displayText>
 	    <![CDATA[
