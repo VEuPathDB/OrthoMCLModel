@@ -58,7 +58,7 @@ SELECT eas.secondary_identifier AS full_id, eas.source_id,
               ) as ec_numbers,
        (SELECT apidb.tab_to_string(set(cast(collect(da.accession) as apidb.varchartab)), ', ')
         FROM ApidbTuning.DomainAssignment da
-        WHERE da.full_id = eas.secondary_identifier
+        WHERE da.aa_sequence_id = eas.secondary_identifier
         GROUP BY da.full_id ) as pfam_domains
 FROM dots.ExternalAaSequence eas, apidb.orthomcltaxon ot
 WHERE eas.taxon_id = ot.taxon_id
