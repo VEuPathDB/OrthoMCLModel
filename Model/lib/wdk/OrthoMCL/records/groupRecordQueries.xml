@@ -63,13 +63,15 @@
         </sqlQuery>
 
 
-        <sqlQuery name="SVG">
+        <sqlQuery name="Layout">
             <column name="group_name"/>
-            <column name="svg_content"/>
+            <column name="layout"/>
             <sql>
             <![CDATA[
-                SELECT g.name AS group_name, g.svg_content
+                SELECT g.name AS group_name, l.layout
                 FROM apidb.OrthologGroup g
+				LEFT JOIN apidb.OrthologGroupLayout l 
+				  ON g.ortholog_group_id = l.ortholog_group_id
                         ]]>
             </sql>
         </sqlQuery>
@@ -173,13 +175,14 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
             <column name="group_name"/>
             <column name="full_id"/>
             <column name="taxon_name"/>
+            <column name="taxon_abbrev"/>
             <column name="length"/>
             <column name="previous_groups"/>
             <column name="description"/>
             <column name="ec_numbers"/>
             <sql>
               <![CDATA[
-                select sa.group_name, sa.full_id, sa.taxon_name,
+                select sa.group_name, sa.full_id, sa.taxon_name, sa.taxon_abbreviation AS taxon_abbrev,
                        sa.length, sa.product as description,
                        sa.old_groups as previous_groups, sa.ec_numbers
                 from ApidbTuning.SequenceAttributes sa

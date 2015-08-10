@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wdkModel>
 
-    <constant name="releaseDate" includeProjects="OrthoMCL">10 May 2013 00:00</constant>
+    <constant name="releaseDate" includeProjects="OrthoMCL">23 July 2015 10:11</constant>
     <constant name="releaseVersion" includeProjects="OrthoMCL">5</constant>
     <constant name="buildNumber" includeProjects="OrthoMCL">5</constant>
 
@@ -47,6 +47,9 @@
     <!-- import common pieces -->
     <import file="OrthoMCL/questions/params/sharedParams.xml" />
     <import file="OrthoMCL/questions/categories.xml"/>
+    
+    <!-- Step Analysis Plugins -->
+    <import file="OrthoMCL/stepAnalysisPlugins.xml"/>
 
     <stepAnalysisPlugins>
       <executionConfig fileStoreDirectory="@STEP_ANALYSIS_JOB_DIR@"/>

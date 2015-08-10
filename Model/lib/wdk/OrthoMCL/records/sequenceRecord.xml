@@ -14,6 +14,12 @@
       <testParamValues>
 	<paramValue name="full_id">aaeg|AAEL000450-PA</paramValue>
       </testParamValues>
+
+      <!-- =============================================================== -->
+      <!--  Step Analysis Plugins -->
+      <!-- =============================================================== -->
+
+             <stepAnalysisRef name="sequence-cluster"/>
       
       <!-- =============================================================== -->
       <!-- Reporters -->  
@@ -43,7 +49,7 @@
       <!-- =============================================================== -->
       
       <attributesList
-	  summary="group_link, group_size, taxon_name, abbreviation, length, product, ec_numbers"
+	  summary="group_link, group_size, source_link, taxon_name, abbreviation, length, product, ec_numbers"
 	  sorting="primary_key asc"/>
 
 
@@ -51,6 +57,17 @@
       <!--  View definitions -->
       <!-- =============================================================== -->
 
+<!--
+       <summaryView name="layout-view" display="Cluster Graph"
+                    jsp="/wdkCustomization/jsp/results/sequence-layout.jsp"
+                    handlerClass="org.orthomcl.model.view.GeneLayoutViewHandler">
+           <description>
+               <![CDATA[
+                   Display the cluster graph of the sequences in the search result based on their BLAST scores.
+               ]]>
+           </description>
+       </summaryView> 
+-->
 
       <recordView name="_default" display="Overview"
 		  jsp="/wdkCustomization/jsp/records/sequence-default.jsp"/>
@@ -94,6 +111,7 @@
 		  view="/wdk/jsp/results/histogram.jsp" />
 	</columnAttribute>
 	<columnAttribute name="ec_numbers" displayName="EC Numbers"/>
+	<columnAttribute name="pfam_domains" displayName="PFam Domains"/>
 	<columnAttribute name="abbreviation" displayName="Taxon Code">
 	  <plugin name="wordCloud" display="Word Cloud"
 		  description="Display the terms in the attribute as word clouds"
@@ -107,6 +125,21 @@
       <attributeQueryRef ref="SequenceAttributes.SequenceGroup">
 	<columnAttribute name="group_name" displayName="Group" internal="true" inReportMaker="true" />
 	<columnAttribute name="group_size" displayName="Group Size" internal="false"/>
+	<columnAttribute name="url" displayName="Source Database Link" internal="true" inReportMaker="true" />
+	<columnAttribute name="link_text" internal="true" inReportMaker="false" />
+
+	<linkAttribute name="source_link" inReportMaker="false"
+		       displayName="Source Database Link">
+	  <displayText>
+	    <![CDATA[
+		     $$link_text$$
+	    ]]>
+	  </displayText>
+	  <url>
+	    <![CDATA[http://$$url$$]]>
+	  </url>
+	</linkAttribute>
+
       </attributeQueryRef>
 
       <attributeQueryRef ref="SequenceAttributes.SequenceSequence">

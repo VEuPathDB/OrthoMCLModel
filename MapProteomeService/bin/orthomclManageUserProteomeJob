@@ -677,7 +677,7 @@ sub makeControllerFile {
   print F 
     "masterdir=$clusterMasterDir
 inputdir=$clusterInputDir
-nodedir=$nodePath
+nodeWorkingDirsHome=$nodePath
 slotspernode=$slotsPerNode
 subtasksize=$taskSize
 taskclass=$taskClass

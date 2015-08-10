@@ -190,7 +190,7 @@ WHERE eas.taxon_id = ot.taxon_id
        <wsColumn name="project_id" width="20" />
        <wsColumn name="evalue_mant" columnType="float" width="10"/>
        <wsColumn name="evalue_exp" columnType="number" width="5"/>  
-       <wsColumn name="score" columnType="number" width="30"/>
+       <wsColumn name="score" columnType="float" width="30"/>
        <wsColumn name="summary" width="3000"/>
        <wsColumn name="alignment" columnType="clob"/>       
     </processQuery>
