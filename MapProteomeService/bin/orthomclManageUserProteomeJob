@@ -394,10 +394,8 @@ sub handleNewJobs {
   closedir(DIR);
 
   my $countStarted;
-  foreach my $newJob (@newJobs) {
-    next if $newJob =~ /^\./;
-
-    my $newJobDir = "$newJobsDir/$newJob";
+  my @sortedNewJobs = sort {-M "$newJobsDir/$b" <=> -M "$newJobsDir/$a" } grep( /^\w/, @newJobs);
+  foreach my $newJobDir (@sortedNewJobs) {
 
     # tell user the job has been submitted, even if not ready to start yet.
     if (! (-e "$newJobDir/submitted")) {
