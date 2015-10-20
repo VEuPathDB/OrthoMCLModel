@@ -172,7 +172,7 @@ sub removeStaleFiles {
   my ($controlDir, $clusterServer, $clusterUserName, $clusterServerDir) = @_;
 
   my $purgeWindow = $mgr->getConfig('purgeWindow');
-  my $purgeWindowPlus = "+$purgeWindow"
+  my $purgeWindowPlus = "+$purgeWindow";
   foreach my $subdir ('newJobs', 'phase1/failedJobs', 'phase2/failedJobs', 'phase1/doneJobs', 'phase2/doneJobs', 'results') {
 
     my $cmd = "ssh -q -2 $clusterUserName\@$clusterServer 'if [ -a $clusterServerDir/$subdir ]; then find $clusterServerDir/$subdir -mtime $purgeWindowPlus -delete; fi'";
