@@ -395,7 +395,9 @@ sub handleNewJobs {
 
   my $countStarted;
   my @sortedNewJobs = sort {-M "$newJobsDir/$b" <=> -M "$newJobsDir/$a" } grep( /^\w/, @newJobs);
-  foreach my $newJobDir (@sortedNewJobs) {
+  foreach my $newJob (@sortedNewJobs) {
+
+      my $newJobDir = "$newJobsDir/$newJob";
 
     # tell user the job has been submitted, even if not ready to start yet.
     if (! (-e "$newJobDir/submitted")) {
