@@ -173,8 +173,7 @@ sub removeStaleFiles {
 
   my $purgeWindow = $mgr->getConfig('purgeWindow');
   my $purgeWindowPlus = "+$purgeWindow";
- #  my @toPurge = ('newJobs', 'phase1/failedJobs', 'phase2/failedJobs', 'phase1/doneJobs', 'phase2/doneJobs', 'results');
-  my @toPurge = ('phase1/failedJobs', 'phase2/failedJobs', 'results');
+  my @toPurge = ('phase1/failedJobs', 'phase2/failedJobs');
   foreach my $subdir (@toPurge) {
 
     my $cmd = "ssh -q -2 $clusterUserName\@$clusterServer 'if [ -a $clusterServerDir/$subdir ]; then find $clusterServerDir/$subdir -mtime $purgeWindowPlus -delete; fi'";
@@ -185,6 +184,11 @@ sub removeStaleFiles {
     warn "Running cmd: $cmd \n" if DEBUG;
     system($cmd);
   }
+
+  my $resultDir = $mgr->getConfig('resultsDir');
+  my $cmd = "if [ -a $resultDir ]; then find $resultDir -mtime $purgeWindowPlus -delete; fi";
+  warn "Running cmd: $cmd \n" if DEBUG;
+  system($cmd);
 }
 
 
