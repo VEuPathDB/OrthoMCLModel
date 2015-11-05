@@ -870,6 +870,7 @@ sub sendUserMail {
 
   eval {
     my $info = readInfoFile($infoFile);
+    $info->{email} =~ s/^\s+|\s+$//g;  # trim leading and trailing white space
     $info->{email} =~ /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i or die "Illegal email address: '$info->{email}'\n";
 
     my @a = split(/\@/, $info->{email});
