@@ -42,7 +42,7 @@
 
         <enumParam name="BlastAlgorithm"
              prompt="BLAST Program"
-             displayType="radioBox"  quote="false"
+             displayType="checkBox" quote="false"
              multiPick="false">
             <help>
                 <![CDATA[
