@@ -368,18 +368,18 @@ sub deliverResult {
 
   # compute elapsed times
   open(S, "$donePhase2JobDir/submitted");
-  $submittedTimeStamp = <S>;
+  my $submittedTimeStamp = <S>;
   close(S);
   open(S, "$donePhase2JobDir/phase1_started");
-  $phase1TimeStamp = <S>;
+  my $phase1TimeStamp = <S>;
   close(S);
   open(S, "$donePhase2JobDir/phase2_started");
-  $phase2TimeStamp = <S>;
+  my $phase2TimeStamp = <S>;
   close(S);
   if ($submittedTimeStamp && $phase1TimeStamp && $phase2TimeStamp) {
     my $now = localtime();
-    my $total = ($now - $submitted) / 3600;  #hours
-    my $wait = ($phase1TimeStamp - $submitted) / 3600;
+    my $total = ($now - $submittedTimeStamp) / 3600;  #hours
+    my $wait = ($phase1TimeStamp - $submittedTimeStamp) / 3600;
     my $phase1 = ($phase2TimeStamp - $phase1TimeStamp) / 3600;
     my $phase2 = ($now - $phase2TimeStamp) / 3600;
     $mgr->log("Job $jobId done processing.  Elapsed times:  {wait: $wait, phase1: $phase1, phase2: $phase2, total: $total}");
