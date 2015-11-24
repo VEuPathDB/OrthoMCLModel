@@ -2,7 +2,7 @@ package OrthoMCLShared::MapProteomeService::ProteomeJobMgr;
 
 use strict;
 use CBIL::Util::SshCluster;
-use DateTime qw();
+use POSIX "strftime";
 use Carp;
 
 sub new {
@@ -87,12 +87,17 @@ sub runCmdInBackground {
 
 sub error {
     my ($self, $msg) = @_;
-    confess(DateTime->now() . "\t$msg\n\n");
+    confess(formatLocalTime(localtime) . "\t$msg\n\n");
 }
 
 sub log {
   my ($self, $msg) = @_;
-  print STDERR DateTime->now() . "\t$msg\n";
+  print STDERR formatLocalTime(localtime) . "\t$msg\n";
+}
+
+sub formatLocalTime {
+  my ($localtime) = @_;
+  return strftime('%Y-%m-%d %H:%M:%S', $localtime);
 }
 
 sub runClusterTask {

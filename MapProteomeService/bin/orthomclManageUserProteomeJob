@@ -3,13 +3,15 @@
 use lib "$ENV{GUS_HOME}/lib/perl";
 use File::Path;
 use File::Copy;
+use File::Stat;
 use Sys::Hostname;
 use OrthoMCLShared::MapProteomeService::ProteomeJobMgr;
 use Digest::MD5 qw(md5_hex);
+use JSON;
 use strict;
 use Carp qw(cluck);
 
-use constant DEBUG => 0;
+use constant DEBUG => 1;
 
 # Let's face it, this program started out as a simple script and has grown too big.
 # Ideally it would be rewritten using a standard OO approach
@@ -354,11 +356,6 @@ sub deliverResult {
   my $cmd = "orthomclMapProteomeToGroups $donePhase2JobDir/phase1BlastSimilarity.out.gz $donePhase2JobDir/phase2BlastSimilarity.out.gz $groupsFile $fakeTaxonAbbrev $donePhase2JobDir/orthomclResult $mclBin $donePhase2JobDir/log";
   $mgr->log("  $cmd");
   $mgr->runCmd(0, $cmd);
-  open(L, "$donePhase2JobDir/log");
-  while (<L>) {
-    print STDERR $_;
-  }
-  close(L);
 
   # make README
   my $readmeFile = "$donePhase2JobDir/orthomclResult/README";
@@ -376,14 +373,16 @@ sub deliverResult {
   open(S, "$donePhase2JobDir/phase2_started");
   my $phase2TimeStamp = <S>;
   close(S);
-  if ($submittedTimeStamp && $phase1TimeStamp && $phase2TimeStamp) {
-    my $now = localtime();
-    my $total = ($now - $submittedTimeStamp) / 3600;  #hours
-    my $wait = ($phase1TimeStamp - $submittedTimeStamp) / 3600;
-    my $phase1 = ($phase2TimeStamp - $phase1TimeStamp) / 3600;
-    my $phase2 = ($now - $phase2TimeStamp) / 3600;
-    $mgr->log("Job $jobId done processing.  Elapsed times:  {wait: $wait, phase1: $phase1, phase2: $phase2, total: $total}");
-  }
+
+  # save summary info in json
+  my $now = localtime();
+  my $total = ($now - $submitted) / 3600;  #hours
+  my $wait = ($phase1TimeStamp - $submitted) / 3600;
+  my $phase1 = ($phase2TimeStamp - $phase1TimeStamp) / 3600;
+  my $phase2 = ($now - $phase2TimeStamp) / 3600;
+  my $proteomeSize = stat("$donePhase2JobDir/proteome.fasta")->size;
+  my $summary = (wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, submitted => $mgr->formatLocalTime($submitted), proteomeSize=> $proteomeSize);
+  my $summaryJson = json_encode($summary);
 
   # zip result
   copy("$donePhase2JobDir/info.txt", "$donePhase2JobDir/orthomclResult");
@@ -397,6 +396,9 @@ sub deliverResult {
   # email result
   $mgr->log("  mailing notification");
   mailResult("$donePhase2JobDir/info.txt", $jobId);
+
+  $mgr->log("Job $jobId COMPLETED.\t$jobSummaryJson");
+
 }
 
 
@@ -773,7 +775,14 @@ sub mailSubmit {
   my ($infoFile, $jobId) = @_;
 
   my $msg = "
-has been submitted.  You will get a mail when it starts running (after other jobs in the queue), and another when it is done (6 to 72 hours later).
+has been submitted.
+
+You will get an email when it starts running (<i>after other jobs ahead in the queue</i>).
+
+You will get a second email when it is done.  At best this will be within a day.  It might be as long as many days, or, sometimes, even weeks, if there is a large backlog.
+
+Feel free to contact us to learn about your job's status.  <b>When you do, be sure to include your job id: $jobId</b>
+
 ";
   sendUserMail($infoFile, $jobId, "OrthoMCL Job - submitted", $msg);
 }
