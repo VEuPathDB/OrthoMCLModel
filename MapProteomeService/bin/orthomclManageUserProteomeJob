@@ -376,12 +376,12 @@ sub deliverResult {
 
   # save summary info in json
   my $now = localtime();
-  my $total = ($now - $submitted) / 3600;  #hours
-  my $wait = ($phase1TimeStamp - $submitted) / 3600;
+  my $total = ($now - $submittedTimeStamp) / 3600;  #hours
+  my $wait = ($phase1TimeStamp - $submittedTimeStamp) / 3600;
   my $phase1 = ($phase2TimeStamp - $phase1TimeStamp) / 3600;
   my $phase2 = ($now - $phase2TimeStamp) / 3600;
   my $proteomeSize = stat("$donePhase2JobDir/proteome.fasta")->size;
-  my $summary = (wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, submitted => $mgr->formatLocalTime($submitted), proteomeSize=> $proteomeSize);
+  my $summary = (wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, submitted => $mgr->formatLocalTime($submittedTimeStamp), proteomeSize=> $proteomeSize);
   my $summaryJson = json_encode($summary);
 
   # zip result
@@ -397,7 +397,7 @@ sub deliverResult {
   $mgr->log("  mailing notification");
   mailResult("$donePhase2JobDir/info.txt", $jobId);
 
-  $mgr->log("Job $jobId COMPLETED.\t$jobSummaryJson");
+  $mgr->log("Job $jobId COMPLETED.\t$summaryJson");
 
 }
 
