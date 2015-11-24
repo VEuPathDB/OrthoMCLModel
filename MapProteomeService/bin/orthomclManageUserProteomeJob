@@ -366,6 +366,25 @@ sub deliverResult {
   print R readme();
   close(R);
 
+  # compute elapsed times
+  open(S, "$donePhase2JobDir/submitted");
+  $submittedTimeStamp = <S>;
+  close(S);
+  open(S, "$donePhase2JobDir/phase1_started");
+  $phase1TimeStamp = <S>;
+  close(S);
+  open(S, "$donePhase2JobDir/phase2_started");
+  $phase2TimeStamp = <S>;
+  close(S);
+  if ($submittedTimeStamp && $phase1TimeStamp && $phase2TimeStamp) {
+    my $now = localtime();
+    my $total = ($now - $submitted) / 3600;  #hours
+    my $wait = ($phase1TimeStamp - $submitted) / 3600;
+    my $phase1 = ($phase2TimeStamp - $phase1TimeStamp) / 3600;
+    my $phase2 = ($now - $phase2TimeStamp) / 3600;
+    $mgr->log("Job $jobId done processing.  Elapsed times:  {wait: $wait, phase1: $phase1, phase2: $phase2, total: $total}");
+  }
+
   # zip result
   copy("$donePhase2JobDir/info.txt", "$donePhase2JobDir/orthomclResult");
   $mgr->log("  zipping");
@@ -409,7 +428,9 @@ sub handleNewJobs {
     # tell user the job has been submitted, even if not ready to start yet.
     if (! (-e "$newJobDir/submitted") && $phase eq 'phase1') {
       mailSubmit("$newJobDir/info.txt", $newJob);
-      system("touch $newJobDir/submitted");
+      open(S, ">$newJobDir/submitted") || die "Can't open '$newJobDir/submitted' for writing";
+      print S localtime;
+      close(S);
     }
 
     if ($countStarted + $runningJobsCount >= $maxJobs) {
@@ -444,9 +465,14 @@ sub handleNewJobs {
 	}
       }
 
+      # record time of new phase
+      open(S, ">$newJobDir/$phase") || die "Can't open '$newJobDir/${phase}_started' for writing";
+      print S localtime;
+      close(S);
+
       # move new job dir to running/
       mkpath($runningJobDir);
-      moveFile("$newJobsDir/$newJob", $runningJobDir);
+      moveFile($newJobDir, $runningJobDir);
 
       # move proteome file to localInputDir
       mkpath($localInputDir);
