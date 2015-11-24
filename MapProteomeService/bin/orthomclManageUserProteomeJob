@@ -164,7 +164,7 @@ sub preventConcurrentRun {
 
 sub removeConcurrentRunLock {
   my ($controlDir) = @_;
-  my $lockfile = "$controlDir/lock";
+  my $lockfile = "$controlDir/lock2";
   if ( -e $lockfile ) {
     unlink $lockfile;
   }
@@ -468,7 +468,7 @@ sub handleNewJobs {
       }
 
       # record time of new phase
-      open(S, ">$newJobDir/$phase") || die "Can't open '$newJobDir/${phase}_started' for writing";
+      open(S, ">$newJobDir/${phase}_started") || die "Can't open '$newJobDir/${phase}_started' for writing";
       print S localtime;
       close(S);
 
