@@ -146,7 +146,7 @@ $mgr->error("error: '$@'") if $@;
 
 sub preventConcurrentRun {
   my ($controlDir) = @_;
-  my $lockfile = "$controlDir/lock2";
+  my $lockfile = "$controlDir/lock3";
     
   if ( -e $lockfile ) {
     # looks to be already running
@@ -164,7 +164,7 @@ sub preventConcurrentRun {
 
 sub removeConcurrentRunLock {
   my ($controlDir) = @_;
-  my $lockfile = "$controlDir/lock2";
+  my $lockfile = "$controlDir/lock3";
   if ( -e $lockfile ) {
     unlink $lockfile;
   }
