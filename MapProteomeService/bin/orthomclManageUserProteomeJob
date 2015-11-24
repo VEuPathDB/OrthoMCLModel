@@ -3,7 +3,7 @@
 use lib "$ENV{GUS_HOME}/lib/perl";
 use File::Path;
 use File::Copy;
-use File::Stat;
+use File::stat;
 use Sys::Hostname;
 use OrthoMCLShared::MapProteomeService::ProteomeJobMgr;
 use Digest::MD5 qw(md5_hex);
