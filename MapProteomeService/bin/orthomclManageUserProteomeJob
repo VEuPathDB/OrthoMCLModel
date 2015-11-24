@@ -146,25 +146,32 @@ $mgr->error("error: '$@'") if $@;
 
 sub preventConcurrentRun {
   my ($controlDir) = @_;
-  my $lockfile = "$controlDir/lock3";
+  my $lockfile = "$controlDir/lock4";
     
   if ( -e $lockfile ) {
-    # looks to be already running
+    # might be already running
     my $runningJob = `cat $lockfile`;
-    my $msg = "Lock file found for $runningJob, not starting another process.\n" .
+    chomp $runningJob;
+    my @runningJobArray = split(/\t/, $runningJob);
+
+    # if lock found, and process is not on this server, or if on this server and still running, abort
+    # (the call to kill is a perl trick to test for process existence)
+    if ($runningJobArray[0] ne hostname() || kill(0, $runningJobArray[1])) {
+	my $msg = "Lock file found for $runningJob, not starting another process.\n" .
       "If this is in error, rm $lockfile and try again.\n";
-    $mgr->log($msg);
-    exit 1; # not using "die" to avoid stackstrace from confess in ProteomeJobMgr
+	$mgr->log($msg);
+	exit 1; # not using "die" to avoid stackstrace from confess in ProteomeJobMgr
+    }
   }
 
   # not currently running, write lockfile with PID information
   open(LOCK, ">$lockfile") or die "could not open lockfile $lockfile\n";
-  print LOCK "$$ on " . hostname();
+  print LOCK hostname() . "\t$$";
 }
 
 sub removeConcurrentRunLock {
   my ($controlDir) = @_;
-  my $lockfile = "$controlDir/lock3";
+  my $lockfile = "$controlDir/lock4";
   if ( -e $lockfile ) {
     unlink $lockfile;
   }
@@ -375,7 +382,7 @@ sub deliverResult {
   close(S);
 
   # save summary info in json
-  my $now = localtime();
+  my $now = time();
   my $total = ($now - $submittedTimeStamp) / 3600;  #hours
   my $wait = ($phase1TimeStamp - $submittedTimeStamp) / 3600;
   my $phase1 = ($phase2TimeStamp - $phase1TimeStamp) / 3600;
@@ -431,7 +438,7 @@ sub handleNewJobs {
     if (! (-e "$newJobDir/submitted") && $phase eq 'phase1') {
       mailSubmit("$newJobDir/info.txt", $newJob);
       open(S, ">$newJobDir/submitted") || die "Can't open '$newJobDir/submitted' for writing";
-      print S localtime;
+      print S time();
       close(S);
     }
 
@@ -469,7 +476,7 @@ sub handleNewJobs {
 
       # record time of new phase
       open(S, ">$newJobDir/${phase}_started") || die "Can't open '$newJobDir/${phase}_started' for writing";
-      print S localtime;
+      print S time();
       close(S);
 
       # move new job dir to running/
