@@ -391,13 +391,14 @@ sub deliverResult {
 
   # save summary info in json
   my $now = time();
-  my $total = ($now - $submittedTimeStamp) / 3600;  #hours
+  my $total = round(($now - $submittedTimeStamp) / 360) / 10;  #hours
   my $phase1wait = round(($phase1StartTimeStamp - $submittedTimeStamp) / 360) / 10;
   my $phase1 = round(($phase1DoneTimeStamp - $phase1StartTimeStamp) / 360) / 10;
   my $phase2wait = round(($phase2StartTimeStamp - $phase1DoneTimeStamp) / 360) / 10;
   my $phase2 = round(($now - $phase2StartTimeStamp) / 360) / 10;
   my $proteomeSize = stat("$donePhase2JobDir/proteome.fasta")->size;
-  my $summaryJson = qq({"submitted" : "$mgr->formatLocalTime(localtime($submittedTimeStamp))", "total" : $total, "wait1" : $phase1wait, "phase1" : $phase1, "wait2": $phase2wait, "phase2" : $phase2, "proteomeSize": $proteomeSize});
+  my $submitTime = $mgr->formatLocalTime(localtime($submittedTimeStamp));
+  my $summaryJson = qq({"submitted" : "$submitTime", "total" : $total, "wait1" : $phase1wait, "phase1" : $phase1, "wait2": $phase2wait, "phase2" : $phase2, "proteomeSize": $proteomeSize});
 
   # zip result
   copy("$donePhase2JobDir/info.txt", "$donePhase2JobDir/orthomclResult");
@@ -774,6 +775,10 @@ sub handleFailedJobs {
     $mgr->log("Handling $phase failed job: $failedJob");
     $mgr->log("  moving local job to $phase failed dir");
     move("$localRunningDir/$failedJob", "$localFailedDir/$failedJob");
+
+    open(S, ">$localFailedDir/$failedJob/failed");
+    print S time();
+    close(S);
 
     # clean up cluster dir
     $mgr->log("  moving cluster job to $phase cluster failed dir");
