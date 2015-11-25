@@ -15,6 +15,7 @@ use constant DEBUG => 0;
 
 # Let's face it, this program started out as a simple script and has grown too big.
 # Ideally it would be rewritten using a standard OO approach
+# in fact, as it stands now, this is arguably the worst program i've written. just not worth the time to clean up. sorry.
 
 =pod 
 
@@ -298,6 +299,10 @@ sub handleDoneJobs {
 
       moveFile("$localDoneDir/$doneJob/blastSimilarity.out.gz", "$localDoneDir/$doneJob/${phase}BlastSimilarity.out.gz");
 
+      open(S, ">$localDoneDir/$doneJob/${phase}_done") || die "Can't open '$localDoneDir/$doneJob/${phase}_done' for writing";
+      print S time();
+      close(S);
+
       # check that phase 2 had non-empty blast results
       if ($phase eq 'phase2' && -s "$localDoneDir/$doneJob/${phase}BlastSimilarity.out.gz" == 0) {
 	# oops, bad blast result.   move to failure dirs locally and on cluster, and mail user
@@ -375,21 +380,24 @@ sub deliverResult {
   my $submittedTimeStamp = <S>;
   close(S);
   open(S, "$donePhase2JobDir/phase1_started");
-  my $phase1TimeStamp = <S>;
+  my $phase1StartTimeStamp = <S>;
+  close(S);
+  open(S, "$donePhase2JobDir/phase1_done");
+  my $phase1DoneTimeStamp = <S>;
   close(S);
   open(S, "$donePhase2JobDir/phase2_started");
-  my $phase2TimeStamp = <S>;
+  my $phase2StartTimeStamp = <S>;
   close(S);
 
   # save summary info in json
   my $now = time();
   my $total = ($now - $submittedTimeStamp) / 3600;  #hours
-  my $wait = ($phase1TimeStamp - $submittedTimeStamp) / 3600;
-  my $phase1 = ($phase2TimeStamp - $phase1TimeStamp) / 3600;
-  my $phase2 = ($now - $phase2TimeStamp) / 3600;
+  my $phase1wait = round(($phase1StartTimeStamp - $submittedTimeStamp) / 360) / 10;
+  my $phase1 = round(($phase1DoneTimeStamp - $phase1StartTimeStamp) / 360) / 10;
+  my $phase2wait = round(($phase2StartTimeStamp - $phase1DoneTimeStamp) / 360) / 10;
+  my $phase2 = round(($now - $phase2StartTimeStamp) / 360) / 10;
   my $proteomeSize = stat("$donePhase2JobDir/proteome.fasta")->size;
-  my $summary = {wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, submitted => $mgr->formatLocalTime(localtime($submittedTimeStamp)), proteomeSize=> $proteomeSize};
-  my $summaryJson = encode_json($summary);
+  my $summaryJson = qq({"submitted" : "$mgr->formatLocalTime(localtime($submittedTimeStamp))", "total" : $total, "wait1" : $phase1wait, "phase1" : $phase1, "wait2": $phase2wait, "phase2" : $phase2, "proteomeSize": $proteomeSize});
 
   # zip result
   copy("$donePhase2JobDir/info.txt", "$donePhase2JobDir/orthomclResult");
