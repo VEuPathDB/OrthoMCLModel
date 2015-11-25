@@ -7,7 +7,7 @@ use File::stat;
 use Sys::Hostname;
 use OrthoMCLShared::MapProteomeService::ProteomeJobMgr;
 use Digest::MD5 qw(md5_hex);
-use JSON;
+use Math::Round;
 use strict;
 use Carp qw(cluck);
 
