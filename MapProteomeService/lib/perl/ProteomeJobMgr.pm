@@ -87,16 +87,16 @@ sub runCmdInBackground {
 
 sub error {
     my ($self, $msg) = @_;
-    confess(formatLocalTime(localtime) . "\t$msg\n\n");
+    confess($self->formatLocalTime(localtime) . "\t$msg\n\n");
 }
 
 sub log {
   my ($self, $msg) = @_;
-  print STDERR formatLocalTime(localtime) . "\t$msg\n";
+  print STDERR $self->formatLocalTime(localtime) . "\t$msg\n";
 }
 
 sub formatLocalTime {
-  my (@localtime) = @_;
+  my ($self, @localtime) = @_;
   return strftime('%Y-%m-%d %H:%M:%S', @localtime);
 }
 

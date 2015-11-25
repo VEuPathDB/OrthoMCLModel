@@ -388,8 +388,8 @@ sub deliverResult {
   my $phase1 = ($phase2TimeStamp - $phase1TimeStamp) / 3600;
   my $phase2 = ($now - $phase2TimeStamp) / 3600;
   my $proteomeSize = stat("$donePhase2JobDir/proteome.fasta")->size;
- # my $summary = (wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, submitted => $mgr->formatLocalTime(localtime($submittedTimeStamp)), proteomeSize=> $proteomeSize);
-  my $summary = (wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, submitted=> $submittedTimeStamp, proteomeSize=> $proteomeSize);
+  my $summary = (wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, submitted => $mgr->formatLocalTime(localtime($submittedTimeStamp)), proteomeSize=> $proteomeSize);
+ # my $summary = (wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, submitted=> $submittedTimeStamp, proteomeSize=> $proteomeSize);
   my $summaryJson = encode_json($summary);
 
   # zip result
