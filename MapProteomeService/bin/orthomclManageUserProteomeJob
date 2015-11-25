@@ -388,7 +388,8 @@ sub deliverResult {
   my $phase1 = ($phase2TimeStamp - $phase1TimeStamp) / 3600;
   my $phase2 = ($now - $phase2TimeStamp) / 3600;
   my $proteomeSize = stat("$donePhase2JobDir/proteome.fasta")->size;
-  my $summary = (wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, submitted => $mgr->formatLocalTime(localtime($submittedTimeStamp)), proteomeSize=> $proteomeSize);
+ # my $summary = (wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, submitted => $mgr->formatLocalTime(localtime($submittedTimeStamp)), proteomeSize=> $proteomeSize);
+  my $summary = (wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, proteomeSize=> $proteomeSize);
   my $summaryJson = json_encode($summary);
 
   # zip result
@@ -784,23 +785,28 @@ sub mailSubmit {
   my $msg = "
 has been submitted.
 
-You will get an email when it starts running (<i>after other jobs ahead in the queue</i>).
+You will get an email when it starts running (after other jobs ahead in the queue).
 
 You will get a second email when it is done.  At best this will be within a day.  It might be as long as many days, or, sometimes, even weeks, if there is a large backlog.
 
-Feel free to contact us to learn about your job's status.  <b>When you do, be sure to include your job id: $jobId</b>
+Feel free to contact us to learn about your job's status.  When you do, be sure to include your job id: $jobId
 
 ";
-  sendUserMail($infoFile, $jobId, "OrthoMCL Job - submitted", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job $jobId - submitted", $msg);
 }
 
 sub mailStarted {
   my ($infoFile, $jobId) = @_;
 
   my $msg = "
-has started running.  You will get a mail when it is done (in 6 to 72 hours).
+has started running.
+
+You will get an email when it is done.  At best this will be within a day.  It might be as long as many days, or, sometimes, even weeks, if there is a large backlog.
+
+Feel free to contact us to learn about your job's status.  When you do, be sure to include your job id: $jobId
+
 ";
-  sendUserMail($infoFile, $jobId, "OrthoMCL Job - running", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job $jobId - running", $msg);
 }
 
 sub mailServerError {
@@ -809,7 +815,7 @@ sub mailServerError {
   my $msg = "
 has failed because of a server error.  Please try again, or respond to this mail to report the problem.
 ";
-  sendUserMail($infoFile, $jobId, "OrthoMCL Job - server error", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job $jobId - server error", $msg);
 }
 
 sub mailServerErrorToAdmin {
@@ -818,7 +824,7 @@ sub mailServerErrorToAdmin {
   my $local = `hostname`;
   chomp $local;
   my $msg = "See log and failed job at '$local:$localFailedJobPath' and '$cluster:$remoteFailedJobPath'";
-  sendMailToAdmin($infoFile, $jobId, "OrthoMCL Job - server error", "\n$errMsg\n$msg");
+  sendMailToAdmin($infoFile, $jobId, "OrthoMCL Job $jobId - server error", "\n$errMsg\n$msg");
 }
 
 sub handleJobError {
@@ -837,7 +843,7 @@ has an invalid sequence file.
 $reason
 Please resubmit with a valid file.
 ";
-  sendUserMail($infoFile, $jobId, "OrthoMCL Job - invalid file", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job $jobId - invalid file", $msg);
 }
 
 sub mailNoBlastResults {
@@ -852,7 +858,7 @@ snippet of your fasta file.
 
 If you believe your fasta file is correct, please write back.   It is possible the cause is server error.
 ";
-  sendUserMail($infoFile, $jobId, "OrthoMCL Job - no matches", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job $jobId - no matches", $msg);
 }
 
 sub mailResult {
@@ -868,7 +874,7 @@ is complete.  The results are now available at:
 
 They will be available for $purgeWindow days.
 ";
-  sendUserMail($infoFile, $jobId, "OrthoMCL Job - done", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job $jobId - done", $msg);
 }
 
 sub sendMailToAdmin {
