@@ -186,17 +186,17 @@ sub removeStaleFiles {
   foreach my $subdir (@toPurge) {
 
     my $cmd = "ssh -q -2 $clusterUserName\@$clusterServer 'if [ -a $clusterServerDir/$subdir ]; then find $clusterServerDir/$subdir -mtime $purgeWindowPlus -delete; fi'";
-    warn "Running cmd: $cmd \n" if DEBUG;
+    warn "[DEBUG] Running cmd: $cmd \n" if DEBUG;
     system($cmd);
 
     $cmd = "if [ -a $controlDir/$subdir ]; then find $controlDir/$subdir -mtime $purgeWindowPlus -delete; fi";
-    warn "Running cmd: $cmd \n" if DEBUG;
+    warn "[DEBUG] Running cmd: $cmd \n" if DEBUG;
     system($cmd);
   }
 
   my $resultDir = $mgr->getConfig('resultsDir');
   my $cmd = "if [ -a $resultDir ]; then find $resultDir -mtime $purgeWindowPlus -delete; fi";
-  warn "Running cmd: $cmd \n" if DEBUG;
+  warn "[DEBUG] Running cmd: $cmd \n" if DEBUG;
   system($cmd);
 }
 
@@ -389,8 +389,8 @@ sub deliverResult {
   my $phase2 = ($now - $phase2TimeStamp) / 3600;
   my $proteomeSize = stat("$donePhase2JobDir/proteome.fasta")->size;
  # my $summary = (wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, submitted => $mgr->formatLocalTime(localtime($submittedTimeStamp)), proteomeSize=> $proteomeSize);
-  my $summary = (wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, proteomeSize=> $proteomeSize);
-  my $summaryJson = json_encode($summary);
+  my $summary = (wait => $wait, phase1 => $phase1, phase2 => $phase2, total => $total, submitted=> $submittedTimeStamp, proteomeSize=> $proteomeSize);
+  my $summaryJson = encode_json($summary);
 
   # zip result
   copy("$donePhase2JobDir/info.txt", "$donePhase2JobDir/orthomclResult");
