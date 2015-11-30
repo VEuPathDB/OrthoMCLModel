@@ -1,0 +1,114 @@
+#!/usr/bin/perl
+
+use strict;
+
+my ($serviceDir) = @_;
+
+my %finishedJobs;
+my @failedJobs;
+my %phaseCounts;
+my %allJobs;
+my %proteomeSizes;
+
+=pod
+
+Data structure for job:
+{ id: id,
+  email: email,
+  proteomeSize: size
+  submitTime: 
+  phase:
+  status:
+  phase1duration:
+  phase2duration:
+}
+=cut
+
+# for new jobs, collect job ID and submit time
+my @newJobs;
+my $newDir = "$serviceDir/newJobs";
+foreach my $jobId (readJobsDir($newDir, "submitted")) {
+  my $submitTimeStamp = `cat "$newDir/$jobId/submitted"`;
+  push(@newJobs, {$jobId, $submitTimeStamp});
+}
+
+my @phase1RunningJobs = running("$serviceDir/phase1/runningJobs", "phase1");
+my @phase2RunningJobs = running("$serviceDir/phase2/runningJobs", "phase2");
+my @phase1FailedJobs = failed("$serviceDir/phase1/failedJobs", "phase1");
+my @phase2FailedJobs = failed("$serviceDir/phase2/failedJobs", "phase2");
+my @phase1DoneJobs = running("$serviceDir/phase1/doneJobs");
+
+print "New Jobs";
+print join("\t", ("ID", "Submitted"));
+print join("\n", map { join("\t", @$_) } @newJobs);
+
+print "Phase 1 Running Jobs";
+print join("\t", ("ID", "Submitted", "Started"));
+print join("\n", map { join("\t", @$_) } @phase1RunningJobs);
+
+print "Phase 2 Running Jobs";
+print join("\t", ("ID", "Submitted", "Started"));
+print join("\n", map { join("\t", @$_) } @phase2RunningJobs);
+
+print "Phase 1 Done Jobs";
+print join("\t", ("ID", "Submitted", "Started", "Done"));
+print join("\n", map { join("\t", @$_) } @phase1DoneJobs);
+
+print "Phase 1 Failed Jobs";
+print join("\t", ("ID", "Submiited", "Failed"));
+print join("\n", map { join("\t", @$_) } @phase1FailedJobs);
+
+print "Phase 2 Failed Jobs";
+print join("\t", ("ID", "Submiited", "Failed"));
+print join("\n", map { join("\t", @$_) } @phase2FailedJobs);
+
+
+###########################  subroutines #################################################
+
+# for failed jobs (for each phase), collect job ID, submit time and fail time
+sub failed {
+  my ($failedDir, $phase) = @_;
+  my @failedJobs;
+  foreach my $jobId (readJobsDir($failedDir, "submitted")) {
+    my $submitTimeStamp = `cat "$failedDir/$jobId/submitted"`;
+    my $failedTimeStamp = `cat "$failedDir/$jobId/failed"`;
+    push(@failedJobs, {$jobId, $submitTimeStamp, $failedTimeStamp});
+  }
+  return @failedJobs;
+}
+
+# for running jobs (for each phase), collect job ID, submit time and start time
+sub running {
+  my ($runningDir, $phase) = @_;
+  my @runningJobs;
+  foreach my $jobId (readJobsDir($runningDir, "submitted")) {
+    my $submitTimeStamp = `cat "$runningDir/$jobId/submitted"`;
+    my $startTimeStamp = `cat "$runningDir/$jobId/${phase}_start"`;
+    push(@runningJobs, {$jobId, $submitTimeStamp, $startTimeStamp});
+  }
+  return @runningJobs;
+}
+
+# for done jobs (phase1), collect job ID, submit time, start time,  done time
+sub done {
+  my ($doneDir) = @_;
+  my @doneJobs;
+  foreach my $jobId (readJobsDir($doneDir, "submitted")) {
+    my $submitTimeStamp = `cat "$doneDir/$jobId/submitted"`;
+    my $startTimeStamp = `cat "$doneDir/$jobId/phase1_start"`;
+    my $doneTimeStamp = `cat "$doneDir/$jobId/phase1"`;
+    push(@doneJobs, {$jobId, $submitTimeStamp, $startTimeStamp, $doneTimeStamp});
+  }
+  return @doneJobs;
+}
+
+sub readJobsDir {
+  my ($dir, $sortByFileName) = @_;
+  opendir (DIR, $dir);
+  my @dir=readdir(DIR);
+  closedir(DIR);
+  @dir = sort { -M "$dir/$a/$sortByFileName" <=> -M "$dir/$b/$sortByFileName" } (@dir);
+  return @dir;
+}
+
+
