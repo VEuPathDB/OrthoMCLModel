@@ -3,9 +3,11 @@
 use lib "$ENV{GUS_HOME}/lib/perl";
 use File::Path;
 use File::Copy;
+use File::stat;
 use Sys::Hostname;
 use OrthoMCLShared::MapProteomeService::ProteomeJobMgr;
 use Digest::MD5 qw(md5_hex);
+use Math::Round;
 use strict;
 use Carp qw(cluck);
 
@@ -13,6 +15,7 @@ use constant DEBUG => 0;
 
 # Let's face it, this program started out as a simple script and has grown too big.
 # Ideally it would be rewritten using a standard OO approach
+# in fact, as it stands now, this is arguably the worst program i've written. just not worth the time to clean up. sorry.
 
 =pod 
 
@@ -144,25 +147,32 @@ $mgr->error("error: '$@'") if $@;
 
 sub preventConcurrentRun {
   my ($controlDir) = @_;
-  my $lockfile = "$controlDir/lock";
+  my $lockfile = "$controlDir/lock4";
     
   if ( -e $lockfile ) {
-    # looks to be already running
+    # might be already running
     my $runningJob = `cat $lockfile`;
-    my $msg = "Lock file found for $runningJob, not starting another process.\n" .
+    chomp $runningJob;
+    my @runningJobArray = split(/\t/, $runningJob);
+
+    # if lock found, and process is not on this server, or if on this server and still running, abort
+    # (the call to kill is a perl trick to test for process existence)
+    if ($runningJobArray[0] ne hostname() || kill(0, $runningJobArray[1])) {
+	my $msg = "Lock file found for $runningJob, not starting another process.\n" .
       "If this is in error, rm $lockfile and try again.\n";
-    $mgr->log($msg);
-    exit 1; # not using "die" to avoid stackstrace from confess in ProteomeJobMgr
+	$mgr->log($msg);
+	exit 1; # not using "die" to avoid stackstrace from confess in ProteomeJobMgr
+    }
   }
 
   # not currently running, write lockfile with PID information
   open(LOCK, ">$lockfile") or die "could not open lockfile $lockfile\n";
-  print LOCK "$$ on " . hostname();
+  print LOCK hostname() . "\t$$";
 }
 
 sub removeConcurrentRunLock {
   my ($controlDir) = @_;
-  my $lockfile = "$controlDir/lock";
+  my $lockfile = "$controlDir/lock4";
   if ( -e $lockfile ) {
     unlink $lockfile;
   }
@@ -177,17 +187,17 @@ sub removeStaleFiles {
   foreach my $subdir (@toPurge) {
 
     my $cmd = "ssh -q -2 $clusterUserName\@$clusterServer 'if [ -a $clusterServerDir/$subdir ]; then find $clusterServerDir/$subdir -mtime $purgeWindowPlus -delete; fi'";
-    warn "Running cmd: $cmd \n" if DEBUG;
+    warn "[DEBUG] Running cmd: $cmd \n" if DEBUG;
     system($cmd);
 
     $cmd = "if [ -a $controlDir/$subdir ]; then find $controlDir/$subdir -mtime $purgeWindowPlus -delete; fi";
-    warn "Running cmd: $cmd \n" if DEBUG;
+    warn "[DEBUG] Running cmd: $cmd \n" if DEBUG;
     system($cmd);
   }
 
   my $resultDir = $mgr->getConfig('resultsDir');
   my $cmd = "if [ -a $resultDir ]; then find $resultDir -mtime $purgeWindowPlus -delete; fi";
-  warn "Running cmd: $cmd \n" if DEBUG;
+  warn "[DEBUG] Running cmd: $cmd \n" if DEBUG;
   system($cmd);
 }
 
@@ -289,6 +299,10 @@ sub handleDoneJobs {
 
       moveFile("$localDoneDir/$doneJob/blastSimilarity.out.gz", "$localDoneDir/$doneJob/${phase}BlastSimilarity.out.gz");
 
+      open(S, ">$localDoneDir/$doneJob/${phase}_done") || die "Can't open '$localDoneDir/$doneJob/${phase}_done' for writing";
+      print S time();
+      close(S);
+
       # check that phase 2 had non-empty blast results
       if ($phase eq 'phase2' && -s "$localDoneDir/$doneJob/${phase}BlastSimilarity.out.gz" == 0) {
 	# oops, bad blast result.   move to failure dirs locally and on cluster, and mail user
@@ -354,17 +368,37 @@ sub deliverResult {
   my $cmd = "orthomclMapProteomeToGroups $donePhase2JobDir/phase1BlastSimilarity.out.gz $donePhase2JobDir/phase2BlastSimilarity.out.gz $groupsFile $fakeTaxonAbbrev $donePhase2JobDir/orthomclResult $mclBin $donePhase2JobDir/log";
   $mgr->log("  $cmd");
   $mgr->runCmd(0, $cmd);
-  open(L, "$donePhase2JobDir/log");
-  while (<L>) {
-    print STDERR $_;
-  }
-  close(L);
 
   # make README
   my $readmeFile = "$donePhase2JobDir/orthomclResult/README";
   open(R, ">$readmeFile") || die "Can't open readme file '$readmeFile' for writing";
   print R readme();
   close(R);
+
+  # compute elapsed times
+  open(S, "$donePhase2JobDir/submitted");
+  my $submittedTimeStamp = <S>;
+  close(S);
+  open(S, "$donePhase2JobDir/phase1_started");
+  my $phase1StartTimeStamp = <S>;
+  close(S);
+  open(S, "$donePhase2JobDir/phase1_done");
+  my $phase1DoneTimeStamp = <S>;
+  close(S);
+  open(S, "$donePhase2JobDir/phase2_started");
+  my $phase2StartTimeStamp = <S>;
+  close(S);
+
+  # save summary info in json
+  my $now = time();
+  my $total = round(($now - $submittedTimeStamp) / 360) / 10;  #hours
+  my $phase1wait = round(($phase1StartTimeStamp - $submittedTimeStamp) / 360) / 10;
+  my $phase1 = round(($phase1DoneTimeStamp - $phase1StartTimeStamp) / 360) / 10;
+  my $phase2wait = round(($phase2StartTimeStamp - $phase1DoneTimeStamp) / 360) / 10;
+  my $phase2 = round(($now - $phase2StartTimeStamp) / 360) / 10;
+  my $proteomeSize = stat("$donePhase2JobDir/proteome.fasta")->size;
+  my $submitTime = $mgr->formatLocalTime(localtime($submittedTimeStamp));
+  my $summaryJson = qq({"submitted" : "$submitTime", "total" : $total, "wait1" : $phase1wait, "phase1" : $phase1, "wait2": $phase2wait, "phase2" : $phase2, "proteomeSize": $proteomeSize});
 
   # zip result
   copy("$donePhase2JobDir/info.txt", "$donePhase2JobDir/orthomclResult");
@@ -378,6 +412,9 @@ sub deliverResult {
   # email result
   $mgr->log("  mailing notification");
   mailResult("$donePhase2JobDir/info.txt", $jobId);
+
+  $mgr->log("Job $jobId COMPLETED.\t$summaryJson");
+
 }
 
 
@@ -409,7 +446,9 @@ sub handleNewJobs {
     # tell user the job has been submitted, even if not ready to start yet.
     if (! (-e "$newJobDir/submitted") && $phase eq 'phase1') {
       mailSubmit("$newJobDir/info.txt", $newJob);
-      system("touch $newJobDir/submitted");
+      open(S, ">$newJobDir/submitted") || die "Can't open '$newJobDir/submitted' for writing";
+      print S time();
+      close(S);
     }
 
     if ($countStarted + $runningJobsCount >= $maxJobs) {
@@ -444,9 +483,14 @@ sub handleNewJobs {
 	}
       }
 
+      # record time of new phase
+      open(S, ">$newJobDir/${phase}_started") || die "Can't open '$newJobDir/${phase}_started' for writing";
+      print S time();
+      close(S);
+
       # move new job dir to running/
       mkpath($runningJobDir);
-      moveFile("$newJobsDir/$newJob", $runningJobDir);
+      moveFile($newJobDir, $runningJobDir);
 
       # move proteome file to localInputDir
       mkpath($localInputDir);
@@ -732,6 +776,10 @@ sub handleFailedJobs {
     $mgr->log("  moving local job to $phase failed dir");
     move("$localRunningDir/$failedJob", "$localFailedDir/$failedJob");
 
+    open(S, ">$localFailedDir/$failedJob/failed");
+    print S time();
+    close(S);
+
     # clean up cluster dir
     $mgr->log("  moving cluster job to $phase cluster failed dir");
     my $clusterRunningJobDir = "$clusterServerDir/$phase/runningJobs/$failedJob";
@@ -747,18 +795,30 @@ sub mailSubmit {
   my ($infoFile, $jobId) = @_;
 
   my $msg = "
-has been submitted.  You will get a mail when it starts running (after other jobs in the queue), and another when it is done (6 to 72 hours later).
+has been submitted.
+
+You will get an email when it starts running (after other jobs ahead in the queue).
+
+You will get a second email when it is done.  At best this will be within a day.  It might be as long as many days, or, sometimes, even weeks, if there is a large backlog.
+
+Feel free to contact us to learn about your job's status.  When you do, be sure to include your job id: $jobId
+
 ";
-  sendUserMail($infoFile, $jobId, "OrthoMCL Job - submitted", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job $jobId - submitted", $msg);
 }
 
 sub mailStarted {
   my ($infoFile, $jobId) = @_;
 
   my $msg = "
-has started running.  You will get a mail when it is done (in 6 to 72 hours).
+has started running.
+
+You will get an email when it is done.  At best this will be within a day.  It might be as long as many days, or, sometimes, even weeks, if there is a large backlog.
+
+Feel free to contact us to learn about your job's status.  When you do, be sure to include your job id: $jobId
+
 ";
-  sendUserMail($infoFile, $jobId, "OrthoMCL Job - running", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job $jobId - running", $msg);
 }
 
 sub mailServerError {
@@ -767,7 +827,7 @@ sub mailServerError {
   my $msg = "
 has failed because of a server error.  Please try again, or respond to this mail to report the problem.
 ";
-  sendUserMail($infoFile, $jobId, "OrthoMCL Job - server error", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job $jobId - server error", $msg);
 }
 
 sub mailServerErrorToAdmin {
@@ -776,7 +836,7 @@ sub mailServerErrorToAdmin {
   my $local = `hostname`;
   chomp $local;
   my $msg = "See log and failed job at '$local:$localFailedJobPath' and '$cluster:$remoteFailedJobPath'";
-  sendMailToAdmin($infoFile, $jobId, "OrthoMCL Job - server error", "\n$errMsg\n$msg");
+  sendMailToAdmin($infoFile, $jobId, "OrthoMCL Job $jobId - server error", "\n$errMsg\n$msg");
 }
 
 sub handleJobError {
@@ -795,7 +855,7 @@ has an invalid sequence file.
 $reason
 Please resubmit with a valid file.
 ";
-  sendUserMail($infoFile, $jobId, "OrthoMCL Job - invalid file", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job $jobId - invalid file", $msg);
 }
 
 sub mailNoBlastResults {
@@ -810,7 +870,7 @@ snippet of your fasta file.
 
 If you believe your fasta file is correct, please write back.   It is possible the cause is server error.
 ";
-  sendUserMail($infoFile, $jobId, "OrthoMCL Job - no matches", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job $jobId - no matches", $msg);
 }
 
 sub mailResult {
@@ -826,7 +886,7 @@ is complete.  The results are now available at:
 
 They will be available for $purgeWindow days.
 ";
-  sendUserMail($infoFile, $jobId, "OrthoMCL Job - done", $msg);
+  sendUserMail($infoFile, $jobId, "OrthoMCL Job $jobId - done", $msg);
 }
 
 sub sendMailToAdmin {
