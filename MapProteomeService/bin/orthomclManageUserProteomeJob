@@ -12,6 +12,7 @@ use strict;
 use Carp qw(cluck);
 
 use constant DEBUG => 0;
+use constant GZIP_FLAG => 0;
 
 # Let's face it, this program started out as a simple script and has grown too big.
 # Ideally it would be rewritten using a standard OO approach
@@ -295,7 +296,7 @@ sub handleDoneJobs {
 
       # copy result from cluster
       $mgr->log("  copying from cluster");
-      $mgr->getCluster()->copyFrom("$clusterRunningJobDir/master/mainresult", 'blastSimilarity.out.gz', "$localDoneDir/$doneJob");
+      $mgr->getCluster()->copyFrom("$clusterRunningJobDir/master/mainresult", 'blastSimilarity.out.gz', "$localDoneDir/$doneJob", 0, GZIP_FLAG);
 
       moveFile("$localDoneDir/$doneJob/blastSimilarity.out.gz", "$localDoneDir/$doneJob/${phase}BlastSimilarity.out.gz");
 
@@ -506,7 +507,7 @@ sub handleNewJobs {
 
       # mirror job to cluster
       $mgr->log("Mirroring $newJob/ to cluster");
-      $mgr->getCluster()->copyTo($localRunningDir, $newJob, $clusterRunningDir);
+      $mgr->getCluster()->copyTo($localRunningDir, $newJob, $clusterRunningDir, GZIP_FLAG);
 
       #     if ($phase eq 'phase1') {
       # 

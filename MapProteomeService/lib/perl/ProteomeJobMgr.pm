@@ -1,7 +1,7 @@
 package OrthoMCLShared::MapProteomeService::ProteomeJobMgr;
 
 use strict;
-use CBIL::Util::SshCluster;
+use FgpUtil::Util::SshComputeCluster;
 use POSIX qw(strftime);
 use Carp;
 
@@ -49,7 +49,7 @@ sub getCluster {
     if (!$self->{cluster}) {
     my $clusterServer = $self->getConfig('clusterServer');
     my $clusterUser = $self->getConfig('clusterUserName');
-    $self->{cluster} = CBIL::Util::SshCluster->new($clusterServer,
+    $self->{cluster} = FgpUtil::Util::SshComputeCluster->new($clusterServer,
                               $clusterUser,
                               $self);
     }
