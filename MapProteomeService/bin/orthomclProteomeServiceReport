@@ -12,17 +12,9 @@ my %proteomeSizes;
 
 =pod
 
-Data structure for job:
-{ id: id,
-  email: email,
-  proteomeSize: size
-  submitTime: 
-  phase:
-  status:
-  phase1duration:
-  phase2duration:
-}
 =cut
+
+# add to this report an ls -l of the cluster running dirs, to see if the cluster logs are being updated.
 
 # for new jobs, collect job ID and submit time
 my @newJobs;
