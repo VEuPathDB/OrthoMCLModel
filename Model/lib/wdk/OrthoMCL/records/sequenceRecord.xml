@@ -9,6 +9,7 @@
   <recordClassSet name="SequenceRecordClasses">
     
     <recordClass name="SequenceRecordClass"
+                 urlPath="sequence"
 		 displayName="Sequence">
       
       <testParamValues>

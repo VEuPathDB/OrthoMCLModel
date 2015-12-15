@@ -3,6 +3,7 @@
     <recordClassSet name="HelperRecordClasses">
     
         <recordClass name="HelperRecordClass"
+                     urlPath="helper"
                      displayName="Helper">
             
             <testParamValues>
