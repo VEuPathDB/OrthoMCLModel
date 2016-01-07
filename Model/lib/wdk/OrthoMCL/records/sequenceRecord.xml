@@ -9,8 +9,8 @@
   <recordClassSet name="SequenceRecordClasses">
     
     <recordClass name="SequenceRecordClass"
-                 urlPath="sequence"
-		 displayName="Sequence">
+                 urlName="sequence"
+                 displayName="Sequence">
       
       <testParamValues>
 	<paramValue name="full_id">aaeg|AAEL000450-PA</paramValue>
