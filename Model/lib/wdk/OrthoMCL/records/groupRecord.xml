@@ -3,7 +3,7 @@
     <recordClassSet name="GroupRecordClasses">
     
         <recordClass name="GroupRecordClass"
-                     urlPath="group"
+                     urlName="group"
                displayName="Group">
             
             <testParamValues>
