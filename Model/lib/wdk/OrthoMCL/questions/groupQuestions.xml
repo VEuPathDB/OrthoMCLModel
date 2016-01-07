@@ -24,7 +24,7 @@
         </description>
       </question>
 
-      <question name="ByAccession" queryRef="GroupIds.ByAccession" 
+      <question name="ByAccession" urlName="groups-by-accession" queryRef="GroupIds.ByAccession" 
                 displayName="Group or Sequence ID"
                 recordClassRef="GroupRecordClasses.GroupRecordClass"
                 noSummaryOnSingleRecord="true">
@@ -35,7 +35,7 @@
         </description>
       </question>
 
-      <question name="ByTextSearch" queryRef="GroupIds.ByTextSearch"
+      <question name="ByTextSearch" urlName="groups-by-text-search" queryRef="GroupIds.ByTextSearch"
                 displayName="Text Terms"
                 shortDisplayName="Text"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
@@ -56,7 +56,7 @@
       </question>
 
 
-      <question name="ByPFamIdOrKeyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
+      <question name="ByPFamIdOrKeyword" urlName="groups-by-pfam-id-or-keyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
                 displayName="PFam ID or Keyword"
                 shortDisplayName="PFam"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
@@ -68,7 +68,7 @@
       </question>
 
 
-      <question name="ByEcNumber" queryRef="GroupIds.ByEcNumber" 
+      <question name="ByEcNumber" urlName="groups-by-ec-number" queryRef="GroupIds.ByEcNumber" 
                 displayName="Enzyme Commission Assignment" shortDisplayName="Enzymes"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
