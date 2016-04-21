@@ -97,6 +97,7 @@ FROM apidb.OrthologGroup og,
     FROM ApidbTuning.SequenceAttributes ogs,
       dots.AaSequenceEnzymeClass asec
     WHERE asec.aa_sequence_id = ogs.aa_sequence_id
+    AND ogs.ortholog_group_id is not null
     GROUP BY ogs.ortholog_group_id,
       asec.enzyme_class_id
     ) ec_map
