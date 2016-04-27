@@ -314,6 +314,14 @@
             </description>
         </question>
 
+        <question name="ByEcAssignment" queryRef="SequenceIds.ByEcAssignment" 
+                  displayName="Enzyme Commission Assignment" shortDisplayName="Enzymes"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+                        <![CDATA[ Find sequences that are assigned to at least one Enzyme Commission Number]]>
+            </description>
+        </question>
+
         <question name="AllSequences" queryRef="SequenceIds.AllSequences" 
                                   displayName="All Sequences"
                                   shortDisplayName="All"
