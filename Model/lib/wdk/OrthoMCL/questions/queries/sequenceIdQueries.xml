@@ -169,6 +169,20 @@ WHERE eas.taxon_id = ot.taxon_id
             </sql>
         </sqlQuery>
 
+	<!-- sequences that have at least one EC assignment -->
+        <sqlQuery name="ByEcAssignment" isCacheable="true">
+            <column name="full_id"/>
+            <sql>
+                <![CDATA[
+                    SELECT distinct eas.secondary_identifier as full_id
+                    FROM dots.ExternalAaSequence eas,
+                         dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
+                    WHERE eas.aa_sequence_id = asec.aa_sequence_id
+                      AND asec.enzyme_class_id = ec.enzyme_class_id
+                 ]]>
+            </sql>
+        </sqlQuery>
+
 
 
     <processQuery name="ByBlast"
