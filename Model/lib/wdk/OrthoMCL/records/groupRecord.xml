@@ -14,20 +14,42 @@
       <!-- Reporters -->  
       <!-- =============================================================== -->
             
-            <reporter name="tabular" displayName="Tab/Excel: summary"
+<!--
+            <reporter name="tabular" displayName="Tab/Excel: summary" scopes="results, record" 
                       implementation="org.gusdb.wdk.model.report.TabularReporter">
             </reporter>
 
-            <reporter name="fullRecord" displayName="Text: details"
+            <reporter name="fullRecord" displayName="Text: details" scopes="results, record" 
                     implementation="org.gusdb.wdk.model.report.FullRecordReporter"/>
 
-            <reporter name="xml" displayName="XML: details"
+            <reporter name="xml" displayName="XML: details" scopes="results, record" 
                       implementation="org.gusdb.wdk.model.report.XMLReporter">
             </reporter>
-
-            <reporter name="json" displayName="JSON: details"
+ 
+            <reporter name="json" displayName="JSON: details" scopes="results, record" 
                       implementation="org.gusdb.wdk.model.report.JSONReporter">
             </reporter>
+-->
+<!-- copied from apicommonshared  genomicRecord.xml -->
+      <reporter name="attributesTabular" displayName="%%attributesReporterDisplayName%%" scopes="results"
+                implementation="org.gusdb.wdk.model.report.AttributesTabularReporter">
+        <property name="page_size">500</property>
+      </reporter>
+
+      <reporter name="tableTabular" displayName="%%tableReporterDisplayName%%" scopes="results"
+                implementation="org.gusdb.wdk.model.report.TableTabularReporter">
+      </reporter>
+
+      <reporter name="fullRecord" displayName="%%fullReporterDisplayName%%" excludeProjects="EuPathDB"  scopes="record"
+                implementation="org.gusdb.wdk.model.report.FullRecordReporter" />
+
+      <reporter name="xml" displayName="XML: choose from columns and/or tables" excludeProjects="EuPathDB"  scopes=""
+                    implementation="org.gusdb.wdk.model.report.XMLReporter" />
+
+      <reporter name="json" displayName="json: choose from columns and/or tables" excludeProjects="EuPathDB"  scopes=""
+                    implementation="org.gusdb.wdk.model.report.JSONReporter" />
+
+
 
       <!-- =============================================================== -->
       <!-- Views -->
