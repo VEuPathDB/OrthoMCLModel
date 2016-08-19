@@ -62,7 +62,7 @@
                     implementation="org.gusdb.wdk.model.report.JSONReporter" />
 
 
-      <reporter name="fasta" displayName="FASTA: protein sequence"
+      <reporter name="fasta" displayName="FASTA: protein sequence" scopes=""
 		implementation="org.orthomcl.model.report.FastaReporter">          
       </reporter>
 
