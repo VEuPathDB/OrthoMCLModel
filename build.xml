@@ -81,7 +81,7 @@
   	         <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename individuals.txt -outputFilename individuals.owl -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/individuals.owl'"/>
   	         <classpath>
   	           <pathelement location="${targetDir}/lib/java/orthomcl-shared-model-1.0.0.jar"/>
-  	           <pathelement location="${targetDir}/lib/java/args4j-2.33.jar"/>
+  	           <pathelement location="${targetDir}/lib/java/args4j-2.0.21.jar"/>
   	           <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.4.5.jar"/>
   	         </classpath>
   	       </java>
