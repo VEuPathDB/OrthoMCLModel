@@ -81,7 +81,7 @@
   	         <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename individuals.txt -outputFilename individuals.owl -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/individuals.owl'"/>
   	         <classpath>
   	           <pathelement location="${targetDir}/lib/java/orthomcl-shared-model-1.0.0.jar"/>
-  	           <pathelement location="${targetDir}/lib/java/args4j-2.0.21.jar"/>
+  	           <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar"/>
   	           <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar"/>
   	         </classpath>
   	       </java>
@@ -91,7 +91,7 @@
   	         <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename annotation.txt -outputFilename annotation.owl  -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/annotation.owl'"/>
   	         <classpath>
   	           <pathelement location="${targetDir}/lib/java/orthomcl-shared-model-1.0.0.jar"/>
-  	           <pathelement location="${targetDir}/lib/java/args4j-2.0.21.jar"/>
+  	           <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar"/>
   	           <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar"/>
   	         </classpath>
   	       </java>
@@ -101,7 +101,7 @@
   	         <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename categories_full.owl -outputFilename categories_merged.owl"/>
   	         <classpath>
   	           <pathelement location="${targetDir}/lib/java/orthomcl-shared-model-1.0.0.jar"/>
-  	           <pathelement location="${targetDir}/lib/java/args4j-2.0.21.jar"/>
+  	           <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar"/>
   	           <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar"/>
   	         </classpath>
   	       </java>
