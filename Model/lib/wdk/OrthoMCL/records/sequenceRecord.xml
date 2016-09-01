@@ -26,30 +26,18 @@
       <!-- Reporters -->  
       <!-- =============================================================== -->
 <!--
-      <reporter name="tabular" displayName="Tab/Excel: summary"
-		implementation="org.gusdb.wdk.model.report.TabularReporter">
-      </reporter>
-
-      <reporter name="fullRecord" displayName="Text: details"
-		implementation="org.gusdb.wdk.model.report.FullRecordReporter"/>         
-      
-      <reporter name="xml" displayName="XML: details"
-		implementation="org.gusdb.wdk.model.report.XMLReporter">          
-      </reporter>         
-      
-      <reporter name="json" displayName="JSON: details"
-		implementation="org.gusdb.wdk.model.report.JSONReporter">          
-      </reporter>
-      
--->
-<!-- copied from apicommonshared  genomicRecord.xml -->
-      <reporter name="attributesTabular" displayName="%%attributesReporterDisplayName%%" scopes="results"
+       <reporter name="attributesTabular" displayName="%%attributesReporterDisplayName%%" scopes="results"
                 implementation="org.gusdb.wdk.model.report.AttributesTabularReporter">
         <property name="page_size">500</property>
       </reporter>
-
       <reporter name="tableTabular" displayName="%%tableReporterDisplayName%%" scopes="results"
                 implementation="org.gusdb.wdk.model.report.TableTabularReporter">
+      </reporter>
+
+-->
+
+     <reporter name="tabular" displayName="Tab/Excel: summary" scopes="results"
+		implementation="org.gusdb.wdk.model.report.TabularReporter">
       </reporter>
 
       <reporter name="fullRecord" displayName="%%fullReporterDisplayName%%" excludeProjects="EuPathDB"  scopes="record"
