@@ -37,7 +37,7 @@
 -->
 
      <reporter name="tabular" displayName="Tab/Excel: summary" scopes="results"
-		implementation="org.gusdb.wdk.model.report.TabularReporter">
+		implementation="org.gusdb.wdk.model.report.AttributesTabularReporter">
       </reporter>
 
       <reporter name="fullRecord" displayName="%%fullReporterDisplayName%%" excludeProjects="EuPathDB"  scopes="record"

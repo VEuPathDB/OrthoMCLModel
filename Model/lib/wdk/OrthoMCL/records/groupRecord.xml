@@ -26,7 +26,7 @@
  -->
 <!-- copied from apicommonshared  genomicRecord.xml -->
      <reporter name="tabular" displayName="Tab/Excel: summary" scopes="results, record" 
-                      implementation="org.gusdb.wdk.model.report.TabularReporter">
+                      implementation="org.gusdb.wdk.model.report.AttributesTabularReporter">
      </reporter>
 
      <reporter name="fullRecord" displayName="%%fullReporterDisplayName%%" excludeProjects="EuPathDB"  scopes="record"
