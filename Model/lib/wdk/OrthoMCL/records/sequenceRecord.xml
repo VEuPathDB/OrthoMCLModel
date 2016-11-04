@@ -90,6 +90,7 @@
       <favorite noteField="product" />
       
       <primaryKeyAttribute name="primary_key"
+               aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin"
 			   displayName="Accession">
 	<columnRef>full_id</columnRef>
 	<text>

@@ -16,6 +16,7 @@
       <!-- =============================================================== -->
             
             <primaryKeyAttribute name="primary_key"
+                                 aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin"
                                  displayName="ID">
                 <columnRef>helper_id</columnRef>
                 <text>
