@@ -221,12 +221,19 @@ WHERE og.ortholog_group_id = ex.ortholog_group_id
 
         <sqlQuery name="ByEcNumber" isCacheable="true">
             <paramRef ref="sharedParams.ec_number_type_ahead"/>
+            <paramRef ref="groupParams.ec_wildcard"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
                     select distinct sa.group_name 
                     from ApidbTuning.SequenceAttributes sa, dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
-                    where ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_number_type_ahead$$),' ',''),'-', '%'),'*','%'),'any','%')
+                    where (
+ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_number_type_ahead$$),' ',''),'-', '%'),'*','%'),'any','%')
+                OR
+                ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_wildcard$$),' ',''),'-', '%'),'*','%'),'any','%')
+                OR
+                ec.description LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_wildcard$$),' ',''),'-', '%'),'*','%'),'any','%')
+)
                       and asec.enzyme_class_id = ec.enzyme_class_id
                       and sa.aa_sequence_id = asec.aa_sequence_id
                       and sa.group_name is not null                    

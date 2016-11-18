@@ -22,7 +22,11 @@
                      queryRef="SharedVQ.EcNumberTypeAhead"
                      prompt="EC Number or Name"
                      displayType="typeAhead">
-            <help>Start typing and then choose an entry from the list. As you type the list narrows to the entries that match what you have typed.</help>
+            <help><![CDATA[Enzyme Commission numbers describe enzymes hierarchically by the class of reactions they catalyze.  
+            Begin typing an EC number or name to 
+            see a list of all possible EC categories that match what you have typed. Then choose an EC category from 
+            the list. Use '-' as a wildcard in place of numbers to denote partial EC Numbers. ]]></help>
+	    <suggest selectMode="none" />
         </flatVocabParam>
 
         <answerParam name="group_answer" readonly="true">
@@ -115,6 +119,10 @@ FROM apidb.OrthomclTaxon t
                  (select distinct ec.ec_number, ec.description
                   from dots.aaSequenceEnzymeClass asec, sres.enzymeClass ec
                   where asec.enzyme_class_id = ec.enzyme_class_id) ec2
+               UNION
+               SELECT 'N/A' AS internal, 'N/A' AS term, 'N/A' AS display
+               FROM dual
+
              </sql>
          </sqlQuery>   
  
