@@ -74,6 +74,11 @@
         <description>
           <![CDATA[ Find groups that have one or more Sequences with the specified Enzyme Commission Number]]>
         </description>
+      <propertyList name="radio-params">
+        <value>ec_number_type_ahead</value>
+        <value>ec_wildcard</value>
+      </propertyList>
+
       </question>
 
       <question name="BySequenceCount" queryRef="GroupIds.BySequenceCount" 
