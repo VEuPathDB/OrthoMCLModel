@@ -13,7 +13,7 @@
                  displayName="Sequence">
       
       <testParamValues>
-	<paramValue name="full_id">aaeg|AAEL000450-PA</paramValue>
+        <paramValue name="full_id">aaeg|AAEL000450-PA</paramValue>
       </testParamValues>
 
       <!-- =============================================================== -->
@@ -88,20 +88,19 @@
       <!-- Attributes -->  
       <!-- =============================================================== -->
       <favorite noteField="product" />
-      
-      <primaryKeyAttribute name="primary_key"
-               aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin"
-			   displayName="Accession">
-	<columnRef>full_id</columnRef>
-	<text>
-	  <![CDATA[
-		   $$full_id$$
-	  ]]>
-	</text>                
-      </primaryKeyAttribute>
+
+      <primaryKey aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin">
+        <columnRef>full_id</columnRef>
+      </primaryKey>
+      <idAttribute name="primary_key" displayName="Accession">
+        <text>
+          <![CDATA[
+          $$full_id$$
+          ]]>
+        </text>
+      </idAttribute>
 
       <attributeQueryRef ref="SequenceAttributes.SequenceAttrs">  
-	<columnAttribute name="full_id" displayName="Full ID" internal="true" inReportMaker="false" />
 	<columnAttribute name="source_id" displayName="Source ID" />
 	<columnAttribute name="length" displayName="Length">
 	  <plugin name="histogram" display="Histogram"

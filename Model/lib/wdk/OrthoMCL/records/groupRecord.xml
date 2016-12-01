@@ -75,16 +75,16 @@
       <!-- =============================================================== -->
             <favorite noteField="group_name" />
              
-            <primaryKeyAttribute name="primary_key"
-                                 aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin"
-                                 displayName="Group">
+            <primaryKey aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin">
                 <columnRef>group_name</columnRef>
+            </primaryKey>
+            <idAttribute name="primary_key" displayName="Group">
                 <text>
                     <![CDATA[
                     $$group_name$$
                     ]]>
                 </text>                
-            </primaryKeyAttribute>
+            </idAttribute>
 
             <attributeQueryRef ref="GroupAttributes.GroupAttrs">  
                 <columnAttribute name="group_name" displayName="Group Name" internal="true" />

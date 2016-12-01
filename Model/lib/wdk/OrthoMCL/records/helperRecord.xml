@@ -15,14 +15,14 @@
       <!-- Attributes -->  
       <!-- =============================================================== -->
             
-            <primaryKeyAttribute name="primary_key"
-                                 aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin"
-                                 displayName="ID">
+            <primaryKey aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin">
                 <columnRef>helper_id</columnRef>
+            </primaryKey>
+            <idAttribute name="primary_key" displayName="ID">
                 <text>
                     <![CDATA[ ]]>
-                </text>                
-            </primaryKeyAttribute>
+                </text>
+            </idAttribute>
 
             <attributeQueryRef ref="HelperAttributes.Counts">
                 <columnAttribute name="helper_id" internal="true" inReportMaker="false"/>
