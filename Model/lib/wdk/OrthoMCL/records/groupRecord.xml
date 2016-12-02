@@ -87,7 +87,6 @@
             </idAttribute>
 
             <attributeQueryRef ref="GroupAttributes.GroupAttrs">  
-                <columnAttribute name="group_name" displayName="Group Name" internal="true" />
 
                 <columnAttribute name="number_of_members" displayName="# Sequences">
                     <plugin name="histogram" display="Histogram"

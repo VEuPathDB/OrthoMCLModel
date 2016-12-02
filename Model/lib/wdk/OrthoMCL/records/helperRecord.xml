@@ -25,7 +25,6 @@
             </idAttribute>
 
             <attributeQueryRef ref="HelperAttributes.Counts">
-                <columnAttribute name="helper_id" internal="true" inReportMaker="false"/>
                 <columnAttribute name="organism_count"/>
                 <columnAttribute name="protein_count"/>
                 <columnAttribute name="group_count"/>
