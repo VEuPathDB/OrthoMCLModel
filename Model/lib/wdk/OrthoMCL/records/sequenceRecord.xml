@@ -92,6 +92,7 @@
       <primaryKey aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin">
         <columnRef>full_id</columnRef>
       </primaryKey>
+
       <idAttribute name="primary_key" displayName="Accession">
         <text>
           <![CDATA[

@@ -78,12 +78,13 @@
             <primaryKey aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin">
                 <columnRef>group_name</columnRef>
             </primaryKey>
+
             <idAttribute name="primary_key" displayName="Group">
                 <text>
                     <![CDATA[
                     $$group_name$$
                     ]]>
-                </text>                
+                </text>
             </idAttribute>
 
             <attributeQueryRef ref="GroupAttributes.GroupAttrs">  
