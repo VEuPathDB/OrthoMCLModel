@@ -118,7 +118,7 @@
         </summary>
         <description>
           <![CDATA[
-                Find Ortholog Groups by the average percent connectivity of the sequences in the group.  Each sequence's connectivity is the number of Ortholog, CoOrtholog or Inparalog pairs assigned by the OrthoMCL algorithm.  The average percent is that number summed for all the sequences and divided by the number of possible pairs each sequence could have.  See the <a href="about.do#methods">Methods Section</a> for details.
+                Find Ortholog Groups by the average percent connectivity of the sequences in the group.  Each sequence's connectivity is the number of Ortholog, CoOrtholog or Inparalog pairs assigned by the OrthoMCL algorithm.  The average percent is that number summed for all the sequences and divided by the number of possible pairs each sequence could have.  See the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> for details.
                         ]]>
         </description>
       </question>
@@ -139,7 +139,7 @@
         </summary>
         <description>
           <![CDATA[
-                Find Ortholog Groups by the percentage of their Sequence pairs that have similarity above threshold.  The <a href="about.do#methods">Methods Section</a> describes the thresholds used.
+                Find Ortholog Groups by the percentage of their Sequence pairs that have similarity above threshold.  The <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> describes the thresholds used.
                         ]]>
         </description>
       </question>
@@ -154,7 +154,7 @@
            /> 
         <description>
           <![CDATA[
-                Find Ortholog Groups by the average percent identity of all their Sequence pairs that have similarity above threshold.  The <a href="about.do#methods">Methods Section</a> describes the thresholds used.
+                Find Ortholog Groups by the average percent identity of all their Sequence pairs that have similarity above threshold.  The <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> describes the thresholds used.
                         ]]>
         </description>
       </question>
@@ -169,7 +169,7 @@
            /> 
         <description>
           <![CDATA[
-                Find Ortholog Groups by the average percent match length of all their Sequence pairs that have similarity above threshold.  The <a href="about.do#methods">Methods Section</a> describes the thresholds used and how "percent match length" is computed.
+                Find Ortholog Groups by the average percent match length of all their Sequence pairs that have similarity above threshold.  The <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> describes the thresholds used and how "percent match length" is computed.
                         ]]>
         </description>
       </question>
@@ -183,7 +183,7 @@
            /> 
         <description>
           <![CDATA[
-                Find Ortholog Groups by the average e-value of all their Sequence pairs that have similarity above threshold.  The <a href="about.do#methods">Methods Section</a> describes the thresholds used.
+                Find Ortholog Groups by the average e-value of all their Sequence pairs that have similarity above threshold.  The <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> describes the thresholds used.
                         ]]>
         </description>
       </question>

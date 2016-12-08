@@ -178,7 +178,7 @@
 	</displayText>
 	<url>
 	  <![CDATA[
-		   showRecord.do?name=GroupRecordClasses.GroupRecordClass&group_name=$$group_name$$
+		   @LEGACY_WEBAPP_BASE_URL@/showRecord.do?name=GroupRecordClasses.GroupRecordClass&group_name=$$group_name$$
 	  ]]>
 	</url>
       </linkAttribute>

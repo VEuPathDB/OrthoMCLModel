@@ -184,7 +184,7 @@
 		</displayText>
 		<url>
 		  <![CDATA[
-			   showRecord.do?name=SequenceRecordClasses.SequenceRecordClass&full_id=$$full_id$$
+			   @LEGACY_WEBAPP_BASE_URL@/showRecord.do?name=SequenceRecordClasses.SequenceRecordClass&full_id=$$full_id$$
 		  ]]>
 		</url>
 	      </linkAttribute>
