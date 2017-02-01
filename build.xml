@@ -76,37 +76,41 @@
       <property name="project" value="OrthoMCLShared"/>
       <property name="component" value="Model"/>
     </ant>
-  	
-  	<java failonerror="true" classname="org.orthomcl.shared.model.ontology.OwlClassGenerator">
-  	         <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename individuals.txt -outputFilename individuals.owl -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/individuals.owl'"/>
-  	         <classpath>
-  	           <pathelement location="${targetDir}/lib/java/orthomcl-shared-model-1.0.0.jar"/>
-  	           <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar"/>
-  	           <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar"/>
-  	         </classpath>
-  	       </java>
 
+    <java failonerror="true" classname="org.orthomcl.shared.model.ontology.OwlClassGenerator">
+      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename individuals.txt -outputFilename individuals.owl -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/individuals.owl'"/>
+      <classpath>
+        <pathelement location="${targetDir}/lib/java/orthomcl-shared-model-1.0.0.jar"/>
+        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar"/>
+        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar"/>
+        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar"/>
+        <pathelement location="${targetDir}/config/"/>
+      </classpath>
+    </java>
 
-  	      <java failonerror="true" classname="org.orthomcl.shared.model.ontology.EuPathAnnotPropAdder">
-  	         <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename annotation.txt -outputFilename annotation.owl  -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/annotation.owl'"/>
-  	         <classpath>
-  	           <pathelement location="${targetDir}/lib/java/orthomcl-shared-model-1.0.0.jar"/>
-  	           <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar"/>
-  	           <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar"/>
-  	         </classpath>
-  	       </java>
+    <java failonerror="true" classname="org.orthomcl.shared.model.ontology.EuPathAnnotPropAdder">
+      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename annotation.txt -outputFilename annotation.owl  -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/annotation.owl'"/>
+      <classpath>
+        <pathelement location="${targetDir}/lib/java/orthomcl-shared-model-1.0.0.jar"/>
+        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar"/>
+        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar"/>
+        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar"/>
+        <pathelement location="${targetDir}/config/"/>
+      </classpath>
+    </java>
 
+    <java failonerror="true" classname="org.orthomcl.shared.model.ontology.OntologyMerger">
+      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename categories_full.owl -outputFilename categories_merged.owl"/>
+      <classpath>
+        <pathelement location="${targetDir}/lib/java/orthomcl-shared-model-1.0.0.jar"/>
+        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar"/>
+        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar"/>
+        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar"/>
+        <pathelement location="${targetDir}/config/"/>
+      </classpath>
+    </java>
 
-  	      <java failonerror="true" classname="org.orthomcl.shared.model.ontology.OntologyMerger">
-  	         <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename categories_full.owl -outputFilename categories_merged.owl"/>
-  	         <classpath>
-  	           <pathelement location="${targetDir}/lib/java/orthomcl-shared-model-1.0.0.jar"/>
-  	           <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar"/>
-  	           <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar"/>
-  	         </classpath>
-  	       </java>
-  	
-  </target>  
+  </target>
 
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
