@@ -1,4 +1,4 @@
-<project name="OrthoMCLShared" default="Installation" basedir=".">
+<project name="OrthoMCLModel" default="Installation" basedir=".">
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooo  Dependencies  oooooooooooooooooooooooooo -->
@@ -8,7 +8,7 @@
   <!-- oooooooooooooooooooooooooo    Checkout    oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLShared-ChildCheckout">
+  <target name="OrthoMCLModel-ChildCheckout">
   </target>
   
   
@@ -16,7 +16,7 @@
   <!-- oooooooooooooooooooooooooo    Update    oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLShared-ChildUpdate" >
+  <target name="OrthoMCLModel-ChildUpdate" >
   </target>
 
 
@@ -24,18 +24,18 @@
   <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLShared-Installation" depends="OrthoMCLShared-MavenInstallation,
-                                                      OrthoMCLShared/MapProteomeService-Installation,
-                                                      OrthoMCLShared/Ppe-Installation,
-                                                      OrthoMCLShared/Model-Installation">
+  <target name="OrthoMCLModel-Installation" depends="OrthoMCLModel-MavenInstallation,
+                                                      OrthoMCLModel/MapProteomeService-Installation,
+                                                      OrthoMCLModel/Ppe-Installation,
+                                                      OrthoMCLModel/Model-Installation">
 
     <ant target="defaultProjectInstall"/>
 
   </target>  
 
-  <target name="OrthoMCLShared-MavenInstallation">
+  <target name="OrthoMCLModel-MavenInstallation">
     <ant target="mavenBuildProject">
-      <property name="project" value="OrthoMCLShared"/>
+      <property name="project" value="OrthoMCLModel"/>
     </ant>
     <property name="alreadyBuilt" value="true"/>
   </target>
@@ -43,8 +43,8 @@
 
   <!-- oooooooooooooooooo  Installation Postprocess  ooooooooooooooooooooo -->
 
-  <target name="OrthoMCLShared-Installation-postprocess">
-    <echo message="Postprocessing the OrthoMCLShared installation"/>
+  <target name="OrthoMCLModel-Installation-postprocess">
+    <echo message="Postprocessing the OrthoMCLModel installation"/>
 
     <replace dir="${targetDir}/bin" 
              propertyFile="${targetDir}/config/replacements.prop" > 
@@ -57,23 +57,23 @@
 
   <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLShared/MapProteomeService-Installation" depends="ProjectTree">
+  <target name="OrthoMCLModel/MapProteomeService-Installation" depends="ProjectTree">
     <ant target="defaultComponentInstall">
-      <property name="project" value="OrthoMCLShared"/>
+      <property name="project" value="OrthoMCLModel"/>
       <property name="component" value="MapProteomeService"/>
     </ant>
   </target>  
 
-  <target name="OrthoMCLShared/Ppe-Installation" depends="ProjectTree">
+  <target name="OrthoMCLModel/Ppe-Installation" depends="ProjectTree">
     <ant target="defaultComponentInstall">
-      <property name="project" value="OrthoMCLShared"/>
+      <property name="project" value="OrthoMCLModel"/>
       <property name="component" value="Ppe"/>
     </ant>
   </target>  
 
-  <target name="OrthoMCLShared/Model-Installation" depends="ProjectTree">
+  <target name="OrthoMCLModel/Model-Installation" depends="ProjectTree">
     <ant target="defaultComponentInstall">
-      <property name="project" value="OrthoMCLShared"/>
+      <property name="project" value="OrthoMCLModel"/>
       <property name="component" value="Model"/>
     </ant>
   </target>
@@ -83,7 +83,7 @@
   <!-- oooooooooooooooooooooooooo  Distributable  ooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLShared-Distributable" depends="ProjectTree">
+  <target name="OrthoMCLModel-Distributable" depends="ProjectTree">
     <copy todir="${targetDir}">
       <fileset dir="${projectsDir}" >
         <exclude name="**/CVS/*" />

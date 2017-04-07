@@ -5,7 +5,7 @@ use File::Path;
 use File::Copy;
 use File::stat;
 use Sys::Hostname;
-use OrthoMCLShared::MapProteomeService::ProteomeJobMgr;
+use OrthoMCLModel::MapProteomeService::ProteomeJobMgr;
 use Digest::MD5 qw(md5_hex);
 use Math::Round;
 use strict;
@@ -92,7 +92,7 @@ my $clusterConfigFile = $ARGV[1];
 my $fakeTaxonAbbrev = 'xxxx';
 my $dbSize; # number of proteins in user input.  global because expensive to compute
 
-my $mgr = OrthoMCLShared::MapProteomeService::ProteomeJobMgr->new($serverConfigFile, $clusterConfigFile);
+my $mgr = OrthoMCLModel::MapProteomeService::ProteomeJobMgr->new($serverConfigFile, $clusterConfigFile);
 
 eval {
   my $controlDir = $mgr->getConfig('serverControlDir');

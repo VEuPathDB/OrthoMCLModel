@@ -1,4 +1,4 @@
-package OrthoMCLShared::MapProteomeService::ProteomeJobMgr;
+package OrthoMCLModel::MapProteomeService::ProteomeJobMgr;
 
 use strict;
 use FgpUtil::Util::SshComputeCluster;
