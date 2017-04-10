@@ -4,12 +4,12 @@
 
   <parent>
     <groupId>org.orthomcl</groupId>
-    <artifactId>orthomcl-shared</artifactId>
+    <artifactId>orthomcl-model</artifactId>
     <version>1.0.0</version>
   </parent>
 
-  <name>OrthoMCL Shared: Model</name>
-  <artifactId>orthomcl-shared-model</artifactId>
+  <name>OrthoMCL Model: Model</name>
+  <artifactId>orthomcl-model-model</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
