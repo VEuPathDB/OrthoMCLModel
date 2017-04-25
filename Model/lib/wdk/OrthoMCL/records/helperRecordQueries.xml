@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+
+    <!-- *************** -->
+    <!-- model querySets -->
+    <!-- *************** -->
+
+    <!--
+    A "query" obtains tabular values from a data source.  It has columns
+    and parameters.  So far, only SQL data sources are supported, but others,
+    such as flat files are coming.  
+
+    Queries are used for different purposes: providing primary keys to a 
+    question; providing attributes and tables to a record; and, providing
+    vocabularies to vocabulary parameters.
+
+    A "query set" is a grouping of queries.  It is useful in organizing the
+    model xml file.  
+
+    The full name of a query is of the form "set_name.name."
+    -->
+
+    <!-- Queries that retrieve attributes of ESTs -->
+
+    <querySet name="HelperAttributes" queryType="attribute"  isCacheable="false">
+
+        <sqlQuery name="Counts" isCacheable="true">
+            <column name="helper_id"/>
+            <column name="organism_count"/>
+            <column name="protein_count"/>
+            <column name="group_count"/>
+            <sql>
+            <![CDATA[
+SELECT 'helper' AS helper_id, 
+       count(DISTINCT taxon_id) AS organism_count, 
+       count(*) AS protein_count, 
+       max((SELECT count(*) FROM apidb.OrthologGroup)) AS group_count
+FROM dots.ExternalAaSequence                        
+            ]]>
+            </sql>
+        </sqlQuery>
+
+    </querySet>
+    
+    <querySet name="HelperTables" queryType="table"  isCacheable="false">
+
+       <defaultTestParamValues>
+            <paramValue name="helper_id">helper</paramValue>
+       </defaultTestParamValues>
+
+        <sqlQuery name="Taxons" isCacheable="true">
+            <column name="helper_id"/>
+            <column name="taxon_id"/>
+            <column name="parent_id"/>
+            <column name="abbreviation"/>
+            <column name="is_species"/>
+            <column name="sort_index"/>
+            <column name="common_name"/>
+            <column name="name"/>
+            <sql>
+            <![CDATA[
+SELECT 'helper' AS helper_id, 
+       orthomcl_taxon_id AS taxon_id,
+       nvl(parent_id, orthomcl_taxon_id) AS parent_id,
+       three_letter_abbrev AS abbreviation,
+       is_species, 
+       species_order AS sort_index,
+       common_name, 
+       name
+FROM apidb.OrthomclTaxon
+ORDER BY parent_id ASC, species_order ASC
+			]]>
+            </sql>
+        </sqlQuery>
+
+        
+        <sqlQuery name="DataSummary" isCacheable="true">
+            <column name="helper_id"/>
+            <column name="name"/>
+            <column name="three_letter_abbrev"/>
+            <column name="resource_name"/>
+            <column name="resource_url"/>
+            <column name="description"/>
+            <sql>
+            <![CDATA[
+SELECT 'helper' AS helper_id, 
+       ot.name, ot.three_letter_abbrev,
+       od.resource_name, od.resource_url, od.description
+FROM apidb.OrthomclTaxon ot, apidb.OrthomclResource od
+WHERE od.orthomcl_taxon_id = ot.orthomcl_taxon_id
+  AND ot.is_species != 0
+ORDER BY ot.name
+            ]]>
+            </sql>
+        </sqlQuery>
+
+        
+        <sqlQuery name="ReleaseSummary" isCacheable="true">
+            <column name="helper_id"/>
+            <column name="name"/>
+            <column name="three_letter_abbrev"/>
+            <column name="sequences"/>
+            <column name="clustered_sequences"/>
+            <column name="groups"/>
+            <sql>
+              <![CDATA[
+                SELECT 'helper' AS helper_id, ot.name, ot.three_letter_abbrev, stats.sequences,
+                       stats.clustered_sequences, stats.groups
+                FROM apidb.OrthomclTaxon ot,
+                     (select orthomcl_taxon_id, count(*) sequences,
+                             count(distinct ortholog_group_id) groups,
+                             sum(case when ortholog_group_id is null then 0 else 1 end) clustered_sequences
+                      from ApidbTuning.SequenceAttributes
+                      group by orthomcl_taxon_id
+                     ) stats
+                WHERE ot.is_species != 0
+                  AND ot.orthomcl_taxon_id = stats.orthomcl_taxon_id
+                ORDER BY ot.name
+              ]]>
+            </sql>
+        </sqlQuery>
+
+       <sqlQuery name="RootTaxons" isCacheable="true">
+           <column name="helper_id"/>
+           <column name="taxon_abbrev"/>
+           <column name="color"/>
+           <sql>
+           <![CDATA[
+           SELECT 'helper' AS helper_id, t.* FROM (
+             SELECT 'OBAC' AS taxon_abbrev, '#9999CC' AS color FROM dual
+             UNION
+             SELECT 'FIRM' AS taxon_abbrev, '#33CC99' AS color FROM dual
+             UNION
+             SELECT 'PROT' AS taxon_abbrev, '#99CC66' AS color FROM dual
+             UNION
+             SELECT 'ARCH' AS taxon_abbrev, '#77CCDD' AS color FROM dual
+             UNION
+             SELECT 'OEUK' AS taxon_abbrev, '#CC9999' AS color FROM dual
+             UNION
+             SELECT 'VIRI' AS taxon_abbrev, '#CC9933' AS color FROM dual
+             UNION
+             SELECT 'EUGL' AS taxon_abbrev, '#CCCC66' AS color FROM dual
+             UNION
+             SELECT 'ALVE' AS taxon_abbrev, '#CC3399' AS color FROM dual
+             UNION
+             SELECT 'FUNG' AS taxon_abbrev, '#AA44DD' AS color FROM dual
+             UNION
+             SELECT 'META' AS taxon_abbrev, '#CC6666' AS color FROM dual
+             UNION
+             SELECT 'AMOE' AS taxon_abbrev, '#3399CC' AS color FROM dual
+             ) t
+           ]]>
+           </sql>
+       </sqlQuery>
+
+    </querySet>
+
+</wdkModel>

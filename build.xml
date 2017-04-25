@@ -1,0 +1,105 @@
+<project name="OrthoMCLModel" default="Installation" basedir=".">
+
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooo  Dependencies  oooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooo    Checkout    oooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <target name="OrthoMCLModel-ChildCheckout">
+  </target>
+  
+  
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooo    Update    oooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <target name="OrthoMCLModel-ChildUpdate" >
+  </target>
+
+
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <target name="OrthoMCLModel-Installation" depends="OrthoMCLModel-MavenInstallation,
+                                                      OrthoMCLModel/MapProteomeService-Installation,
+                                                      OrthoMCLModel/Ppe-Installation,
+                                                      OrthoMCLModel/Model-Installation">
+
+    <ant target="defaultProjectInstall"/>
+
+  </target>  
+
+  <target name="OrthoMCLModel-MavenInstallation">
+    <ant target="mavenBuildProject">
+      <property name="project" value="OrthoMCLModel"/>
+    </ant>
+    <property name="alreadyBuilt" value="true"/>
+  </target>
+  
+
+  <!-- oooooooooooooooooo  Installation Postprocess  ooooooooooooooooooooo -->
+
+  <target name="OrthoMCLModel-Installation-postprocess">
+    <echo message="Postprocessing the OrthoMCLModel installation"/>
+
+    <replace dir="${targetDir}/bin" 
+             propertyFile="${targetDir}/config/replacements.prop" > 
+      <include name="**/*" />
+      <replacefilter token="@perl@" property="perl"/>
+    </replace> 
+
+  </target>
+
+
+  <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
+
+  <target name="OrthoMCLModel/MapProteomeService-Installation" depends="ProjectTree">
+    <ant target="defaultComponentInstall">
+      <property name="project" value="OrthoMCLModel"/>
+      <property name="component" value="MapProteomeService"/>
+    </ant>
+  </target>  
+
+  <target name="OrthoMCLModel/Ppe-Installation" depends="ProjectTree">
+    <ant target="defaultComponentInstall">
+      <property name="project" value="OrthoMCLModel"/>
+      <property name="component" value="Ppe"/>
+    </ant>
+  </target>  
+
+  <target name="OrthoMCLModel/Model-Installation" depends="ProjectTree">
+    <ant target="defaultComponentInstall">
+      <property name="project" value="OrthoMCLModel"/>
+      <property name="component" value="Model"/>
+    </ant>
+  </target>
+
+
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooo  Distributable  ooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <target name="OrthoMCLModel-Distributable" depends="ProjectTree">
+    <copy todir="${targetDir}">
+      <fileset dir="${projectsDir}" >
+        <exclude name="**/CVS/*" />
+      </fileset>
+    </copy>  
+  </target>  
+
+
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooo  ProjectTree  ooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <target name="ProjectTree" if="${checkout}">
+    <ant target="projectCheckOut"/>
+  </target>  
+
+</project>
+
+

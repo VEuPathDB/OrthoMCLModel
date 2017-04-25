@@ -1,0 +1,82 @@
+<wdkModel>
+
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <!-- Ortholog Group Questions  -->
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++-->
+  
+    <searchCategory name="GroupRecordClasses.GroupRecordClass" displayName="Search for Groups by:" />
+    
+	<searchCategory name="group-keyword" displayName="Text, IDs"
+                        flattenInMenu="true"
+                        parentRef="GroupRecordClasses.GroupRecordClass">
+            <questionRef>GroupQuestions.ByNameList</questionRef>
+            <!-- questionRef>GroupQuestions.ByKeyword</questionRef -->
+            <questionRef>GroupQuestions.ByTextSearch</questionRef>
+	</searchCategory>
+				
+	<searchCategory name="group-evolution" displayName="Evolution"
+                        flattenInMenu="true"
+                        parentRef="GroupRecordClasses.GroupRecordClass">
+     	    <questionRef>GroupQuestions.ByPhyleticPattern</questionRef>
+        </searchCategory>
+
+	<searchCategory name="group-function" displayName="Function"
+                        flattenInMenu="true"
+                        parentRef="GroupRecordClasses.GroupRecordClass">
+     	    <questionRef>GroupQuestions.ByPFamIdOrKeyword</questionRef>
+     	    <questionRef>GroupQuestions.ByEcNumber</questionRef>
+        </searchCategory>
+		
+		
+	<searchCategory name="group-properties" displayName="Group Statistics"
+                        parentRef="GroupRecordClasses.GroupRecordClass">
+     	    <questionRef>GroupQuestions.BySequenceCount</questionRef>
+     	    <questionRef>GroupQuestions.ByGenomeCount</questionRef>
+     	    <questionRef>GroupQuestions.ByConnectivity</questionRef>
+     	    <questionRef>GroupQuestions.ByPercentMatchPairs</questionRef>
+     	    <questionRef>GroupQuestions.ByPercentIdentity</questionRef>
+     	    <questionRef>GroupQuestions.ByPercentMatch</questionRef>
+     	    <questionRef>GroupQuestions.ByEValue</questionRef>
+        </searchCategory>
+     
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <!-- Sequence Questions  -->
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++-->
+     
+   
+      <searchCategory name="SequenceRecordClasses.SequenceRecordClass" displayName="Search for Sequences by:" />
+     
+	<searchCategory name="sequence-keyword" displayName="Text, IDs"
+                        flattenInMenu="true"
+                        parentRef="SequenceRecordClasses.SequenceRecordClass">
+            <questionRef>SequenceQuestions.ByIdList</questionRef>
+            <questionRef>SequenceQuestions.ByGroupIdList</questionRef>
+            <!-- questionRef>SequenceQuestions.ByKeyword</questionRef -->
+            <questionRef>SequenceQuestions.ByTextSearch</questionRef>
+       </searchCategory>
+
+	<searchCategory name="sequence-function" displayName="Function"
+                        flattenInMenu="true"
+                        parentRef="SequenceRecordClasses.SequenceRecordClass">
+     	    <questionRef>SequenceQuestions.ByPFamIdOrKeyword</questionRef>
+     	    <questionRef>SequenceQuestions.ByEcNumber</questionRef>
+        </searchCategory>
+		
+	<searchCategory name="sequence-similarity" displayName="Similarity/Pattern"
+                        flattenInMenu="true"
+                        parentRef="SequenceRecordClasses.SequenceRecordClass">
+     	    <questionRef>SequenceQuestions.ByBlast</questionRef>
+     	    <questionRef>SequenceQuestions.ByMotif</questionRef>
+        </searchCategory>
+		
+	<searchCategory name="sequence-properties" displayName="Sequence Attributes"
+                        flattenInMenu="true"
+                        parentRef="SequenceRecordClasses.SequenceRecordClass">
+            <questionRef>SequenceQuestions.ByTaxonomy</questionRef>
+        </searchCategory>
+        
+    <ontology name="Categories" pluginClass="org.eupathdb.common.model.ontology.EuPathDbOwlParserWdkPlugin" useAsWdkCategories="true">
+      <property name="owlFilePath">lib/wdk/ontology/categories_merged.owl</property>
+    </ontology>    
+     
+</wdkModel>

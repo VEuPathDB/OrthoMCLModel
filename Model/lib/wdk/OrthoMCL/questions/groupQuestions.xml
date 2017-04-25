@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+
+    <!-- ************ -->
+    <!-- questionSets -->
+    <!-- ************ -->
+    
+
+    <questionSet name="GroupQuestions"
+                 displayName="Searches to find Ortholog Groups">
+      <description>
+	<![CDATA[
+          Search for Ortholog Groups.
+        ]]>
+      </description>
+
+      <question name="ByNameList" queryRef="GroupIds.ByNameList" 
+		displayName="Group ID(s)"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+	  <![CDATA[
+                Find Ortholog Groups by ID(s) assigned in the current or previous releases of OrthoMCL.
+			]]>
+        </description>
+      </question>
+
+      <question name="ByAccession" urlName="groups-by-accession" queryRef="GroupIds.ByAccession" 
+                displayName="Group or Sequence ID"
+                recordClassRef="GroupRecordClasses.GroupRecordClass"
+                noSummaryOnSingleRecord="true">
+        <description>
+          <![CDATA[
+                Find Ortholog Groups by an ID assigned in the current or previous releases of OrthoMCL.
+                        ]]>
+        </description>
+      </question>
+
+      <question name="ByTextSearch" urlName="groups-by-text-search" queryRef="GroupIds.ByTextSearch"
+                displayName="Text Terms"
+                shortDisplayName="Text"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+	  <![CDATA[
+                Find Ortholog Groups based on text terms.
+			]]>
+        </description>
+            <dynamicAttributes>
+                <columnAttribute name="fields_matched"
+                           displayName="Found in"/>
+                <columnAttribute name="max_score"
+                           displayName="Score" align="center"/>
+            </dynamicAttributes>
+            <attributesList
+               summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, max_score, fields_matched"
+               sorting="max_score desc,number_of_members desc"/>
+      </question>
+
+
+      <question name="ByPFamIdOrKeyword" urlName="groups-by-pfam-id-or-keyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
+                displayName="PFam ID or Keyword"
+                shortDisplayName="PFam"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+          <![CDATA[
+                Find Ortholog Groups that contain one or more Sequences with the specified PFam domain.
+                        ]]>
+        </description>
+      </question>
+
+
+      <question name="ByEcNumber" urlName="groups-by-ec-number" queryRef="GroupIds.ByEcNumber" 
+                displayName="Enzyme Commission Assignment" shortDisplayName="Enzymes"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+          <![CDATA[ Find groups that have one or more Sequences with the specified Enzyme Commission Number]]>
+        </description>
+      <propertyList name="radio-params">
+        <value>ec_number_type_ahead</value>
+        <value>ec_wildcard</value>
+      </propertyList>
+
+      </question>
+
+      <question name="BySequenceCount" queryRef="GroupIds.BySequenceCount" 
+                displayName="Number of Sequences"
+                shortDisplayName="Number Seqs"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+          <![CDATA[
+                Find Ortholog Groups that contain a specified number of Sequences.
+                        ]]>
+        </description>
+      </question>
+
+
+      <question name="ByGenomeCount" queryRef="GroupIds.ByGenomeCount" 
+                displayName="Number of Taxa"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+          <![CDATA[
+                Find Ortholog Groups that contain a specified number of taxa.
+                        ]]>
+        </description>
+      </question>
+
+      <question name="ByConnectivity" queryRef="GroupIds.ByAvgConnectivity" 
+                displayName="Avg % Connectivity"
+                shortDisplayName="Avg Conn"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <attributesList
+           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers"
+           sorting="avg_connectivity desc"
+           /> 
+        <summary>
+          <![CDATA[
+                Find Ortholog Groups by the average percent connectivity of the sequences in the group.
+                        ]]>
+        </summary>
+        <description>
+          <![CDATA[
+                Find Ortholog Groups by the average percent connectivity of the sequences in the group.  Each sequence's connectivity is the number of Ortholog, CoOrtholog or Inparalog pairs assigned by the OrthoMCL algorithm.  The average percent is that number summed for all the sequences and divided by the number of possible pairs each sequence could have.  See the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> for details.
+                        ]]>
+        </description>
+      </question>
+
+
+      <question name="ByPercentMatchPairs" queryRef="GroupIds.ByPercentMatchPairs" 
+                displayName="% Pairs w/ Similarity"
+                shortDisplayName="% Sim Pairs"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <attributesList
+           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, percent_match_pairs"
+           sorting="percent_match_pairs desc"
+           /> 
+        <summary>
+          <![CDATA[
+                Find Ortholog Groups by the percentage of their Sequence pairs that have similarity above threshold.
+                        ]]>
+        </summary>
+        <description>
+          <![CDATA[
+                Find Ortholog Groups by the percentage of their Sequence pairs that have similarity above threshold.  The <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> describes the thresholds used.
+                        ]]>
+        </description>
+      </question>
+
+
+      <question name="ByPercentIdentity" queryRef="GroupIds.ByPercentIdentity" 
+                displayName="Avg % Identity"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <attributesList
+           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, percent_match_pairs"
+           sorting="avg_evalue_exp desc"
+           /> 
+        <description>
+          <![CDATA[
+                Find Ortholog Groups by the average percent identity of all their Sequence pairs that have similarity above threshold.  The <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> describes the thresholds used.
+                        ]]>
+        </description>
+      </question>
+
+
+      <question name="ByPercentMatch" queryRef="GroupIds.ByPercentMatch" 
+                displayName="Avg % Match Length"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <attributesList
+           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, avg_percent_match, percent_match_pairs"
+           sorting="avg_percent_match desc"
+           /> 
+        <description>
+          <![CDATA[
+                Find Ortholog Groups by the average percent match length of all their Sequence pairs that have similarity above threshold.  The <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> describes the thresholds used and how "percent match length" is computed.
+                        ]]>
+        </description>
+      </question>
+
+      <question name="ByEValue" queryRef="GroupIds.ByEValue" 
+                displayName="Avg E-Value"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <attributesList
+           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, avg_evalue, percent_match_pairs"
+           sorting="avg_evalue_exp desc"
+           /> 
+        <description>
+          <![CDATA[
+                Find Ortholog Groups by the average e-value of all their Sequence pairs that have similarity above threshold.  The <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> describes the thresholds used.
+                        ]]>
+        </description>
+      </question>
+
+      
+      <question name="ByPhyleticPattern" queryRef="GroupIds.ByPhyleticPattern" 
+		displayName="Phyletic Pattern" shortDisplayName="Phyletic"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+	  <![CDATA[
+<p>Find Ortholog Groups by phyletic pattern.</p>
+
+<p>A Phyletic Pattern Expression (PPE) is a powerful way to search for Ortholog Groups by the species they contain. The pattern specifies groups with the presence or absence of one or more sets of species, and optionally the number of sequences in each set of species.</p>
+
+<p><b>Examples</b></p>
+These expressions find ortholog groups in which...
+<table>
+    <tr><th><code>hsap>=5</code></th><td>there are five or more human sequences</td></tr>
+    <tr><th><code>hsap+ecol=2T</code></th><td>both human and E. coli are present.</td></tr>
+    <tr><th><code>hsap+ecol=1T</code></th><td>only one species of human or E. coli is present.</td></tr>
+    <tr><th><code>hsap+ecol>=1T</code></th><td>only one or both species of human and E. coli is present.</td></tr>
+    <tr><th><code>hsap+ecol>=10</code></th><td>there are 10 or more human or E. Coli sequences.</td></tr>
+    <tr><th><code>EUKA=5</code></th><td>there are exactly eukaryotic 5 sequences</td></tr>
+    <tr><th><code>EUKA=5T</code></th><td>there are exactly eukaryotic 5 taxa</td></tr>
+    <tr><th><code>hsap+FIRM=2T</code></th><td>there are exactly 2 human or Gram-positive bacteria taxa</td></tr>
+    <tr><th><code>EUKA=35T</code></th><td>there are all 35 eukaryotic species, ie, Eukaryota-universal groups</td></tr>
+    <tr><th><code>EUKA>=5T AND hsap>=10</code></th><td>there are at least five eukaryotic species and containing at least 10 human sequences.</td></tr>
+    <tr><th><code>(EUKA>=5T AND hsap>=10) OR pfal<20</code></th><td>there are at least five eukaryotic species and containing at least 10 human sequences, or there are less than 20 P. falciparum sequences.</td></tr>
+    <tr><th><code>ALL=150T</code></th><td>there are all 150 OrthoMCL species.</td></tr>
+</table>
+
+<p><b>Tips</b></p>
+<ul>
+  <li> Avoid redundancy in your PPE. For example, <code>hsap>=1</code> is equal to <code>hsap=1T</code>, so no need to mention them twice.</li>
+  <li> Merge different PPE units for faster execution.  For example <code>hsap=1T AND mmus=1T</code> can be merged as <code>hsap+mmus=2T</code>.</li>
+</ul>
+
+<p><b>The PPE Grammar in Detail</b></p>
+<p>Individual grammatical units of PPE expressions are composed of two parts:</p>
+<ol>
+  <li> <b>A taxa specification.</b>  This can be any one of:
+    <ul>
+    <li>a species abbreviation (e.g. <code>tgon</code>)</li>
+    <li>a clade abbreviation (e.g., <code>BACT</code> for all Eubacteria taxa)</li>
+    <li>a list of species or clade abbreviations linked by plus sign "+" (e.g. <code>tgon+pfal+hsap+FIRM</code>). </li>
+    <li><code>ALL</code> to represent all taxa in OrthoMCL.</li>
+    </ul>
+  </li>
+  <li> <b>A logical comparison operator followed by a count.</b> 
+    <ul>
+    <li>operators allowed are: <code>></code>, <code><</code>, <code>=</code>, <code>>=</code>, and <code><=</code></li>
+    <li>the count is either:
+      <ul>
+      <li>a number, such as <code>5</code>.  This is a count of <i>sequences</i> that the operator applies to.</li>
+      <li>a number with a <code>T</code>, such as <code>5T</code>.  This is a count of <i>taxa</i> that the operator applies to.</li>
+      </ul>
+    </ul>
+  </li>
+</ol>
+
+<p>Multiple expression units may be combined using <code>AND</code> or <code>OR</code>, and may use parentheses to provide explicit execution ordering.</p>
+
+	]]>
+        </description>
+      </question>
+
+
+      <question name="FromSequences" queryRef="GroupIds.FromSequences" 
+                displayName="Transform to Groups" shortDisplayName="To Groups"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+          <![CDATA[ Transform Sequence results into Groups. ]]>
+        </description>
+      </question>
+
+
+      <question name="AllGroups" queryRef="GroupIds.AllGroups" 
+                displayName="All Groups"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+          <![CDATA[
+                Find all Ortholog Groups in the current release of OrthoMCL.
+                        ]]>
+        </description>
+      </question>
+
+    </questionSet>
+
+</wdkModel>

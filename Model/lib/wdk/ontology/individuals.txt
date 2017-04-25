@@ -1,0 +1,69 @@
+ 			recordClassName	targetType	name	displayName	shortDisplayName	description	geneOrTranscript	displayOrder	scope	scope	scope
+			eupath/eupath.owl#recordClassName	eupath/eupath.owl#targetType	eupath/eupath.owl#name	EUPATH_0000052	eupath/eupath.owl#shortDisplayName	eupath/eupath.owl#description	eupath/eupath.owl#geneOrTranscript	EUPATH_0000274	eupath/eupath.owl#scope	eupath/eupath.owl#scope	eupath/eupath.owl#scope
+TextCategory					TextCategory	Text				1			
+
+## Group Questions ##
+GroupRecordClasses.GroupRecordClass.GroupQuestions.BySequenceCount		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.BySequenceCount						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.ByNameList		Text, IDs	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByNameList						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.ByAccession		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByAccession						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.ByTextSearch		Text, IDs	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByTextSearch						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPFamIdOrKeyword		Function	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPFamIdOrKeyword						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.ByEcNumber		Function	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByEcNumber						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.ByGenomeCount		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByGenomeCount						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.ByConnectivity		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByConnectivity						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPercentMatchPairs		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPercentMatchPairs						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPercentIdentity		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPercentIdentity						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPercentMatch		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPercentMatch						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.ByEValue		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByEValue						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPhyleticPattern		Evolution	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPhyleticPattern						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.FromSequences		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.FromSequences						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.AllGroups		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.AllGroups						menu	webservice	
+
+## Group Attributes ##
+GroupRecordClasses.GroupRecordClass.number_of_members		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	number_of_members						record		
+GroupRecordClasses.GroupRecordClass.avg_connectivity		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_connectivity						record		
+GroupRecordClasses.GroupRecordClass.percent_match_pairs		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	percent_match_pairs						record		
+GroupRecordClasses.GroupRecordClass.avg_percent_identity		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_identity						record		
+GroupRecordClasses.GroupRecordClass.avg_percent_match		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_match						record		
+GroupRecordClasses.GroupRecordClass.ec_numbers		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	ec_numbers						record		
+GroupRecordClasses.GroupRecordClass.keywords		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	keywords						record		
+GroupRecordClasses.GroupRecordClass.descriptions		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	descriptions						record		
+GroupRecordClasses.GroupRecordClass.avg_evalue		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue						record		
+
+## Group Tables ##
+GroupRecordClasses.GroupRecordClass.Sequences		Group Statistics	GroupRecordClasses.GroupRecordClass	table	Sequences						record		
+GroupRecordClasses.GroupRecordClass.PFams		Group Statistics	GroupRecordClasses.GroupRecordClass	table	PFams						record		
+GroupRecordClasses.GroupRecordClass.ProteinPFams		Group Statistics	GroupRecordClasses.GroupRecordClass	table	ProteinPFams						record		
+GroupRecordClasses.GroupRecordClass.ECNumber		Group Statistics	GroupRecordClasses.GroupRecordClass	table	ECNumber						record		
+GroupRecordClasses.GroupRecordClass.GroupName		Group Statistics	GroupRecordClasses.GroupRecordClass	table	GroupName						record		
+
+## Sequence Questions ##
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByIdList		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByIdList						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByGroupIdList		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByGroupIdList						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByAccession		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByAccession						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByPfamIdOrKeyword		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByPfamIdOrKeyword						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByTaxonomy		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByTaxonomy						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByBlast		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByBlast						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByMotif		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByMotif						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.FromGroups		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.FromGroups						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByEcNumber		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByEcNumber						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByEcAssignment		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByEcAssignment						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.AllSequences		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.AllSequences						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByTextSearch		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByTextSearch						menu	webservice	
+
+## Sequence Attributes ##
+SequenceRecordClasses.SequenceRecordClass.source_id		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	source_id						record		
+SequenceRecordClasses.SequenceRecordClass.length		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	length						record		
+SequenceRecordClasses.SequenceRecordClass.product		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	product						record		
+SequenceRecordClasses.SequenceRecordClass.molecular_weight		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	molecular_weight						record		
+SequenceRecordClasses.SequenceRecordClass.ec_numbers		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	ec_numbers						record		
+SequenceRecordClasses.SequenceRecordClass.taxon_name		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	taxon_name						record		
+SequenceRecordClasses.SequenceRecordClass.pfam_domains		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	pfam_domains						record		
+SequenceRecordClasses.SequenceRecordClass.abbreviation		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	abbreviation						record		
+SequenceRecordClasses.SequenceRecordClass.group_size		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_size						record		
+SequenceRecordClasses.SequenceRecordClass.source_link		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	source_link						record		
+SequenceRecordClasses.SequenceRecordClass.sequence_text		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	sequence_text						record		
+SequenceRecordClasses.SequenceRecordClass.group_link		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_link						record		
+
+## Sequence Tables ##
+SequenceRecordClasses.SequenceRecordClass.OldGroups		Group Statistics	SequenceRecordClasses.SequenceRecordClass	table	OldGroups						record		

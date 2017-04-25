@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+
+    <!-- *************** -->
+    <!-- model querySets -->
+    <!-- *************** -->
+
+    <querySet name="GroupIds" queryType="id" isCacheable="false">
+
+        <sqlQuery name="ByNameList" isCacheable="true">
+            <paramRef ref="groupParams.group_names"/>
+            <column name="group_name"/>
+            <sql>
+              <![CDATA[
+                SELECT og.name AS group_name
+                FROM apidb.OrthologGroup og, ($$group_names$$) ds
+                WHERE lower(og.name) = lower(ds.group_name)
+                UNION
+                SELECT sa.group_name
+                FROM ApidbTuning.SequenceAttributes sa,
+                     Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
+                     Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr,
+                	 ($$group_names$$) ds
+                WHERE sa.group_name is not null
+                  AND sa.aa_sequence_id = seqref.aa_sequence_id
+                  AND seqref.db_ref_id = ref.db_ref_id
+                  AND ref.external_database_release_id = dbr.external_database_release_id
+                  AND dbr.external_database_id = db.external_database_id
+                  AND db.name = 'OrthoMCL Old Groups'
+                  AND lower(ref.primary_identifier) = lower(ds.group_name)
+	      ]]>
+            </sql>
+        </sqlQuery>  
+
+
+        <sqlQuery name="ByAccession" isCacheable="true">
+          <paramRef ref="groupParams.group_name"/>
+          <column name="group_name"/>
+          <sql>
+            <![CDATA[
+              SELECT og.name AS group_name
+              FROM apidb.OrthologGroup og
+              WHERE og.name LIKE replace($$group_name$$, '*', '%')
+              UNION
+              SELECT sa.group_name
+              FROM ApidbTuning.SequenceAttributes sa,
+                   Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
+                   Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr
+              WHERE sa.group_name is not null
+                AND sa.aa_sequence_id = seqref.aa_sequence_id
+                AND seqref.db_ref_id = ref.db_ref_id
+                AND ref.external_database_release_id = dbr.external_database_release_id
+                AND dbr.external_database_id = db.external_database_id
+                AND db.name = 'OrthoMCL Old Groups'
+                AND ref.primary_identifier LIKE replace($$group_name$$, '*', '%')
+              UNION
+              SELECT sa.group_name
+              FROM ApidbTuning.SequenceAttributes sa
+              WHERE (sa.source_id LIKE replace($$group_name$$, '*', '%')
+                     OR sa.full_id LIKE replace($$group_name$$, '*', '%'))
+                AND sa.group_name is not null
+            ]]>
+          </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="ByPfamIdOrKeyword" 
+			isCacheable="true" doNotTest="true">
+       <paramRef ref="sharedParams.pfam_id_type_ahead"/>
+       <column name="group_name"/>
+
+       <sql>
+            <![CDATA[
+            SELECT DISTINCT group_name
+            FROM ApidbTuning.DomainAssignment
+            WHERE group_name is not null
+              AND (accession
+                   LIKE UPPER(REPLACE($$pfam_id_type_ahead$$,'*','%'))
+                  OR symbol
+                   LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
+                  OR description
+                   LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
+            ]]>
+       </sql>
+    </sqlQuery>
+
+        <sqlQuery name="ByKeyword" isCacheable="true">
+            <paramRef ref="sharedParams.keyword"/>
+            <column name="group_name"/>
+            <sql>
+                <![CDATA[
+SELECT DISTINCT sa.group_name
+FROM ApidbTuning.SequenceAttributes sa,
+     dots.AaSequenceImp asi
+WHERE sa.group_name is not null
+  AND sa.aa_sequence_id = asi.aa_sequence_id
+  AND asi.subclass_view = 'ExternalAASequence'
+  AND CATSEARCH(asi.description, $$keyword$$, '')>0
+                ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="BySequenceCount" isCacheable="true">
+            <paramRef ref="groupParams.sequence_count_min"/>
+            <paramRef ref="groupParams.sequence_count_max"/>
+            <column name="group_name"/>
+            <sql>
+                <![CDATA[
+SELECT og.name AS group_name
+FROM apidb.OrthologGroup og
+WHERE og.number_of_members >= $$sequence_count_min$$
+  AND og.number_of_members <= $$sequence_count_max$$
+                ]]>
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="ByGenomeCount" isCacheable="true">
+            <paramRef ref="groupParams.genome_count_min"/>
+            <paramRef ref="groupParams.genome_count_max"/>
+            <column name="group_name"/>
+            <column name="genome_count"/>
+            <sql>
+              <![CDATA[
+                select group_name, count(distinct taxon_id) genome_count
+                from ApidbTuning.SequenceAttributes
+                where group_name is not null
+                group by group_name
+                having count(distinct taxon_id) between $$genome_count_min$$ and $$genome_count_max$$
+                order by count(distinct taxon_id), group_name
+              ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="ByAvgConnectivity" isCacheable="true">
+            <paramRef ref="groupParams.percent_min"/>
+            <paramRef ref="groupParams.percent_max"/>
+            <column name="group_name"/>
+            <sql>
+                <![CDATA[
+SELECT name as group_name
+FROM apidb.OrthologGroup
+WHERE avg_connectivity between $$percent_min$$ AND $$percent_max$$
+                ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="ByPercentMatchPairs" isCacheable="true">
+            <paramRef ref="groupParams.percent_min"/>
+            <paramRef ref="groupParams.percent_max"/>
+            <column name="group_name"/>
+            <sql>
+                <![CDATA[
+SELECT name as group_name
+FROM apidb.OrthologGroup
+WHERE percent_match_pairs between $$percent_min$$ AND $$percent_max$$
+                ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="ByPercentIdentity" isCacheable="true">
+            <paramRef ref="groupParams.percent_min"/>
+            <paramRef ref="groupParams.percent_max"/>
+            <column name="group_name"/>
+            <sql>
+                <![CDATA[
+SELECT og.name AS group_name
+FROM apidb.OrthologGroup og
+WHERE og.avg_percent_identity >= $$percent_min$$
+  AND og.avg_percent_identity <= $$percent_max$$
+                ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="ByPercentMatch" isCacheable="true">
+            <paramRef ref="groupParams.percent_min"/>
+            <paramRef ref="groupParams.percent_max"/>
+            <column name="group_name"/>
+            <sql>
+                <![CDATA[
+SELECT og.name AS group_name
+FROM apidb.OrthologGroup og
+WHERE og.avg_percent_match >= $$percent_min$$
+  AND og.avg_percent_match <= $$percent_max$$
+                ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="ByEValue" isCacheable="true">
+            <paramRef ref="groupParams.evalue_min"/>
+            <paramRef ref="groupParams.evalue_max"/>
+            <column name="group_name"/>
+            <sql>
+                <![CDATA[
+SELECT og.name AS group_name
+FROM apidb.OrthologGroup og
+WHERE og.avg_evalue_exp >= $$evalue_min$$
+  AND og.avg_evalue_exp <= $$evalue_max$$
+                ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="ByPhyleticPattern" isCacheable="true">
+            <paramRef ref="groupParams.phyletic_expression"/>
+            <column name="group_name"/>
+            <sql>
+                <![CDATA[
+SELECT og.name AS group_name
+FROM apidb.OrthologGroup og, ($$phyletic_expression$$) ex
+WHERE og.ortholog_group_id = ex.ortholog_group_id
+                ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="ByEcNumber" isCacheable="true">
+            <paramRef ref="sharedParams.ec_number_type_ahead"/>
+            <paramRef ref="groupParams.ec_wildcard"/>
+            <column name="group_name"/>
+            <sql>
+                <![CDATA[
+                    select distinct sa.group_name 
+                    from ApidbTuning.SequenceAttributes sa, dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
+                    where (
+ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_number_type_ahead$$),' ',''),'-', '%'),'*','%'),'any','%')
+                OR
+                ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_wildcard$$),' ',''),'-', '%'),'*','%'),'any','%')
+                OR
+                ec.description LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_wildcard$$),' ',''),'-', '%'),'*','%'),'any','%')
+)
+                      and asec.enzyme_class_id = ec.enzyme_class_id
+                      and sa.aa_sequence_id = asec.aa_sequence_id
+                      and sa.group_name is not null                    
+                 ]]>
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="FromSequences">
+            <paramRef ref="sharedParams.sequence_answer"/>
+            <column name="group_name"/>
+            <column name="wdk_weight"/>
+            <sql>
+                <![CDATA[
+SELECT sa.group_name, sum(answer.wdk_weight) AS wdk_weight
+FROM ApidbTuning.SequenceAttributes sa, ($$sequence_answer$$) answer
+WHERE sa.full_id = answer.full_id
+  AND sa.group_name is not null
+GROUP BY sa.group_name
+                ]]>
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="AllGroups" isCacheable="false">
+            <column name="group_name"/>
+            <sql>
+                <![CDATA[
+SELECT og.name AS group_name FROM apidb.OrthologGroup og
+              ]]>
+            </sql>
+        </sqlQuery>
+
+    <processQuery name="ByTextSearch"
+             processName="org.orthomcl.wsfplugin.KeywordSearchPlugin">
+
+        <testParamValues>
+            <paramValue name="text_expression">kinase</paramValue>
+        </testParamValues>
+
+       <paramRef ref="sharedParams.wdk_record_type" default="group"/>
+       <paramRef ref="sharedParams.text_expression"/>
+       <paramRef ref="groupParams.text_fields"/>
+       <paramRef ref="sharedParams.detail_table" default="apidb.GroupDetail"/>
+       <paramRef ref="sharedParams.primary_key_column" default="group_name"/>
+       <paramRef ref="sharedParams.project_id" default="OrthoMCL"/>
+       <wsColumn name="group_name" width="100" wsName="RecordID"/>
+       <wsColumn name="project_id" width="20" wsName="ProjectId"/>
+       <wsColumn name="max_score" width="10" wsName="MaxScore" columnType="float"/>
+       <wsColumn name="fields_matched" width="64" wsName="Datasets"/>
+    </processQuery>
+
+    </querySet>
+
+</wdkModel>

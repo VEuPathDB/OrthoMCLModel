@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+
+    <constant name="releaseDate" includeProjects="OrthoMCL">23 July 2015 10:11</constant>
+    <constant name="releaseVersion" includeProjects="OrthoMCL">5</constant>
+    <constant name="buildNumber" includeProjects="OrthoMCL">5</constant>
+
+    <constant name="fullReporterDisplayName">Text: choose from columns and/or tables</constant>
+    <constant name="attributesReporterDisplayName">Tab delimited (Excel) - choose columns to make a custom table</constant>
+    <constant name="tableReporterDisplayName">Tab delimited (Excel) - choose a pre-configured table</constant>
+
+    <modelName includeProjects="OrthoMCL" displayName="OrthoMCL" 
+      version="%%releaseVersion%%" releaseDate="%%releaseDate%%" buildNumber="%%buildNumber%%" />
+
+    <!-- ******************* -->
+    <!-- model introduction  -->
+    <!-- ******************* -->
+    <introduction>
+	<![CDATA[
+        Welcome to OrthoMCL DB
+	]]>
+    </introduction>
+    
+    <exampleStratsAuthor name="EuPathDB Example"/>
+  
+    <!-- import the group related pieces -->
+    <import file="OrthoMCL/records/groupRecord.xml" />
+    <import file="OrthoMCL/records/groupRecordQueries.xml" />
+    <import file="OrthoMCL/questions/groupQuestions.xml" />
+    <import file="OrthoMCL/questions/queries/groupIdQueries.xml" />
+    <import file="OrthoMCL/questions/params/groupParams.xml" />
+    
+    <!-- import the sequence related pieces -->
+    <import file="OrthoMCL/records/sequenceRecord.xml" />
+    <import file="OrthoMCL/records/sequenceRecordQueries.xml" />
+    <import file="OrthoMCL/questions/sequenceQuestions.xml" />
+    <import file="OrthoMCL/questions/queries/sequenceIdQueries.xml" />
+    <import file="OrthoMCL/questions/params/sequenceParams.xml" />
+
+    <!-- XML -->
+    <import file="OrthoMCL/records/xmlRecords.xml"/>
+    <import file="OrthoMCL/questions/xmlQuestions.xml"/>
+
+    <!-- import the helper related pieces -->
+
+    <import file="OrthoMCL/records/helperRecord.xml" />
+    <import file="OrthoMCL/records/helperRecordQueries.xml" />
+    <import file="OrthoMCL/questions/helperQuestions.xml" />
+    <import file="OrthoMCL/questions/queries/helperIdQueries.xml" />
+
+    <!-- import common pieces -->
+    <import file="OrthoMCL/questions/params/sharedParams.xml" />
+    <import file="OrthoMCL/questions/categories.xml"/>
+    
+    <!-- Step Analysis Plugins -->
+    <import file="OrthoMCL/stepAnalysisPlugins.xml"/>
+
+    <stepAnalysisPlugins>
+      <executionConfig fileStoreDirectory="@STEP_ANALYSIS_JOB_DIR@"/>
+    </stepAnalysisPlugins>
+
+</wdkModel>

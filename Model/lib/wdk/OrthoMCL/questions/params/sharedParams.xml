@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+
+    <!-- parameters used by primary key queries -->
+
+    <paramSet name="sharedParams">
+
+        <stringParam name="keyword" prompt="Keyword" number="false">
+            <help>You can use boolean terms in search keyword.</help>
+            <suggest default="kinase" />
+        </stringParam>
+
+         <flatVocabParam name="pfam_id_type_ahead"
+                     queryRef="SharedVQ.PfamTypeAhead"
+                     prompt="Pfam ID or Name"
+                     displayType="typeAhead">
+            <help>Start typing and then choose a domain from the list. As you type the list narrows to the entries that match what you have typed.</help>
+        </flatVocabParam>
+
+
+         <flatVocabParam name="ec_number_type_ahead"
+                     queryRef="SharedVQ.EcNumberTypeAhead"
+                     prompt="EC Number or Name"
+                     displayType="typeAhead">
+            <help><![CDATA[Enzyme Commission numbers describe enzymes hierarchically by the class of reactions they catalyze.  
+            Begin typing an EC number or name to 
+            see a list of all possible EC categories that match what you have typed. Then choose an EC category from 
+            the list. Use '-' as a wildcard in place of numbers to denote partial EC Numbers. ]]></help>
+	    <suggest selectMode="none" />
+        </flatVocabParam>
+
+        <answerParam name="group_answer" readonly="true">
+            <recordClass ref="GroupRecordClasses.GroupRecordClass" />
+        </answerParam>
+
+        <answerParam name="sequence_answer" readonly="true">
+            <recordClass ref="SequenceRecordClasses.SequenceRecordClass" />
+        </answerParam>
+ 
+        <flatVocabParam name="organism"
+                      queryRef="SharedVQ.AllOrganisms"
+                      displayType="treeBox"  
+                      prompt="Organism"
+                      multiPick="true">
+            <help>
+             Choose one or more organisms to search with the given motif
+            </help>
+            <suggest default="pfal"/>
+        </flatVocabParam>
+
+        <!-- text search parameters -->
+
+        <stringParam name="text_expression"
+                     prompt="Text terms (use * as wildcard)" number="false">
+            <help>Enter text you would like to search for. Multiple words may be entered, for example: "membrane receptor signal inner". Use an asterisk as a wildcard to match partial words.</help>
+            <suggest default="synth*"/>
+           <regex>.*[^*].*</regex>
+        </stringParam>
+
+        <stringParam name="wdk_record_type"
+                     visible="false" number="false">
+        </stringParam>
+
+        <stringParam name="detail_table"
+                     visible="false" number="false">
+        </stringParam>
+
+        <stringParam name="primary_key_column"
+                     visible="false" number="false">
+        </stringParam>
+
+        <stringParam name="project_id"
+                     visible="false" number="false">
+        </stringParam>
+
+    </paramSet>
+
+  <querySet name="SharedVQ" queryType="vocab" isCacheable="true">
+
+        <sqlQuery name="AllOrganisms">
+            <column name="term" />
+            <column name="display" />
+            <column name="parentTerm" />
+            <column name="internal" />
+            <sql>
+                <![CDATA[ 
+SELECT t.name AS display, t.three_letter_abbrev AS term, t.three_letter_abbrev AS internal,
+       (SELECT three_letter_abbrev FROM apidb.OrthomclTaxon p 
+        WHERE p.orthomcl_taxon_id = t.parent_id) AS parentTerm
+FROM apidb.OrthomclTaxon t
+                ]]>
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="PfamTypeAhead">
+            <column name="internal" />
+            <column name="term" />
+            <column name="display"/>
+            <sql>
+                SELECT distinct accession AS internal,
+                       accession || ' : ' || symbol AS term,
+                       accession || ' : ' || symbol || ' ' ||
+                       description AS display,
+                       symbol, description
+                FROM ApidbTuning.DomainAssignment
+                ORDER BY lower(symbol), lower(description)
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="EcNumberTypeAhead">
+            <column name="internal" />
+            <column name="term" />
+            <column name="display"/>
+            <sql>
+               SELECT ec2.ec_number AS internal,
+                      ec2.ec_number AS term,
+                      ec2.ec_number || ' (' || ec2.description || ')' AS display
+               FROM 
+                 (select distinct ec.ec_number, ec.description
+                  from dots.aaSequenceEnzymeClass asec, sres.enzymeClass ec
+                  where asec.enzyme_class_id = ec.enzyme_class_id) ec2
+               UNION
+               SELECT 'N/A' AS internal, 'N/A' AS term, 'N/A' AS display
+               FROM dual
+
+             </sql>
+         </sqlQuery>   
+ 
+    </querySet>
+</wdkModel>

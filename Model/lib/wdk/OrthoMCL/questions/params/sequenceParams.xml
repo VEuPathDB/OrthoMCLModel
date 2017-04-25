@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+
+    <!-- parameters used by primary key queries -->
+
+    <paramSet name="sequenceParams">
+
+        <datasetParam name="source_ids" prompt="Sequence Ids"
+		      recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <help>A list of source ids of the protein sequences.</help>
+            <suggest default="PF11_0344" />
+        </datasetParam>
+
+
+        <stringParam name="accession" prompt="Accession" number="false">
+            <help>Sequence source ids from current or previous releases. Wild card is supported</help>
+            <suggest default="PF11_0344" />
+        </stringParam>
+       
+         <flatVocabParam name="taxon_type_ahead"
+                     queryRef="SequenceVQ.TaxonTypeAhead"
+                     prompt="Taxon"
+                     displayType="typeAhead">
+            <help>Start typing and then choose an entry from the list. As you type the list narrows to the entries that match what you have typed.  Use "*" as a wildcard.</help>
+        </flatVocabParam>
+   
+        <stringParam name="motif_expression" prompt="Pattern" number="false">
+            <noTranslation value="true"  />
+            <help>
+                <![CDATA[
+                Enter a Perl regular expression describing the desired motif.  Example: 'CC6+RK' searches for 
+                two consecutive cysteine residues followed by a stretch of hydrophobic amino acids followed 
+                by the aminoacids arginine and lysine.
+                ]]>
+                </help>
+            <suggest default="CC6+RK"/>
+        </stringParam>
+
+        <stringParam name="BlastDatabase" number="false" visible="false">
+          <suggest default="@BLASTDB_PATH@/release-%%buildNumber%%/blast/proteinSeqs" />
+        </stringParam>
+
+        <enumParam name="BlastAlgorithm"
+             prompt="BLAST Program"
+             displayType="checkBox" quote="false"
+             multiPick="false">
+            <help>
+                <![CDATA[
+                The Blast Program that will be executed: &#60;b&#62; blastp &#60;/b&#62;  compares an 
+                aminoacid query sequence against a protein sequence database; blastx  &#60;/b&#62; 
+                compares the six-frame conceptual translation products of a nucleotide query sequence 
+                (both strands) against a protein sequence database.
+                ]]>
+            </help>
+            <enumList>  
+                <enumValue default="true">
+                    <term>blastp</term>
+                    <internal>blastp</internal>
+                </enumValue>   
+                <enumValue>
+                    <term>blastx</term>
+                    <internal>blastx</internal>
+                </enumValue>   
+            </enumList>
+        </enumParam>
+
+        <stringParam name="BlastQuerySequence"
+                     prompt="Input Sequence"
+                     length="31000"
+                     number="false">
+            <noTranslation value="true"  />
+            <help>BLAST Input Sequence (upto 31K bps)</help>
+            <suggest default=""/>
+        </stringParam>
+
+         <stringParam name="BlastRecordClass" visible="false"
+                      prompt="Record type" number="false">
+             <noTranslation value="true" />
+             <suggest allowEmpty="true" />
+             <help>The record type returned by blast</help>
+         </stringParam>
+
+        <enumParam name="-filter" quote="false" multiPick="false"
+                   prompt="Low complexity filter">
+            <help>
+              If this filter is set to yes, you will omit results which contain repetitive and low complexity sequence. 
+            </help>
+            <enumList>   
+                <enumValue default="true">
+                    <term>yes</term>
+                    <internal>T</internal>
+                </enumValue>
+                <enumValue>
+                    <term>no</term>
+                    <internal>F</internal>
+                </enumValue>
+            </enumList>   
+        </enumParam>
+
+        <stringParam name="-e"
+                      prompt="Expectation value" number="true">
+             <help>Expected number of hits with at least this score. The lower the e- value the more significant the hit.</help>
+             <suggest default="1e-5"/>
+        </stringParam>
+
+<!--
+        <stringParam name="-v"
+                      prompt="Maximum descriptions (V)" number="true">
+            <help>Number of one-line descriptions to show</help>
+            <suggest default="50"/>
+            <regex>\d+</regex>
+        </stringParam>
+-->
+
+        <stringParam name="-b"
+                      prompt="Maximum alignments (B)" number="true">
+            <help>Number of alignments to show</help>
+            <suggest default="50"/>
+            <regex>\d+</regex>
+        </stringParam>
+
+
+
+
+        <enumParam name="text_fields" 
+                         prompt="Fields"
+                         multiPick="true">
+          <help>
+                 Choose which text fields to search.
+          </help>
+          <enumList>
+            <enumValue default="true">
+              <term>product</term>
+              <internal>Product</internal>
+            </enumValue>
+            <enumValue default="true">
+              <term>taxon</term>
+              <internal>Taxon</internal>
+            </enumValue>
+            <enumValue  default="true">
+              <term>PFam domains (names and descriptions)</term>
+              <internal>PFams</internal>
+            </enumValue>
+            <enumValue default="true">
+              <term>EC numbers (and descriptions)</term>
+              <internal>EcNumbers</internal>
+            </enumValue>
+            <enumValue default="true">
+              <term>ortholog group ID (in current or previous OrthoMCL releases)</term>
+              <internal>OrthologGroupId</internal>
+            </enumValue>
+          </enumList>
+        </enumParam>
+
+    </paramSet>
+
+  <querySet name="SequenceVQ" queryType="vocab" isCacheable="true">
+
+         <sqlQuery name="TaxonTypeAhead">
+            <column name="internal" />
+            <column name="term" />
+            <column name="display"/>
+            <sql>
+               SELECT ot.three_letter_abbrev AS internal,
+                      ot.three_letter_abbrev AS term,
+                      ot.three_letter_abbrev || ' (' || ot.name || ')' AS display
+               FROM apidb.orthomcltaxon ot
+               where is_species = 1
+             </sql>
+        </sqlQuery>
+    </querySet>
+   
+</wdkModel>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+
+    <!-- *************** -->
+    <!-- model querySets -->
+    <!-- *************** -->
+
+    <!--
+    A "query" obtains tabular values from a data source.  It has columns
+    and parameters.  So far, only SQL data sources are supported, but others,
+    such as flat files are coming.  
+
+    Queries are used for different purposes: providing primary keys to a 
+    question; providing attributes and tables to a record; and, providing
+    vocabularies to vocabulary parameters.
+
+    A "query set" is a grouping of queries.  It is useful in organizing the
+    model xml file.  
+
+    The full name of a query is of the form "set_name.name."
+    -->
+
+
+    <!-- Queries that return RNA primary keys (for use in questions and nested records.). -->
+
+    <querySet name="HelperIds" queryType="id" isCacheable="false">
+        <sqlQuery name="ByDefault">
+            <column name="helper_id"/>
+            <sql>
+                <![CDATA[
+SELECT 'helper' AS helper_id FROM dual
+                ]]>
+            </sql>
+        </sqlQuery>  
+
+
+    </querySet>
+
+</wdkModel>
