@@ -13,7 +13,7 @@
       <!-- =============================================================== -->
       <!-- Reporters -->  
       <!-- =============================================================== -->
- <!--
+ 
       <reporter name="attributesTabular" displayName="%%attributesReporterDisplayName%%" scopes="results"
                 implementation="org.gusdb.wdk.model.report.AttributesTabularReporter">
         <property name="page_size">500</property>
@@ -23,12 +23,14 @@
                 implementation="org.gusdb.wdk.model.report.TableTabularReporter">
       </reporter>
 
- -->
+
 <!-- copied from apicommonshared  genomicRecord.xml -->
-     <reporter name="tabular" displayName="Tab/Excel: summary" scopes="results, record" 
+<!--  
+     <reporter name="tabular" displayName="Tab/Excel: summary" scopes="results,record" 
                       implementation="org.gusdb.wdk.model.report.AttributesTabularReporter">
      </reporter>
-
+-->
+  
      <reporter name="fullRecord" displayName="%%fullReporterDisplayName%%" excludeProjects="EuPathDB"  scopes="record"
                 implementation="org.gusdb.wdk.model.report.FullRecordReporter" />
 
@@ -37,6 +39,7 @@
 
       <reporter name="json" displayName="json: choose from columns and/or tables" excludeProjects="EuPathDB"  scopes=""
                     implementation="org.gusdb.wdk.model.report.JSONReporter" />
+
 
 
       <!-- =============================================================== -->
