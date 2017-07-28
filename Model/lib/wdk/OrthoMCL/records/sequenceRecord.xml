@@ -26,42 +26,31 @@
       <!-- Reporters -->  
       <!-- =============================================================== -->
 
-       <reporter name="attributesTabular" displayName="%%attributesReporterDisplayName%%" scopes="results"
-                implementation="org.gusdb.wdk.model.report.AttributesTabularReporter">
-        <property name="page_size">500</property>
-      </reporter>
-      
+      <reporter name="attributesTabular" displayName="%%attributesReporterDisplayName%%" scopes="results"
+                implementation="org.gusdb.wdk.model.report.AttributesTabularReporter"/>
+
       <reporter name="tableTabular" displayName="%%tableReporterDisplayName%%" scopes="results"
-                implementation="org.gusdb.wdk.model.report.TableTabularReporter">
-      </reporter>
+                implementation="org.gusdb.wdk.model.report.TableTabularReporter"/>
 
-<!-- 
-     <reporter name="tabular" displayName="Tab/Excel: summary" scopes="results"
-		           implementation="org.gusdb.wdk.model.report.AttributesTabularReporter">
-      </reporter>
--->
+      <reporter name="fullRecord" displayName="%%fullReporterDisplayName%%" scopes="record"
+                implementation="org.gusdb.wdk.model.report.FullRecordReporter"/>
 
-      <reporter name="fullRecord" displayName="%%fullReporterDisplayName%%" excludeProjects="EuPathDB"  scopes="record"
-                implementation="org.gusdb.wdk.model.report.FullRecordReporter" />
+      <reporter name="xml" displayName="XML: choose from columns and/or tables" scopes=""
+                implementation="org.gusdb.wdk.model.report.XMLReporter"/>
 
-      <reporter name="xml" displayName="XML: choose from columns and/or tables" excludeProjects="EuPathDB"  scopes=""
-                    implementation="org.gusdb.wdk.model.report.XMLReporter" />
+      <reporter name="json" displayName="json: choose from columns and/or tables" scopes=""
+                implementation="org.gusdb.wdk.model.report.JSONReporter"/>
 
-      <reporter name="json" displayName="json: choose from columns and/or tables" excludeProjects="EuPathDB"  scopes=""
-                    implementation="org.gusdb.wdk.model.report.JSONReporter" />
-
-
-      <reporter name="fasta" displayName="FASTA: protein sequence" scopes=""
-		implementation="org.orthomcl.model.report.FastaReporter">          
-      </reporter>
+      <reporter name="fasta" displayName="FASTA: protein sequence" scopes="record,results"
+                implementation="org.orthomcl.model.report.FastaReporter"/>
 
       <!-- =============================================================== -->
       <!--  Default summary attributes and sorting attributes -->  
       <!-- =============================================================== -->
       
       <attributesList
-	  summary="group_link, group_size, source_link, taxon_name, abbreviation, length, product, ec_numbers"
-	  sorting="primary_key asc"/>
+        summary="group_link, group_size, source_link, taxon_name, abbreviation, length, product, ec_numbers"
+        sorting="primary_key asc"/>
 
 
       <!-- =============================================================== -->
