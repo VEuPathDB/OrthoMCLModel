@@ -20,15 +20,15 @@ GroupRecordClasses.GroupRecordClass.GroupQuestions.FromSequences		Group Statisti
 GroupRecordClasses.GroupRecordClass.GroupQuestions.AllGroups		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.AllGroups						menu	webservice	
 													
 ## Group Attributes ##													
-GroupRecordClasses.GroupRecordClass.number_of_members		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	number_of_members						record	download	
-GroupRecordClasses.GroupRecordClass.avg_connectivity		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_connectivity						record	download	
-GroupRecordClasses.GroupRecordClass.percent_match_pairs		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	percent_match_pairs						record	download	
-GroupRecordClasses.GroupRecordClass.avg_percent_identity		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_identity						record	download	
-GroupRecordClasses.GroupRecordClass.avg_percent_match		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_match						record	download	
-GroupRecordClasses.GroupRecordClass.ec_numbers		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	ec_numbers						record	download	
-GroupRecordClasses.GroupRecordClass.keywords		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	keywords						record	download	
-GroupRecordClasses.GroupRecordClass.descriptions		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	descriptions						record	download	
-GroupRecordClasses.GroupRecordClass.avg_evalue		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue						record	download	
+GroupRecordClasses.GroupRecordClass.number_of_members		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	number_of_members						record	download	results
+GroupRecordClasses.GroupRecordClass.avg_connectivity		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_connectivity						record	download	results
+GroupRecordClasses.GroupRecordClass.percent_match_pairs		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	percent_match_pairs						record	download	results
+GroupRecordClasses.GroupRecordClass.avg_percent_identity		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_identity						record	download	results
+GroupRecordClasses.GroupRecordClass.avg_percent_match		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_match						record	download	results
+GroupRecordClasses.GroupRecordClass.ec_numbers		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	ec_numbers						record	download	results
+GroupRecordClasses.GroupRecordClass.keywords		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	keywords						record	download	results
+GroupRecordClasses.GroupRecordClass.descriptions		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	descriptions						record	download	results
+GroupRecordClasses.GroupRecordClass.avg_evalue		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue						record	download	results
 													
 ## Group Tables ##													
 GroupRecordClasses.GroupRecordClass.Sequences		Group Statistics	GroupRecordClasses.GroupRecordClass	table	Sequences						record	download	
@@ -54,18 +54,18 @@ SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.AllSequences		Group 
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByTextSearch		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByTextSearch						menu	webservice	
 													
 ## Sequence Attributes ##													
-SequenceRecordClasses.SequenceRecordClass.source_id		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	source_id						record	download	
-SequenceRecordClasses.SequenceRecordClass.length		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	length						record	download	
-SequenceRecordClasses.SequenceRecordClass.product		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	product						record	download	
-SequenceRecordClasses.SequenceRecordClass.molecular_weight		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	molecular_weight						record	download	
-SequenceRecordClasses.SequenceRecordClass.ec_numbers		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	ec_numbers						record	download	
-SequenceRecordClasses.SequenceRecordClass.taxon_name		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	taxon_name						record	download	
-SequenceRecordClasses.SequenceRecordClass.pfam_domains		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	pfam_domains						record	download	
-SequenceRecordClasses.SequenceRecordClass.abbreviation		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	abbreviation						record	download	
-SequenceRecordClasses.SequenceRecordClass.group_size		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_size						record	download	
-SequenceRecordClasses.SequenceRecordClass.source_link		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	source_link						record		
-SequenceRecordClasses.SequenceRecordClass.sequence_text		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	sequence_text						record		
-SequenceRecordClasses.SequenceRecordClass.group_link		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_link						record		
+SequenceRecordClasses.SequenceRecordClass.source_id		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	source_id						record	download	results
+SequenceRecordClasses.SequenceRecordClass.length		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	length						record	download	results
+SequenceRecordClasses.SequenceRecordClass.product		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	product						record	download	results
+SequenceRecordClasses.SequenceRecordClass.molecular_weight		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	molecular_weight						record	download	results
+SequenceRecordClasses.SequenceRecordClass.ec_numbers		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	ec_numbers						record	download	results
+SequenceRecordClasses.SequenceRecordClass.taxon_name		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	taxon_name						record	download	results
+SequenceRecordClasses.SequenceRecordClass.pfam_domains		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	pfam_domains						record	download	results
+SequenceRecordClasses.SequenceRecordClass.abbreviation		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	abbreviation						record	download	results
+SequenceRecordClasses.SequenceRecordClass.group_size		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_size						record	download	results
+SequenceRecordClasses.SequenceRecordClass.source_link		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	source_link						record		results
+SequenceRecordClasses.SequenceRecordClass.sequence_text		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	sequence_text						record		results
+SequenceRecordClasses.SequenceRecordClass.group_link		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_link						record		results
 													
 ## Sequence Tables ##													
 SequenceRecordClasses.SequenceRecordClass.OldGroups		Group Statistics	SequenceRecordClasses.SequenceRecordClass	table	OldGroups						record	download	
