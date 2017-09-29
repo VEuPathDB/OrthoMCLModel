@@ -97,7 +97,7 @@ my $mgr = OrthoMCLModel::MapProteomeService::ProteomeJobMgr->new($serverConfigFi
 eval {
   my $controlDir = $mgr->getConfig('serverControlDir');
   my $clusterServerDir = $mgr->getConfig('clusterServerDir');
-  my $clusterServer = $mgr->getConfig('clusterServer');
+  my $transferServer = $mgr->getConfig('transferServer');
   my $clusterUserName = $mgr->getConfig('clusterUserName');
 
   warn "[DEBUG] using controlDir $controlDir\n" if DEBUG;
@@ -139,7 +139,7 @@ eval {
   # for each phase 2 done job, process it, and delete when done
   deliverResults($controlDir);
 
-  removeStaleFiles($controlDir, $clusterServer, $clusterUserName, $clusterServerDir);
+  removeStaleFiles($controlDir, $transferServer, $clusterUserName, $clusterServerDir);
 
   removeConcurrentRunLock($controlDir);
 };
@@ -180,14 +180,14 @@ sub removeConcurrentRunLock {
 }
 
 sub removeStaleFiles {
-  my ($controlDir, $clusterServer, $clusterUserName, $clusterServerDir) = @_;
+  my ($controlDir, $transferServer, $clusterUserName, $clusterServerDir) = @_;
 
   my $purgeWindow = $mgr->getConfig('purgeWindow');
   my $purgeWindowPlus = "+$purgeWindow";
   my @toPurge = ('phase1/failedJobs', 'phase2/failedJobs');
   foreach my $subdir (@toPurge) {
 
-    my $cmd = "ssh -q -2 $clusterUserName\@$clusterServer 'if [ -a $clusterServerDir/$subdir ]; then find $clusterServerDir/$subdir -mtime $purgeWindowPlus -delete; fi'";
+    my $cmd = "ssh -q -2 $clusterUserName\@$transferServer 'if [ -a $clusterServerDir/$subdir ]; then find $clusterServerDir/$subdir -mtime $purgeWindowPlus -delete; fi'";
     warn "[DEBUG] Running cmd: $cmd \n" if DEBUG;
     system($cmd);
 
@@ -215,6 +215,8 @@ sub checkRunningJobs {
   my $clusterUserName = $mgr->getConfig('clusterUserName');
   my $rcfile = $mgr->getConfig('rcfile');
   my $clusterServer = $mgr->getConfig('clusterServer');
+  my $transferServer = $mgr->getConfig('transferServer');
+  my $nodeClass = $mgr->getConfig('nodeClass');
 
   my $runningJobsDir = "$controlDir/$phase/runningJobs";
   opendir(DIR, $runningJobsDir) || die "Can't open $phase runningJobs/ directory '$runningJobsDir'\n";
@@ -227,12 +229,12 @@ sub checkRunningJobs {
   foreach my $runningJob (@runningJobs) {
     next if $runningJob =~ /^\./;
     my $clusterRunningJobDir = "$clusterServerDir/$phase/runningJobs/$runningJob";
-    if (!clusterTaskRunning($clusterRunningJobDir, $clusterUserName, $clusterServer)) {
+    if (!$mgr->clusterTaskRunning("$clusterRunningJobDir/jobInfoFile", $clusterUserName, $clusterServer, $transferServer)) {
       $mgr->log("Found $phase job that has finished running: $runningJob");
       my $logFile = "$clusterRunningJobDir/$runningJob.log";
       my $done;
       eval {
-	$done = $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"if [ -a $logFile ]; then tail -1 $logFile; fi\"'");
+	$done = $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$transferServer '/bin/bash -rcfile $rcfile -i -c \"if [ -a $logFile ]; then tail -1 $logFile; fi\"'");
       };
       $mgr->log("Warning: Could not check done status of no-longer-running $phase job $runningJob. Forced to fail the job. $@\n") if $@;
       if ($done && $done =~ /Done/) {
@@ -248,25 +250,6 @@ sub checkRunningJobs {
   return ($doneJobs, $failedJobs, $count);
 }
 
-sub clusterTaskRunning {
-  my ($clusterJobDir, $clusterUserName, $clusterServer) = @_;
-
-  warn "[DEBUG] clusterTaskRunning() for user $clusterUserName to server $clusterServer in job directory $clusterJobDir \n" if DEBUG;
-
-  my $processId = `ssh -q -2 $clusterUserName\@$clusterServer 'if [ -a $clusterJobDir/processId ];then cat $clusterJobDir/processId; fi'`;
-
-  chomp $processId;
-
-  my $status = 0;
-  if ($processId) {
-    system("ssh -q -2 $clusterUserName\@$clusterServer 'ps -p $processId > /dev/null'");
-    $status = $? >> 8;
-    $status = !$status;
-  }
-  return $status;
-}
-
-
 ##################################################
 # handle completed jobs
 ##################################################
@@ -277,7 +260,7 @@ sub handleDoneJobs {
 
   my $clusterUserName = $mgr->getConfig('clusterUserName');
   my $rcfile = $mgr->getConfig('rcfile');
-  my $clusterServer = $mgr->getConfig('clusterServer');
+  my $transferServer = $mgr->getConfig('transferServer');
   my $localRunningDir = "$controlDir/$phase/runningJobs";
   my $localDoneDir = "$controlDir/$phase/doneJobs";
   my $localFailedDir = "$controlDir/$phase/failedJobs";
@@ -292,11 +275,11 @@ sub handleDoneJobs {
       # zip blast result
       $mgr->log("  gzipping blast result on cluster");
       my $clusterRunningJobDir = "$clusterServerDir/$phase/runningJobs/$doneJob";
-      $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"gzip $clusterRunningJobDir/master/mainresult/blastSimilarity.out\"'");
+      $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$transferServer '/bin/bash -rcfile $rcfile -i -c \"gzip $clusterRunningJobDir/master/mainresult/blastSimilarity.out\"'");
 
       # copy result from cluster
       $mgr->log("  copying from cluster");
-      $mgr->getCluster()->copyFrom("$clusterRunningJobDir/master/mainresult", 'blastSimilarity.out.gz', "$localDoneDir/$doneJob", 0, GZIP_FLAG);
+      $mgr->getTransferServer()->copyFrom("$clusterRunningJobDir/master/mainresult", 'blastSimilarity.out.gz', "$localDoneDir/$doneJob", 0, GZIP_FLAG);
 
       moveFile("$localDoneDir/$doneJob/blastSimilarity.out.gz", "$localDoneDir/$doneJob/${phase}BlastSimilarity.out.gz");
 
@@ -308,13 +291,13 @@ sub handleDoneJobs {
       if ($phase eq 'phase2' && -s "$localDoneDir/$doneJob/${phase}BlastSimilarity.out.gz" == 0) {
 	# oops, bad blast result.   move to failure dirs locally and on cluster, and mail user
 	$mgr->log("  empty phase2 blast results for job $doneJob.  Moving to failures dir and sending user mail.");
-	$mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"mv $clusterRunningJobDir $clusterServerDir/$phase/failedJobs\"'");
+	$mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$transferServer '/bin/bash -rcfile $rcfile -i -c \"mv $clusterRunningJobDir $clusterServerDir/$phase/failedJobs\"'");
 	moveFile("$localDoneDir/$doneJob", "$localFailedDir/$doneJob");
 	mailNoBlastResults("$localFailedDir/$doneJob/info.txt", $doneJob);
       } else {
 	# clean up cluster dir
 	$mgr->log("  cleaning up cluster job dir");
-	$mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"rm -rf $clusterRunningJobDir\"'");
+	$mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$transferServer '/bin/bash -rcfile $rcfile -i -c \"rm -rf $clusterRunningJobDir\"'");
       }
     };
     if ($@) {
@@ -429,7 +412,6 @@ sub handleNewJobs {
 
   my $clusterUserName = $mgr->getConfig('clusterUserName');
   my $rcfile = $mgr->getConfig('rcfile');
-  my $clusterServer = $mgr->getConfig('clusterServer');
   my $maxJobs = $mgr->getConfig('maxJobs');
   $maxJobs = 100000 unless $maxJobs;
 
@@ -507,7 +489,7 @@ sub handleNewJobs {
 
       # mirror job to cluster
       $mgr->log("Mirroring $newJob/ to cluster");
-      $mgr->getCluster()->copyTo($localRunningDir, $newJob, $clusterRunningDir, GZIP_FLAG);
+      $mgr->getTransferServer()->copyTo($localRunningDir, $newJob, $clusterRunningDir, GZIP_FLAG);
 
       #     if ($phase eq 'phase1') {
       # 
@@ -661,7 +643,6 @@ sub makeTaskFile {
   my $blastBinDir = $mgr->getConfig('blastBinDir');
   my $clusterUserName = $mgr->getConfig('clusterUserName');
   my $rcfile = $mgr->getConfig('rcfile');
-  my $clusterServer = $mgr->getConfig('clusterServer');
 
   print F
     "blastBinDir=$blastBinDir
@@ -690,7 +671,7 @@ sub findOrthomclDbSize {
   if (!$dbSize) {
     my $clusterUserName = $mgr->getConfig('clusterUserName');
     my $rcfile = $mgr->getConfig('rcfile');
-    my $clusterServer = $mgr->getConfig('clusterServer');
+    my $transferServer = $mgr->getConfig('transferServer');
     my $dbFilePath = $mgr->getConfig('blastDbFilePath');
 
     $mgr->log("Counting proteins in $dbFilePath");
@@ -698,8 +679,8 @@ sub findOrthomclDbSize {
     # discover size of blast db (ie, count of orthomcl proteins) from .count file
 
     my $cmd = "cat $dbFilePath.count";
-
-    my $dbSizeOut = $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"$cmd\"'");
+    return 2;
+    my $dbSizeOut = $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$transferServer '/bin/bash -rcfile $rcfile -i -c \"$cmd\"'");
 
     my @a = split(/\s/, $dbSizeOut); # ignore output from login
     $dbSize = $a[$#a];
@@ -746,13 +727,14 @@ sub startJob {
   my $clusterUserName = $mgr->getConfig('clusterUserName');
   my $rcfile = $mgr->getConfig('rcfile');
   my $clusterServer = $mgr->getConfig('clusterServer');
+  my $transferServer = $mgr->getConfig('transferServer');
   my $numNodes = $mgr->getConfig('numNodes');
   my $clusterQueue = $mgr->getConfig('clusterQueue');
   my $clusterMaxMem = $mgr->getConfig('clusterMaxGigsPerNode');
   my $ppn = $mgr->getConfig('ppn');
 
   $mgr->log("Starting job on cluster in $clusterJobDir");
-  $mgr->runClusterTask($clusterUserName, $rcfile, $clusterServer, "$clusterJobDir/processId", "$clusterJobDir/$jobId.log", "$clusterJobDir/input/controller.prop", $numNodes, 14400, $clusterQueue, $ppn, $clusterMaxMem);
+  $mgr->runClusterTask($clusterUserName, $rcfile, $clusterServer, $transferServer, "$clusterJobDir/jobInfoFile", "$clusterJobDir/$jobId.log", "$clusterJobDir/input/controller.prop", $numNodes, 14400, $clusterQueue, $ppn, $clusterMaxMem);
 }
 
 
@@ -766,7 +748,7 @@ sub handleFailedJobs {
 
   my $clusterUserName = $mgr->getConfig('clusterUserName');
   my $rcfile = $mgr->getConfig('rcfile');
-  my $clusterServer = $mgr->getConfig('clusterServer');
+  my $transferServer = $mgr->getConfig('transferServer');
   my $localRunningDir = "$controlDir/$phase/runningJobs";
   my $localFailedDir = "$controlDir/$phase/failedJobs";
 
@@ -788,7 +770,7 @@ sub handleFailedJobs {
 
     mailServerErrorToAdmin("$localFailedDir/$failedJob/info.txt", $failedJob, "$localFailedDir/$failedJob", $clusterFailedJobDir, "Job on cluster not running, but log there does not say 'Done'");
 
-    $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$clusterServer '/bin/bash -rcfile $rcfile -i -c \"if [ -d $clusterRunningJobDir ]; then mv $clusterRunningJobDir $clusterFailedJobDir; fi \"'");
+    $mgr->runCmd(0, "ssh -q -2 $clusterUserName\@$transferServer '/bin/bash -rcfile $rcfile -i -c \"if [ -d $clusterRunningJobDir ]; then mv $clusterRunningJobDir $clusterFailedJobDir; fi \"'");
   }
 }
 
