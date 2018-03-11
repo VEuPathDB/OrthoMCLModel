@@ -19,7 +19,9 @@ GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPhyleticPattern		Evolution	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.FromSequences		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.FromSequences						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.AllGroups		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.AllGroups						menu	webservice	
 													
-## Group Attributes ##													
+## Group Attributes ##
+
+GroupRecordClasses.GroupRecordClass.primary_key		Group	GroupRecordClasses.GroupRecordClass	attribute	primary_key						record	download	results
 GroupRecordClasses.GroupRecordClass.number_of_members		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	number_of_members						record	download	results
 GroupRecordClasses.GroupRecordClass.avg_connectivity		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_connectivity						record	download	results
 GroupRecordClasses.GroupRecordClass.percent_match_pairs		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	percent_match_pairs						record	download	results
