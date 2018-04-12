@@ -102,7 +102,7 @@
 	<columnAttribute name="product" displayName="Product">
 	  <plugin name="wordCloud" display="Word Cloud"
 		  description="Display the terms in the attribute as word clouds"
-		  implementation="org.gusdb.wdk.model.record.attribute.plugin.WordCloudAttributePlugin"
+		  implementation="org.eupathdb.common.model.attribute.EuPathWordCloudAttributePlugin"
 		  view="/wdk/jsp/results/wordCloud.jsp" />
 	</columnAttribute>
 	<columnAttribute name="molecular_weight" displayName="Molecular Weight">
@@ -116,7 +116,7 @@
 	<columnAttribute name="abbreviation" displayName="Taxon Code">
 	  <plugin name="wordCloud" display="Word Cloud"
 		  description="Display the terms in the attribute as word clouds"
-		  implementation="org.gusdb.wdk.model.record.attribute.plugin.WordCloudAttributePlugin"
+		  implementation="org.eupathdb.common.model.attribute.EuPathWordCloudAttributePlugin"
 		  view="/wdk/jsp/results/wordCloud.jsp" />
 	</columnAttribute>
 	<columnAttribute name="taxon_name" displayName="Taxon Name" />
@@ -161,7 +161,7 @@
       <linkAttribute displayName="Group ID" name="group_link" inReportMaker="false" internal="false" >
 	<plugin name="wordCloud" display="Word Cloud"
 		description="Display the terms in the attribute as word clouds"
-		implementation="org.gusdb.wdk.model.record.attribute.plugin.WordCloudAttributePlugin"
+		implementation="org.eupathdb.common.model.attribute.EuPathWordCloudAttributePlugin"
 		view="/wdk/jsp/results/wordCloud.jsp" />
 	<displayText>
 	  <![CDATA[ $$group_name$$  ]]>
