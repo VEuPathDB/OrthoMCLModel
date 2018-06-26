@@ -1,27 +1,23 @@
 #!/usr/bin/perl
 
-my ($inputFasta, $maxInputSequences, $fakeTaxonAbbrev) = @ARGV;
+use strict;
+
+my ($_inputFasta, $_maxInputSequences, $_fakeTaxonAbbrev) = @ARGV;
 
 &usage() unless scalar(@ARGV) == 3;
 
-# lose tab characters
-# and introduce fake taxon abbrev as prefix in defline (>xxxx|my defline).  taxon abbrev is required by orthomcl
-sub correctProteomeFile {
-  my ($orig_proteomeFile, $proteomeFile) = @_;
+my %uniqueIds;
 
-  open(O, $orig_proteomeFile) || die "can't open file $orig_proteomeFile\n";
-  open(N, ">$proteomeFile") || die "can't open file $proteomeFile for writing\n";
-  while (<O>) {
-    s/\t/ /g;		    # lose tab chars.  formatdb fails on them.
-    s/\>/\>$fakeTaxonAbbrev\|/ if (/\>/);
-    print N $_;
-  }
-  close(O);
-  close(N);
-}
+validateProteomeFile($_inputFasta, $maxInputSequence);
+checkProteomeFileForFullMaskSeqs($_inputFasta);
+writeCorrectedFasta($_inputFasta, $_fakeTaxonAbbrev);
 
+#########################################################################################################################
+
+
+# make pass through input, and confirm that it is valid fasta, has unique IDs, contains proteins, and is not too long
 sub validateProteomeFile {
-  my ($proteomeFileName) = @_;
+  my ($proteomeFileName, $maxInput) = @_;
   my $length;
   my $seqCount;
   my $error;
@@ -36,10 +32,14 @@ sub validateProteomeFile {
       $foundFirstLine = 1;
     }
     $length += length($_);
-    $seqCount += 1 if /^\>\S+/;
+    if (/^\>(\S+)/) {
+      my $id = $1;
+      die "Sequence ID '$id' is not unique in the input FASTA file\n" if $uniqueIds{$id};
+      $uniqueIds{$id} = 1;
+      $seqCount += 1;
   }
   close(P);
-  if ($badFirstLine || !$seqCount || $seqCount > 100000 || $length > $seqCount * 5000) {
+  if ($badFirstLine || !$seqCount || $seqCount > $maxInput || $length > $seqCount * 5000) {
     die	"The file must be in FASTA format, contain protein sequences, and have not more than 100,000 sequences.
 The first line must be blank or be the description line for the first protein.\n";
     }
@@ -57,7 +57,7 @@ sub checkProteomeFileForFullMaskSeqs {
     next if /^\s*$/;
     if (m/^>/) {
       $seq_is_ok = 0;
-      ($id) = $_ =~ m/>$fakeTaxonAbbrev\|(\S+)/;
+      ($id) = $_ =~ m/>(\S+)/;
       delete $invalid_seqs{$id};
       next;
     }
@@ -91,6 +91,21 @@ sub lineIsFullyMasked {
   return 1;
 }
 
+# lose tab characters
+# and introduce fake taxon abbrev as prefix in defline (>xxxx|my defline).  taxon abbrev is required by orthomcl
+sub writeCorrectedFasta {
+  my ($proteomeFile, $fakeTaxonAbbrev) = @_;
+
+  open(O, $proteomeFile) || die "can't open file $proteomeFile\n";
+  while (<O>) {
+    s/\t/ /g;		    # lose tab chars.  formatdb fails on them.
+    s/\>/\>$fakeTaxonAbbrev\|/ if (/\>/);
+    print STDOUT $_;
+  }
+  close(O);
+}
+
+
 sub usage {
  die "
 Prepare a proteome fasta file for submission to the OrthoMCL Protome Analysis system.
@@ -98,16 +113,18 @@ Prepare a proteome fasta file for submission to the OrthoMCL Protome Analysis sy
 Usage: orthomclPreprocessProteomeFasta input_proteome_fasta_file max_allowed_input_seqs fake_taxon_abbrev> corrected_and_valid_fasta_file
 
 Where:
-  - input_proteome_fasta_file: the input fasta!
+  - input_proteome_fasta_file: the input fasta!  Must have a unique ID in the first position of the definition line
   - max_allowed_input_seqs:  if the input has more than this number of sequences, fail the job
   - fake_taxon_abbrev:  a fake taxon abbreviation (eg xxxx) to prepend to the defline, for compatibility with orthomcl processing
 
 This program:
   - rejects inputs that:
-     -  have more sequences than the max allowed
+     - have more sequences than the max allowed
      - do not start with a definition line
+     - contains non-unique sequence IDs
      - have no sequences.
      - contain sequences that are 100% mask characters (X)
+     - contain sequences that average > 5000 base pairs (ie, not proteins)
   - removes tab characters from the input
   - introduces a fake taxon abbreviation as a prefix in the defline (>xxxx|my defline). The taxon abbrev is required by orthomcl
 
