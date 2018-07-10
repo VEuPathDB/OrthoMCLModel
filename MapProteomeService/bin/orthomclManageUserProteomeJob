@@ -602,6 +602,7 @@ sub validateProteomeFile {
   open(P, $proteomeFilePath) || die "Can't open fasta file '$proteomeFilePath'\n";
   my $foundFirstLine;
   my $badFirstLine;
+  my $prevLineIsDefLine;
   while (<P>) {
     next if /^\s*$/;		# skip blank lines
     if (!$foundFirstLine) {
@@ -609,7 +610,16 @@ sub validateProteomeFile {
       $foundFirstLine = 1;
     }
     $length += length($_);
-    $seqCount += 1 if /^\>\S+/;
+    if (/^\>\S+/) {
+      if ($prevLineIsDefLine) {
+	$error = "Sequence $prevLineIsDefLine has no protein sequence. Please remove all empty sequences from your fasta file.\n" ;
+	last;
+      }
+      $seqCount += 1;
+      $prevLineIsDefLine = $_;  # keep the defline for use in err msg if needed
+    } else {
+      $prevLineIsDefLine = 0;
+    }
   }
   close(P);
   if ($badFirstLine || !$seqCount || $seqCount > 100000 || $length > $seqCount * 5000) {
@@ -820,6 +830,9 @@ sub mailServerErrorToAdmin {
   chomp $local;
   my $msg = "See log and failed job at '$local:$localFailedJobPath' and '$cluster:$remoteFailedJobPath'";
   sendMailToAdmin($infoFile, $jobId, "OrthoMCL Job $jobId - server error", "\n$errMsg\n$msg");
+  open(S, ">$localFailedJobPath/failMessage");
+  print S $errMsg;
+  close(S);
 }
 
 sub handleJobError {
