@@ -106,10 +106,11 @@
              <columnAttribute name="evalue_exp" displayName="E-Value-Exp"
                               internal="true" inReportMaker="false"/>
              <columnAttribute name="score" displayName="Score">
-                    <plugin name="histogram" display="Histogram"
-                            description="Display the histogram of the values of this attribute"
-                            implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
-                            view="/wdk/jsp/results/histogram.jsp" />
+             <reporter name="histogram" displayName="Histogram" scopes=""
+               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+              >
+                <description>Display the histogram of the values of this attribute</description>
+              </reporter>
              </columnAttribute>
              <columnAttribute name="summary" displayName="Summary" internal="true" inReportMaker="false"/>
              <columnAttribute name="alignment" displayName="Alignment" internal="true" inReportMaker="false"/>             
@@ -288,10 +289,11 @@
          <dynamicAttributes>
            <columnAttribute name="Locations" displayName="Match Locations" align="center"/>
            <columnAttribute name="MatchCount" displayName="Match Count" align="center">
-                    <plugin name="histogram" display="Histogram"
-                            description="Display the histogram of the values of this attribute"
-                            implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
-                            view="/wdk/jsp/results/histogram.jsp" />
+             <reporter name="histogram" displayName="Histogram" scopes=""
+               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+              >
+                <description>Display the histogram of the values of this attribute</description>
+              </reporter>
            </columnAttribute>
            <columnAttribute name="Sequence" displayName="Motif" inReportMaker="false" truncateTo="4000"/>
          </dynamicAttributes>
