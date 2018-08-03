@@ -93,38 +93,43 @@
             <attributeQueryRef ref="GroupAttributes.GroupAttrs">  
 
                 <columnAttribute name="number_of_members" displayName="# Sequences">
-                    <plugin name="histogram" display="Histogram"
-                            description="Display the histogram of the values of this attribute"
-                            implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
-                            view="/wdk/jsp/results/histogram.jsp" />
+             <reporter name="histogram" displayName="Histogram" scopes=""
+               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+              >
+                <description>Display the histogram of the values of this attribute</description>
+              </reporter>
                 </columnAttribute>
 
                 <columnAttribute name="avg_connectivity" displayName="Average % Connectivity" help="The average percent connectivity of the sequences in a group.  Each sequence's connectivity is the number of Ortholog, CoOrtholog or Inparalog pairs assigned by the OrthoMCL algorithm.  The average percent is that number summed for all the sequences and divided by the number of possible pairs each sequence could have.  See the Methods Section for details.">
-                    <plugin name="histogram" display="Histogram"
-                            description="Display the histogram of the values of this attribute"
-                            implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
-                            view="/wdk/jsp/results/histogram.jsp" />
+             <reporter name="histogram" displayName="Histogram" scopes=""
+               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+              >
+                <description>Display the histogram of the values of this attribute</description>
+              </reporter>
                 </columnAttribute>
 
                  <columnAttribute name="percent_match_pairs" displayName="% Similar Pairs" help="The percent of sequence pairs in a group that have an above-threshold similarity  See the Methods Section for details.">
-                    <plugin name="histogram" display="Histogram"
-                            description="Display the histogram of the values of this attribute"
-                            implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
-                            view="/wdk/jsp/results/histogram.jsp" />
+             <reporter name="histogram" displayName="Histogram" scopes=""
+               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+              >
+                <description>Display the histogram of the values of this attribute</description>
+              </reporter>
                 </columnAttribute>
 
                <columnAttribute name="avg_percent_identity" displayName="Average % Identity" help="The average of the percent identity of all pairs of sequences in a group that have an above threshold similarity.  See the Methods Section for details.">
-                    <plugin name="histogram" display="Histogram"
-                            description="Display the histogram of the values of this attribute"
-                            implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
-                            view="/wdk/jsp/results/histogram.jsp" />
+             <reporter name="histogram" displayName="Histogram" scopes=""
+               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+              >
+                <description>Display the histogram of the values of this attribute</description>
+              </reporter>
                 </columnAttribute>
 
                 <columnAttribute name="avg_percent_match" displayName="Avg % Match Length" help="The average of the percent match length of all pairs of sequences in a group that have an above threshold similarity.  See the Methods Section for details.">
-                    <plugin name="histogram" display="Histogram"
-                            description="Display the histogram of the values of this attribute"
-                            implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
-                            view="/wdk/jsp/results/histogram.jsp" />
+             <reporter name="histogram" displayName="Histogram" scopes=""
+               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+              >
+                <description>Display the histogram of the values of this attribute</description>
+              </reporter>
                 </columnAttribute>
 
                 <columnAttribute name="avg_evalue_mant" displayName="Average E-value Mant" internal="true" />
