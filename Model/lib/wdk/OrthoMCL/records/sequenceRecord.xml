@@ -94,30 +94,34 @@
       <attributeQueryRef ref="SequenceAttributes.SequenceAttrs">  
 	<columnAttribute name="source_id" displayName="Source ID" />
 	<columnAttribute name="length" displayName="Length">
-	  <plugin name="histogram" display="Histogram"
-		  description="Display the histogram of the values of this attribute"
-		  implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
-		  view="/wdk/jsp/results/histogram.jsp" />
+             <reporter name="histogram" displayName="Histogram" scopes=""
+               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+              >
+                <description>Display the histogram of the values of this attribute</description>
+              </reporter>
 	</columnAttribute>
 	<columnAttribute name="product" displayName="Product">
-	  <plugin name="wordCloud" display="Word Cloud"
-		  description="Display the terms in the attribute as word clouds"
-		  implementation="org.eupathdb.common.model.attribute.EuPathWordCloudAttributePlugin"
-		  view="/wdk/jsp/results/wordCloud.jsp" />
+             <reporter name="histogram" displayName="Histogram" scopes=""
+               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+              >
+                <description>Display the histogram of the values of this attribute</description>
+              </reporter>
 	</columnAttribute>
 	<columnAttribute name="molecular_weight" displayName="Molecular Weight">
-	  <plugin name="histogram" display="Histogram"
-		  description="Display the histogram of the values of this attribute"
-		  implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
-		  view="/wdk/jsp/results/histogram.jsp" />
+             <reporter name="histogram" displayName="Histogram" scopes=""
+               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+              >
+                <description>Display the histogram of the values of this attribute</description>
+              </reporter>
 	</columnAttribute>
 	<columnAttribute name="ec_numbers" displayName="EC Numbers"/>
 	<columnAttribute name="pfam_domains" displayName="PFam Domains"/>
 	<columnAttribute name="abbreviation" displayName="Taxon Code">
-	  <plugin name="wordCloud" display="Word Cloud"
-		  description="Display the terms in the attribute as word clouds"
-		  implementation="org.eupathdb.common.model.attribute.EuPathWordCloudAttributePlugin"
-		  view="/wdk/jsp/results/wordCloud.jsp" />
+             <reporter name="histogram" displayName="Histogram" scopes=""
+               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+              >
+                <description>Display the histogram of the values of this attribute</description>
+              </reporter>
 	</columnAttribute>
 	<columnAttribute name="taxon_name" displayName="Taxon Name" />
       </attributeQueryRef>
@@ -159,10 +163,11 @@
       </attributeQueryRef>
 
       <linkAttribute displayName="Group ID" name="group_link" inReportMaker="false" internal="false" >
-	<plugin name="wordCloud" display="Word Cloud"
-		description="Display the terms in the attribute as word clouds"
-		implementation="org.eupathdb.common.model.attribute.EuPathWordCloudAttributePlugin"
-		view="/wdk/jsp/results/wordCloud.jsp" />
+             <reporter name="histogram" displayName="Histogram" scopes=""
+               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+              >
+                <description>Display the histogram of the values of this attribute</description>
+              </reporter>
 	<displayText>
 	  <![CDATA[ $$group_name$$  ]]>
 	</displayText>
