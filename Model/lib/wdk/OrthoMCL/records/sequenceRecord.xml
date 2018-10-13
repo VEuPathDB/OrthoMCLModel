@@ -27,19 +27,19 @@
       <!-- =============================================================== -->
 
       <reporter name="attributesTabular" displayName="%%attributesReporterDisplayName%%" scopes="results"
-                implementation="org.gusdb.wdk.model.report.AttributesTabularReporter"/>
+                implementation="org.gusdb.wdk.model.report.reporter.AttributesTabularReporter"/>
 
       <reporter name="tableTabular" displayName="%%tableReporterDisplayName%%" scopes="results"
-                implementation="org.gusdb.wdk.model.report.TableTabularReporter"/>
+                implementation="org.gusdb.wdk.model.report.reporter.TableTabularReporter"/>
 
       <reporter name="fullRecord" displayName="%%fullReporterDisplayName%%" scopes="record"
-                implementation="org.gusdb.wdk.model.report.FullRecordReporter"/>
+                implementation="org.gusdb.wdk.model.report.reporter.FullRecordReporter"/>
 
       <reporter name="xml" displayName="XML: choose from columns and/or tables" scopes=""
-                implementation="org.gusdb.wdk.model.report.XMLReporter"/>
+                implementation="org.gusdb.wdk.model.report.reporter.XMLReporter"/>
 
       <reporter name="json" displayName="json: choose from columns and/or tables" scopes=""
-                implementation="org.gusdb.wdk.model.report.JSONReporter"/>
+                implementation="org.gusdb.wdk.model.report.reporter.JSONReporter"/>
 
       <reporter name="fasta" displayName="FASTA: protein sequence" scopes="record,results"
                 implementation="org.orthomcl.model.report.FastaReporter"/>
@@ -95,21 +95,21 @@
 	<columnAttribute name="source_id" displayName="Source ID" />
 	<columnAttribute name="length" displayName="Length">
              <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
               >
                 <description>Display the histogram of the values of this attribute</description>
               </reporter>
 	</columnAttribute>
 	<columnAttribute name="product" displayName="Product">
              <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
               >
                 <description>Display the histogram of the values of this attribute</description>
               </reporter>
 	</columnAttribute>
 	<columnAttribute name="molecular_weight" displayName="Molecular Weight">
              <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
               >
                 <description>Display the histogram of the values of this attribute</description>
               </reporter>
@@ -118,7 +118,7 @@
 	<columnAttribute name="pfam_domains" displayName="PFam Domains"/>
 	<columnAttribute name="abbreviation" displayName="Taxon Code">
              <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
               >
                 <description>Display the histogram of the values of this attribute</description>
               </reporter>
@@ -164,7 +164,7 @@
 
       <linkAttribute displayName="Group ID" name="group_link" inReportMaker="false" internal="false" >
              <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
               >
                 <description>Display the histogram of the values of this attribute</description>
               </reporter>
