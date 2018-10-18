@@ -107,7 +107,7 @@
                               internal="true" inReportMaker="false"/>
              <columnAttribute name="score" displayName="Score">
              <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
               >
                 <description>Display the histogram of the values of this attribute</description>
               </reporter>
@@ -290,7 +290,7 @@
            <columnAttribute name="Locations" displayName="Match Locations" align="center"/>
            <columnAttribute name="MatchCount" displayName="Match Count" align="center">
              <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.HistogramAttributeReporter"
+               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
               >
                 <description>Display the histogram of the values of this attribute</description>
               </reporter>
