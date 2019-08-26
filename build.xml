@@ -1,26 +1,6 @@
 <project name="OrthoMCLModel" default="Installation" basedir=".">
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
-  <!-- oooooooooooooooooooooooooo  Dependencies  oooooooooooooooooooooooooo -->
-  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
-
-  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
-  <!-- oooooooooooooooooooooooooo    Checkout    oooooooooooooooooooooooooo -->
-  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
-
-  <target name="OrthoMCLModel-ChildCheckout">
-  </target>
-  
-  
-  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
-  <!-- oooooooooooooooooooooooooo    Update    oooooooooooooooooooooooooo -->
-  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
-
-  <target name="OrthoMCLModel-ChildUpdate" >
-  </target>
-
-
-  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
@@ -29,52 +9,53 @@
                                                       OrthoMCLModel/Ppe-Installation,
                                                       OrthoMCLModel/Model-Installation">
 
-    <ant target="defaultProjectInstall"/>
+    <ant target="defaultProjectInstall" />
 
-  </target>  
+  </target>
 
   <target name="OrthoMCLModel-MavenInstallation">
     <ant target="mavenBuildProject">
-      <property name="project" value="OrthoMCLModel"/>
+      <property name="project" value="OrthoMCLModel" />
     </ant>
-    <property name="alreadyBuilt" value="true"/>
+    <property name="alreadyBuilt" value="true" />
   </target>
-  
+
 
   <!-- oooooooooooooooooo  Installation Postprocess  ooooooooooooooooooooo -->
 
   <target name="OrthoMCLModel-Installation-postprocess">
-    <echo message="Postprocessing the OrthoMCLModel installation"/>
+    <echo message="Postprocessing the OrthoMCLModel installation" />
 
-    <replace dir="${targetDir}/bin" 
-             propertyFile="${targetDir}/config/replacements.prop" > 
+    <replace dir="${targetDir}/bin"
+             propertyFile="${targetDir}/config/replacements.prop">
       <include name="**/*" />
-      <replacefilter token="@perl@" property="perl"/>
-    </replace> 
+      <replacefilter token="@perl@" property="perl" />
+    </replace>
 
   </target>
 
 
   <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLModel/MapProteomeService-Installation" depends="ProjectTree">
+  <target name="OrthoMCLModel/MapProteomeService-Installation"
+          depends="ProjectTree">
     <ant target="defaultComponentInstall">
-      <property name="project" value="OrthoMCLModel"/>
-      <property name="component" value="MapProteomeService"/>
+      <property name="project" value="OrthoMCLModel" />
+      <property name="component" value="MapProteomeService" />
     </ant>
-  </target>  
+  </target>
 
   <target name="OrthoMCLModel/Ppe-Installation" depends="ProjectTree">
     <ant target="defaultComponentInstall">
-      <property name="project" value="OrthoMCLModel"/>
-      <property name="component" value="Ppe"/>
+      <property name="project" value="OrthoMCLModel" />
+      <property name="component" value="Ppe" />
     </ant>
-  </target>  
+  </target>
 
   <target name="OrthoMCLModel/Model-Installation" depends="ProjectTree">
     <ant target="defaultComponentInstall">
-      <property name="project" value="OrthoMCLModel"/>
-      <property name="component" value="Model"/>
+      <property name="project" value="OrthoMCLModel" />
+      <property name="component" value="Model" />
     </ant>
   </target>
 
@@ -85,11 +66,11 @@
 
   <target name="OrthoMCLModel-Distributable" depends="ProjectTree">
     <copy todir="${targetDir}">
-      <fileset dir="${projectsDir}" >
+      <fileset dir="${projectsDir}">
         <exclude name="**/CVS/*" />
       </fileset>
-    </copy>  
-  </target>  
+    </copy>
+  </target>
 
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
@@ -97,8 +78,8 @@
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
   <target name="ProjectTree" if="${checkout}">
-    <ant target="projectCheckOut"/>
-  </target>  
+    <ant target="projectCheckOut" />
+  </target>
 
 </project>
 
