@@ -58,9 +58,7 @@
       <!-- =============================================================== -->
 
 <!--
-       <summaryView name="layout-view" display="Cluster Graph"
-                    jsp="/wdkCustomization/jsp/results/sequence-layout.jsp"
-                    handlerClass="org.orthomcl.model.view.GeneLayoutViewHandler">
+       <summaryView name="layout-view" display="Cluster Graph">
            <description>
                <![CDATA[
                    Display the cluster graph of the sequences in the search result based on their BLAST scores.
@@ -69,8 +67,7 @@
        </summaryView> 
 -->
 
-      <recordView name="_default" display="Overview"
-		  jsp="/wdkCustomization/jsp/records/sequence-default.jsp"/>
+      <recordView name="_default" display="Overview" />
 
 
       

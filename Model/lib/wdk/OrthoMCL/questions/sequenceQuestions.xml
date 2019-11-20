@@ -97,8 +97,7 @@
           ]]>
          </description>
 
-         <summaryView name="blast" display="BLAST" default="true"
-                      jsp="/wdkCustomization/jsp/results/blast-view.jsp" />
+         <summaryView name="blast" display="BLAST" default="true" />
 
          <dynamicAttributes>
              <columnAttribute name="evalue_mant" displayName="E-Value-Mant"

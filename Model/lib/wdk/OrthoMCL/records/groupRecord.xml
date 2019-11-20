@@ -46,23 +46,22 @@
       <!-- Views -->
       <!-- =============================================================== -->
 
-            <summaryView name="phyletic" display="Phyletic pattern"
-                         jsp="/wdkCustomization/jsp/results/phyletic.jsp"/>
+            <summaryView name="phyletic" display="Phyletic pattern" />
 
-            <recordView name="_default" display="Sequences &amp; Statistics"
-                         jsp="/wdkCustomization/jsp/records/group-default.jsp"/>
+            <recordView name="_default" display="Sequences &amp; Statistics"/>
+                         <!--jsp="/wdkCustomization/jsp/records/group-default.jsp"/>-->
 
-            <recordView name="pfam-domain-graph" display="PFam domains (graphic)"
-                         jsp="/wdkCustomization/jsp/records/group-pfam-graph.jsp"/>
+            <recordView name="pfam-domain-graph" display="PFam domains (graphic)"/>
+                         <!--jsp="/wdkCustomization/jsp/records/group-pfam-graph.jsp"/>-->
 
-            <recordView name="pfam-domain-list" display="PFam domains (details)"
-                         jsp="/wdkCustomization/jsp/records/group-pfam-list.jsp"/>
+            <recordView name="pfam-domain-list" display="PFam domains (details)"/>
+                         <!--jsp="/wdkCustomization/jsp/records/group-pfam-list.jsp"/>-->
 
-            <recordView name="msa" display="MSA"
-                         jsp="/wdkCustomization/jsp/records/group-msa.jsp"/>
+            <recordView name="msa" display="MSA"/>
+                         <!--jsp="/wdkCustomization/jsp/records/group-msa.jsp"/>-->
 
-            <recordView name="layout" display="Cluster graph"
-                         jsp="/showLayout.do"/>
+            <recordView name="layout" display="Cluster graph"/>
+                         <!--jsp="/showLayout.do"/>-->
 
 
       <!-- =============================================================== -->
