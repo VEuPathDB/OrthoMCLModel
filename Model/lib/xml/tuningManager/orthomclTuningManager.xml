@@ -97,7 +97,7 @@
               group by sdbr.aa_sequence_id
              ) OldGroups
         where eas.taxon_id = ot.taxon_id
-          and eas.aa_sequence_id = OrthologGroup.aa_sequence_id(+)
+          and eas.aa_sequence_id = OrthologGroup.aa_sequence_id
           and eas.aa_sequence_id = EcNumbers.aa_sequence_id(+)
           and eas.aa_sequence_id = OldGroups.aa_sequence_id(+)
       ]]>
