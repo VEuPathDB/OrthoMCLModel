@@ -15,11 +15,11 @@
     <sql>
       <![CDATA[
         create table SequenceAttributes&1 nologging as
-        select eas.secondary_identifier AS full_id, eas.source_id, eas.aa_sequence_id,
+        select OrthologGroup.ortholog_group_aa_sequence_id, eas.secondary_identifier AS full_id, eas.source_id, eas.aa_sequence_id,
                eas.length, substr(eas.description, 1, 120) AS product,
                eas.molecular_weight, ot.taxon_id, ot.orthomcl_taxon_id,
                ot.three_letter_abbrev AS taxon_abbreviation, ot.name AS taxon_name,
-               OrthologGroup.group_name, OrthologGroup.ortholog_group_id,
+               OrthologGroup.group_name, OrthologGroup.core_peripheral_residual, OrthologGroup.ortholog_group_id,
                OrthologGroup.group_size, EcNumbers.ec_numbers, OldGroups.old_groups,
                case ot.name
                  when 'Aspergillus fumigatus Af293' then 'FungiDB.org/fungidb/showRecord.do?name=GeneRecordClasses.GeneRecordClass&project_id=FungiDB&source_id=' || eas.source_id
@@ -75,7 +75,7 @@
                  else ''
                end as url
         from dots.ExternalAaSequence eas, apidb.OrthomclTaxon ot,
-             (select ogs.aa_sequence_id, og.name as group_name, og.ortholog_group_id, og.number_of_members as group_size
+             (select ogs.ortholog_group_aa_sequence_id, ogs.aa_sequence_id, og.name as group_name, og.core_peripheral_residual, og.ortholog_group_id, og.number_of_members as group_size
               from apidb.OrthologGroupAaSequence ogs, apidb.OrthologGroup og
               where ogs.ortholog_group_id = og.ortholog_group_id) OrthologGroup,
              (select asec.aa_sequence_id,
@@ -105,7 +105,7 @@
     <sql>
       <![CDATA[
         alter table SequenceAttributes&1
-          add constraint SeqAttrs_pk&1 primary key (full_id)
+          add constraint SeqAttrs_pk&1 primary key (ortholog_group_aa_sequence_id)
       ]]>
     </sql>
 
