@@ -8,11 +8,13 @@
     <querySet name="GroupAttributes" queryType="attribute" isCacheable="false">
 
        <defaultTestParamValues>
-            <paramValue name="group_name">OG5_228447</paramValue>
+            <paramValue name="group_name">OG6_101427</paramValue>
        </defaultTestParamValues>
 
         <testRowCountSql>
-            SELECT count(*) FROM apidb.OrthologGroup
+            SELECT count(*)
+	    FROM apidb.OrthologGroup
+	    WHERE core_peripheral_residual in ('C','R')
         </testRowCountSql>
 
 
@@ -88,6 +90,7 @@
             <![CDATA[
                 SELECT g.name AS group_name, l.layout
                 FROM apidb.OrthologGroup g
+		WHERE g.core_peripheral_residual in ('P','R')
 				LEFT JOIN apidb.OrthologGroupLayout l 
 				  ON g.ortholog_group_id = l.ortholog_group_id
                         ]]>
@@ -109,20 +112,20 @@ FROM apidb.OrthologGroup og,
     || ')', ', ') within GROUP (
   ORDER BY ec.ec_number) AS ec_list
   FROM sres.EnzymeClass ec,
-    (SELECT ogs.ortholog_group_id,
+    (SELECT ogs.peripheral_ortholog_group_id,
       asec.enzyme_class_id,
       COUNT(*) AS ec_count
     FROM ApidbTuning.SequenceAttributes ogs,
       dots.AaSequenceEnzymeClass asec
     WHERE asec.aa_sequence_id = ogs.aa_sequence_id
-    AND ogs.ortholog_group_id is not null
-    GROUP BY ogs.ortholog_group_id,
+    GROUP BY ogs.peripheral_ortholog_group_id,
       asec.enzyme_class_id
     ) ec_map
   WHERE ec_map.enzyme_class_id = ec.enzyme_class_id
-  GROUP BY ec_map.ortholog_group_id
+  GROUP BY ec_map.peripheral_ortholog_group_id
   ) ecListMap
-WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
+WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
+      and og.core_peripheral_residual in ('P','R')
 	  </sql>
 	</sqlQuery>
 
@@ -139,6 +142,7 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
                     group by ortholog_group_id
                    ) verbiage
               where og.ortholog_group_id = verbiage.ortholog_group_id(+)
+	      and og.core_peripheral_residual in ('P','R')
             ]]>
 	  </sql>
 	</sqlQuery>
@@ -156,6 +160,7 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
                     group by ortholog_group_id
                    ) domains
               where og.ortholog_group_id = domains.ortholog_group_id(+)
+	      and og.core_peripheral_residual in ('P','R') 
             ]]>
 	  </sql>
 	</sqlQuery>
@@ -169,7 +174,7 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
     <querySet name="GroupTables" queryType="table"  isCacheable="false">
 
       <defaultTestParamValues>
-            <paramValue name="group_name">OG5_228447</paramValue>
+            <paramValue name="group_name">OG6_101427</paramValue>
       </defaultTestParamValues>
 
 
@@ -276,6 +281,7 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
             <![CDATA[
               select name as group_name, name as name_string
               from apidb.OrthologGroup
+	      where core_peripheral_residual in ('P','R')
             ]]>
           </sql>
         </sqlQuery>
@@ -290,6 +296,7 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
               select og.name as group_name, k.keyword, k.frequency
               from apidb.OrthologGroup og, apidb.OrthomclGroupKeyword k
               WHERE og.ortholog_group_id = k.ortholog_group_id
+	            and og.core_peripheral_residual in ('P','R')
             ]]>
           </sql>
         </sqlQuery>
@@ -303,6 +310,7 @@ WHERE og.ortholog_group_id = ecListMap.ortholog_group_id(+)
               select og.name as group_name, d.description AS keyword, d.frequency
               from apidb.OrthologGroup og, apidb.OrthomclGroupDomain d
               WHERE og.ortholog_group_id = d.ortholog_group_id
+	           and where og.core_peripheral_residual in ('P','R')
             ]]>
           </sql>
         </sqlQuery>

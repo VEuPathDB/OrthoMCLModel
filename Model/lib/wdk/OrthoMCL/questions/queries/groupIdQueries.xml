@@ -15,14 +15,14 @@
                 SELECT og.name AS group_name
                 FROM apidb.OrthologGroup og, ($$group_names$$) ds
                 WHERE lower(og.name) = lower(ds.group_name)
+		      and og.core_peripheral_residual in ('P','R')
                 UNION
                 SELECT sa.group_name
                 FROM ApidbTuning.SequenceAttributes sa,
                      Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
                      Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr,
                 	 ($$group_names$$) ds
-                WHERE sa.group_name is not null
-                  AND sa.aa_sequence_id = seqref.aa_sequence_id
+                WHERE sa.aa_sequence_id = seqref.aa_sequence_id
                   AND seqref.db_ref_id = ref.db_ref_id
                   AND ref.external_database_release_id = dbr.external_database_release_id
                   AND dbr.external_database_id = db.external_database_id
@@ -41,13 +41,13 @@
               SELECT og.name AS group_name
               FROM apidb.OrthologGroup og
               WHERE og.name LIKE replace($$group_name$$, '*', '%')
+	            and og.core_peripheral_residual in ('P','R')
               UNION
               SELECT sa.group_name
               FROM ApidbTuning.SequenceAttributes sa,
                    Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
                    Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr
-              WHERE sa.group_name is not null
-                AND sa.aa_sequence_id = seqref.aa_sequence_id
+              WHERE sa.aa_sequence_id = seqref.aa_sequence_id
                 AND seqref.db_ref_id = ref.db_ref_id
                 AND ref.external_database_release_id = dbr.external_database_release_id
                 AND dbr.external_database_id = db.external_database_id
@@ -58,7 +58,6 @@
               FROM ApidbTuning.SequenceAttributes sa
               WHERE (sa.source_id LIKE replace($$group_name$$, '*', '%')
                      OR sa.full_id LIKE replace($$group_name$$, '*', '%'))
-                AND sa.group_name is not null
             ]]>
           </sql>
         </sqlQuery>
@@ -92,8 +91,7 @@
 SELECT DISTINCT sa.group_name
 FROM ApidbTuning.SequenceAttributes sa,
      dots.AaSequenceImp asi
-WHERE sa.group_name is not null
-  AND sa.aa_sequence_id = asi.aa_sequence_id
+WHERE sa.aa_sequence_id = asi.aa_sequence_id
   AND asi.subclass_view = 'ExternalAASequence'
   AND CATSEARCH(asi.description, $$keyword$$, '')>0
                 ]]>
@@ -111,6 +109,7 @@ SELECT og.name AS group_name
 FROM apidb.OrthologGroup og
 WHERE og.number_of_members >= $$sequence_count_min$$
   AND og.number_of_members <= $$sequence_count_max$$
+  and og.core_peripheral_residual in ('P','R')
                 ]]>
             </sql>
         </sqlQuery>
@@ -124,7 +123,6 @@ WHERE og.number_of_members >= $$sequence_count_min$$
               <![CDATA[
                 select group_name, count(distinct taxon_id) genome_count
                 from ApidbTuning.SequenceAttributes
-                where group_name is not null
                 group by group_name
                 having count(distinct taxon_id) between $$genome_count_min$$ and $$genome_count_max$$
                 order by count(distinct taxon_id), group_name
@@ -142,6 +140,7 @@ WHERE og.number_of_members >= $$sequence_count_min$$
 SELECT name as group_name
 FROM apidb.OrthologGroup
 WHERE avg_connectivity between $$percent_min$$ AND $$percent_max$$
+   and core_peripheral_residual in ('P','R')
                 ]]>
             </sql>
         </sqlQuery>
@@ -156,6 +155,7 @@ WHERE avg_connectivity between $$percent_min$$ AND $$percent_max$$
 SELECT name as group_name
 FROM apidb.OrthologGroup
 WHERE percent_match_pairs between $$percent_min$$ AND $$percent_max$$
+      and core_peripheral_residual in ('P','R')
                 ]]>
             </sql>
         </sqlQuery>
@@ -171,6 +171,7 @@ SELECT og.name AS group_name
 FROM apidb.OrthologGroup og
 WHERE og.avg_percent_identity >= $$percent_min$$
   AND og.avg_percent_identity <= $$percent_max$$
+  and og.core_peripheral_residual in ('P','R')
                 ]]>
             </sql>
         </sqlQuery>
@@ -186,6 +187,7 @@ SELECT og.name AS group_name
 FROM apidb.OrthologGroup og
 WHERE og.avg_percent_match >= $$percent_min$$
   AND og.avg_percent_match <= $$percent_max$$
+  and og.core_peripheral_residual in ('P','R')
                 ]]>
             </sql>
         </sqlQuery>
@@ -201,6 +203,7 @@ SELECT og.name AS group_name
 FROM apidb.OrthologGroup og
 WHERE og.avg_evalue_exp >= $$evalue_min$$
   AND og.avg_evalue_exp <= $$evalue_max$$
+  and og.core_peripheral_residual in ('P','R')
                 ]]>
             </sql>
         </sqlQuery>
@@ -214,6 +217,7 @@ WHERE og.avg_evalue_exp >= $$evalue_min$$
 SELECT og.name AS group_name
 FROM apidb.OrthologGroup og, ($$phyletic_expression$$) ex
 WHERE og.ortholog_group_id = ex.ortholog_group_id
+and og.core_peripheral_residual in ('P','R')
                 ]]>
             </sql>
         </sqlQuery>
@@ -236,7 +240,6 @@ ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_number_type_ahead$$
 )
                       and asec.enzyme_class_id = ec.enzyme_class_id
                       and sa.aa_sequence_id = asec.aa_sequence_id
-                      and sa.group_name is not null                    
                  ]]>
             </sql>
         </sqlQuery>
@@ -250,7 +253,6 @@ ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_number_type_ahead$$
 SELECT sa.group_name, sum(answer.wdk_weight) AS wdk_weight
 FROM ApidbTuning.SequenceAttributes sa, ($$sequence_answer$$) answer
 WHERE sa.full_id = answer.full_id
-  AND sa.group_name is not null
 GROUP BY sa.group_name
                 ]]>
             </sql>
@@ -260,7 +262,9 @@ GROUP BY sa.group_name
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT og.name AS group_name FROM apidb.OrthologGroup og
+SELECT og.name AS group_name
+FROM apidb.OrthologGroup og
+WHERE og.core_peripheral_residual in ('P','R')
               ]]>
             </sql>
         </sqlQuery>

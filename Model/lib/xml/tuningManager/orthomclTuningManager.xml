@@ -85,7 +85,7 @@
               where og.core_peripheral_residual='C'
                     and p.group_name = og.name
 	     UNION
-	     select ogs.aa_sequence_id, og.name as group_name, og.ortholog_group_id, og.number_of_members as group_size, NULL as peripheral_ortholog_group_id, NULL as peripheral_group_size         
+	     select ogs.aa_sequence_id, og.name as group_name, og.ortholog_group_id, og.number_of_members as group_size,og.ortholog_group_id as peripheral_ortholog_group_id, og.number_of_members as peripheral_group_size         
 	     from apidb.OrthologGroupAaSequence ogs, apidb.OrthologGroup og                                                                  
 	     where ogs.ortholog_group_id = og.ortholog_group_id
 	         and og.core_peripheral_residual='R'
