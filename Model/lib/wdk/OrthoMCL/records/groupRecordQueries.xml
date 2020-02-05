@@ -89,10 +89,9 @@
             <sql>
             <![CDATA[
                 SELECT g.name AS group_name, l.layout
-                FROM apidb.OrthologGroup g
-		WHERE g.core_peripheral_residual in ('P','R')
-				LEFT JOIN apidb.OrthologGroupLayout l 
-				  ON g.ortholog_group_id = l.ortholog_group_id
+                FROM apidb.OrthologGroup g, apidb.OrthologGroupLayout l 
+		WHERE g.ortholog_group_id = l.ortholog_group_id(+)
+		     and g.core_peripheral_residual in ('P','R')
                         ]]>
             </sql>
         </sqlQuery>
@@ -105,7 +104,7 @@
 SELECT og.name AS group_name,
   ecListMap.ec_list as ec_numbers
 FROM apidb.OrthologGroup og,
-  (SELECT ec_map.ortholog_group_id,
+  (SELECT ec_map.peripheral_ortholog_group_id,
     listagg(ec.ec_number
     || ' ('
     || ec_count
