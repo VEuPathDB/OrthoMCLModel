@@ -49,7 +49,7 @@
       <!-- =============================================================== -->
       
       <attributesList
-        summary="group_link, group_size, source_link, taxon_name, abbreviation, length, product, ec_numbers"
+        summary="core_peripheral, group_link, group_size, peripheral_group_size, source_link, taxon_name, abbreviation, length, product, ec_numbers"
         sorting="primary_key asc"/>
 
 
@@ -124,8 +124,10 @@
       
       
       <attributeQueryRef ref="SequenceAttributes.SequenceGroup">
+	<columnAttribute name="core_peripheral" displayName="Core/Peripheral Species" internal="false" inReportMaker="true" />
 	<columnAttribute name="group_name" displayName="Group ID" internal="false" inReportMaker="true" />
-	<columnAttribute name="group_size" displayName="Group Size" internal="false"/>
+	<columnAttribute name="group_size" displayName="Original Group Size" internal="false"/>
+	<columnAttribute name="peripheral_group_size" displayName="Expanded Group Size" internal="false"/>
 	<columnAttribute name="url" displayName="Source Database Link" internal="true" inReportMaker="true" />
 	<columnAttribute name="link_text" internal="true" inReportMaker="false" />
 

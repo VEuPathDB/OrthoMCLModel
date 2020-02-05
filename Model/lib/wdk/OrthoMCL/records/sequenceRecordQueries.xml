@@ -68,16 +68,18 @@ WHERE eas.taxon_id = ot.taxon_id
 
         <sqlQuery name="SequenceGroup">
            <column name="full_id"/>
+           <column name="core_peripheral"/>
            <column name="group_name"/>
            <column name="group_size"/>
+           <column name="peripheral_group_size"/>
            <column name="url"/>
            <column name="link_text"/>
            <sql>
              <![CDATA[
-               SELECT sa.full_id, sa.group_name, sa.group_size, sa.url,
-                      case when sa.url is null then null
-                           else sa.full_id
-                      end as link_text
+               SELECT sa.full_id, 
+	              CASE sa.core_peripheral WHEN 'C' THEN 'Core' WHEN 'P' THEN 'Peripheral' END AS core_peripheral,
+		      sa.group_name, sa.group_size, sa.peripheral_group_size, sa.url,
+                      case when sa.url is null then null else sa.full_id end as link_text
                FROM ApidbTuning.SequenceAttributes sa
              ]]>
            </sql>

@@ -19,21 +19,39 @@
         <sqlQuery name="GroupAttrs">
             <column name="group_name"/>
             <column name="number_of_members"/>
+            <column name="avg_percent_identity"/>
             <column name="number_of_match_pairs"/>
             <column name="percent_match_pairs"/>
-            <column name="avg_percent_identity"/>
             <column name="avg_percent_match"/>
             <column name="avg_evalue_mant"/>
             <column name="avg_evalue_exp"/>
             <column name="avg_connectivity"/>
+            <column name="peripheral_num_members"/>
+            <column name="peripheral_avg_percent_identity"/>
             <sql>
             <![CDATA[
-                SELECT g.name AS group_name, g.number_of_members,
-                       round(percent_match_pairs, 1) as percent_match_pairs,
-                       g.number_of_match_pairs, g.avg_percent_identity,
-					   g.avg_percent_match, round(g.avg_connectivity, 1) as avg_connectivity,
-					   round(g.avg_evalue_mant,1) as avg_evalue_mant, g.avg_evalue_exp
-                FROM apidb.OrthologGroup g
+		     select p.group_name, c.number_of_members, c.avg_percent_identity, c.percent_match_pairs, c.number_of_match_pairs,
+		            c.avg_percent_match, c.avg_connectivity, c.avg_evalue_mant, c.avg_evalue_exp,
+		            p.peripheral_num_members, p.peripheral_avg_percent_identity
+		     from
+		          (select og.name as group_name, og.number_of_members, og.avg_percent_identity,
+			  round(og.percent_match_pairs, 1) as percent_match_pairs, og.number_of_match_pairs,
+			  og.avg_percent_match, round(og.avg_connectivity, 1) as avg_connectivity,         
+                             round(og.avg_evalue_mant,1) as avg_evalue_mant, og.avg_evalue_exp
+			  from apidb.OrthologGroup og                                                                  
+			  where og.core_peripheral_residual='C') c,
+			  (select og.name as group_name, og.number_of_members as peripheral_num_members,
+			  og.avg_percent_identity as peripheral_avg_percent_identity                                                         
+			  from apidb.OrthologGroup og                                                                  
+			  where og.core_peripheral_residual='P') p
+		     where c.group_name = p.group_name
+		     UNION
+		     select og.name as group_name, og.number_of_members, og.avg_percent_identity, round(og.percent_match_pairs, 1) as percent_match_pairs,
+                       og.number_of_match_pairs, og.avg_percent_match, round(og.avg_connectivity, 1) as avg_connectivity,
+			     round(og.avg_evalue_mant,1) as avg_evalue_mant, og.avg_evalue_exp, NULL as peripheral_num_members, 
+			     NULL as peripheral_avg_percent_identity
+		     from apidb.OrthologGroup og                                                                  
+		     where og.core_peripheral_residual='R'
 			]]>
             </sql>
         </sqlQuery>
