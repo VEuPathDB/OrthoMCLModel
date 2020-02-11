@@ -7,14 +7,14 @@
 
         <datasetParam name="source_ids" prompt="Sequence Ids"
 		      recordClassRef="SequenceRecordClasses.SequenceRecordClass">
-            <help>A list of source ids of the protein sequences.</help>
+            <help>>Sequence source ids from current or previous releases.</help>
             <suggest default="PF11_0344" />
         </datasetParam>
 
 
         <stringParam name="accession" prompt="Accession" number="false">
-            <help>Sequence source ids from current or previous releases. Wild card is supported</help>
-            <suggest default="PF11_0344" />
+            <help>Sequence source ids from current release. Wild card is supported</help>
+            <suggest default="PF3D7_1133400" />
         </stringParam>
        
          <flatVocabParam name="taxon_type_ahead"

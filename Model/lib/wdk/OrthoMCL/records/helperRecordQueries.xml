@@ -31,11 +31,19 @@
             <column name="group_count"/>
             <sql>
             <![CDATA[
-SELECT 'helper' AS helper_id, 
-       count(DISTINCT taxon_id) AS organism_count, 
-       count(*) AS protein_count, 
-       max((SELECT count(*) FROM apidb.OrthologGroup)) AS group_count
-FROM dots.ExternalAaSequence                        
+SELECT 'helper' AS helper_id, organism_count, protein_count, group_count    
+FROM 
+    ( select count(orthomcl_taxon_id) as organism_count
+      from apidb.OrthomclTaxon
+      where core_peripheral in ('C','P') ),
+    ( select count(ogas.ortholog_group_aa_sequence_id) AS protein_count   
+      from APIDB.orthologgroupaasequence ogas
+           , APIDB.orthologgroup og
+      where ogas.ortholog_group_id = og.ortholog_group_id
+            and og.core_peripheral_residual in ('P','R') ),
+    ( select count(ortholog_group_id) AS group_count
+      from APIDB.orthologgroup
+      where core_peripheral_residual in ('P','R') )
             ]]>
             </sql>
         </sqlQuery>
@@ -85,9 +93,10 @@ ORDER BY parent_id ASC, species_order ASC
             <![CDATA[
 SELECT 'helper' AS helper_id, 
        ot.name, ot.three_letter_abbrev,
-       od.resource_name, od.resource_url, od.description
+       od.resource_name, od.resource_url, od.description,
+       case ot.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral
 FROM apidb.OrthomclTaxon ot, apidb.OrthomclResource od
-WHERE od.orthomcl_taxon_id = ot.orthomcl_taxon_id
+WHERE od.orthomcl_taxon_id(+) = ot.orthomcl_taxon_id
   AND ot.is_species != 0
 ORDER BY ot.name
             ]]>
@@ -102,10 +111,12 @@ ORDER BY ot.name
             <column name="sequences"/>
             <column name="clustered_sequences"/>
             <column name="groups"/>
+            <column name="core_peripheral"/>
             <sql>
               <![CDATA[
                 SELECT 'helper' AS helper_id, ot.name, ot.three_letter_abbrev, stats.sequences,
-                       stats.clustered_sequences, stats.groups
+                       stats.clustered_sequences, stats.groups,
+		       case ot.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral
                 FROM apidb.OrthomclTaxon ot,
                      (select orthomcl_taxon_id, count(*) sequences,
                              count(distinct ortholog_group_id) groups,

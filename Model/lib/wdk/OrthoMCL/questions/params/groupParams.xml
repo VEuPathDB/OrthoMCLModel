@@ -7,13 +7,13 @@
 
         <stringParam name="group_name" prompt="Group Name" number="false">
             <help>Assigned group name from current or previous releases. Wild card is supported</help>
-            <suggest default="OG5_131227" />
+            <suggest default="OG6_101327" />
         </stringParam>
 
         <datasetParam name="group_names" prompt="Group Names"
 					  recordClassRef="GroupRecordClasses.GroupRecordClass">
             <help>a list of group names</help>
-            <suggest default="OG5_228447, OG5_131227" />
+            <suggest default="OG6_101327, OG6r1_101327" />
         </datasetParam>
 
         <stringParam name="sequence_count_min" prompt="Min # sequences" number="true">
