@@ -206,6 +206,7 @@
 		</url>
 	      </linkAttribute>
 	      <columnAttribute name="full_id" internal="true" />
+	      <columnAttribute name="core_peripheral" displayName="Core/Peripheral" />
 	      <columnAttribute name="taxon_name" displayName="Taxon" />
 	      <columnAttribute name="length" displayName="Length" />
 	      <columnAttribute name="previous_groups" displayName="Previous Groups" />
@@ -231,7 +232,8 @@
                 <columnAttribute name="accession" displayName="Accession Number" />
                 <columnAttribute name="symbol" displayName="Symbol" />
                 <columnAttribute name="full_id" displayName="Source Id" />
-                <columnAttribute name="length" displayName="Length" />
+                <columnAttribute name="core_peripheral" displayName="Core/Peripheral" />
+                <columnAttribute name="protein_length" displayName="Length" />
                 <columnAttribute name="start_min" displayName="End" />
                 <columnAttribute name="end_max" displayName="Start" />
                 <columnAttribute name="domain_index" internal="true" />

@@ -195,6 +195,7 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
       </sqlQuery>
 
         <sqlQuery name="Proteins">
+            <column name="core_peripheral"/>
             <column name="group_name"/>
             <column name="full_id"/>
             <column name="taxon_name"/>
@@ -205,7 +206,8 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
             <column name="ec_numbers"/>
             <sql>
               <![CDATA[
-                select sa.group_name, sa.full_id, sa.taxon_name, sa.taxon_abbreviation AS taxon_abbrev,
+                select case sa.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral,
+		       sa.group_name, sa.full_id, sa.taxon_name, sa.taxon_abbreviation AS taxon_abbrev,
                        sa.length, sa.product as description,
                        sa.old_groups as previous_groups, sa.ec_numbers
                 from ApidbTuning.SequenceAttributes sa
@@ -237,14 +239,16 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
           <column name="accession"/>
           <column name="symbol"/>
           <column name="full_id"/>
+          <column name="core_peripheral"/>
           <column name="domain_index"/>
-          <column name="length"/>
+          <column name="protein_length"/>
           <column name="start_min"/>
           <column name="end_max"/>
           <sql>
             <![CDATA[
      SELECT sa.group_name, sa.full_id, da.accession, da.symbol, da.domain_index,
-            sa.length, da.start_min, da.end_max
+            sa.length as protein_length, da.start_min, da.end_max,
+	    case sa.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral
      from ApidbTuning.SequenceAttributes sa            
      Left outer join ApidbTuning.DomainAssignment da
      on da.full_id = sa.full_id
