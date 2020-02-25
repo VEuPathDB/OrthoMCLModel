@@ -14,7 +14,7 @@
         <testRowCountSql>
             SELECT count(*)
 	    FROM apidb.OrthologGroup
-	    WHERE core_peripheral_residual in ('C','R')
+	    WHERE core_peripheral_residual in ('P','R')
         </testRowCountSql>
 
 
@@ -36,9 +36,9 @@
 			    decode(percent_match_pairs,null,'',round(percent_match_pairs,1)) as percent_match_pairs,
 		            decode(avg_percent_match,null,'',round(avg_percent_match,1)) as avg_percent_match,
 			    decode(avg_connectivity,null,'',round(100*avg_connectivity/(number_of_members-1),1)) as avg_connectivity,
-			    avg_evalue_mant, avg_evalue_exp,
-			    case core_peripheral_residual when 'C' then 'Core' when 'P' then 'Peripheral' when 'R' then 'Residual' else '' end as group_type
+			    avg_evalue_mant, avg_evalue_exp
 		     from apidb.OrthologGroup
+		     where core_peripheral_residual in ('P','R') 
 			]]>
             </sql>
         </sqlQuery>
@@ -50,6 +50,7 @@
             <![CDATA[
                 SELECT g.name AS group_name, g.multiple_sequence_alignment AS msa
                 FROM apidb.OrthologGroup g
+		where core_peripheral_residual in ('C','R') 
                         ]]>
             </sql>
         </sqlQuery>

@@ -85,6 +85,7 @@ ORDER BY parent_id ASC, species_order ASC
         <sqlQuery name="DataSummary" isCacheable="true">
             <column name="helper_id"/>
             <column name="name"/>
+            <column name="core_peripheral"/>
             <column name="three_letter_abbrev"/>
             <column name="resource_name"/>
             <column name="resource_url"/>
