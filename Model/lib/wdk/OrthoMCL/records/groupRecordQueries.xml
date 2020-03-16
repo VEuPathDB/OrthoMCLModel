@@ -186,6 +186,7 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
             <column name="number_of_members"/>
             <column name="avg_percent_identity"/>
             <column name="number_of_match_pairs"/>
+            <column name="max_match_pairs"/>
             <column name="percent_match_pairs"/>
             <column name="avg_percent_match"/>
             <column name="avg_evalue_mant"/>
@@ -196,10 +197,11 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
 		     select name as group_name, number_of_members, number_of_match_pairs,
 		            decode(avg_percent_identity,null,'',round(avg_percent_identity,1)) as avg_percent_identity,
 			    decode(percent_match_pairs,null,'',round(percent_match_pairs,1)) as percent_match_pairs,
+			    number_of_members*(number_of_members-1)/2 as max_match_pairs,
 		            decode(avg_percent_match,null,'',round(avg_percent_match,1)) as avg_percent_match,
 			    decode(avg_connectivity,null,'',round(100*avg_connectivity/(number_of_members-1),1)) as avg_connectivity,
-			    avg_evalue_mant, avg_evalue_exp,
-			    case core_peripheral_residual when 'C' then 'Core only' when 'P' then 'Core+Peripheral' when 'R' then 'Residual only' else '' end as group_type
+			    round(avg_evalue_mant,1) as avg_evalue_mant, avg_evalue_exp,
+			    case core_peripheral_residual when 'C' then 'Core only' when 'P' then 'Core+Peripheral' when 'R' then 'Peripheral only' else '' end as group_type
 		     from apidb.OrthologGroup
 			]]>
             </sql>

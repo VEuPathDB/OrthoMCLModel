@@ -184,11 +184,14 @@
                    queryRef="GroupTables.Statistics">
                 <columnAttribute name="group_type" displayName="Protein types" />
                 <columnAttribute name="number_of_members" displayName="# Proteins" />
-                <columnAttribute name="avg_percent_identity" displayName="Average % Identity" help="The average of the percent identity of all pairs of sequences in a group that have an above-threshold similarity.  See the Methods Section for details." />
-                <columnAttribute name="avg_connectivity" displayName="Average % Connectivity" help="The average percent connectivity of the sequences in a group.  Each sequence's connectivity is the number of Ortholog, CoOrtholog or Inparalog pairs assigned by the OrthoMCL algorithm.  The average percent is that number summed for all the sequences and divided by the number of possible pairs each sequence could have.  See the Methods Section for details."/>
+                <columnAttribute name="avg_percent_match" displayName="Avg % Match" />
+		<columnAttribute name="avg_percent_identity" displayName="Avg % Identity" help="The average of the percent identity of all pairs of sequences in a group that have an above-threshold similarity.  See the Methods Section for details." />
+                <columnAttribute name="number_of_match_pairs" displayName="Num Matched Pairs"/>
+                <columnAttribute name="max_match_pairs" displayName="Max Possible Matched Pairs"/>
+                <columnAttribute name="percent_match_pairs" displayName="% Matched Pairs"/>
                 <columnAttribute name="avg_evalue_mant" displayName="Average E-value Mant" internal="true" />
                 <columnAttribute name="avg_evalue_exp" displayName="Average E-value Exp" internal="true" />
-		<textAttribute name="avg_evalue" displayName="Average E-value" help="The average Blast e-value obtained between each pair of sequences. See the Methods Section for details.">
+		<textAttribute name="avg_evalue" displayName="Avg Blast E-value" help="The average Blast e-value obtained between each pair of sequences. See the Methods Section for details.">
 		  <text>
 		    <![CDATA[
 			     $$avg_evalue_mant$$E$$avg_evalue_exp$$
