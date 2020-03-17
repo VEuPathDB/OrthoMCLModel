@@ -92,35 +92,35 @@
 
             <attributeQueryRef ref="GroupAttributes.GroupAttrs">  
 
-                <columnAttribute name="number_of_members" displayName="# Proteins">
+                <columnAttribute name="number_of_members" displayName="Total Number Proteins">
 		  <plugin name="histogram" display="Histogram"
 			  description="Display the histogram of the values of this attribute"
                           implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                           view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
 
-		<columnAttribute name="avg_connectivity" displayName="Average % Connectivity" help="The average percent connectivity of the sequences in a group.  Each sequence's connectivity is the number of Ortholog, CoOrtholog or Inparalog pairs assigned by the OrthoMCL algorithm.  The average percent is that number summed for all the sequences and divided by the number of possible pairs each sequence could have.  See the Methods Section for details.">
+		<columnAttribute name="avg_connectivity" displayName="Average % Homology" help="The average percent homology for all proteins in the group. Each protein's percent homology is the number of its Ortholog, CoOrtholog or Inparalog pairs assigned by the OrthoMCL algorithm divided by the total number of possible pairs for that protein. See the Methods Section for details.">
 		  <plugin name="histogram" display="Histogram"
                           description="Display the histogram of the values of this attribute"
                           implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                           view="/wdk/jsp/results/histogram.jsp" />
 		</columnAttribute>
 
-                <columnAttribute name="percent_match_pairs" displayName="% Similar Pairs" help="The percent of sequence pairs in a group that have an above-threshold similarity  See the Methods Section for details.">
+                <columnAttribute name="percent_match_pairs" displayName="% Protein Pairs With Similarity" help="The percent of sequence pairs in a group that have an above-threshold similarity  See the Methods Section for details.">
 		  <plugin name="histogram" display="Histogram"
                           description="Display the histogram of the values of this attribute"
                           implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                           view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
 
-               <columnAttribute name="avg_percent_identity" displayName="Average % Identity" help="The average of the percent identity of all pairs of sequences in a group that have an above threshold similarity.  See the Methods Section for details.">
+               <columnAttribute name="avg_percent_identity" displayName="Average % Identity" help="The average percent identity between two sequences in the group that have an above-threshold similarity. See the Methods Section for details.">
 		 <plugin name="histogram" display="Histogram"
                          description="Display the histogram of the values of this attribute"
                          implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
                          view="/wdk/jsp/results/histogram.jsp" />
                 </columnAttribute>
 
-		<columnAttribute name="avg_percent_match" displayName="Avg % Match Length" help="The average of the percent match length of all pairs of sequences in a group that have an above threshold similarity.  See the Methods Section for details.">
+		<columnAttribute name="avg_percent_match" displayName="Avg % Match Length" help="The average of the percent match length of all pairs of sequences in a group that have an above-threshold similarity. See the Methods Section for details.">
 		  <plugin name="histogram" display="Histogram"
                           description="Display the histogram of the values of this attribute"
                           implementation="org.gusdb.wdk.model.record.attribute.plugin.HistogramAttributePlugin"
@@ -133,7 +133,7 @@
 
             </attributeQueryRef>
 
-	    <textAttribute name="avg_evalue" displayName="Average E-value" help="The average of the percent identity of all pairs of sequences in a group that have an above threshold similarity.  See the Methods Section for details.">
+	    <textAttribute name="avg_evalue" displayName="Average Blast E-value" help="The average Blast E-value between two proteins in a group with above-threshold similarity. See the Methods Section for details.">
 	      <text>
 		<![CDATA[
 			 $$avg_evalue_mant$$E$$avg_evalue_exp$$

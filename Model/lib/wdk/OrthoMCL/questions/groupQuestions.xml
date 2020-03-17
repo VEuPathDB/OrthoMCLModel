@@ -108,17 +108,17 @@
                 shortDisplayName="Avg Conn"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
-           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers"
+           summary="number_of_members, avg_connectivity, avg_percent_identity, ec_numbers"
            sorting="avg_connectivity desc"
            /> 
         <summary>
           <![CDATA[
-                Find Ortholog Groups by the average percent connectivity of the sequences in the group.
+                Find Ortholog Groups by the average percent homology of the sequences in the group.
                         ]]>
         </summary>
         <description>
           <![CDATA[
-                Find Ortholog Groups by the average percent connectivity of the sequences in the group.  Each sequence's connectivity is the number of Ortholog, CoOrtholog or Inparalog pairs assigned by the OrthoMCL algorithm.  The average percent is that number summed for all the sequences and divided by the number of possible pairs each sequence could have.  See the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> for details.
+                   Find Ortholog Groups by the average percent homology of all proteins in the group. For example, consider a group with 5 members. A protein in this group has 75% homology if it is a Ortholog, CoOrtholog or Inparalog of 3 of the 4 other proteins, as assigned by the OrthoMCL algorithm. The average percent equals each protein's % homology divided by the number of proteins in the group.  Note that this search considers only 'Core' proteins in a 'Core' ortholog group, and 'Peripheral' proteins in a 'Residual' ortholog group. Read more about OrthoMCL statistics in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
                         ]]>
         </description>
       </question>
@@ -129,17 +129,17 @@
                 shortDisplayName="% Sim Pairs"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
-           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, percent_match_pairs"
+           summary="number_of_members, percent_match_pairs, avg_percent_identity, avg_connectivity, ec_numbers"
            sorting="percent_match_pairs desc"
            /> 
         <summary>
           <![CDATA[
-                Find Ortholog Groups by the percentage of their Sequence pairs that have similarity above threshold.
+                Find Ortholog Groups by the percentage of the protein pairs that are considered similar, based on two thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. For examaple, a group of size 5 can have a maximum of 10 unique pairs. If 8 of these pairs meet the criteria, then the % matched pairs = 80%. Note that this search considers ALL of the proteins (core and peripheral) in a group.
                         ]]>
         </summary>
         <description>
           <![CDATA[
-                Find Ortholog Groups by the percentage of their Sequence pairs that have similarity above threshold.  The <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> describes the thresholds used.
+		Find Ortholog Groups by the percentage of the protein pairs that are considered similar, based on two thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. For examaple, a group of size 5 can have a maximum of 10 unique pairs. If 8 of these pairs meet the criteria, then the % matched pairs = 80%. Note that this search considers ALL of the proteins (core and peripheral) in a group. Read more in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
                         ]]>
         </description>
       </question>
@@ -150,11 +150,11 @@
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
            summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, percent_match_pairs"
-           sorting="avg_evalue_exp desc"
+           sorting="avg_percent_identity desc"
            /> 
         <description>
           <![CDATA[
-                Find Ortholog Groups by the average percent identity of all their Sequence pairs that have similarity above threshold.  The <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> describes the thresholds used.
+		   Find Ortholog Groups by average percent identity between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group. Read more in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
                         ]]>
         </description>
       </question>
@@ -169,7 +169,8 @@
            /> 
         <description>
           <![CDATA[
-                Find Ortholog Groups by the average percent match length of all their Sequence pairs that have similarity above threshold.  The <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> describes the thresholds used and how "percent match length" is computed.
+		   Find Ortholog Groups by the average percent match length between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group. Read more in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
+
                         ]]>
         </description>
       </question>
@@ -183,7 +184,7 @@
            /> 
         <description>
           <![CDATA[
-                Find Ortholog Groups by the average e-value of all their Sequence pairs that have similarity above threshold.  The <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a> describes the thresholds used.
+		   Find Ortholog Groups by the average Blast e-value between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group. Read more in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
                         ]]>
         </description>
       </question>
@@ -265,7 +266,7 @@ These expressions find ortholog groups in which...
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
           <![CDATA[
-                Find all Ortholog Groups in the current release of OrthoMCL.
+		   Find ALL of the Ortholog Groups in the current release of OrthoMCL. Note that this search retrives all 'Core' and 'Residual' Ortholog Groups.
                         ]]>
         </description>
       </question>
