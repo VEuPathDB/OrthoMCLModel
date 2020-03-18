@@ -189,6 +189,7 @@
                 <columnAttribute name="number_of_match_pairs" displayName="Num Matched Pairs"/>
                 <columnAttribute name="max_match_pairs" displayName="Max Possible Matched Pairs"/>
                 <columnAttribute name="percent_match_pairs" displayName="% Matched Pairs"/>
+                <columnAttribute name="avg_connectivity" displayName="Avg % Homology"/>
                 <columnAttribute name="avg_evalue_mant" displayName="Average E-value Mant" internal="true" />
                 <columnAttribute name="avg_evalue_exp" displayName="Average E-value Exp" internal="true" />
 		<textAttribute name="avg_evalue" displayName="Avg Blast E-value" help="The average Blast e-value obtained between each pair of sequences. See the Methods Section for details.">
