@@ -243,7 +243,7 @@
                 <columnAttribute name="symbol" displayName="Symbol" />
                 <columnAttribute name="full_id" displayName="Source Id" />
                 <columnAttribute name="core_peripheral" displayName="Core/Peripheral" />
-                <columnAttribute name="protein_length" displayName="Length" />
+                <columnAttribute name="protein_length" displayName="Protein Length" />
                 <columnAttribute name="start_min" displayName="End" />
                 <columnAttribute name="end_max" displayName="Start" />
                 <columnAttribute name="domain_index" internal="true" />
