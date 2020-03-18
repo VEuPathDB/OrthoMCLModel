@@ -87,7 +87,7 @@
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
           <![CDATA[
-                Find Ortholog Groups that contain a specified number of Sequences.
+                Find Ortholog Groups that contain a specified number of core and peripheral proteins. To get Core Groups with peripheral proteins mapped in, choose >=1 for Min/Max # Core Proteins and >=1 for Min/Max # Peripheral Proteins. To get Core Groups with NO peripheral proteins mapped in, choose >=1 for Min/Max # Core Proteins and 0 for Min/Max # Peripheral Proteins. To get Residual Groups, choose 0 for Min/Max # Core Proteins and >=1 for Min/Max # Peripheral Proteins.
                         ]]>
         </description>
       </question>

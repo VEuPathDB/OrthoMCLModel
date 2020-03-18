@@ -16,13 +16,23 @@
             <suggest default="OG6_101327, OG6r1_101327" />
         </datasetParam>
 
-        <stringParam name="sequence_count_min" prompt="Min # sequences" number="true">
-            <help>The minimum number of sequences a group has</help>
+        <stringParam name="core_count_min" prompt="Min # Core Proteins" number="true">
+            <help>The minimum number of core proteins in the group</help>
             <suggest default="10" />
         </stringParam>
 
-        <stringParam name="sequence_count_max" prompt="Max # sequences" number="true">
-            <help>The maximum number of sequences a group has</help>
+        <stringParam name="core_count_max" prompt="Max # Core Proteins" number="true">
+            <help>The maximum number of core proteins in the group</help>
+            <suggest default="20" />
+        </stringParam>
+
+        <stringParam name="peripheral_count_min" prompt="Min # Peripheral Proteins" number="true">
+            <help>The minimum number of peripheral proteins in the group</help>
+            <suggest default="10" />
+        </stringParam>
+
+        <stringParam name="peripheral_count_max" prompt="Max # Peripheral Proteins" number="true">
+            <help>The maximum number of peripheral proteins in the group</help>
             <suggest default="20" />
         </stringParam>
 

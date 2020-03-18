@@ -100,16 +100,33 @@ WHERE sa.aa_sequence_id = asi.aa_sequence_id
 
 
         <sqlQuery name="BySequenceCount" isCacheable="true">
-            <paramRef ref="groupParams.sequence_count_min"/>
-            <paramRef ref="groupParams.sequence_count_max"/>
+            <paramRef ref="groupParams.core_count_min"/>
+            <paramRef ref="groupParams.core_count_max"/>
+            <paramRef ref="groupParams.peripheral_count_min"/>
+            <paramRef ref="groupParams.peripheral_count_max"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT og.name AS group_name
-FROM apidb.OrthologGroup og
-WHERE og.number_of_members >= $$sequence_count_min$$
-  AND og.number_of_members <= $$sequence_count_max$$
-  and og.core_peripheral_residual in ('P','R')
+WITH core AS (SELECT og.name, og.number_of_members as core_num
+              FROM apidb.OrthologGroup og
+              WHERE core_peripheral_residual = 'C' 
+              UNION
+              SELECT og.name, 0 as core_num
+	      FROM apidb.OrthologGroup og
+	      WHERE core_peripheral_residual = 'R' ),
+     peripheral AS (SELECT og.name, og.number_of_members as peripheral_num
+                    FROM apidb.OrthologGroup og
+	            WHERE core_peripheral_residual = 'P'
+		    UNION
+	            SELECT og.name, og.number_of_members as peripheral_num
+	            FROM apidb.OrthologGroup og
+		    WHERE core_peripheral_residual = 'R' )
+SELECT c.name as group_name
+FROM core c, peripheral p
+WHERE c.name = p.name
+      AND c.core_num>=$$core_count_min$$ AND c.core_num<=$$core_count_max$$
+      AND (p.peripheral_num-c.core_num)>=$$peripheral_count_min$$
+      AND (p.peripheral_num-c.core_num)<=$$peripheral_count_max$$
                 ]]>
             </sql>
         </sqlQuery>
