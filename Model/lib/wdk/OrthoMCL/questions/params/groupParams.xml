@@ -36,13 +36,23 @@
             <suggest default="20" />
         </stringParam>
 
-        <stringParam name="genome_count_min" prompt="Min # taxa" number="true">
-            <help>The minimum number of genomes a group has</help>
+        <stringParam name="core_taxon_min" prompt="Min # Core Taxa" number="true">
+            <help>The minimum number of Core genomes in a group</help>
             <suggest default="5" />
         </stringParam>
 
-        <stringParam name="genome_count_max" prompt="Max # taxa" number="true">
-            <help>The maximum number of genomes a group has</help>
+        <stringParam name="core_taxon_max" prompt="Max # Core Taxa" number="true">
+            <help>The maximum number of Core genomes in a group</help>
+            <suggest default="10" />
+        </stringParam>
+
+        <stringParam name="peripheral_taxon_min" prompt="Min # Peripheral Taxa" number="true">
+            <help>The minimum number of Peripheral genomes in a group</help>
+            <suggest default="5" />
+        </stringParam>
+
+        <stringParam name="peripheral_taxon_max" prompt="Max # Peripheral Taxa" number="true">
+            <help>The maximum number of Peripheral genomes in a group</help>
             <suggest default="10" />
         </stringParam>
 

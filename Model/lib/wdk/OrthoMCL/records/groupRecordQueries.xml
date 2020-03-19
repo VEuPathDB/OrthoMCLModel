@@ -31,14 +31,19 @@
             <column name="avg_connectivity"/>
             <sql>
             <![CDATA[
-		     select name as group_name, number_of_members, number_of_match_pairs,
-		            decode(avg_percent_identity,null,'',round(avg_percent_identity,1)) as avg_percent_identity,
-			    decode(percent_match_pairs,null,'',round(percent_match_pairs,1)) as percent_match_pairs,
-		            decode(avg_percent_match,null,'',round(avg_percent_match,1)) as avg_percent_match,
-			    decode(avg_connectivity,null,'',round(100*avg_connectivity/(number_of_members-1),1)) as avg_connectivity,
-			    round(avg_evalue_mant,1) as avg_evalue_mant, avg_evalue_exp
-		     from apidb.OrthologGroup
-		     where core_peripheral_residual in ('P','R') 
+		     SELECT pr.group_name, number_of_members, number_of_match_pairs, avg_percent_identity, percent_match_pairs, avg_percent_match, avg_evalue_mant, avg_evalue_exp, avg_connectivity
+		     FROM (SELECT name as group_name, number_of_members, number_of_match_pairs,
+		                  decode(avg_percent_identity,null,'',round(avg_percent_identity,1)) as avg_percent_identity,
+				  decode(percent_match_pairs,null,'',round(percent_match_pairs,1)) as percent_match_pairs,
+				  decode(avg_percent_match,null,'',round(avg_percent_match,1)) as avg_percent_match,
+				  round(avg_evalue_mant,1) as avg_evalue_mant, avg_evalue_exp
+		           FROM apidb.OrthologGroup
+			   WHERE core_peripheral_residual in ('P','R') ) pr,
+			  (SELECT name as group_name,
+			          decode(avg_connectivity,null,'',avg_connectivity) as avg_connectivity
+			   FROM apidb.OrthologGroup
+			   WHERE core_peripheral_residual = 'C' ) c
+	             WHERE pr.group_name = c.group_name
 			]]>
             </sql>
         </sqlQuery>
@@ -194,15 +199,15 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
             <column name="avg_connectivity"/>
             <sql>
             <![CDATA[
-		     select name as group_name, number_of_members, number_of_match_pairs,
-		            decode(avg_percent_identity,null,'',round(avg_percent_identity,1)) as avg_percent_identity,
-			    decode(percent_match_pairs,null,'',round(percent_match_pairs,1)) as percent_match_pairs,
-			    number_of_members*(number_of_members-1)/2 as max_match_pairs,
-		            decode(avg_percent_match,null,'',round(avg_percent_match,1)) as avg_percent_match,
-			    decode(avg_connectivity,null,'',round(100*avg_connectivity/(number_of_members-1),1)) as avg_connectivity,
-			    round(avg_evalue_mant,1) as avg_evalue_mant, avg_evalue_exp,
-			    case core_peripheral_residual when 'C' then 'Core only' when 'P' then 'Core+Peripheral' when 'R' then 'Peripheral only' else '' end as group_type
-		     from apidb.OrthologGroup
+		     SELECT name AS group_name, number_of_members, number_of_match_pairs,
+		            DECODE(avg_percent_identity,null,'',round(avg_percent_identity,1)) AS avg_percent_identity,
+			    DECODE(percent_match_pairs,null,'',round(percent_match_pairs,1)) AS percent_match_pairs,
+			    number_of_members*(number_of_members-1)/2 AS max_match_pairs,
+		            DECODE(avg_percent_match,null,'',round(avg_percent_match,1)) AS avg_percent_match,
+			    DECODE(avg_connectivity,null,'',avg_connectivity) AS avg_connectivity,
+			    ROUND(avg_evalue_mant,1) AS avg_evalue_mant, avg_evalue_exp,
+			    CASE core_peripheral_residual WHEN 'C' THEN 'Core only' WHEN 'P' THEN 'Core+Peripheral' WHEN 'R' THEN 'Peripheral only' ELSE '' END AS group_type
+		     FROM apidb.OrthologGroup
 			]]>
             </sql>
         </sqlQuery>

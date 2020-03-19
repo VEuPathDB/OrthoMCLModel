@@ -132,23 +132,36 @@ WHERE c.name = p.name
         </sqlQuery>
 
         <sqlQuery name="ByGenomeCount" isCacheable="true">
-            <paramRef ref="groupParams.genome_count_min"/>
-            <paramRef ref="groupParams.genome_count_max"/>
+            <paramRef ref="groupParams.core_taxon_min"/>
+            <paramRef ref="groupParams.core_taxon_max"/>
+            <paramRef ref="groupParams.peripheral_taxon_min"/>
+            <paramRef ref="groupParams.peripheral_taxon_max"/>
             <column name="group_name"/>
-            <column name="genome_count"/>
+            <column name="core_count"/>
+            <column name="peripheral_count"/>
             <sql>
               <![CDATA[
-                select group_name, count(distinct taxon_id) genome_count
-                from ApidbTuning.SequenceAttributes
-                group by group_name
-                having count(distinct taxon_id) between $$genome_count_min$$ and $$genome_count_max$$
-                order by count(distinct taxon_id), group_name
+                SELECT c.group_name, c.core_count, p.peripheral_count
+		FROM 
+		     (SELECT group_name, COUNT(distinct taxon_abbreviation) AS core_count
+                      FROM ApidbTuning.SequenceAttributes
+                      WHERE core_peripheral='C'
+		      GROUP BY group_name
+		      HAVING COUNT(distinct taxon_abbreviation)>=$$core_taxon_min$$
+		             AND COUNT(distinct taxon_abbreviation)<=$$core_taxon_max$$) c,
+		     (SELECT group_name, COUNT(distinct taxon_abbreviation) AS peripheral_count
+                      FROM ApidbTuning.SequenceAttributes
+                      WHERE core_peripheral='P'
+		      GROUP BY group_name
+		      HAVING COUNT(distinct taxon_abbreviation)>=$$peripheral_taxon_min$$
+		             AND COUNT(distinct taxon_abbreviation)<=$$peripheral_taxon_max$$) p
+		WHERE c.group_name = p.group_name
               ]]>
             </sql>
         </sqlQuery>
 
 
-        <sqlQuery name="ByAvgConnectivity" isCacheable="true">
+        <sqlQuery name="ByAvgHomology" isCacheable="true">
             <paramRef ref="groupParams.percent_min"/>
             <paramRef ref="groupParams.percent_max"/>
             <column name="group_name"/>
@@ -157,7 +170,7 @@ WHERE c.name = p.name
 SELECT name as group_name
 FROM apidb.OrthologGroup
 WHERE avg_connectivity between $$percent_min$$ AND $$percent_max$$
-   and core_peripheral_residual in ('P','R')
+   and core_peripheral_residual in ('C','R')
                 ]]>
             </sql>
         </sqlQuery>

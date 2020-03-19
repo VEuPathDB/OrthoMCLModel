@@ -98,14 +98,15 @@
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
           <![CDATA[
-                Find Ortholog Groups that contain a specified number of taxa.
+                Find Ortholog Groups that contain a specified number of Core taxa and Peripheral taxa. To get Core Groups with
+peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Min/Max # Peripheral Taxa. To get Core Groups with NO peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and 0 for Min/Max # Peripheral Taxa. To get Residual Groups, choose 0 for Min/Max # Core Taxa and >=1 for Min/Max # Peripheral Taxa.
                         ]]>
         </description>
       </question>
 
-      <question name="ByConnectivity" queryRef="GroupIds.ByAvgConnectivity" 
-                displayName="Avg % Connectivity"
-                shortDisplayName="Avg Conn"
+      <question name="ByHomology" queryRef="GroupIds.ByAvgHomology" 
+                displayName="Avg % Homology"
+                shortDisplayName="Avg Homol"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
            summary="number_of_members, avg_connectivity, avg_percent_identity, ec_numbers"
@@ -118,7 +119,7 @@
         </summary>
         <description>
           <![CDATA[
-                   Find Ortholog Groups by the average percent homology of all proteins in the group. For example, consider a group with 5 members. A protein in this group has 75% homology if it is a Ortholog, CoOrtholog or Inparalog of 3 of the 4 other proteins, as assigned by the OrthoMCL algorithm. The average percent equals each protein's % homology divided by the number of proteins in the group.  Note that this search considers only 'Core' proteins in a 'Core' ortholog group, and 'Peripheral' proteins in a 'Residual' ortholog group. Read more about OrthoMCL statistics in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
+                   Find Ortholog Groups by the average percent homology of proteins in the group. Importantly, homology only applies to core proteins in a 'Core' group and peripheral proteins in a 'Residual' group, because only these proteins are used in the OrthoMCL algorithm to define groups. (Peripheral proteins that map to a Core Group are not assigned homology, and thus are not included in this search.) For example, consider a Core group containing 5 core proteins. A protein in this group has 75% homology if it is a Ortholog, CoOrtholog or Inparalog of 3 of the 4 other proteins, as assigned by the OrthoMCL algorithm. The average percent equals each protein's % homology divided by the number of proteins in the group. Read more about OrthoMCL statistics in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
                         ]]>
         </description>
       </question>

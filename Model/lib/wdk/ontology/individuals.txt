@@ -10,7 +10,7 @@ GroupRecordClasses.GroupRecordClass.GroupQuestions.ByTextSearch		Text, IDs	Group
 GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPFamIdOrKeyword		Function	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPFamIdOrKeyword						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.ByEcNumber		Function	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByEcNumber						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.ByGenomeCount		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByGenomeCount						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.ByConnectivity		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByConnectivity						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.ByHomology		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByHomology						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPercentMatchPairs		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPercentMatchPairs						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPercentIdentity		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPercentIdentity						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPercentMatch		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPercentMatch						menu	webservice	
