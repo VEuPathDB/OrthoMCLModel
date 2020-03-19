@@ -40,7 +40,7 @@
 		           FROM apidb.OrthologGroup
 			   WHERE core_peripheral_residual in ('P','R') ) pr,
 			  (SELECT name as group_name,
-			          decode(avg_connectivity,null,'',avg_connectivity) as avg_connectivity
+			          decode(avg_connectivity,null,'',round(100*avg_connectivity/(number_of_members-1),1)) as avg_connectivity
 			   FROM apidb.OrthologGroup
 			   WHERE core_peripheral_residual = 'C' ) c
 	             WHERE pr.group_name = c.group_name
@@ -204,7 +204,7 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
 			    DECODE(percent_match_pairs,null,'',round(percent_match_pairs,1)) AS percent_match_pairs,
 			    number_of_members*(number_of_members-1)/2 AS max_match_pairs,
 		            DECODE(avg_percent_match,null,'',round(avg_percent_match,1)) AS avg_percent_match,
-			    DECODE(avg_connectivity,null,'',avg_connectivity) AS avg_connectivity,
+			    DECODE(avg_connectivity,null,'',round(100*avg_connectivity/(number_of_members-1),1)) AS avg_connectivity,
 			    ROUND(avg_evalue_mant,1) AS avg_evalue_mant, avg_evalue_exp,
 			    CASE core_peripheral_residual WHEN 'C' THEN 'Core only' WHEN 'P' THEN 'Core+Peripheral' WHEN 'R' THEN 'Peripheral only' ELSE '' END AS group_type
 		     FROM apidb.OrthologGroup

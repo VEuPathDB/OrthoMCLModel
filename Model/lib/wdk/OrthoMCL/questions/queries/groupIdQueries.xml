@@ -167,10 +167,10 @@ WHERE c.name = p.name
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT name as group_name
+SELECT name AS group_name
 FROM apidb.OrthologGroup
-WHERE avg_connectivity between $$percent_min$$ AND $$percent_max$$
-   and core_peripheral_residual in ('C','R')
+WHERE DECODE(avg_connectivity,NULL,0,100*avg_connectivity/(number_of_members-1)) BETWEEN $$percent_min$$ AND $$percent_max$$
+   AND core_peripheral_residual in ('C','R')
                 ]]>
             </sql>
         </sqlQuery>
