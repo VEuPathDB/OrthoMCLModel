@@ -186,8 +186,8 @@
                 <columnAttribute name="number_of_members" displayName="# Proteins" />
                 <columnAttribute name="avg_percent_match" displayName="Avg % Match" />
 		<columnAttribute name="avg_percent_identity" displayName="Avg % Identity" help="The average of the percent identity of all pairs of sequences in a group that have an above-threshold similarity.  See the Methods Section for details." />
-                <columnAttribute name="number_of_match_pairs" displayName="Num Matched Pairs"/>
-                <columnAttribute name="max_match_pairs" displayName="Max Possible Matched Pairs"/>
+                <columnAttribute name="number_of_match_pairs" displayName="Num Pairs With Similarity"/>
+                <columnAttribute name="max_match_pairs" displayName="Max Possible Pairs"/>
                 <columnAttribute name="percent_match_pairs" displayName="% Protein Pairs With Similarity"/>
                 <columnAttribute name="avg_connectivity" displayName="Avg % Homology"/>
                 <columnAttribute name="avg_evalue_mant" displayName="Average E-value Mant" internal="true" />
