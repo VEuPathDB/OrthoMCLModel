@@ -141,21 +141,23 @@ WHERE c.name = p.name
             <column name="peripheral_count"/>
             <sql>
               <![CDATA[
-                SELECT c.group_name, c.core_count, p.peripheral_count
-		FROM 
-		     (SELECT group_name, COUNT(distinct taxon_abbreviation) AS core_count
+	   SELECT group_name, core_count, peripheral_count
+	   FROM (
+                SELECT DECODE(c.group_name,NULL,p.group_name,c.group_name) as group_name,
+		       DECODE(c.core_count,NULL,0,c.core_count) as core_count,
+		       DECODE(p.peripheral_count,NULL,0,p.peripheral_count) as peripheral_count
+		FROM (SELECT group_name, COUNT(distinct taxon_abbreviation) AS core_count
                       FROM ApidbTuning.SequenceAttributes
                       WHERE core_peripheral='C'
-		      GROUP BY group_name
-		      HAVING COUNT(distinct taxon_abbreviation)>=$$core_taxon_min$$
-		             AND COUNT(distinct taxon_abbreviation)<=$$core_taxon_max$$) c,
-		     (SELECT group_name, COUNT(distinct taxon_abbreviation) AS peripheral_count
+		      GROUP BY group_name) c
+		FULL OUTER JOIN (SELECT group_name, COUNT(distinct taxon_abbreviation) AS peripheral_count
                       FROM ApidbTuning.SequenceAttributes
                       WHERE core_peripheral='P'
-		      GROUP BY group_name
-		      HAVING COUNT(distinct taxon_abbreviation)>=$$peripheral_taxon_min$$
-		             AND COUNT(distinct taxon_abbreviation)<=$$peripheral_taxon_max$$) p
-		WHERE c.group_name = p.group_name
+		      GROUP BY group_name) p
+		ON c.group_name = p.group_name
+		)
+	   WHERE core_count>=$$core_taxon_min$$ AND core_count<=$$core_taxon_max$$ AND
+		 peripheral_count>=$$peripheral_taxon_min$$ AND peripheral_count<=$$peripheral_taxon_max$$
               ]]>
             </sql>
         </sqlQuery>

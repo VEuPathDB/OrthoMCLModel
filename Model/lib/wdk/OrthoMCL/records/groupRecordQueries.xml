@@ -43,7 +43,7 @@
 			          decode(avg_connectivity,null,'',round(100*avg_connectivity/(number_of_members-1),1)) as avg_connectivity
 			   FROM apidb.OrthologGroup
 			   WHERE core_peripheral_residual = 'C' ) c
-	             WHERE pr.group_name = c.group_name
+	             WHERE pr.group_name = c.group_name(+)
 			]]>
             </sql>
         </sqlQuery>
