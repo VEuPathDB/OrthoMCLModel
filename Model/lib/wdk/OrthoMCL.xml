@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wdkModel>
 
-    <constant name="releaseDate" includeProjects="OrthoMCL">23 July 2015 10:11</constant>
-    <constant name="releaseVersion" includeProjects="OrthoMCL">5</constant>
-    <constant name="buildNumber" includeProjects="OrthoMCL">5</constant>
+    <constant name="releaseDate" includeProjects="OrthoMCL">1 January 1900 00:00</constant>
+    <constant name="releaseVersion" includeProjects="OrthoMCL">6</constant>
+    <constant name="buildNumber" includeProjects="OrthoMCL">6</constant>
 
     <constant name="fullReporterDisplayName">Text: choose from columns and/or tables</constant>
     <constant name="attributesReporterDisplayName">Tab delimited (Excel) - choose columns to make a custom table</constant>
