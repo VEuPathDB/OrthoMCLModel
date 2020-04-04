@@ -307,18 +307,18 @@
         </question>
 
         <question name="ByEcNumber" queryRef="SequenceIds.ByEcNumber" 
-                  displayName="Enzyme Commission Assignment" shortDisplayName="Enzymes"
+                  displayName="EC Number (specific)" shortDisplayName="Enzymes"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
-                        <![CDATA[ Find sequences that are assigned to a specified Enzyme Commission Number]]>
+                        <![CDATA[ Find proteins that are assigned to a specific Enzyme Commission (EC) Number]]>
             </description>
         </question>
 
         <question name="ByEcAssignment" queryRef="SequenceIds.ByEcAssignment" 
-                  displayName="Enzyme Commission Assignment" shortDisplayName="Enzymes"
+                  displayName="EC Number (any)" shortDisplayName="Enzymes"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
-                        <![CDATA[ Find sequences that are assigned to at least one Enzyme Commission Number]]>
+                        <![CDATA[ Find proteins that are assigned to at least one Enzyme Commission (EC) Number]]>
             </description>
         </question>
 

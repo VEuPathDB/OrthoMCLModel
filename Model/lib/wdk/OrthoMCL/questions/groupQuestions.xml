@@ -69,10 +69,10 @@
 
 
       <question name="ByEcNumber" urlName="groups-by-ec-number" queryRef="GroupIds.ByEcNumber" 
-                displayName="Enzyme Commission Assignment" shortDisplayName="Enzymes"
+                displayName="EC Number (specific)" shortDisplayName="Enzymes"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
-          <![CDATA[ Find groups that have one or more Sequences with the specified Enzyme Commission Number]]>
+          <![CDATA[ Find groups that have one or more proteins that are assigned a specific Enzyme Commission (EC) Number]]>
         </description>
       <propertyList name="radio-params">
         <value>ec_number_type_ahead</value>

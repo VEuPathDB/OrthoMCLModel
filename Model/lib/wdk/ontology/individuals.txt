@@ -16,7 +16,7 @@ GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPercentIdentity		Group Stat
 GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPercentMatch		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPercentMatch						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.ByEValue		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByEValue						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPhyleticPattern		Evolution	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPhyleticPattern						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.FromSequences		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.FromSequences						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.FromSequences		Group Statistics	GroupRecordClasses.GroupRecordClass		GroupQuestions.FromSequences						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.AllGroups		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.AllGroups						menu	webservice	
 													
 ## Group Attributes ##
@@ -49,7 +49,7 @@ SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByPfamIdOrKeyword		G
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByTaxonomy		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByTaxonomy						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByBlast		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByBlast						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByMotif		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByMotif						menu	webservice	
-SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.FromGroups		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.FromGroups						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.FromGroups		Group Statistics	SequenceRecordClasses.SequenceRecordClass		SequenceQuestions.FromGroups						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByEcNumber		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByEcNumber						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByEcAssignment		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByEcAssignment						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.AllSequences		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.AllSequences						menu	webservice	
