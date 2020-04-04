@@ -65,7 +65,8 @@ SequenceRecordClasses.SequenceRecordClass.taxon_name		Group Statistics	SequenceR
 SequenceRecordClasses.SequenceRecordClass.pfam_domains		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	pfam_domains						record	download	results
 SequenceRecordClasses.SequenceRecordClass.abbreviation		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	abbreviation						record	download	results
 SequenceRecordClasses.SequenceRecordClass.group_name		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_name						record	download	results
-SequenceRecordClasses.SequenceRecordClass.group_size		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_size						record	download	results
+SequenceRecordClasses.SequenceRecordClass.num_core		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	num_core						record	download	results
+SequenceRecordClasses.SequenceRecordClass.num_peripheral		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	num_peripheral						record	download	results
 SequenceRecordClasses.SequenceRecordClass.source_link		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	source_link						record		results
 SequenceRecordClasses.SequenceRecordClass.sequence_text		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	sequence_text						record		results
 SequenceRecordClasses.SequenceRecordClass.group_link		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_link						record		results
