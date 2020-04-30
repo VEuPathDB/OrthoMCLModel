@@ -253,25 +253,29 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
           </sql>
         </sqlQuery>
 
+
         <sqlQuery name="ProteinPFams">
           <column name="group_name"/>
           <column name="accession"/>
           <column name="symbol"/>
           <column name="full_id"/>
+          <column name="protein_length"/>
           <column name="core_peripheral"/>
           <column name="domain_index"/>
-          <column name="protein_length"/>
           <column name="start_min"/>
           <column name="end_max"/>
           <sql>
+<!-- The ProteinPFams query did not work correctly on the website because of the SQL wrapped around it.
+     The minimum of all lengths was shown for each protein. The original phrase that resulted in this
+     error was sa.length, but the current phrase round(sa.length,0) fixed this in an unknown way.  -->
             <![CDATA[
-     SELECT sa.group_name, sa.full_id, da.accession, da.symbol, da.domain_index,
-            sa.length as protein_length, da.start_min, da.end_max,
-	    case sa.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral
+     SELECT sa.group_name, sa.full_id, round(sa.length,0) as protein_length,
+     case sa.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral,
+     da.accession, da.symbol, da.domain_index, da.start_min, da.end_max
      from ApidbTuning.SequenceAttributes sa            
      Left outer join ApidbTuning.DomainAssignment da
      on da.full_id = sa.full_id
-     ORDER BY da.full_id, da.start_min
+     ORDER BY sa.full_id, da.start_min
             ]]>
           </sql>
         </sqlQuery>
