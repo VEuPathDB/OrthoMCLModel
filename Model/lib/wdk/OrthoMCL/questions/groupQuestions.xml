@@ -180,8 +180,8 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
                 displayName="Avg E-Value"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
-           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, avg_evalue, percent_match_pairs"
-           sorting="avg_evalue_exp desc"
+           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, evalue_display, percent_match_pairs"
+           sorting="evalue asc"
            /> 
         <description>
           <![CDATA[

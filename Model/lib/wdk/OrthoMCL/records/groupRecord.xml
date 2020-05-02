@@ -70,8 +70,8 @@
       <!-- =============================================================== -->
 
          <attributesList
-           summary="number_of_members, avg_percent_identity, percent_match_pairs, avg_evalue, ec_numbers"
-           sorting="number_of_members desc"/>            
+           summary="number_of_members, avg_percent_identity, percent_match_pairs, evalue_display, ec_numbers"
+           sorting="number_of_members DESC, evalue ASC"/>            
 
       <!-- =============================================================== -->
       <!-- Attributes -->  
@@ -127,20 +127,11 @@
                           view="/wdk/jsp/results/histogram.jsp" />
 		</columnAttribute>
 
-                <columnAttribute name="avg_evalue_mant" displayName="Average E-value Mant" internal="true" />
+                <columnAttribute name="evalue_display" displayName="Average BLAST E-value" />
 
-                <columnAttribute name="avg_evalue_exp" displayName="Average E-value Exp" internal="true" />
+                <columnAttribute name="evalue" displayName="Average BLAST E-value Actual" internal="true" />
 
             </attributeQueryRef>
-
-	    <textAttribute name="avg_evalue" displayName="Average Blast E-value" help="The average Blast E-value between two proteins in a group with above-threshold similarity. See the Methods Section for details.">
-	      <text>
-		<![CDATA[
-			 $$avg_evalue_mant$$E$$avg_evalue_exp$$
-		]]>
-	      </text>
-	    </textAttribute>
-
 
             <attributeQueryRef ref="GroupAttributes.MSA">
                 <columnAttribute name="msa" displayName="Multiple Sequence Alignment" internal="true" inReportMaker="false" />
@@ -190,15 +181,8 @@
                 <columnAttribute name="max_match_pairs" displayName="Max Possible Pairs"/>
                 <columnAttribute name="percent_match_pairs" displayName="% Protein Pairs With Similarity"/>
                 <columnAttribute name="avg_connectivity" displayName="Avg % Homology"/>
-                <columnAttribute name="avg_evalue_mant" displayName="Average E-value Mant" internal="true" />
-                <columnAttribute name="avg_evalue_exp" displayName="Average E-value Exp" internal="true" />
-		<textAttribute name="avg_evalue" displayName="Avg Blast E-value" help="The average Blast e-value obtained between each pair of sequences. See the Methods Section for details.">
-		  <text>
-		    <![CDATA[
-			     $$avg_evalue_mant$$E$$avg_evalue_exp$$
-		    ]]>
-		  </text>
-		</textAttribute>
+                <columnAttribute name="evalue_display" displayName="Average BLAST E-value" />
+                <columnAttribute name="evalue" displayName="Average BLAST E-value Actual" internal="true" />
             </table>
 
 
