@@ -36,8 +36,8 @@
 		                  decode(avg_percent_identity,null,'',round(avg_percent_identity,1)) as avg_percent_identity,
 				  decode(percent_match_pairs,null,'',round(percent_match_pairs,1)) as percent_match_pairs,
 				  decode(avg_percent_match,null,'',round(avg_percent_match,1)) as avg_percent_match,
-				  CASE WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN 0 ELSE ROUND(avg_evalue_mant,1) * power(10,avg_evalue_exp) END AS evalue,
-				  CASE WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN '0' ELSE ROUND(avg_evalue_mant,1) || 'E' || avg_evalue_exp END AS evalue_display
+				  CASE WHEN (number_of_members=1) THEN 1 WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN 0 ELSE ROUND(avg_evalue_mant,1) * power(10,avg_evalue_exp) END AS evalue,
+				  CASE WHEN (number_of_members=1) THEN NULL WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN '0' ELSE ROUND(avg_evalue_mant,1) || 'E' || avg_evalue_exp END AS evalue_display
 		           FROM apidb.OrthologGroup
 			   WHERE core_peripheral_residual in ('P','R') ) pr,
 			  (SELECT name as group_name,
@@ -206,8 +206,8 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
 			    number_of_members*(number_of_members-1)/2 AS max_match_pairs,
 		            DECODE(avg_percent_match,null,'',round(avg_percent_match,1)) AS avg_percent_match,
 			    DECODE(avg_connectivity,null,'',round(100*avg_connectivity/(number_of_members-1),1)) AS avg_connectivity,
-			    CASE WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN 0 ELSE ROUND(avg_evalue_mant,1) * power(10,avg_evalue_exp) END AS evalue,
-			    CASE WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN '0' ELSE ROUND(avg_evalue_mant,1) || 'E' || avg_evalue_exp END AS evalue_display,
+			    CASE WHEN (number_of_members=1) THEN 1 WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN 0 ELSE ROUND(avg_evalue_mant,1) * power(10,avg_evalue_exp) END AS evalue,
+			    CASE WHEN (number_of_members=1) THEN '' WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN '0' ELSE ROUND(avg_evalue_mant,1) || 'E' || avg_evalue_exp END AS evalue_display,
 			    CASE core_peripheral_residual WHEN 'C' THEN 'Core only' WHEN 'P' THEN 'Core+Peripheral' WHEN 'R' THEN 'Peripheral only' ELSE '' END AS group_type
 		     FROM apidb.OrthologGroup
 			]]>
