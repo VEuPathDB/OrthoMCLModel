@@ -5,11 +5,6 @@ import java.text.DecimalFormat;
 
 public class Vector extends Double {
 
-  /**
-	 * 
-	 */
-  private static final long serialVersionUID = 7027484553610116182L;
-
   private final DecimalFormat format = new DecimalFormat("0.000");
 
   private double strength = -1;
