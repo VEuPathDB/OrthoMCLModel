@@ -186,7 +186,7 @@ WHERE eas.taxon_id = ot.taxon_id
 
 
     <processQuery name="ByBlast"
-             processName="org.orthomcl.wsfplugin.OrthoMCLBlastPlugin">
+             processName="org.orthomcl.service.core.wsfplugin.OrthoMCLBlastPlugin">
 
         <testParamValues>
             <paramValue name="BlastAlgorithm">blastp</paramValue>
@@ -211,7 +211,7 @@ WHERE eas.taxon_id = ot.taxon_id
 
 
     <processQuery name="ByMotif"
-                  processName="org.orthomcl.wsfplugin.MotifPlugin">
+                  processName="org.orthomcl.service.core.wsfplugin.MotifPlugin">
       <testParamValues>
         <paramValue name="motif_expression">CC6+RK</paramValue>
         <paramValue name="organism">pfal</paramValue>
@@ -251,7 +251,7 @@ SELECT eas.secondary_identifier AS full_id FROM dots.ExternalAaSequence eas
         </sqlQuery>
 
     <processQuery name="ByTextSearch"
-             processName="org.orthomcl.wsfplugin.KeywordSearchPlugin">
+             processName="org.orthomcl.service.core.wsfplugin.KeywordSearchPlugin">
 
         <testParamValues>
             <paramValue name="text_expression">kinase</paramValue>

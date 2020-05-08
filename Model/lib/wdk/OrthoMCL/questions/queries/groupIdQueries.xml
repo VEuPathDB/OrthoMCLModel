@@ -266,7 +266,7 @@ SELECT og.name AS group_name FROM apidb.OrthologGroup og
         </sqlQuery>
 
     <processQuery name="ByTextSearch"
-             processName="org.orthomcl.wsfplugin.KeywordSearchPlugin">
+             processName="org.orthomcl.service.core.wsfplugin.KeywordSearchPlugin">
 
         <testParamValues>
             <paramValue name="text_expression">kinase</paramValue>

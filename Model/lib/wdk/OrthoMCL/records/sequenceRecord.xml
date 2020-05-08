@@ -42,7 +42,7 @@
                 implementation="org.gusdb.wdk.model.report.reporter.JSONReporter"/>
 
       <reporter name="fasta" displayName="FASTA: protein sequence" scopes="record,results"
-                implementation="org.orthomcl.model.report.FastaReporter"/>
+                implementation="org.orthomcl.service.core.report.FastaReporter"/>
 
       <!-- =============================================================== -->
       <!--  Default summary attributes and sorting attributes -->  
