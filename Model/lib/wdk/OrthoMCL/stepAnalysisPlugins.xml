@@ -9,15 +9,15 @@
         releaseVersion="22"
         formViewName="clusterGraphForm"
         analysisViewName="clusterGraphResult"
-        analyzerClass="org.orthomcl.model.analysis.SequenceClusterAnalyzer">
+        analyzerClass="org.orthomcl.service.core.analysis.SequenceClusterAnalyzer">
       <shortDescription>
         <![CDATA[
-          Cluster the sequenes (no more than 500)
+          Cluster the sequences (no more than 500)
         ]]>
       </shortDescription>
       <description>
         <![CDATA[
-          <p>Cluster the sequences in the result. (Only available for results with no more than 500 sequences).
+          <p>Cluster the sequences in the result (only available for results with 500 sequences or fewer).
            </p>
         ]]>
       </description>

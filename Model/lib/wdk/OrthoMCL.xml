@@ -55,8 +55,4 @@
     <!-- Step Analysis Plugins -->
     <import file="OrthoMCL/stepAnalysisPlugins.xml"/>
 
-    <stepAnalysisPlugins>
-      <executionConfig fileStoreDirectory="@STEP_ANALYSIS_JOB_DIR@"/>
-    </stepAnalysisPlugins>
-
 </wdkModel>
