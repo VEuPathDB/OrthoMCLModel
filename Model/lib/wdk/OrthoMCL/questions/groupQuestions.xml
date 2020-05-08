@@ -14,7 +14,7 @@
         ]]>
       </description>
 
-      <question name="ByNameList" queryRef="GroupIds.ByNameList" 
+      <question name="GroupsByNameList" queryRef="GroupIds.ByNameList" 
 		displayName="Group ID(s)"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
@@ -24,7 +24,7 @@
         </description>
       </question>
 
-      <question name="ByAccession" queryRef="GroupIds.ByAccession" 
+      <question name="GroupsByAccession" queryRef="GroupIds.ByAccession" 
                 displayName="Group or Sequence ID"
                 recordClassRef="GroupRecordClasses.GroupRecordClass"
                 noSummaryOnSingleRecord="true">
@@ -35,7 +35,7 @@
         </description>
       </question>
 
-      <question name="ByTextSearch" queryRef="GroupIds.ByTextSearch"
+      <question name="GroupsByTextSearch" queryRef="GroupIds.ByTextSearch"
                 displayName="Text Terms"
                 shortDisplayName="Text"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
@@ -56,7 +56,7 @@
       </question>
 
 
-      <question name="ByPFamIdOrKeyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
+      <question name="GroupsByPFamIdOrKeyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
                 displayName="PFam ID or Keyword"
                 shortDisplayName="PFam"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
@@ -68,7 +68,7 @@
       </question>
 
 
-      <question name="ByEcNumber" queryRef="GroupIds.ByEcNumber" 
+      <question name="GroupsByEcNumber" queryRef="GroupIds.ByEcNumber" 
                 displayName="Enzyme Commission Assignment" shortDisplayName="Enzymes"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
@@ -81,7 +81,7 @@
 
       </question>
 
-      <question name="BySequenceCount" queryRef="GroupIds.BySequenceCount" 
+      <question name="GroupsBySequenceCount" queryRef="GroupIds.BySequenceCount" 
                 displayName="Number of Sequences"
                 shortDisplayName="Number Seqs"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
@@ -93,7 +93,7 @@
       </question>
 
 
-      <question name="ByGenomeCount" queryRef="GroupIds.ByGenomeCount" 
+      <question name="GroupsByGenomeCount" queryRef="GroupIds.ByGenomeCount" 
                 displayName="Number of Taxa"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
@@ -103,7 +103,7 @@
         </description>
       </question>
 
-      <question name="ByConnectivity" queryRef="GroupIds.ByAvgConnectivity" 
+      <question name="GroupsByConnectivity" queryRef="GroupIds.ByAvgConnectivity" 
                 displayName="Avg % Connectivity"
                 shortDisplayName="Avg Conn"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
@@ -124,7 +124,7 @@
       </question>
 
 
-      <question name="ByPercentMatchPairs" queryRef="GroupIds.ByPercentMatchPairs" 
+      <question name="GroupsByPercentMatchPairs" queryRef="GroupIds.ByPercentMatchPairs" 
                 displayName="% Pairs w/ Similarity"
                 shortDisplayName="% Sim Pairs"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
@@ -145,7 +145,7 @@
       </question>
 
 
-      <question name="ByPercentIdentity" queryRef="GroupIds.ByPercentIdentity" 
+      <question name="GroupsByPercentIdentity" queryRef="GroupIds.ByPercentIdentity" 
                 displayName="Avg % Identity"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
@@ -160,7 +160,7 @@
       </question>
 
 
-      <question name="ByPercentMatch" queryRef="GroupIds.ByPercentMatch" 
+      <question name="GroupsByPercentMatch" queryRef="GroupIds.ByPercentMatch" 
                 displayName="Avg % Match Length"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
@@ -174,7 +174,7 @@
         </description>
       </question>
 
-      <question name="ByEValue" queryRef="GroupIds.ByEValue" 
+      <question name="GroupsByEValue" queryRef="GroupIds.ByEValue" 
                 displayName="Avg E-Value"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
@@ -189,7 +189,7 @@
       </question>
 
       
-      <question name="ByPhyleticPattern" queryRef="GroupIds.ByPhyleticPattern" 
+      <question name="GroupsByPhyleticPattern" queryRef="GroupIds.ByPhyleticPattern" 
 		displayName="Phyletic Pattern" shortDisplayName="Phyletic"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
@@ -251,7 +251,7 @@ These expressions find ortholog groups in which...
       </question>
 
 
-      <question name="FromSequences" queryRef="GroupIds.FromSequences" 
+      <question name="GroupsFromSequences" queryRef="GroupIds.FromSequences" 
                 displayName="Transform to Groups" shortDisplayName="To Groups"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
