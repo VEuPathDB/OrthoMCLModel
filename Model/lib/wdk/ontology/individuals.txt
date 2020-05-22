@@ -3,20 +3,20 @@
 TextCategory					TextCategory	Text				1			
 													
 ## Group Questions ##													
-GroupRecordClasses.GroupRecordClass.GroupQuestions.BySequenceCount		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.BySequenceCount						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.ByNameList		Text, IDs	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByNameList						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.ByAccession		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByAccession						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.ByTextSearch		Text, IDs	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByTextSearch						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPFamIdOrKeyword		Function	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPFamIdOrKeyword						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.ByEcNumber		Function	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByEcNumber						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.ByGenomeCount		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByGenomeCount						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.ByConnectivity		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByConnectivity						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPercentMatchPairs		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPercentMatchPairs						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPercentIdentity		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPercentIdentity						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPercentMatch		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPercentMatch						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.ByEValue		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByEValue						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.ByPhyleticPattern		Evolution	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.ByPhyleticPattern						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.FromSequences		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.FromSequences						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsBySequenceCount		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsBySequenceCount						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByNameList		Text, IDs	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByNameList						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByAccession		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByAccession						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByTextSearch		Text, IDs	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByTextSearch						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPFamIdOrKeyword		Function	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPFamIdOrKeyword						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByEcNumber		Function	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByEcNumber						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByGenomeCount		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByGenomeCount						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByConnectivity		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByConnectivity						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPercentMatchPairs		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPercentMatchPairs						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPercentIdentity		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPercentIdentity						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPercentMatch		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPercentMatch						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByEValue		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByEValue						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPhyleticPattern		Evolution	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPhyleticPattern						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsFromSequences		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsFromSequences						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.AllGroups		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.AllGroups						menu	webservice	
 													
 ## Group Attributes ##
