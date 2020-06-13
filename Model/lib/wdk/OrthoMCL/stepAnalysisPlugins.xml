@@ -7,8 +7,6 @@
         name="sequence-cluster" displayName="Cluster Graph"
         customThumbnail="wdkCustomization/images/cluster-graph-logo.png"
         releaseVersion="22"
-        formViewName="clusterGraphForm"
-        analysisViewName="clusterGraphResult"
         analyzerClass="org.orthomcl.service.core.analysis.SequenceClusterAnalyzer">
       <shortDescription>
         <![CDATA[
@@ -17,8 +15,7 @@
       </shortDescription>
       <description>
         <![CDATA[
-          <p>Cluster the sequences in the result (only available for results with 500 sequences or fewer).
-           </p>
+          <p>Cluster the sequences in the result. (Only available for results with no more than 500 sequences).</p>
         ]]>
       </description>
     </stepAnalysisPlugin>

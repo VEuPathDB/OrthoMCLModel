@@ -79,7 +79,7 @@
          recordClassRef="SequenceRecordClasses.SequenceRecordClass"
          fullAnswer="true">
         <attributesList
-         summary="group_link, group_size, source_link, taxon_name, abbreviation, length, product, ec_numbers, score, evalue"
+         summary="group_link, num_core, num_peripheral, source_link, taxon_name, abbreviation, length, product, ec_numbers, score, evalue"
          sorting="score desc"
          /> 
          <summary>
@@ -105,11 +105,10 @@
              <columnAttribute name="evalue_exp" displayName="E-Value-Exp"
                               internal="true" inReportMaker="false"/>
              <columnAttribute name="score" displayName="Score">
-             <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
-              >
-                <description>Display the histogram of the values of this attribute</description>
-              </reporter>
+               <reporter name="histogram" displayName="Histogram" scopes=""
+                         implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
+                 <description>Display the histogram of the values of this attribute</description>
+               </reporter>
              </columnAttribute>
              <columnAttribute name="summary" displayName="Summary" internal="true" inReportMaker="false"/>
              <columnAttribute name="alignment" displayName="Alignment" internal="true" inReportMaker="false"/>             
@@ -131,7 +130,7 @@
          queryRef="SequenceIds.ByMotif"
          recordClassRef="SequenceRecordClasses.SequenceRecordClass">
         <attributesList
-         summary="group_link, group_size, source_link, taxon_name, abbreviation, length, product, ec_numbers, MatchCount, Locations"
+         summary="group_link, num_core, num_peripheral, source_link, taxon_name, abbreviation, length, product, ec_numbers, MatchCount, Locations"
          sorting="MatchCount desc"
         /> 
 
@@ -289,10 +288,9 @@
            <columnAttribute name="Locations" displayName="Match Locations" align="center"/>
            <columnAttribute name="MatchCount" displayName="Match Count" align="center">
              <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
-              >
-                <description>Display the histogram of the values of this attribute</description>
-              </reporter>
+                       implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
+               <description>Display the histogram of the values of this attribute</description>
+             </reporter>
            </columnAttribute>
            <columnAttribute name="Sequence" displayName="Motif" inReportMaker="false" truncateTo="4000"/>
          </dynamicAttributes>
@@ -308,18 +306,18 @@
         </question>
 
         <question name="ByEcNumber" queryRef="SequenceIds.ByEcNumber" 
-                  displayName="Enzyme Commission Assignment" shortDisplayName="Enzymes"
+                  displayName="EC Number (specific)" shortDisplayName="Enzymes"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
-                        <![CDATA[ Find sequences that are assigned to a specified Enzyme Commission Number]]>
+                        <![CDATA[ Find proteins that are assigned to a specific Enzyme Commission (EC) Number]]>
             </description>
         </question>
 
         <question name="ByEcAssignment" queryRef="SequenceIds.ByEcAssignment" 
-                  displayName="Enzyme Commission Assignment" shortDisplayName="Enzymes"
+                  displayName="EC Number (any)" shortDisplayName="Enzymes"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
-                        <![CDATA[ Find sequences that are assigned to at least one Enzyme Commission Number]]>
+                        <![CDATA[ Find proteins that are assigned to at least one Enzyme Commission (EC) Number]]>
             </description>
         </question>
 
@@ -350,7 +348,7 @@
                            displayName="Score" align="center"/>
             </dynamicAttributes>
             <attributesList
-                 summary="group_link, group_size, source_link, taxon_name, abbreviation, length, product, ec_numbers, max_score, fields_matched"
+                 summary="group_link, num_core, num_peripheral, source_link, taxon_name, abbreviation, length, product, ec_numbers, max_score, fields_matched"
                  sorting="max_score desc,full_id asc"/> 
         </question>
 

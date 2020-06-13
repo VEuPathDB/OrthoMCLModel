@@ -32,7 +32,7 @@
                         parentRef="GroupRecordClasses.GroupRecordClass">
      	    <questionRef>GroupQuestions.BySequenceCount</questionRef>
      	    <questionRef>GroupQuestions.ByGenomeCount</questionRef>
-     	    <questionRef>GroupQuestions.ByConnectivity</questionRef>
+     	    <questionRef>GroupQuestions.ByHomology</questionRef>
      	    <questionRef>GroupQuestions.ByPercentMatchPairs</questionRef>
      	    <questionRef>GroupQuestions.ByPercentIdentity</questionRef>
      	    <questionRef>GroupQuestions.ByPercentMatch</questionRef>

@@ -52,6 +52,7 @@
                     </text>
                 </textAttribute>
                 <columnAttribute name="name" displayName="Name" />
+                <columnAttribute name="core_peripheral" displayName="Core/Peripheral" />
                 <columnAttribute name="three_letter_abbrev" displayName="Abbreviation" />
                 <columnAttribute name="resource_name" displayName="Resource" />
                 <columnAttribute name="resource_url" displayName="URL" />
@@ -67,6 +68,7 @@
                   </text>
                 </textAttribute>
                 <columnAttribute name="name" displayName="Name" />
+                <columnAttribute name="core_peripheral" displayName="Core/Peripheral" />
                 <columnAttribute name="three_letter_abbrev" displayName="Abbreviation" />
                 <columnAttribute name="sequences" displayName="# Sequences" />
                 <columnAttribute name="clustered_sequences" displayName="# Clustered Sequences" />

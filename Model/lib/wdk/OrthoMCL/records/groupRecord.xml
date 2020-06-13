@@ -46,31 +46,22 @@
       <!-- Views -->
       <!-- =============================================================== -->
 
-            <summaryView name="phyletic" display="Phyletic pattern" />
+            <summaryView name="phyletic" display="Phyletic pattern"/>
 
             <recordView name="_default" display="Sequences &amp; Statistics"/>
-                         <!--jsp="/wdkCustomization/jsp/records/group-default.jsp"/>-->
-
             <recordView name="pfam-domain-graph" display="PFam domains (graphic)"/>
-                         <!--jsp="/wdkCustomization/jsp/records/group-pfam-graph.jsp"/>-->
-
             <recordView name="pfam-domain-list" display="PFam domains (details)"/>
-                         <!--jsp="/wdkCustomization/jsp/records/group-pfam-list.jsp"/>-->
-
             <recordView name="msa" display="MSA"/>
-                         <!--jsp="/wdkCustomization/jsp/records/group-msa.jsp"/>-->
-
             <recordView name="layout" display="Cluster graph"/>
-                         <!--jsp="/showLayout.do"/>-->
 
 
       <!-- =============================================================== -->
       <!--  Default summary attributes and sorting attributes -->  
       <!-- =============================================================== -->
-            
+
          <attributesList
-           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers"
-           sorting="number_of_members desc"/>
+           summary="number_of_members, avg_percent_identity, percent_match_pairs, evalue_display, ec_numbers"
+           sorting="number_of_members DESC, evalue ASC"/>            
 
       <!-- =============================================================== -->
       <!-- Attributes -->  
@@ -91,59 +82,46 @@
 
             <attributeQueryRef ref="GroupAttributes.GroupAttrs">  
 
-                <columnAttribute name="number_of_members" displayName="# Sequences">
-             <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
-              >
-                <description>Display the histogram of the values of this attribute</description>
-              </reporter>
+                <columnAttribute name="number_of_members" displayName="Total Number Proteins">
+                  <reporter name="histogram" displayName="Histogram" scopes=""
+                            implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
+                    <description>Display the histogram of the values of this attribute</description>
+                  </reporter>
                 </columnAttribute>
 
-                <columnAttribute name="avg_connectivity" displayName="Average % Connectivity" help="The average percent connectivity of the sequences in a group.  Each sequence's connectivity is the number of Ortholog, CoOrtholog or Inparalog pairs assigned by the OrthoMCL algorithm.  The average percent is that number summed for all the sequences and divided by the number of possible pairs each sequence could have.  See the Methods Section for details.">
-             <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
-              >
-                <description>Display the histogram of the values of this attribute</description>
-              </reporter>
+                <columnAttribute name="avg_connectivity" displayName="Average % Homology" help="The average percent homology for all proteins in the group. Each protein's percent homology is the number of its Ortholog, CoOrtholog or Inparalog pairs assigned by the OrthoMCL algorithm divided by the total number of possible pairs for that protein. See the Methods Section for details.">
+                  <reporter name="histogram" displayName="Histogram" scopes=""
+                            implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
+                    <description>Display the histogram of the values of this attribute</description>
+                  </reporter>
                 </columnAttribute>
 
-                 <columnAttribute name="percent_match_pairs" displayName="% Similar Pairs" help="The percent of sequence pairs in a group that have an above-threshold similarity  See the Methods Section for details.">
-             <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
-              >
-                <description>Display the histogram of the values of this attribute</description>
-              </reporter>
+                <columnAttribute name="percent_match_pairs" displayName="% Protein Pairs With Similarity" help="The percent of sequence pairs in a group that have an above-threshold similarity  See the Methods Section for details.">
+                  <reporter name="histogram" displayName="Histogram" scopes=""
+                            implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
+                    <description>Display the histogram of the values of this attribute</description>
+                  </reporter>
                 </columnAttribute>
 
-               <columnAttribute name="avg_percent_identity" displayName="Average % Identity" help="The average of the percent identity of all pairs of sequences in a group that have an above threshold similarity.  See the Methods Section for details.">
-             <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
-              >
-                <description>Display the histogram of the values of this attribute</description>
-              </reporter>
+               <columnAttribute name="avg_percent_identity" displayName="Average % Identity" help="The average percent identity between two sequences in the group that have an above-threshold similarity. See the Methods Section for details.">
+                  <reporter name="histogram" displayName="Histogram" scopes=""
+                            implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
+                    <description>Display the histogram of the values of this attribute</description>
+                  </reporter>
                 </columnAttribute>
 
-                <columnAttribute name="avg_percent_match" displayName="Avg % Match Length" help="The average of the percent match length of all pairs of sequences in a group that have an above threshold similarity.  See the Methods Section for details.">
-             <reporter name="histogram" displayName="Histogram" scopes=""
-               implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter"
-              >
-                <description>Display the histogram of the values of this attribute</description>
-              </reporter>
+                <columnAttribute name="avg_percent_match" displayName="Avg % Match Length" help="The average of the percent match length of all pairs of sequences in a group that have an above-threshold similarity. See the Methods Section for details.">
+                  <reporter name="histogram" displayName="Histogram" scopes=""
+                            implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
+                    <description>Display the histogram of the values of this attribute</description>
+                  </reporter>
                 </columnAttribute>
 
-                <columnAttribute name="avg_evalue_mant" displayName="Average E-value Mant" internal="true" />
+                <columnAttribute name="evalue_display" displayName="Average BLAST E-value" />
 
-                <columnAttribute name="avg_evalue_exp" displayName="Average E-value Exp" internal="true" />
+                <columnAttribute name="evalue" displayName="Average BLAST E-value Actual" internal="true" />
 
             </attributeQueryRef>
-            
-            <textAttribute name="avg_evalue" displayName="Average E-value" help="The average of the percent identity of all pairs of sequences in a group that have an above threshold similarity.  See the Methods Section for details.">
-				<text>
-				<![CDATA[
-				$$avg_evalue_mant$$E$$avg_evalue_exp$$
-				]]>
-				</text>
-	    </textAttribute>
 
             <attributeQueryRef ref="GroupAttributes.MSA">
                 <columnAttribute name="msa" displayName="Multiple Sequence Alignment" internal="true" inReportMaker="false" />
@@ -182,8 +160,24 @@
                 <columnAttribute name="count" displayName="Count" />
             </table>
 
+            <table name="Statistics" internal="true" inReportMaker="false"
+                   displayName="Group Statistics"
+                   queryRef="GroupTables.Statistics">
+                <columnAttribute name="group_type" displayName="Protein types" />
+                <columnAttribute name="number_of_members" displayName="# Proteins" />
+                <columnAttribute name="avg_percent_match" displayName="Avg % Match" />
+                <columnAttribute name="avg_percent_identity" displayName="Avg % Identity" help="The average of the percent identity of all pairs of sequences in a group that have an above-threshold similarity.  See the Methods Section for details." />
+                <columnAttribute name="number_of_match_pairs" displayName="Num Pairs With Similarity"/>
+                <columnAttribute name="max_match_pairs" displayName="Max Possible Pairs"/>
+                <columnAttribute name="percent_match_pairs" displayName="% Protein Pairs With Similarity"/>
+                <columnAttribute name="avg_connectivity" displayName="Avg % Homology"/>
+                <columnAttribute name="evalue_display" displayName="Average BLAST E-value" />
+                <columnAttribute name="evalue" displayName="Average BLAST E-value Actual" internal="true" />
+            </table>
+
+
             <table name="Sequences"
-                   displayName="List of Sequences"
+                   displayName="List of All Sequences"
                    queryRef="GroupTables.Proteins">
 	      <linkAttribute displayName="Accession" name="sequence_link" inReportMaker="false" internal="false" >
 		<displayText>
@@ -196,6 +190,7 @@
 		</url>
 	      </linkAttribute>
 	      <columnAttribute name="full_id" internal="true" />
+	      <columnAttribute name="core_peripheral" displayName="Core/Peripheral" />
 	      <columnAttribute name="taxon_name" displayName="Taxon" />
 	      <columnAttribute name="length" displayName="Length" />
 	      <columnAttribute name="previous_groups" displayName="Previous Groups" />
@@ -221,7 +216,8 @@
                 <columnAttribute name="accession" displayName="Accession Number" />
                 <columnAttribute name="symbol" displayName="Symbol" />
                 <columnAttribute name="full_id" displayName="Source Id" />
-                <columnAttribute name="length" displayName="Length" />
+                <columnAttribute name="core_peripheral" displayName="Core/Peripheral" />
+                <columnAttribute name="protein_length" displayName="Protein Length" />
                 <columnAttribute name="start_min" displayName="End" />
                 <columnAttribute name="end_max" displayName="Start" />
                 <columnAttribute name="domain_index" internal="true" />

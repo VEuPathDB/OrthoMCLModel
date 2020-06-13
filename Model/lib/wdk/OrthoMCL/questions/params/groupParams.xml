@@ -7,32 +7,52 @@
 
         <stringParam name="group_name" prompt="Group Name" number="false">
             <help>Assigned group name from current or previous releases. Wild card is supported</help>
-            <suggest default="OG5_131227" />
+            <suggest default="OG6_101327" />
         </stringParam>
 
         <datasetParam name="group_names" prompt="Group Names"
 					  recordClassRef="GroupRecordClasses.GroupRecordClass">
             <help>a list of group names</help>
-            <suggest default="OG5_228447, OG5_131227" />
+            <suggest default="OG6_101327, OG6r1_101327" />
         </datasetParam>
 
-        <stringParam name="sequence_count_min" prompt="Min # sequences" number="true">
-            <help>The minimum number of sequences a group has</help>
+        <stringParam name="core_count_min" prompt="Min # Core Proteins" number="true">
+            <help>The minimum number of core proteins in the group</help>
             <suggest default="10" />
         </stringParam>
 
-        <stringParam name="sequence_count_max" prompt="Max # sequences" number="true">
-            <help>The maximum number of sequences a group has</help>
+        <stringParam name="core_count_max" prompt="Max # Core Proteins" number="true">
+            <help>The maximum number of core proteins in the group</help>
             <suggest default="20" />
         </stringParam>
 
-        <stringParam name="genome_count_min" prompt="Min # taxa" number="true">
-            <help>The minimum number of genomes a group has</help>
+        <stringParam name="peripheral_count_min" prompt="Min # Peripheral Proteins" number="true">
+            <help>The minimum number of peripheral proteins in the group</help>
+            <suggest default="10" />
+        </stringParam>
+
+        <stringParam name="peripheral_count_max" prompt="Max # Peripheral Proteins" number="true">
+            <help>The maximum number of peripheral proteins in the group</help>
+            <suggest default="20" />
+        </stringParam>
+
+        <stringParam name="core_taxon_min" prompt="Min # Core Taxa" number="true">
+            <help>The minimum number of Core genomes in a group</help>
             <suggest default="5" />
         </stringParam>
 
-        <stringParam name="genome_count_max" prompt="Max # taxa" number="true">
-            <help>The maximum number of genomes a group has</help>
+        <stringParam name="core_taxon_max" prompt="Max # Core Taxa" number="true">
+            <help>The maximum number of Core genomes in a group</help>
+            <suggest default="10" />
+        </stringParam>
+
+        <stringParam name="peripheral_taxon_min" prompt="Min # Peripheral Taxa" number="true">
+            <help>The minimum number of Peripheral genomes in a group</help>
+            <suggest default="5" />
+        </stringParam>
+
+        <stringParam name="peripheral_taxon_max" prompt="Max # Peripheral Taxa" number="true">
+            <help>The maximum number of Peripheral genomes in a group</help>
             <suggest default="10" />
         </stringParam>
 
