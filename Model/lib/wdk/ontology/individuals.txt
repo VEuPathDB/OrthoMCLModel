@@ -74,3 +74,4 @@ SequenceRecordClasses.SequenceRecordClass.group_link		Group Statistics	SequenceR
 ## Sequence Tables ##													
 SequenceRecordClasses.SequenceRecordClass.OldGroups		Group Statistics	SequenceRecordClasses.SequenceRecordClass	table	OldGroups						record	download	
 SequenceRecordClasses.SequenceRecordClass.EcNumbers		Group Statistics	SequenceRecordClasses.SequenceRecordClass	table	EcNumbers						record	download	
+SequenceRecordClasses.SequenceRecordClass.PFamDomains		Group Statistics	SequenceRecordClasses.SequenceRecordClass	table	PFamDomains						record	download	
