@@ -21,7 +21,7 @@
 
             <idAttribute name="primary_key" displayName="ID">
                 <text>
-                    <![CDATA[ ]]>
+                    <![CDATA[ $$helper_id$$ ]]>
                 </text>
             </idAttribute>
 
