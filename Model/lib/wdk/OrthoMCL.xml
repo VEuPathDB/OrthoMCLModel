@@ -21,7 +21,7 @@
 	]]>
     </introduction>
     
-    <exampleStratsAuthor name="EuPathDB Example"/>
+    <exampleStratsAuthor name="VEuPathDB BRC"/>
   
     <!-- import the group related pieces -->
     <import file="OrthoMCL/records/groupRecord.xml" />
