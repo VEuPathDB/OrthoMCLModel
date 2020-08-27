@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wdkModel>
 
-    <constant name="releaseDate" includeProjects="OrthoMCL">May 27 2020 09:00</constant>
+    <constant name="releaseDate" includeProjects="OrthoMCL">27 August 2020 13:51</constant>
     <constant name="releaseVersion" includeProjects="OrthoMCL">6.1</constant>
     <constant name="buildNumber" includeProjects="OrthoMCL">6.1</constant>
 
