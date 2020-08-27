@@ -110,7 +110,8 @@
                 and aa.db_ref_id = ref.db_ref_id
               group by aa.aa_sequence_id
              ) OldGroups
-        where substr(eas.secondary_identifier,1,4) = ot.three_letter_abbrev
+        where NVL(SUBSTR(eas.secondary_identifier, 0, INSTR(eas.secondary_identifier, '|')-1),
+	          eas.secondary_identifier) = ot.three_letter_abbrev
           and eas.aa_sequence_id = OrthologGroup.aa_sequence_id(+)
           and eas.aa_sequence_id = EcNumbers.aa_sequence_id(+)
           and eas.aa_sequence_id = OldGroups.aa_sequence_id(+)
