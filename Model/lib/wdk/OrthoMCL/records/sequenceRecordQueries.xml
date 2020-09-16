@@ -184,7 +184,7 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
                          ot.three_letter_abbrev AS abbreviation,
                          ot.name AS taxon
                   FROM dots.ExternalAaSequence eas, apidb.orthomcltaxon ot
-                  WHERE substr(eas.secondary_identifier,1,4) = ot.three_letter_abbrev
+                  WHERE NVL(SUBSTR(eas.secondary_identifier, 0, INSTR(eas.secondary_identifier, '|')-1, eas.secondary_identifier) = ot.three_letter_abbrev
  		]]>
             </sql>
         </sqlQuery>

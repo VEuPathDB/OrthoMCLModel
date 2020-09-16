@@ -147,7 +147,7 @@ WHERE asi.subclass_view = 'ExternalAASequence'
                 <![CDATA[
 SELECT eas.secondary_identifier AS full_id 
 FROM dots.ExternalAaSequence eas
-WHERE lower(substr(eas.secondary_identifier,1,4)) LIKE lower(replace($$taxon_type_ahead$$, '*', '%')) 
+WHERE lower(NVL(SUBSTR(eas.secondary_identifier, 0, INSTR(eas.secondary_identifier, '|')-1), eas.secondary_identifier)) LIKE lower(replace($$taxon_type_ahead$$, '*', '%')) 
                ]]>
             </sql>
         </sqlQuery>
