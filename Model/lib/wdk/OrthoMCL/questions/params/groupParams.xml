@@ -13,7 +13,7 @@
         <datasetParam name="group_names" prompt="Group Names"
 					  recordClassRef="GroupRecordClasses.GroupRecordClass">
             <help>a list of group names</help>
-            <suggest default="OG6_101327, OG6r1_101327" />
+            <suggest default="OG6_101327, OG6r2_101799" />
         </datasetParam>
 
         <stringParam name="core_count_min" prompt="Min # Core Proteins" number="true">

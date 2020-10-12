@@ -177,7 +177,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
       </question>
 
       <question name="ByEValue" queryRef="GroupIds.ByEValue" 
-                displayName="Avg E-Value"
+                displayName="Median E-Value"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
            summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, evalue_display, percent_match_pairs"
@@ -185,7 +185,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
            /> 
         <description>
           <![CDATA[
-		   Find Ortholog Groups by the average Blast e-value between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group. Read more in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
+		   Find Ortholog Groups by the median Blast e-value between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group. Read more in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
                         ]]>
         </description>
       </question>
