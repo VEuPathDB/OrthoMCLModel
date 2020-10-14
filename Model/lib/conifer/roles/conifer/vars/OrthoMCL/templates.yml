@@ -1,0 +1,43 @@
+# $SourceFileURL$
+---
+
+# src is relative to conifer/templates unless full path is given
+model-config.xml:
+  src: 'WDK/model-config.xml.j2'
+  dest: '{{ gus_home }}/config/{{ project }}/model-config.xml'
+model.prop:
+  src: 'WDK/model.prop.j2'
+  dest: '{{ gus_home }}/config/{{ project }}/model.prop'
+blast-config.xml:
+  src: 'EbrcWebSvcCommon/blast-config.xml.j2'
+  dest: '{{ gus_home }}/config/blast-config.xml'
+projects.xml:
+  src: 'EbrcWebsiteCommon/projects.xml.j2'
+  dest: '{{ gus_home }}/config/projects.xml'
+tomcat_context.xml:
+  src: 'WDK/tomcat_context.xml.j2'
+  dest: '{{ gus_home }}/config/{{ webapp_ctx }}.xml'
+rebuilder.conf:
+  src: 'EbrcWebsiteCommon/rebuilder.conf.j2'
+  dest: '{{ gus_home }}/config/rebuilder.conf'
+401.shtml:
+  src: 'EbrcWebsiteCommon/401.html.j2'
+  dest: '{{ gus_home }}/../html/401.shtml'
+404.shtml:
+  src: 'EbrcWebsiteCommon/404.html.j2'
+  dest: '{{ gus_home }}/../html/404.shtml'
+500.shtml:
+  src: 'EbrcWebsiteCommon/500.html.j2'
+  dest: '{{ gus_home }}/../html/500.shtml'
+401.html:
+  src: 'EbrcWebsiteCommon/401.html.j2'
+  dest: '{{ gus_home }}/../webapp/401.html'
+404.html:
+  src: 'EbrcWebsiteCommon/404.html.j2'
+  dest: '{{ gus_home }}/../webapp/404.html'
+500.html:
+  src: 'EbrcWebsiteCommon/500.html.j2'
+  dest: '{{ gus_home }}/../webapp/500.html'
+index.html:
+  src: 'EbrcWebsiteCommon/appBase.html.j2'
+  dest: '{{ gus_home }}/../webapp/WEB-INF/includes/client.html'

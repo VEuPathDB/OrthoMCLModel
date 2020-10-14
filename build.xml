@@ -1,13 +1,18 @@
 <project name="OrthoMCLModel" default="Installation" basedir=".">
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooo  Dependencies  oooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <import file="${projectsDir}/EbrcWebSvcCommon/build.xml" />
+
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLModel-Installation" depends="OrthoMCLModel-MavenInstallation,
-                                                      OrthoMCLModel/MapProteomeService-Installation,
-                                                      OrthoMCLModel/Ppe-Installation,
-                                                      OrthoMCLModel/Model-Installation">
+  <target name="OrthoMCLModel-Installation" depends="EbrcWebSvcCommon-Installation,
+                                                     OrthoMCLModel-MavenInstallation,
+                                                     OrthoMCLModel/Model-Installation">
 
     <ant target="defaultProjectInstall" />
 
@@ -21,55 +26,61 @@
   </target>
 
 
-  <!-- oooooooooooooooooo  Installation Postprocess  ooooooooooooooooooooo -->
-
-  <target name="OrthoMCLModel-Installation-postprocess">
-    <echo message="Postprocessing the OrthoMCLModel installation" />
-
-    <replace dir="${targetDir}/bin"
-             propertyFile="${targetDir}/config/replacements.prop">
-      <include name="**/*" />
-      <replacefilter token="@perl@" property="perl" />
-    </replace>
-
-  </target>
-
-
   <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
-
-  <target name="OrthoMCLModel/MapProteomeService-Installation"
-          depends="ProjectTree">
-    <ant target="defaultComponentInstall">
-      <property name="project" value="OrthoMCLModel" />
-      <property name="component" value="MapProteomeService" />
-    </ant>
-  </target>
-
-  <target name="OrthoMCLModel/Ppe-Installation" depends="ProjectTree">
-    <ant target="defaultComponentInstall">
-      <property name="project" value="OrthoMCLModel" />
-      <property name="component" value="Ppe" />
-    </ant>
-  </target>
 
   <target name="OrthoMCLModel/Model-Installation" depends="ProjectTree">
     <ant target="defaultComponentInstall">
       <property name="project" value="OrthoMCLModel" />
       <property name="component" value="Model" />
     </ant>
-  </target>
 
+    <replace dir="${targetDir}/bin"
+             propertyFile="${targetDir}/config/gus.config">
+      <include name="**/*" />
+      <replacefilter token="@perl@" property="perl" />
+      <replacefilter token="@targetDir@" value="${targetDir}" />
+    </replace>
 
-  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
-  <!-- oooooooooooooooooooooooooo  Distributable  ooooooooooooooooooooooooo -->
-  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+    <!-- the following three commands generate the OrthoMCL ontology -->
+    <java failonerror="true" fork="true" classname="org.eupathdb.common.model.ontology.OwlClassGenerator">
+      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename individuals.txt -outputFilename individuals.owl -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/individuals.owl'" />
+      <classpath>
+        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
+        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
+        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-1.2-api-2.13.3.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-api-2.13.3.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-core-2.13.3.jar" />
+        <pathelement location="${targetDir}/config/" />
+      </classpath>
+    </java>
 
-  <target name="OrthoMCLModel-Distributable" depends="ProjectTree">
-    <copy todir="${targetDir}">
-      <fileset dir="${projectsDir}">
-        <exclude name="**/CVS/*" />
-      </fileset>
-    </copy>
+    <java failonerror="true" fork="true" classname="org.eupathdb.common.model.ontology.EuPathAnnotPropAdder">
+      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename annotation.txt -outputFilename annotation.owl  -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/annotation.owl'" />
+      <classpath>
+        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
+        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
+        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-1.2-api-2.13.3.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-api-2.13.3.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-core-2.13.3.jar" />
+        <pathelement location="${targetDir}/config/" />
+      </classpath>
+    </java>
+
+    <java failonerror="true" fork="true" classname="org.eupathdb.common.model.ontology.OntologyMerger">
+      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename categories_full.owl -outputFilename categories_merged.owl" />
+      <classpath>
+        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
+        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
+        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-1.2-api-2.13.3.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-api-2.13.3.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-core-2.13.3.jar" />
+        <pathelement location="${targetDir}/config/" />
+      </classpath>
+    </java>
+
   </target>
 
 

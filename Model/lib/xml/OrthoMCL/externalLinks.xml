@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<xmlAnswer>
+
+   <record>
+      <table name="communityLinks">
+        <row>
+          <attribute name="title">Mammalian Orthology</attribute>
+          <attribute name="url">http://www.informatics.jax.org/orthology.shtml</attribute>
+        </row>
+
+        <row>
+          <attribute name="title">Clusters of Orthologous Groups</attribute>
+          <attribute name="url">http://www.ncbi.nlm.nih.gov/COG/</attribute>
+        </row>
+
+        <row>
+          <attribute name="title">metaPhOrs: phylogeny-based orthology and paralogy prediction</attribute>
+          <attribute name="url">http://orthology.phylomedb.org/</attribute>
+        </row>
+
+        <row>
+          <attribute name="title">PhylomeDB: collections of gene phylogenies</attribute>
+          <attribute name="url">http://phylomedb.org/</attribute>
+        </row>
+
+        <row>
+          <attribute name="title">ENSEMBL</attribute>
+          <attribute name="url">http://ensembl.org/</attribute>
+        </row>
+
+        <row>
+          <attribute name="title">eggNOG</attribute>
+          <attribute name="url">http://eggnog.embl.de/version_3.0/</attribute>
+        </row>
+
+        <row>
+          <attribute name="title">Fungal Orthogroups Repository</attribute>
+          <attribute name="url">http://www.broadinstitute.org/regev/orthogroups/</attribute>
+        </row>
+     </table>
+   </record>
+</xmlAnswer>

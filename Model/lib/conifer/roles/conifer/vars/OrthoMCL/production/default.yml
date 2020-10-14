@@ -1,0 +1,21 @@
+# $SourceFileURL$
+---
+modelconfig_adminEmail:
+  - "{{ 'aurreco$uga.edu'|replace('$', '@') }}"
+  - "{{ 'epharper$upenn.edu'|replace('$', '@') }}"
+  - "{{ 'dfalke$uga.edu'|replace('$', '@') }}"
+  - "{{ 'rdoherty$upenn.edu'|replace('$', '@') }}"
+  - "{{ 'sfischer$pcbi.upenn.edu'|replace('$', '@') }}"
+  - "{{ 'jtlong$upenn.edu'|replace('$', '@') }}"  
+
+modelconfig_appDb_maxIdle: 10
+modelconfig_appDb_maxActive: 40
+modelconfig_userDb_maxIdle: 10
+modelconfig_commentdb.maxIdle: 10
+
+modelprop:
+  GOOGLE_ANALYTICS_ID:  "{{ lookup('euparc',
+  'attr=google_analytics_id xpath=sites/site[@hostname=\"{}\"] default='.format( hostname|swap_hostname(_host_frontends) )
+  )
+}}"
+
