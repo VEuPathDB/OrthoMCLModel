@@ -1,12 +1,11 @@
 package org.orthomcl.service.core.layout;
 
-import org.gusdb.fgputil.json.ToJson;
 import org.json.JSONObject;
 import org.orthomcl.service.core.GenePair;
 import org.orthomcl.shared.model.layout.Edge;
 import org.orthomcl.shared.model.layout.Layout;
 
-public class BlastEdge extends GenePair implements Comparable<BlastEdge>, Edge, ToJson {
+public class BlastEdge extends GenePair implements Comparable<BlastEdge>, Edge {
 
   public static final int MIN_EVALUE = -180;
   public static final int MAX_EVALUE = -5;
