@@ -338,7 +338,7 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
               select og.name as group_name, d.description AS keyword, d.frequency
               from apidb.OrthologGroup og, apidb.OrthomclGroupDomain d
               WHERE og.ortholog_group_id = d.ortholog_group_id
-	           and where og.core_peripheral_residual in ('P','R')
+	           and og.core_peripheral_residual in ('P','R')
             ]]>
           </sql>
         </sqlQuery>
