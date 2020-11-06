@@ -21,25 +21,28 @@ GroupRecordClasses.GroupRecordClass.GroupQuestions.AllGroups		Group Statistics	G
 													
 ## Group Attributes ##
 
-GroupRecordClasses.GroupRecordClass.primary_key		Group	GroupRecordClasses.GroupRecordClass	attribute	primary_key						record	download	results
-GroupRecordClasses.GroupRecordClass.number_of_members		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	number_of_members						record	download	results
-GroupRecordClasses.GroupRecordClass.avg_connectivity		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_connectivity						record	download	results
-GroupRecordClasses.GroupRecordClass.percent_match_pairs		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	percent_match_pairs						record	download	results
-GroupRecordClasses.GroupRecordClass.avg_percent_identity		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_identity						record	download	results
-GroupRecordClasses.GroupRecordClass.avg_percent_match		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_match						record	download	results
-GroupRecordClasses.GroupRecordClass.ec_numbers		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	ec_numbers						record	download	results
-GroupRecordClasses.GroupRecordClass.keywords		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	keywords						record	download	results
-GroupRecordClasses.GroupRecordClass.descriptions		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	descriptions						record	download	results
-GroupRecordClasses.GroupRecordClass.avg_evalue		Group Statistics	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue						record	download	results
+GroupRecordClasses.GroupRecordClass.primary_key		Group	GroupRecordClasses.GroupRecordClass	attribute	primary_key							download	results
+GroupRecordClasses.GroupRecordClass.number_of_members		Group	GroupRecordClasses.GroupRecordClass	attribute	number_of_members						record	download	results
+GroupRecordClasses.GroupRecordClass.avg_connectivity		Group	GroupRecordClasses.GroupRecordClass	attribute	avg_connectivity							download	results
+GroupRecordClasses.GroupRecordClass.percent_match_pairs		Group	GroupRecordClasses.GroupRecordClass	attribute	percent_match_pairs							download	results
+GroupRecordClasses.GroupRecordClass.avg_percent_identity		Group	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_identity							download	results
+GroupRecordClasses.GroupRecordClass.avg_percent_match		Group	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_match							download	results
+GroupRecordClasses.GroupRecordClass.ec_numbers		Group	GroupRecordClasses.GroupRecordClass	attribute	ec_numbers						record	download	results
+GroupRecordClasses.GroupRecordClass.keywords		Group	GroupRecordClasses.GroupRecordClass	attribute	keywords						record	download	results
+GroupRecordClasses.GroupRecordClass.descriptions		Group	GroupRecordClasses.GroupRecordClass	attribute	descriptions						record	download	results
+GroupRecordClasses.GroupRecordClass.cluster_page		Homology-based gene prediction	GroupRecordClasses.GroupRecordClass	attribute	cluster_page						record	download	
+GroupRecordClasses.GroupRecordClass.avg_evalue		Group	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue							download	results
 													
-## Group Tables ##													
-GroupRecordClasses.GroupRecordClass.Sequences		Group Statistics	GroupRecordClasses.GroupRecordClass	table	Sequences						record	download	
-GroupRecordClasses.GroupRecordClass.PFams		Group Statistics	GroupRecordClasses.GroupRecordClass	table	PFams						record	download	
-GroupRecordClasses.GroupRecordClass.ProteinPFams		Group Statistics	GroupRecordClasses.GroupRecordClass	table	ProteinPFams						record	download	
-GroupRecordClasses.GroupRecordClass.ECNumber		Group Statistics	GroupRecordClasses.GroupRecordClass	table	ECNumber						record	download	
-GroupRecordClasses.GroupRecordClass.GroupName		Group Statistics	GroupRecordClasses.GroupRecordClass	table	GroupName						record	download	
-GroupRecordClasses.GroupRecordClass.DomainFrequency		Group Statistics	GroupRecordClasses.GroupRecordClass	table	DomainFrequency						record	download	
-GroupRecordClasses.GroupRecordClass.KeywordFrequency		Group Statistics	GroupRecordClasses.GroupRecordClass	table	KeywordFrequency						record	download	
+## Group Tables ##
+GroupRecordClasses.GroupRecordClass.Statistics		Protein family report	GroupRecordClasses.GroupRecordClass	table	Statistics						record	download	
+GroupRecordClasses.GroupRecordClass.TaxonCounts		Phylogenetics	GroupRecordClasses.GroupRecordClass	table	TaxonCounts						record	download	
+GroupRecordClasses.GroupRecordClass.Sequences		Gene and protein families	GroupRecordClasses.GroupRecordClass	table	Sequences						record	download	
+GroupRecordClasses.GroupRecordClass.PFams		Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	PFams						record	download	
+GroupRecordClasses.GroupRecordClass.ProteinPFams		Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	ProteinPFams						record	download	
+GroupRecordClasses.GroupRecordClass.EcNumber		Protein family report	GroupRecordClasses.GroupRecordClass	table	EcNumber						record	download	
+GroupRecordClasses.GroupRecordClass.GroupName		Group	GroupRecordClasses.GroupRecordClass	table	GroupName							download	
+GroupRecordClasses.GroupRecordClass.DomainFrequency		Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	DomainFrequency							download	
+GroupRecordClasses.GroupRecordClass.KeywordFrequency		Gene and protein families	GroupRecordClasses.GroupRecordClass	table	KeywordFrequency							download	
 													
 ## Sequence Questions ##													
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByIdList		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByIdList						menu	webservice	
@@ -64,7 +67,7 @@ SequenceRecordClasses.SequenceRecordClass.ec_numbers		Group Statistics	SequenceR
 SequenceRecordClasses.SequenceRecordClass.taxon_name		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	taxon_name						record	download	results
 SequenceRecordClasses.SequenceRecordClass.pfam_domains		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	pfam_domains						record	download	results
 SequenceRecordClasses.SequenceRecordClass.abbreviation		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	abbreviation						record	download	results
-SequenceRecordClasses.SequenceRecordClass.group_name		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_name						record	download	results
+SequenceRecordClasses.SequenceRecordClass.group_name		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_name							download	results
 SequenceRecordClasses.SequenceRecordClass.num_core		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	num_core						record	download	results
 SequenceRecordClasses.SequenceRecordClass.num_peripheral		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	num_peripheral						record	download	results
 SequenceRecordClasses.SequenceRecordClass.source_link		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	source_link						record		results

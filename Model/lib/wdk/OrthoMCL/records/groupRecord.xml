@@ -46,31 +46,36 @@
       <!-- Views -->
       <!-- =============================================================== -->
 
+<!--
             <summaryView name="phyletic" display="Phyletic pattern"/>
-
             <recordView name="_default" display="Sequences &amp; Statistics"/>
             <recordView name="pfam-domain-graph" display="PFam domains (graphic)"/>
             <recordView name="pfam-domain-list" display="PFam domains (details)"/>
             <recordView name="msa" display="MSA"/>
             <recordView name="layout" display="Cluster graph"/>
 
+-->
 
       <!-- =============================================================== -->
       <!--  Default summary attributes and sorting attributes -->  
       <!-- =============================================================== -->
 
          <attributesList
-           summary="number_of_members, avg_percent_identity, percent_match_pairs, evalue_display, ec_numbers"
-           sorting="number_of_members DESC, evalue ASC"/>            
+           summary="number_of_members,avg_percent_identity,percent_match_pairs,evalue_display,ec_numbers,keywords,descriptions"
+           sorting="number_of_members DESC, evalue ASC"/>
 
       <!-- =============================================================== -->
       <!-- Attributes -->  
       <!-- =============================================================== -->
+
+<!--
             <favorite noteField="group_name" />
+-->
              
             <primaryKey aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin">
                 <columnRef>group_name</columnRef>
             </primaryKey>
+
 
             <idAttribute name="primary_key" displayName="Group">
                 <text>
@@ -79,6 +84,8 @@
                     ]]>
                 </text>
             </idAttribute>
+
+
 
             <attributeQueryRef ref="GroupAttributes.GroupAttrs">  
 
@@ -121,8 +128,10 @@
 
                 <columnAttribute name="evalue" displayName="Average BLAST E-value Actual" internal="true" />
 
+
             </attributeQueryRef>
 
+<!--
             <attributeQueryRef ref="GroupAttributes.MSA">
                 <columnAttribute name="msa" displayName="Multiple Sequence Alignment" internal="true" inReportMaker="false" />
             </attributeQueryRef>
@@ -131,12 +140,15 @@
                 <columnAttribute name="max_length" displayName="Longest Sequence" internal="true" inReportMaker="false" />
             </attributeQueryRef>
 
-            <attributeQueryRef ref="GroupAttributes.EcNumbers">
-                <columnAttribute name="ec_numbers" displayName="EC Numbers" internal="false" inReportMaker="true" />
-            </attributeQueryRef>
+-->
+
 
             <attributeQueryRef ref="GroupAttributes.Layout">
                 <columnAttribute name="layout" displayName="Layout" internal="true" inReportMaker="false" />
+            </attributeQueryRef>
+
+            <attributeQueryRef ref="GroupAttributes.EcNumbers">
+                <columnAttribute name="ec_numbers" displayName="EC Numbers" internal="false" inReportMaker="true" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Keywords">
@@ -144,15 +156,24 @@
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Domains">
-                <columnAttribute name="descriptions" displayName="Domains" internal="false" inReportMaker="false" />
+                <columnAttribute name="descriptions" displayName="PFam Domains" internal="false" inReportMaker="false" />
             </attributeQueryRef>
+
+
+            <textAttribute name="cluster_page" displayName="Cluster Layout" align="center" help="Open a new tab with cluster layout of this ortholog group" >
+              <text>
+                  <![CDATA[
+                           <a href="/a/app/cluster-graph/$$group_name$$" target="_blank">Click to open the Cluster Layout in a new tab</a>
+		  ]]>
+              </text>
+            </textAttribute>  
 
 
       <!-- =============================================================== -->
       <!-- Tables -->
       <!-- =============================================================== -->
 
-            <table name="TaxonCounts" internal="true" inReportMaker="false"
+            <table name="TaxonCounts" inReportMaker="false"
                    displayName="TaxonCounts"
                    queryRef="GroupTables.TaxonCounts">
                 <columnAttribute name="taxon_id" displayName="Taxon ID" />
@@ -160,7 +181,7 @@
                 <columnAttribute name="count" displayName="Count" />
             </table>
 
-            <table name="Statistics" internal="true" inReportMaker="false"
+            <table name="Statistics" inReportMaker="false"
                    displayName="Group Statistics"
                    queryRef="GroupTables.Statistics">
                 <columnAttribute name="group_type" displayName="Protein types" />
