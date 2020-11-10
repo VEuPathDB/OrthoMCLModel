@@ -305,9 +305,6 @@ tablespace indx
 
 
   <tuningTable name="PhyleticPattern">
-    <externalDependency name="apidb.OrthomclTaxon"/>
-    <externalDependency name="ApiDB.OrthologGroupTaxon"/>
-    <externalDependency name="apidb.orthologgroup"/>
     <sql>
       <![CDATA[
 CREATE TABLE PhyleticPattern&1 NOLOGGING AS
