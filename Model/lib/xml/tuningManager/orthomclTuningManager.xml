@@ -303,4 +303,130 @@ tablespace indx
 
   </tuningTable>
 
+
+  <tuningTable name="PhyleticPattern">
+    <externalDependency name="apidb.OrthomclTaxon"/>
+    <externalDependency name="ApiDB.OrthologGroupTaxon"/>
+    <externalDependency name="apidb.orthologgroup"/>
+    <sql>
+      <![CDATA[
+CREATE TABLE PhyleticPattern&1 NOLOGGING AS
+    (SELECT actual.group_name,
+           '{actual: ' || actual.alveolata || ', total: ' || total.alveolata || '}' as alveolata,
+           '{actual: ' || actual.archaea || ', total: ' || total.archaea || '}' as archaea,
+           '{actual: ' || actual.amoeba || ', total: ' || total.amoeba || '}' as amoeba,
+           '{actual: ' || actual.bacteria || ', total: ' || total.bacteria || '}' as bacteria,
+           '{actual: ' || actual.fungi || ', total: ' || total.fungi || '}' as fungi,
+           '{actual: ' || actual.euglenozoa || ', total: ' || total.euglenozoa || '}' as euglenozoa,
+           '{actual: ' || actual.metazoa || ', total: ' || total.metazoa || '}' as metazoa,
+           '{actual: ' || actual.viridiplantae || ', total: ' || total.viridiplantae || '}' as viridiplantae,
+           '{actual: ' || actual.other_eukaryotes || ', total: ' || total.other_eukaryotes || '}' as other_eukaryotes
+    FROM
+        (SELECT SUM(CASE clade WHEN 'ALVE' THEN num ELSE 0 END) as alveolata,
+                SUM(CASE clade WHEN 'ARCH' THEN num ELSE 0 END) as archaea,
+                SUM(CASE clade WHEN 'AMOE' THEN num ELSE 0 END) as amoeba,
+                SUM(CASE clade WHEN 'BACT' THEN num ELSE 0 END) as bacteria,
+                SUM(CASE clade WHEN 'FUNG' THEN num ELSE 0 END) as fungi,
+                SUM(CASE clade WHEN 'EUGL' THEN num ELSE 0 END) as euglenozoa,
+                SUM(CASE clade WHEN 'META' THEN num ELSE 0 END) as metazoa,
+                SUM(CASE clade WHEN 'VIRI' THEN num ELSE 0 END) as viridiplantae,
+                SUM(CASE clade WHEN 'OEUK' THEN num ELSE 0 END) as other_eukaryotes
+         FROM (SELECT 'BACT' AS clade, COUNT(*) AS num
+               FROM apidb.OrthomclTaxon
+               WHERE core_peripheral in ('C','P')
+               CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+               START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                FROM apidb.OrthomclTaxon
+                                                WHERE three_letter_abbrev ='BACT')
+               UNION                                 
+               SELECT 'ARCH' AS clade, COUNT(*) AS num
+               FROM apidb.OrthomclTaxon
+               WHERE core_peripheral in ('C','P')
+               CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+               START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                FROM apidb.OrthomclTaxon
+                                                WHERE three_letter_abbrev ='ARCH')
+               UNION
+               SELECT 'ALVE' AS clade, COUNT(*) AS num
+               FROM apidb.OrthomclTaxon
+               WHERE core_peripheral in ('C','P')
+               CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+               START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                FROM apidb.OrthomclTaxon
+                                                WHERE three_letter_abbrev ='ALVE')
+               UNION                                 
+               SELECT 'AMOE' AS clade, COUNT(*) AS num
+               FROM apidb.OrthomclTaxon
+               WHERE core_peripheral in ('C','P')
+               CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+               START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                FROM apidb.OrthomclTaxon
+                                                WHERE three_letter_abbrev ='AMOE')
+               UNION                                 
+               SELECT 'EUGL' AS clade, COUNT(*) AS num
+               FROM apidb.OrthomclTaxon
+               WHERE core_peripheral in ('C','P')
+               CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+               START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                FROM apidb.OrthomclTaxon
+                                                WHERE three_letter_abbrev ='EUGL')
+               UNION                                 
+               SELECT 'VIRI' AS clade, COUNT(*) AS num
+               FROM apidb.OrthomclTaxon
+               WHERE core_peripheral in ('C','P')
+               CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+               START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                FROM apidb.OrthomclTaxon
+                                                WHERE three_letter_abbrev ='VIRI')
+               UNION                                 
+               SELECT 'FUNG' AS clade, COUNT(*) AS num
+               FROM apidb.OrthomclTaxon
+               WHERE core_peripheral in ('C','P')
+               CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+               START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                FROM apidb.OrthomclTaxon
+                                                WHERE three_letter_abbrev ='FUNG')
+               UNION                                 
+               SELECT 'META' AS clade, COUNT(*) AS num
+               FROM apidb.OrthomclTaxon
+               WHERE core_peripheral in ('C','P')
+               CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+               START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                FROM apidb.OrthomclTaxon
+                                                WHERE three_letter_abbrev ='META')
+               UNION                                 
+               SELECT 'OEUK' AS clade, COUNT(*) AS num
+               FROM apidb.OrthomclTaxon
+               WHERE core_peripheral in ('C','P')
+               CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+               START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                FROM apidb.OrthomclTaxon
+                                                WHERE three_letter_abbrev ='OEUK')
+        )) total,
+        (SELECT name as group_name,
+                SUM(CASE three_letter_abbrev WHEN 'ALVE' THEN number_of_taxa ELSE 0 END) as alveolata,
+                SUM(CASE three_letter_abbrev WHEN 'ARCH' THEN number_of_taxa ELSE 0 END) as archaea,
+                SUM(CASE three_letter_abbrev WHEN 'AMOE' THEN number_of_taxa ELSE 0 END) as amoeba,
+                SUM(CASE three_letter_abbrev WHEN 'BACT' THEN number_of_taxa ELSE 0 END) as bacteria,
+                SUM(CASE three_letter_abbrev WHEN 'FUNG' THEN number_of_taxa ELSE 0 END) as fungi,
+                SUM(CASE three_letter_abbrev WHEN 'EUGL' THEN number_of_taxa ELSE 0 END) as euglenozoa,
+                SUM(CASE three_letter_abbrev WHEN 'META' THEN number_of_taxa ELSE 0 END) as metazoa,
+                SUM(CASE three_letter_abbrev WHEN 'VIRI' THEN number_of_taxa ELSE 0 END) as viridiplantae,
+                SUM(CASE three_letter_abbrev WHEN 'OEUK' THEN number_of_taxa ELSE 0 END) as other_eukaryotes
+         FROM (SELECT og.name,agt.three_letter_abbrev,agt.number_of_taxa
+               FROM ApiDB.OrthologGroupTaxon agt, apidb.orthologgroup og
+               WHERE agt.ortholog_group_id = og.ortholog_group_id
+                     AND agt.three_letter_abbrev IN ('BACT','ARCH','ALVE','AMOE','EUGL','VIRI','FUNG','META','OEUK'))
+         GROUP BY name) actual)
+      ]]>
+    </sql>
+    <sql>
+      <![CDATA[
+CREATE INDEX PhyleticPattern_idx&1 ON PhyleticPattern&1 (group_name)
+tablespace indx
+      ]]>
+    </sql>
+  </tuningTable>
+
+
 </tuningConfig>
