@@ -51,7 +51,7 @@
                            displayName="Score" align="center"/>
             </dynamicAttributes>
             <attributesList
-               summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, max_score, fields_matched"
+               summary="max_score,fields_matched,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
                sorting="max_score desc,number_of_members desc"/>
       </question>
 
@@ -109,7 +109,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
                 shortDisplayName="Avg Homol"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
-           summary="number_of_members, avg_connectivity, avg_percent_identity, ec_numbers"
+           summary="avg_connectivity,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
            sorting="avg_connectivity desc"
            /> 
         <summary>
@@ -130,7 +130,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
                 shortDisplayName="% Sim Pairs"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
-           summary="number_of_members, percent_match_pairs, avg_percent_identity, avg_connectivity, ec_numbers"
+           summary="percent_match_pairs,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
            sorting="percent_match_pairs desc"
            /> 
         <summary>
@@ -150,7 +150,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
                 displayName="Avg % Identity"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
-           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, percent_match_pairs"
+           summary="avg_percent_identity,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
            sorting="avg_percent_identity desc"
            /> 
         <description>
@@ -165,7 +165,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
                 displayName="Avg % Match Length"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
-           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, avg_percent_match, percent_match_pairs"
+           summary="avg_percent_match,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
            sorting="avg_percent_match desc"
            /> 
         <description>
@@ -180,7 +180,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
                 displayName="Avg E-Value"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
-           summary="number_of_members, avg_percent_identity, avg_connectivity, ec_numbers, evalue_display, percent_match_pairs"
+           summary="evalue_display,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
            sorting="evalue asc"
            /> 
         <description>

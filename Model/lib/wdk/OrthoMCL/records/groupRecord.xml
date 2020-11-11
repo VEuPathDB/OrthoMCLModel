@@ -4,7 +4,7 @@
     
         <recordClass name="GroupRecordClass"
                      urlName="group"
-               displayName="Group">
+               displayName="Ortholog Group">
             
             <testParamValues>
                <paramValue name="group_name">9644248</paramValue>
@@ -61,8 +61,8 @@
       <!-- =============================================================== -->
 
          <attributesList
-           summary="number_of_members,avg_percent_identity,percent_match_pairs,evalue_display,ec_numbers,keywords,descriptions"
-           sorting="number_of_members DESC, evalue ASC"/>
+           summary="number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
+           sorting="number_of_members DESC"/>
 
       <!-- =============================================================== -->
       <!-- Attributes -->  
@@ -77,7 +77,7 @@
             </primaryKey>
 
 
-            <idAttribute name="primary_key" displayName="Group">
+            <idAttribute name="primary_key" displayName="Ortholog Group">
                 <text>
                     <![CDATA[
                     $$group_name$$
@@ -89,7 +89,7 @@
 
             <attributeQueryRef ref="GroupAttributes.GroupAttrs">  
 
-                <columnAttribute name="number_of_members" displayName="Total Number Proteins">
+                <columnAttribute name="number_of_members" internal="false" displayName="Total Number Proteins">
                   <reporter name="histogram" displayName="Histogram" scopes=""
                             implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
                     <description>Display the histogram of the values of this attribute</description>
@@ -143,22 +143,33 @@
 -->
 
 
+            <attributeQueryRef ref="GroupAttributes.PhyleticPattern">
+                <columnAttribute name="alveolata" displayName="alveolata" />
+                <columnAttribute name="archaea" displayName="archaea" />
+                <columnAttribute name="amoeba" displayName="amoeba" />
+                <columnAttribute name="bacteria" displayName="bacteria" />
+                <columnAttribute name="fungi" displayName="fungi" />
+                <columnAttribute name="euglenozoa" displayName="euglenozoa" />
+                <columnAttribute name="metazoa" displayName="metazoa" />
+                <columnAttribute name="viridiplantae" displayName="viridiplantae" />
+                <columnAttribute name="other_eukaryotes" displayName="other_eukaryotes" />
+            </attributeQueryRef>
+
             <attributeQueryRef ref="GroupAttributes.Layout">
                 <columnAttribute name="layout" displayName="Layout" internal="true" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.EcNumbers">
-                <columnAttribute name="ec_numbers" displayName="EC Numbers" internal="false" inReportMaker="true" />
+                <columnAttribute name="ec_numbers" displayName="EC Numbers" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Keywords">
-                <columnAttribute name="keywords" displayName="Keywords" internal="false" inReportMaker="false" />
+                <columnAttribute name="keywords" displayName="Keywords" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Domains">
-                <columnAttribute name="descriptions" displayName="PFam Domains" internal="false" inReportMaker="false" />
+                <columnAttribute name="descriptions" displayName="PFam Domains" />
             </attributeQueryRef>
-
 
             <textAttribute name="cluster_page" displayName="Cluster Layout" align="center" help="Open a new tab with cluster layout of this ortholog group" >
               <text>
@@ -166,7 +177,9 @@
                            <a href="/a/app/cluster-graph/$$group_name$$" target="_blank">Click to open the Cluster Layout in a new tab</a>
 		  ]]>
               </text>
-            </textAttribute>  
+            </textAttribute>
+
+
 
 
       <!-- =============================================================== -->
@@ -174,7 +187,7 @@
       <!-- =============================================================== -->
 
             <table name="TaxonCounts" inReportMaker="false"
-                   displayName="TaxonCounts"
+                   displayName="Phlyetic Distribution of Proteins"
                    queryRef="GroupTables.TaxonCounts">
                 <columnAttribute name="taxon_id" displayName="Taxon ID" />
                 <columnAttribute name="abbrev" displayName="Taxon Abbreviation" />
@@ -198,7 +211,7 @@
 
 
             <table name="Sequences"
-                   displayName="List of All Sequences"
+                   displayName="List of All Proteins"
                    queryRef="GroupTables.Proteins">
 	      <linkAttribute displayName="Accession" name="sequence_link" inReportMaker="false" internal="false" >
 		<displayText>
@@ -221,7 +234,7 @@
             </table>
             
             <table name="PFams"
-                   displayName="Pfam Domains"
+                   displayName="PFam Legend"
                    queryRef="GroupTables.PFams">
                 <columnAttribute name="accession" displayName="Accession Number" />
                 <columnAttribute name="symbol" displayName="Symbol" />
@@ -232,7 +245,7 @@
             </table>
 
             <table name="ProteinPFams"
-                   displayName="Pfam Domain Architecture"
+                   displayName="PFam Architecture of Each Protein"
                    queryRef="GroupTables.ProteinPFams">
                 <columnAttribute name="accession" displayName="Accession Number" />
                 <columnAttribute name="symbol" displayName="Symbol" />
@@ -245,7 +258,7 @@
             </table>
 
             <table name="EcNumber"
-                   displayName="EC Number"
+                   displayName="Summary of EC Numbers"
                    queryRef="GroupTables.EcNumber">
               <columnAttribute name="ec_number" internal="true" inReportMaker="true"/>
               <linkAttribute name="ec_number_link" inReportMaker="false"

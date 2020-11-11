@@ -30,19 +30,28 @@ GroupRecordClasses.GroupRecordClass.avg_percent_match		Group	GroupRecordClasses.
 GroupRecordClasses.GroupRecordClass.ec_numbers		Group	GroupRecordClasses.GroupRecordClass	attribute	ec_numbers						record	download	results
 GroupRecordClasses.GroupRecordClass.keywords		Group	GroupRecordClasses.GroupRecordClass	attribute	keywords						record	download	results
 GroupRecordClasses.GroupRecordClass.descriptions		Group	GroupRecordClasses.GroupRecordClass	attribute	descriptions						record	download	results
-GroupRecordClasses.GroupRecordClass.cluster_page		Homology-based gene prediction	GroupRecordClasses.GroupRecordClass	attribute	cluster_page						record	download	
+GroupRecordClasses.GroupRecordClass.cluster_page	http://edamontology.org/operation_3663	Homology-based gene prediction	GroupRecordClasses.GroupRecordClass	attribute	cluster_page						record	download	
 GroupRecordClasses.GroupRecordClass.avg_evalue		Group	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue							download	results
+GroupRecordClasses.GroupRecordClass.alveolata		Group	GroupRecordClasses.GroupRecordClass	attribute	alveolata							download	results
+GroupRecordClasses.GroupRecordClass.archaea		Group	GroupRecordClasses.GroupRecordClass	attribute	archaea							download	results
+GroupRecordClasses.GroupRecordClass.amoeba		Group	GroupRecordClasses.GroupRecordClass	attribute	amoeba							download	results
+GroupRecordClasses.GroupRecordClass.bacteria		Group	GroupRecordClasses.GroupRecordClass	attribute	bacteria							download	results
+GroupRecordClasses.GroupRecordClass.fungi		Group	GroupRecordClasses.GroupRecordClass	attribute	fungi							download	results
+GroupRecordClasses.GroupRecordClass.euglenozoa		Group	GroupRecordClasses.GroupRecordClass	attribute	euglenozoa							download	results
+GroupRecordClasses.GroupRecordClass.metazoa		Group	GroupRecordClasses.GroupRecordClass	attribute	metazoa							download	results
+GroupRecordClasses.GroupRecordClass.viridiplantae		Group	GroupRecordClasses.GroupRecordClass	attribute	viridiplantae							download	results
+GroupRecordClasses.GroupRecordClass.other_eukaryotes		Group	GroupRecordClasses.GroupRecordClass	attribute	other_eukaryotes							download	results
 													
 ## Group Tables ##
-GroupRecordClasses.GroupRecordClass.Statistics		Protein family report	GroupRecordClasses.GroupRecordClass	table	Statistics						record	download	
-GroupRecordClasses.GroupRecordClass.TaxonCounts		Phylogenetics	GroupRecordClasses.GroupRecordClass	table	TaxonCounts						record	download	
-GroupRecordClasses.GroupRecordClass.Sequences		Gene and protein families	GroupRecordClasses.GroupRecordClass	table	Sequences						record	download	
-GroupRecordClasses.GroupRecordClass.PFams		Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	PFams						record	download	
-GroupRecordClasses.GroupRecordClass.ProteinPFams		Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	ProteinPFams						record	download	
-GroupRecordClasses.GroupRecordClass.EcNumber		Protein family report	GroupRecordClasses.GroupRecordClass	table	EcNumber						record	download	
+GroupRecordClasses.GroupRecordClass.Statistics	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	Statistics					1	record	download	
+GroupRecordClasses.GroupRecordClass.TaxonCounts	http://edamontology.org/topic_3293	Phylogenetics	GroupRecordClasses.GroupRecordClass	table	TaxonCounts						record	download	
+GroupRecordClasses.GroupRecordClass.Sequences	http://edamontology.org/topic_0623	Gene and protein families	GroupRecordClasses.GroupRecordClass	table	Sequences						record	download	
+GroupRecordClasses.GroupRecordClass.PFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	PFams					1	record	download	
+GroupRecordClasses.GroupRecordClass.ProteinPFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	ProteinPFams					2	record	download	
+GroupRecordClasses.GroupRecordClass.EcNumber	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	EcNumber					2	record	download	
 GroupRecordClasses.GroupRecordClass.GroupName		Group	GroupRecordClasses.GroupRecordClass	table	GroupName							download	
-GroupRecordClasses.GroupRecordClass.DomainFrequency		Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	DomainFrequency							download	
-GroupRecordClasses.GroupRecordClass.KeywordFrequency		Gene and protein families	GroupRecordClasses.GroupRecordClass	table	KeywordFrequency							download	
+GroupRecordClasses.GroupRecordClass.DomainFrequency	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	DomainFrequency							download	
+GroupRecordClasses.GroupRecordClass.KeywordFrequency	http://edamontology.org/topic_0623	Gene and protein families	GroupRecordClasses.GroupRecordClass	table	KeywordFrequency							download	
 													
 ## Sequence Questions ##													
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByIdList		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByIdList						menu	webservice	
@@ -75,6 +84,6 @@ SequenceRecordClasses.SequenceRecordClass.sequence_text		Group Statistics	Sequen
 SequenceRecordClasses.SequenceRecordClass.group_link		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_link						record		results
 													
 ## Sequence Tables ##													
-SequenceRecordClasses.SequenceRecordClass.OldGroups		Group Statistics	SequenceRecordClasses.SequenceRecordClass	table	OldGroups						record	download	
-SequenceRecordClasses.SequenceRecordClass.EcNumbers		Group Statistics	SequenceRecordClasses.SequenceRecordClass	table	EcNumbers						record	download	
-SequenceRecordClasses.SequenceRecordClass.PFamDomains		Group Statistics	SequenceRecordClasses.SequenceRecordClass	table	PFamDomains						record	download	
+SequenceRecordClasses.SequenceRecordClass.OldGroups	http://edamontology.org/operation_3282	ID mapping	SequenceRecordClasses.SequenceRecordClass	table	OldGroups						record	download	
+SequenceRecordClasses.SequenceRecordClass.EcNumbers	http://edamontology.org/data_1011	EC number	SequenceRecordClasses.SequenceRecordClass	table	EcNumbers						record	download	
+SequenceRecordClasses.SequenceRecordClass.PFamDomains	http://edamontology.org/data_2757	PFam domain name	SequenceRecordClasses.SequenceRecordClass	table	PFamDomains						record	download	

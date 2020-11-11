@@ -1,9 +1,9 @@
 		en	en
 		EUPATH_0000052	EUPATH_0000274
 Phylogenetics	http://edamontology.org/topic_3293	Phyletic distribution	1
-Protein family report	http://edamontology.org/data_0907	 Group statistical summary	2
+Protein family report	http://edamontology.org/data_0907	Group summary	2
 Gene and protein families	http://edamontology.org/topic_0623	List of proteins	3
-Protein structure analysis	http://edamontology.org/topic_2814	PFam domain architecture	4
+Protein structure analysis	http://edamontology.org/topic_2814	PFam domains	4
 Homology-based gene prediction	 http://edamontology.org/operation_3663	Cluster graph	5
 Protein sequence  http://edamontology.org/data_2976	Protein sequence  6
 EC number	http://edamontology.org/data_1011	EC numbers	7
