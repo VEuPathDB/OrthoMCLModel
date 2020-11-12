@@ -145,9 +145,9 @@ WHERE asi.subclass_view = 'ExternalAASequence'
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-SELECT eas.secondary_identifier AS full_id 
-FROM dots.ExternalAaSequence eas
-WHERE lower(substr(eas.secondary_identifier,1,4)) LIKE lower(replace($$taxon_type_ahead$$, '*', '%')) 
+SELECT full_id 
+FROM apidbtuning.sequenceattributes
+WHERE taxon_abbreviation LIKE lower(replace($$taxon_type_ahead$$, '*', '%')) 
                ]]>
             </sql>
         </sqlQuery>

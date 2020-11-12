@@ -10,7 +10,7 @@
     
     <recordClass name="SequenceRecordClass"
                  urlName="sequence"
-                 displayName="Sequence">
+                 displayName="Protein">
       
       <testParamValues>
         <paramValue name="full_id">aaeg|AAEL000450-PA</paramValue>
@@ -49,7 +49,7 @@
       <!-- =============================================================== -->
       
       <attributesList
-        summary="core_peripheral, group_link, num_core, num_peripheral, source_link, taxon_name, abbreviation, length, product, ec_numbers"
+        summary="taxon_name,product,length,ec_numbers,pfam_domains,core_peripheral,group_link"
         sorting="primary_key asc"/>
 
 
@@ -73,7 +73,10 @@
       <!-- =============================================================== -->
       <!-- Attributes -->  
       <!-- =============================================================== -->
+
+<!--
       <favorite noteField="product" />
+-->
 
       <primaryKey aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin">
         <columnRef>full_id</columnRef>
@@ -89,13 +92,13 @@
 
       <attributeQueryRef ref="SequenceAttributes.SequenceAttrs">  
         <columnAttribute name="source_id" displayName="Source ID" />
-        <columnAttribute name="length" displayName="Length">
+        <columnAttribute name="length" displayName="# amino acids">
           <reporter name="histogram" displayName="Histogram" scopes=""
                     implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
             <description>Display the histogram of the values of this attribute</description>
           </reporter>
         </columnAttribute>
-        <columnAttribute name="product" displayName="Product">
+        <columnAttribute name="product" displayName="Description">
           <reporter name="wordCloud" displayName="Word Cloud" scopes=""
                     implementation="org.gusdb.wdk.model.report.reporter.WordCloudAttributeReporter">
             <description>Display the terms in the attribute as a word cloud</description>
@@ -123,6 +126,7 @@
         <columnAttribute name="group_name" displayName="Group ID" internal="false" inReportMaker="true" />
         <columnAttribute name="num_core" displayName="Number of Core Proteins" internal="false"/>
         <columnAttribute name="num_peripheral" displayName="Number of Peripheral Proteins" internal="false"/>
+        <columnAttribute name="old_groups" displayName="Previous ortholog groups" internal="false"/>
         <columnAttribute name="url" displayName="Source Database Link" internal="true" inReportMaker="true" />
         <columnAttribute name="link_text" internal="true" inReportMaker="false" />
 
@@ -169,6 +173,31 @@
           ]]>
         </url>
       </linkAttribute>
+
+
+            <textAttribute name="record_overview" displayName="Record Overview HTML">
+              <text>
+                  <![CDATA[
+			   <div class="eupathdb-RecordOverview">
+			      <div class="eupathdb-RecordOverviewTitle">
+			      </div>
+
+			      <div class="eupathdb-RecordOverviewPanels">
+			          <div class="eupathdb-RecordOverviewLeft">
+				      <div class="eupathdb-RecordOverviewItem" data-label="Description">$$product$$</div>
+				      <div class="eupathdb-RecordOverviewItem" data-label="Organism">$$taxon_name$$</div>
+				      <div class="eupathdb-RecordOverviewItem" data-label="Organism abbreviation">$$abbreviation$$</div>
+				      <div class="eupathdb-RecordOverviewItem" data-label="Core/Peripheral species">$$core_peripheral$$</div>
+
+				      <div class="eupathdb-RecordOverviewItem" data-label="Ortholog group"><a href="@LEGACY_WEBAPP_BASE_URL@/app/record/group/$$group_name$$">$$group_name$$</a></div>
+				      <div class="eupathdb-RecordOverviewItem" data-label="Previous ortholog groups">$$old_groups$$</div>
+			          </div>
+			      </div>
+			  </div>
+		  ]]>
+              </text>
+            </textAttribute>
+
 
 
       <!-- =============================================================== -->

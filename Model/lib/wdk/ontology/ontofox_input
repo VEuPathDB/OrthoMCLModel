@@ -5,6 +5,7 @@ http://purl.obolibrary.org/obo/eupath/category/categories.owl
 EDAM
 
 [Low level source term URIs]
+http://edamontology.org/topic_0219 # Annotation and curation
 http://edamontology.org/topic_3293 # Phylogenetics
 http://edamontology.org/data_0907 # Protein family report
 http://edamontology.org/topic_0623 # Gene and protein families
@@ -16,6 +17,8 @@ http://edamontology.org/data_2757 # Pfam domain name
 http://edamontology.org/operation_3282 # ID mapping
 
 [Top level source term URIs and target direct superclass URIs]
+http://edamontology.org/topic_0219 # Annotation and curation
+subClassOf http://www.w3.org/2002/07/owl#Thing
 http://edamontology.org/topic_3293 # Phylogenetics
 subClassOf http://www.w3.org/2002/07/owl#Thing
 http://edamontology.org/data_0907 # Protein family report

@@ -68,12 +68,13 @@ FROM apidbTuning.SequenceAttributes sa
            <column name="num_peripheral"/>
            <column name="url"/>
            <column name="link_text"/>
+           <column name="old_groups"/>
            <sql>
              <![CDATA[
-               SELECT sa.full_id, sa.group_name, sa.url,
+               SELECT sa.full_id, sa.group_name, sa.url, sa.old_groups,
 	              CASE sa.core_peripheral WHEN 'C' THEN 'Core' WHEN 'P' THEN 'Peripheral' END AS core_peripheral,
 		      CASE WHEN sa.group_name LIKE 'OG%r%_%' THEN 0 ELSE sa.group_size END AS num_core,
-		      CASE WHEN sa.group_name LIKE 'OG%r%_%' THEN sa.group_size ELSE sa.peripheral_group_size-sa.group_size END AS num_peripheral, 
+		      CASE WHEN sa.group_name LIKE 'OG%r%_%' THEN sa.group_size ELSE sa.peripheral_group_size-sa.group_size END AS num_peripheral,
                       CASE WHEN sa.url is null THEN null ELSE sa.full_id END AS link_text
                FROM ApidbTuning.SequenceAttributes sa
              ]]>
@@ -179,11 +180,8 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             <column name="abbreviation"/>
             <sql>
 		<![CDATA[
-                  SELECT eas.secondary_identifier AS full_id,
-                         ot.three_letter_abbrev AS abbreviation,
-                         ot.name AS taxon
-                  FROM dots.ExternalAaSequence eas, apidb.orthomcltaxon ot
-                  WHERE substr(eas.secondary_identifier,1,4) = ot.three_letter_abbrev
+                  SELECT full_id, taxon_abbreviation AS abbreviation, taxon_name AS taxon
+                  FROM apidbtuning.sequenceattributes
  		]]>
             </sql>
         </sqlQuery>

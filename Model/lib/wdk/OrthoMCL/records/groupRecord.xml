@@ -142,18 +142,252 @@
 
 -->
 
-
             <attributeQueryRef ref="GroupAttributes.PhyleticPattern">
-                <columnAttribute name="alveolata" displayName="alveolata" />
-                <columnAttribute name="archaea" displayName="archaea" />
-                <columnAttribute name="amoeba" displayName="amoeba" />
-                <columnAttribute name="bacteria" displayName="bacteria" />
-                <columnAttribute name="fungi" displayName="fungi" />
-                <columnAttribute name="euglenozoa" displayName="euglenozoa" />
-                <columnAttribute name="metazoa" displayName="metazoa" />
-                <columnAttribute name="viridiplantae" displayName="viridiplantae" />
-                <columnAttribute name="other_eukaryotes" displayName="other_eukaryotes" />
+	      <columnAttribute name="alveolata_actual" internal="true" />
+	      <columnAttribute name="alveolata_total" internal="true" />
+	      <columnAttribute name="alveolata_percent" internal="true" />
+	      <columnAttribute name="archaea_actual" internal="true" />
+	      <columnAttribute name="archaea_total" internal="true" />
+	      <columnAttribute name="archaea_percent" internal="true" />
+	      <columnAttribute name="amoeba_actual" internal="true" />
+	      <columnAttribute name="amoeba_total" internal="true" />
+	      <columnAttribute name="amoeba_percent" internal="true" />
+	      <columnAttribute name="bacteria_actual" internal="true" />
+	      <columnAttribute name="bacteria_total" internal="true" />
+	      <columnAttribute name="bacteria_percent" internal="true" />
+	      <columnAttribute name="fungi_actual" internal="true" />
+	      <columnAttribute name="fungi_total" internal="true" />
+	      <columnAttribute name="fungi_percent" internal="true" />
+	      <columnAttribute name="euglenozoa_actual" internal="true" />
+	      <columnAttribute name="euglenozoa_total" internal="true" />
+	      <columnAttribute name="euglenozoa_percent" internal="true" />
+	      <columnAttribute name="metazoa_actual" internal="true" />
+	      <columnAttribute name="metazoa_total" internal="true" />
+	      <columnAttribute name="metazoa_percent" internal="true" />
+	      <columnAttribute name="viridiplantae_actual" internal="true" />
+	      <columnAttribute name="viridiplantae_total" internal="true" />
+	      <columnAttribute name="viridiplantae_percent" internal="true" />
+	      <columnAttribute name="other_eukaryotes_actual" internal="true" />
+	      <columnAttribute name="other_eukaryotes_total" internal="true" />
+	      <columnAttribute name="other_eukaryotes_percent" internal="true" />
             </attributeQueryRef>
+
+            <textAttribute name="alveolata" displayName="Alveolata" >
+	      <display>
+                  <![CDATA[
+		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
+			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #CC3399; border: 1px solid gray;">
+			      <div style="height: calc(100% - $$alveolata_percent$$%); width: 100%; background-color: white;">
+			      </div>
+			  </div>
+			  <div style="display: flex; align-items: center; height: $$alveolata_percent$$%;">
+			       $$alveolata_percent$$%
+			  </div>
+		      </div>
+		      <div style="padding: 0.25em 0.5em;">
+			   $$alveolata_actual$$ / $$alveolata_total$$
+		      </div>
+		  ]]>
+	      </display>
+              <text>
+                  <![CDATA[
+			   $$alveolata_percent$$
+		  ]]>
+              </text>
+            </textAttribute>
+
+            <textAttribute name="archaea" displayName="Archaea" >
+	      <display>
+                  <![CDATA[
+		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
+			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #77CCDD; border: 1px solid gray;">
+			      <div style="height: calc(100% - $$archaea_percent$$%); width: 100%; background-color: white;">
+			      </div>
+			  </div>
+			  <div style="display: flex; align-items: center; height: $$archaea_percent$$%;">
+			       $$archaea_percent$$%
+			  </div>
+		      </div>
+		      <div style="padding: 0.25em 0.5em;">
+			   $$archaea_actual$$ / $$archaea_total$$
+		      </div>
+		  ]]>
+	      </display>
+              <text>
+                  <![CDATA[
+			   $$archaea_percent$$
+		  ]]>
+              </text>
+            </textAttribute>
+
+            <textAttribute name="amoeba" displayName="Amoeba" >
+	      <display>
+                  <![CDATA[
+		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
+			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #3399CC; border: 1px solid gray;">
+			      <div style="height: calc(100% - $$amoeba_percent$$%); width: 100%; background-color: white;">
+			      </div>
+			  </div>
+			  <div style="display: flex; align-items: center; height: $$amoeba_percent$$%;">
+			       $$amoeba_percent$$%
+			  </div>
+		      </div>
+		      <div style="padding: 0.25em 0.5em;">
+			   $$amoeba_actual$$ / $$amoeba_total$$
+		      </div>
+		  ]]>
+	      </display>
+              <text>
+                  <![CDATA[
+			   $$amoeba_percent$$
+		  ]]>
+              </text>
+            </textAttribute>
+
+            <textAttribute name="bacteria" displayName="Bacteria" >
+	      <display>
+                  <![CDATA[
+		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
+			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #9999CC; border: 1px solid gray;">
+			      <div style="height: calc(100% - $$bacteria_percent$$%); width: 100%; background-color: white;">
+			      </div>
+			  </div>
+			  <div style="display: flex; align-items: center; height: $$bacteria_percent$$%;">
+			       $$bacteria_percent$$%
+			  </div>
+		      </div>
+		      <div style="padding: 0.25em 0.5em;">
+			   $$bacteria_actual$$ / $$bacteria_total$$
+		      </div>
+		  ]]>
+	      </display>
+              <text>
+                  <![CDATA[
+			   $$bacteria_percent$$
+		  ]]>
+              </text>
+            </textAttribute>
+
+            <textAttribute name="fungi" displayName="Fungi" >
+	      <display>
+                  <![CDATA[
+		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
+			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #AA44DD; border: 1px solid gray;">
+			      <div style="height: calc(100% - $$fungi_percent$$%); width: 100%; background-color: white;">
+			      </div>
+			  </div>
+			  <div style="display: flex; align-items: center; height: $$fungi_percent$$%;">
+			       $$fungi_percent$$%
+			  </div>
+		      </div>
+		      <div style="padding: 0.25em 0.5em;">
+			   $$fungi_actual$$ / $$fungi_total$$
+		      </div>
+		  ]]>
+	      </display>
+              <text>
+                  <![CDATA[
+			   $$fungi_percent$$
+		  ]]>
+              </text>
+            </textAttribute>
+
+            <textAttribute name="euglenozoa" displayName="Euglenozoa" >
+	      <display>
+                  <![CDATA[
+		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
+			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #CCCC66; border: 1px solid gray;">
+			      <div style="height: calc(100% - $$euglenozoa_percent$$%); width: 100%; background-color: white;">
+			      </div>
+			  </div>
+			  <div style="display: flex; align-items: center; height: $$euglenozoa_percent$$%;">
+			       $$euglenozoa_percent$$%
+			  </div>
+		      </div>
+		      <div style="padding: 0.25em 0.5em;">
+			   $$euglenozoa_actual$$ / $$euglenozoa_total$$
+		      </div>
+		  ]]>
+	      </display>
+              <text>
+                  <![CDATA[
+			   $$euglenozoa_percent$$
+		  ]]>
+              </text>
+            </textAttribute>
+
+            <textAttribute name="metazoa" displayName="Metazoa" >
+	      <display>
+                  <![CDATA[
+		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
+			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #CC6666; border: 1px solid gray;">
+			      <div style="height: calc(100% - $$metazoa_percent$$%); width: 100%; background-color: white;">
+			      </div>
+			  </div>
+			  <div style="display: flex; align-items: center; height: $$metazoa_percent$$%;">
+			       $$metazoa_percent$$%
+			  </div>
+		      </div>
+		      <div style="padding: 0.25em 0.5em;">
+			   $$metazoa_actual$$ / $$metazoa_total$$
+		      </div>
+		  ]]>
+	      </display>
+              <text>
+                  <![CDATA[
+			   $$metazoa_percent$$
+		  ]]>
+              </text>
+            </textAttribute>
+
+            <textAttribute name="viridiplantae" displayName="Viridiplantae" >
+	      <display>
+                  <![CDATA[
+		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
+			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #CC9933; border: 1px solid gray;">
+			      <div style="height: calc(100% - $$viridiplantae_percent$$%); width: 100%; background-color: white;">
+			      </div>
+			  </div>
+			  <div style="display: flex; align-items: center; height: $$viridiplantae_percent$$%;">
+			       $$viridiplantae_percent$$%
+			  </div>
+		      </div>
+		      <div style="padding: 0.25em 0.5em;">
+			   $$viridiplantae_actual$$ / $$viridiplantae_total$$
+		      </div>
+		  ]]>
+	      </display>
+              <text>
+                  <![CDATA[
+			   $$viridiplantae_percent$$
+		  ]]>
+              </text>
+            </textAttribute>
+
+            <textAttribute name="other_eukaryotes" displayName="Other_Eukaryotes" >
+	      <display>
+                  <![CDATA[
+		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
+			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #CC9999; border: 1px solid gray;">
+			      <div style="height: calc(100% - $$other_eukaryotes_percent$$%); width: 100%; background-color: white;">
+			      </div>
+			  </div>
+			  <div style="display: flex; align-items: center; height: $$other_eukaryotes_percent$$%;">
+			       $$other_eukaryotes_percent$$%
+			  </div>
+		      </div>
+		      <div style="padding: 0.25em 0.5em;">
+			   $$other_eukaryotes_actual$$ / $$other_eukaryotes_total$$
+		      </div>
+		  ]]>
+	      </display>
+              <text>
+                  <![CDATA[
+			   $$other_eukaryotes_percent$$
+		  ]]>
+              </text>
+            </textAttribute>
+
 
             <attributeQueryRef ref="GroupAttributes.Layout">
                 <columnAttribute name="layout" displayName="Layout" internal="true" inReportMaker="false" />
@@ -180,6 +414,25 @@
             </textAttribute>
 
 
+            <textAttribute name="record_overview" displayName="Record Overview HTML">
+              <text>
+                  <![CDATA[
+			   <div class="eupathdb-RecordOverview">
+			      <div class="eupathdb-RecordOverviewTitle">
+			      </div>
+
+			      <div class="eupathdb-RecordOverviewPanels">
+			          <div class="eupathdb-RecordOverviewLeft">
+				      <div class="eupathdb-RecordOverviewItem" data-label="Total Number of Proteins">$$number_of_members$$</div>
+				      <div class="eupathdb-RecordOverviewItem" data-label="Keywords">$$keywords$$</div>
+				      <div class="eupathdb-RecordOverviewItem" data-label="EC Numbers">$$ec_numbers$$</div>
+				      <div class="eupathdb-RecordOverviewItem" data-label="PFam Domains">$$descriptions$$</div>
+			          </div>
+			      </div>
+			  </div>
+		  ]]>
+              </text>
+            </textAttribute>
 
 
       <!-- =============================================================== -->
