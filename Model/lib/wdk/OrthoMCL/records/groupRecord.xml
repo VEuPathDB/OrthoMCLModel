@@ -172,7 +172,7 @@
 	      <columnAttribute name="other_eukaryotes_percent" internal="true" />
             </attributeQueryRef>
 
-            <textAttribute name="alveolata" displayName="Alveolata" >
+            <textAttribute name="alveolata" displayName="Alveolata" truncateTo="100000" >
 	      <display>
                   <![CDATA[
 		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
@@ -196,7 +196,7 @@
               </text>
             </textAttribute>
 
-            <textAttribute name="archaea" displayName="Archaea" >
+            <textAttribute name="archaea" displayName="Archaea" truncateTo="100000" >
 	      <display>
                   <![CDATA[
 		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
@@ -220,7 +220,7 @@
               </text>
             </textAttribute>
 
-            <textAttribute name="amoeba" displayName="Amoeba" >
+            <textAttribute name="amoeba" displayName="Amoeba" truncateTo="100000" >
 	      <display>
                   <![CDATA[
 		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
@@ -244,7 +244,7 @@
               </text>
             </textAttribute>
 
-            <textAttribute name="bacteria" displayName="Bacteria" >
+            <textAttribute name="bacteria" displayName="Bacteria" truncateTo="100000" >
 	      <display>
                   <![CDATA[
 		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
@@ -268,7 +268,7 @@
               </text>
             </textAttribute>
 
-            <textAttribute name="fungi" displayName="Fungi" >
+            <textAttribute name="fungi" displayName="Fungi" truncateTo="100000" >
 	      <display>
                   <![CDATA[
 		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
@@ -292,7 +292,7 @@
               </text>
             </textAttribute>
 
-            <textAttribute name="euglenozoa" displayName="Euglenozoa" >
+            <textAttribute name="euglenozoa" displayName="Euglenozoa" truncateTo="100000" >
 	      <display>
                   <![CDATA[
 		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
@@ -316,7 +316,7 @@
               </text>
             </textAttribute>
 
-            <textAttribute name="metazoa" displayName="Metazoa" >
+            <textAttribute name="metazoa" displayName="Metazoa" truncateTo="100000" >
 	      <display>
                   <![CDATA[
 		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
@@ -340,7 +340,7 @@
               </text>
             </textAttribute>
 
-            <textAttribute name="viridiplantae" displayName="Viridiplantae" >
+            <textAttribute name="viridiplantae" displayName="Viridiplantae" truncateTo="100000" >
 	      <display>
                   <![CDATA[
 		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
@@ -364,7 +364,7 @@
               </text>
             </textAttribute>
 
-            <textAttribute name="other_eukaryotes" displayName="Other_Eukaryotes" >
+            <textAttribute name="other_eukaryotes" displayName="Other_Eukaryotes" truncateTo="100000" >
 	      <display>
                   <![CDATA[
 		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
