@@ -119,7 +119,7 @@ WHERE asi.subclass_view = 'ExternalAASequence'
         </sqlQuery>
 
 
-    <sqlQuery name="ByPfamIdOrKeyword" 
+    <sqlQuery name="ByPFamIdOrKeyword" 
 			isCacheable="true" doNotTest="true">
 
        <paramRef ref="sharedParams.pfam_id_type_ahead"/>
@@ -147,7 +147,7 @@ WHERE asi.subclass_view = 'ExternalAASequence'
                 <![CDATA[
 SELECT full_id 
 FROM apidbtuning.sequenceattributes
-WHERE taxon_abbreviation LIKE lower(replace($$taxon_type_ahead$$, '*', '%')) 
+WHERE taxon_abbreviation IN ($$taxon_type_ahead$$) 
                ]]>
             </sql>
         </sqlQuery>

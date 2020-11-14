@@ -59,7 +59,7 @@ GroupRecordClasses.GroupRecordClass.KeywordFrequency	http://edamontology.org/top
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByIdList		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByIdList						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByGroupIdList		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByGroupIdList						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByAccession		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByAccession						menu	webservice	
-SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByPfamIdOrKeyword		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByPfamIdOrKeyword						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByPFamIdOrKeyword		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByPFamIdOrKeyword						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByTaxonomy		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByTaxonomy						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByBlast		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByBlast						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByMotif		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByMotif						menu	webservice	

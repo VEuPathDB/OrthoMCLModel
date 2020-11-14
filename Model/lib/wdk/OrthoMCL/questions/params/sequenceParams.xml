@@ -20,8 +20,9 @@
          <flatVocabParam name="taxon_type_ahead"
                      queryRef="SequenceVQ.TaxonTypeAhead"
                      prompt="Taxon"
-                     displayType="typeAhead">
-            <help>Start typing and then choose an entry from the list. As you type the list narrows to the entries that match what you have typed.  Use "*" as a wildcard.</help>
+                     displayType="typeAhead"
+		     multiPick="true">
+            <help>Type at least three characters and then choose a taxon from the list. This can be performed repeatedly to select multiple taxa.</help>
         </flatVocabParam>
    
         <stringParam name="motif_expression" prompt="Pattern" number="false">

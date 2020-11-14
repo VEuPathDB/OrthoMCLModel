@@ -119,7 +119,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
         </summary>
         <description>
           <![CDATA[
-                   Find Ortholog Groups by the average percent homology of proteins in the group. Importantly, homology only applies to core proteins in a 'Core' group and peripheral proteins in a 'Residual' group, because only these proteins are used in the OrthoMCL algorithm to define groups. (Peripheral proteins that map to a Core Group are not assigned homology, and thus are not included in this search.) For example, consider a Core group containing 5 core proteins. A protein in this group has 75% homology if it is a Ortholog, CoOrtholog or Inparalog of 3 of the 4 other proteins, as assigned by the OrthoMCL algorithm. The average percent equals each protein's % homology divided by the number of proteins in the group. Read more about OrthoMCL statistics in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
+                   Find Ortholog Groups by the average percent homology of proteins in the group. Importantly, homology only applies to core proteins in a 'Core' group and peripheral proteins in a 'Residual' group, because only these proteins are used in the OrthoMCL algorithm to define groups. (Peripheral proteins that map to a Core Group are not assigned homology, and thus are not included in this search.) For example, consider a Core group containing 5 core proteins. A protein in this group has 75% homology if it is a Ortholog, CoOrtholog or Inparalog of 3 of the 4 other proteins, as assigned by the OrthoMCL algorithm. The average percent equals each protein's % homology divided by the number of proteins in the group.
                         ]]>
         </description>
       </question>
@@ -140,7 +140,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
         </summary>
         <description>
           <![CDATA[
-		Find Ortholog Groups by the percentage of the protein pairs that are considered similar, based on two thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. For examaple, a group of size 5 can have a maximum of 10 unique pairs. If 8 of these pairs meet the criteria, then the % matched pairs = 80%. Note that this search considers ALL of the proteins (core and peripheral) in a group. Read more in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
+		Find Ortholog Groups by the percentage of the protein pairs that are considered similar, based on two thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. For examaple, a group of size 5 can have a maximum of 10 unique pairs. If 8 of these pairs meet the criteria, then the % matched pairs = 80%. Note that this search considers ALL of the proteins (core and peripheral) in a group.
                         ]]>
         </description>
       </question>
@@ -155,7 +155,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
            /> 
         <description>
           <![CDATA[
-		   Find Ortholog Groups by average percent identity between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group. Read more in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
+		   Find Ortholog Groups by average percent identity between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group.
                         ]]>
         </description>
       </question>
@@ -170,7 +170,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
            /> 
         <description>
           <![CDATA[
-		   Find Ortholog Groups by the average percent match length between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group. Read more in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
+		   Find Ortholog Groups by the average percent match length between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group.
 
                         ]]>
         </description>
@@ -185,7 +185,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
            /> 
         <description>
           <![CDATA[
-		   Find Ortholog Groups by the average Blast e-value between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group. Read more in the <a href="@LEGACY_WEBAPP_BASE_URL@/about.do#methods">Methods Section</a>.
+		   Find Ortholog Groups by the average Blast e-value between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group.
                         ]]>
         </description>
       </question>
@@ -198,7 +198,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
 	  <![CDATA[
 <p>Find Ortholog Groups by phyletic pattern.</p>
 
-<p>A Phyletic Pattern Expression (PPE) is a powerful way to search for Ortholog Groups by the species they contain. The pattern specifies groups with the presence or absence of one or more sets of species, and optionally the number of sequences in each set of species.</p>
+<p>Phyletic Pattern Expression is a flexible and powerful way to identify ortholog groups with a certain conservation pattern. The pattern is used to identify groups based on whether proteins from specific taxa are present or absent. Also, the pattern finds groups with a certain copy number (e.g., duplications) within specified taxa.</p>
 
 <p><b>Examples</b></p>
 These expressions find ortholog groups in which...
@@ -214,7 +214,7 @@ These expressions find ortholog groups in which...
     <tr><th><code>EUKA=35T</code></th><td>there are all 35 eukaryotic species, ie, Eukaryota-universal groups</td></tr>
     <tr><th><code>EUKA>=5T AND hsap>=10</code></th><td>there are at least five eukaryotic species and containing at least 10 human sequences.</td></tr>
     <tr><th><code>(EUKA>=5T AND hsap>=10) OR pfal<20</code></th><td>there are at least five eukaryotic species and containing at least 10 human sequences, or there are less than 20 P. falciparum sequences.</td></tr>
-    <tr><th><code>ALL=150T</code></th><td>there are all 150 OrthoMCL species.</td></tr>
+    <tr><th><code>ALL=564T</code></th><td>there are 564 OrthoMCL species. (click on ALL in the graphical display to get up-to-date total number.</td></tr>
 </table>
 
 <p><b>Tips</b></p>
@@ -254,10 +254,10 @@ These expressions find ortholog groups in which...
 
 
       <question name="GroupsFromSequences" queryRef="GroupIds.FromSequences" 
-                displayName="Transform to Groups" shortDisplayName="To Groups"
+                displayName="Transform Proteins to Groups" shortDisplayName="To Groups"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
-          <![CDATA[ Transform Sequence results into Groups. ]]>
+          <![CDATA[ Transform Protein results into Groups. ]]>
         </description>
       </question>
 

@@ -175,17 +175,14 @@
             <textAttribute name="alveolata" displayName="Alveolata" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
-			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #CC3399; border: 1px solid gray;">
-			      <div style="height: calc(100% - $$alveolata_percent$$%); width: 100%; background-color: white;">
+		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
+			      <div style="width: $$alveolata_percent$$%; height: 100%; background-color: #CC3399;">
 			      </div>
 			  </div>
-			  <div style="display: flex; align-items: center; height: $$alveolata_percent$$%;">
-			       $$alveolata_percent$$%
-			  </div>
 		      </div>
-		      <div style="padding: 0.25em 0.5em;">
-			   $$alveolata_actual$$ / $$alveolata_total$$
+		      <div style="padding: 0.5em 0.25em;"; align-items: center>
+			   $$alveolata_actual$$ / $$alveolata_total$$ ($$alveolata_percent$$%)
 		      </div>
 		  ]]>
 	      </display>
@@ -199,17 +196,14 @@
             <textAttribute name="archaea" displayName="Archaea" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
-			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #77CCDD; border: 1px solid gray;">
-			      <div style="height: calc(100% - $$archaea_percent$$%); width: 100%; background-color: white;">
+		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
+			      <div style="width: $$archaea_percent$$%; height: 100%; background-color: #77CCDD;">
 			      </div>
 			  </div>
-			  <div style="display: flex; align-items: center; height: $$archaea_percent$$%;">
-			       $$archaea_percent$$%
-			  </div>
 		      </div>
-		      <div style="padding: 0.25em 0.5em;">
-			   $$archaea_actual$$ / $$archaea_total$$
+		      <div style="padding: 0.5em 0.25em;"; align-items: center>
+			   $$archaea_actual$$ / $$archaea_total$$ ($$archaea_percent$$%)
 		      </div>
 		  ]]>
 	      </display>
@@ -223,17 +217,14 @@
             <textAttribute name="amoeba" displayName="Amoeba" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
-			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #3399CC; border: 1px solid gray;">
-			      <div style="height: calc(100% - $$amoeba_percent$$%); width: 100%; background-color: white;">
+		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
+			      <div style="width: $$amoeba_percent$$%; height: 100%; background-color: #3399CC;">
 			      </div>
 			  </div>
-			  <div style="display: flex; align-items: center; height: $$amoeba_percent$$%;">
-			       $$amoeba_percent$$%
-			  </div>
 		      </div>
-		      <div style="padding: 0.25em 0.5em;">
-			   $$amoeba_actual$$ / $$amoeba_total$$
+		      <div style="padding: 0.5em 0.25em;"; align-items: center>
+			   $$amoeba_actual$$ / $$amoeba_total$$ ($$amoeba_percent$$%)
 		      </div>
 		  ]]>
 	      </display>
@@ -247,17 +238,14 @@
             <textAttribute name="bacteria" displayName="Bacteria" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
-			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #9999CC; border: 1px solid gray;">
-			      <div style="height: calc(100% - $$bacteria_percent$$%); width: 100%; background-color: white;">
+		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
+			      <div style="width: $$bacteria_percent$$%; height: 100%; background-color: #9999CC;">
 			      </div>
 			  </div>
-			  <div style="display: flex; align-items: center; height: $$bacteria_percent$$%;">
-			       $$bacteria_percent$$%
-			  </div>
 		      </div>
-		      <div style="padding: 0.25em 0.5em;">
-			   $$bacteria_actual$$ / $$bacteria_total$$
+		      <div style="padding: 0.5em 0.25em;"; align-items: center>
+			   $$bacteria_actual$$ / $$bacteria_total$$ ($$bacteria_percent$$%)
 		      </div>
 		  ]]>
 	      </display>
@@ -271,17 +259,14 @@
             <textAttribute name="fungi" displayName="Fungi" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
-			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #AA44DD; border: 1px solid gray;">
-			      <div style="height: calc(100% - $$fungi_percent$$%); width: 100%; background-color: white;">
+		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
+			      <div style="width: $$fungi_percent$$%; height: 100%; background-color: #AA44DD;">
 			      </div>
 			  </div>
-			  <div style="display: flex; align-items: center; height: $$fungi_percent$$%;">
-			       $$fungi_percent$$%
-			  </div>
 		      </div>
-		      <div style="padding: 0.25em 0.5em;">
-			   $$fungi_actual$$ / $$fungi_total$$
+		      <div style="padding: 0.5em 0.25em;"; align-items: center>
+			   $$fungi_actual$$ / $$fungi_total$$ ($$fungi_percent$$%)
 		      </div>
 		  ]]>
 	      </display>
@@ -295,17 +280,14 @@
             <textAttribute name="euglenozoa" displayName="Euglenozoa" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
-			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #CCCC66; border: 1px solid gray;">
-			      <div style="height: calc(100% - $$euglenozoa_percent$$%); width: 100%; background-color: white;">
+		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
+			      <div style="width: $$euglenozoa_percent$$%; height: 100%; background-color: #CCCC66;">
 			      </div>
 			  </div>
-			  <div style="display: flex; align-items: center; height: $$euglenozoa_percent$$%;">
-			       $$euglenozoa_percent$$%
-			  </div>
 		      </div>
-		      <div style="padding: 0.25em 0.5em;">
-			   $$euglenozoa_actual$$ / $$euglenozoa_total$$
+		      <div style="padding: 0.5em 0.25em;"; align-items: center>
+			   $$euglenozoa_actual$$ / $$euglenozoa_total$$ ($$euglenozoa_percent$$%)
 		      </div>
 		  ]]>
 	      </display>
@@ -319,17 +301,14 @@
             <textAttribute name="metazoa" displayName="Metazoa" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
-			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #CC6666; border: 1px solid gray;">
-			      <div style="height: calc(100% - $$metazoa_percent$$%); width: 100%; background-color: white;">
+		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
+			      <div style="width: $$metazoa_percent$$%; height: 100%; background-color: #CC6666;">
 			      </div>
 			  </div>
-			  <div style="display: flex; align-items: center; height: $$metazoa_percent$$%;">
-			       $$metazoa_percent$$%
-			  </div>
 		      </div>
-		      <div style="padding: 0.25em 0.5em;">
-			   $$metazoa_actual$$ / $$metazoa_total$$
+		      <div style="padding: 0.5em 0.25em;"; align-items: center>
+			   $$metazoa_actual$$ / $$metazoa_total$$ ($$metazoa_percent$$%)
 		      </div>
 		  ]]>
 	      </display>
@@ -343,17 +322,14 @@
             <textAttribute name="viridiplantae" displayName="Viridiplantae" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
-			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #CC9933; border: 1px solid gray;">
-			      <div style="height: calc(100% - $$viridiplantae_percent$$%); width: 100%; background-color: white;">
+		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
+			      <div style="width: $$viridiplantae_percent$$%; height: 100%; background-color: #CC9933;">
 			      </div>
 			  </div>
-			  <div style="display: flex; align-items: center; height: $$viridiplantae_percent$$%;">
-			       $$viridiplantae_percent$$%
-			  </div>
 		      </div>
-		      <div style="padding: 0.25em 0.5em;">
-			   $$viridiplantae_actual$$ / $$viridiplantae_total$$
+		      <div style="padding: 0.5em 0.25em;"; align-items: center>
+			   $$viridiplantae_actual$$ / $$viridiplantae_total$$ ($$viridiplantae_percent$$%)
 		      </div>
 		  ]]>
 	      </display>
@@ -367,17 +343,14 @@
             <textAttribute name="other_eukaryotes" displayName="Other_Eukaryotes" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; height: 6em; align-items: flex-end; padding: 0.5em;">
-			  <div style="height: 100%; width: 1em; margin-right: 0.25em; background-color: #CC9999; border: 1px solid gray;">
-			      <div style="height: calc(100% - $$other_eukaryotes_percent$$%); width: 100%; background-color: white;">
+		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
+			      <div style="width: $$other_eukaryotes_percent$$%; height: 100%; background-color: #CC9999;">
 			      </div>
 			  </div>
-			  <div style="display: flex; align-items: center; height: $$other_eukaryotes_percent$$%;">
-			       $$other_eukaryotes_percent$$%
-			  </div>
 		      </div>
-		      <div style="padding: 0.25em 0.5em;">
-			   $$other_eukaryotes_actual$$ / $$other_eukaryotes_total$$
+		      <div style="padding: 0.5em 0.25em;"; align-items: center>
+			   $$other_eukaryotes_actual$$ / $$other_eukaryotes_total$$ ($$other_eukaryotes_percent$$%)
 		      </div>
 		  ]]>
 	      </display>
@@ -405,10 +378,12 @@
                 <columnAttribute name="descriptions" displayName="PFam Domains" />
             </attributeQueryRef>
 
-            <textAttribute name="cluster_page" displayName="Cluster Layout" align="center" help="Open a new tab with cluster layout of this ortholog group" >
+            <textAttribute name="cluster_page" displayName="" align="center" help="Open a new tab with cluster layout of this ortholog group" >
               <text>
                   <![CDATA[
                            <a href="/a/app/cluster-graph/$$group_name$$" target="_blank">Click to open the Cluster Layout in a new tab</a>
+			   <br><br>
+                           <a href="/a/app/cluster-graph/$$group_name$$" target="_blank"><img src="/a/images/cluster_layout_thumbnail2.png" width="150" /></a> 
 		  ]]>
               </text>
             </textAttribute>

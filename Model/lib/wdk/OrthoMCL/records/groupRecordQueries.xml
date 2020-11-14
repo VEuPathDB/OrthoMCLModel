@@ -189,36 +189,16 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
 	  <sql>
             <![CDATA[
 SELECT group_name,
-       alveolata_actual,alveolata_total,round(100*alveolata_actual/alveolata_total,1) AS alveolata_percent,
-       archaea_actual,archaea_total,round(100*archaea_actual/archaea_total,1) AS archaea_percent,
-       amoeba_actual,amoeba_total,round(100*amoeba_actual/amoeba_total,1) AS amoeba_percent,
-       bacteria_actual,bacteria_total,round(100*bacteria_actual/bacteria_total,1) AS bacteria_percent,
-       fungi_actual,fungi_total,round(100*fungi_actual/fungi_total,1) AS fungi_percent,
-       euglenozoa_actual,euglenozoa_total,round(100*euglenozoa_actual/euglenozoa_total,1) AS euglenozoa_percent,
-       metazoa_actual,metazoa_total,round(100*metazoa_actual/metazoa_total,1) AS metazoa_percent,
-       viridiplantae_actual,viridiplantae_total,round(100*viridiplantae_actual/viridiplantae_total,1) AS viridiplantae_percent,
-       other_eukaryotes_actual,other_eukaryotes_total,round(100*other_eukaryotes_actual/other_eukaryotes_total,1) AS other_eukaryotes_percent
-FROM (SELECT group_name,
-             substr(alveolata,10,instr(alveolata,',')-10) as alveolata_actual,
-             substr(alveolata,instr(alveolata,' ',-1)+1,length(alveolata)-instr(alveolata,' ',-1)-1) as alveolata_total,
-             substr(archaea,10,instr(archaea,',')-10) as archaea_actual,
-             substr(archaea,instr(archaea,' ',-1)+1,length(archaea)-instr(archaea,' ',-1)-1) as archaea_total,
-             substr(amoeba,10,instr(amoeba,',')-10) as amoeba_actual,
-             substr(amoeba,instr(amoeba,' ',-1)+1,length(amoeba)-instr(amoeba,' ',-1)-1) as amoeba_total,
-             substr(bacteria,10,instr(bacteria,',')-10) as bacteria_actual,
-             substr(bacteria,instr(bacteria,' ',-1)+1,length(bacteria)-instr(bacteria,' ',-1)-1) as bacteria_total,
-             substr(fungi,10,instr(fungi,',')-10) as fungi_actual,
-             substr(fungi,instr(fungi,' ',-1)+1,length(fungi)-instr(fungi,' ',-1)-1) as fungi_total,
-             substr(euglenozoa,10,instr(euglenozoa,',')-10) as euglenozoa_actual,
-             substr(euglenozoa,instr(euglenozoa,' ',-1)+1,length(euglenozoa)-instr(euglenozoa,' ',-1)-1) as euglenozoa_total,
-             substr(metazoa,10,instr(metazoa,',')-10) as metazoa_actual,
-             substr(metazoa,instr(metazoa,' ',-1)+1,length(metazoa)-instr(metazoa,' ',-1)-1) as metazoa_total,
-             substr(viridiplantae,10,instr(viridiplantae,',')-10) as viridiplantae_actual,
-             substr(viridiplantae,instr(viridiplantae,' ',-1)+1,length(viridiplantae)-instr(viridiplantae,' ',-1)-1) as viridiplantae_total,
-             substr(other_eukaryotes,10,instr(other_eukaryotes,',')-10) as other_eukaryotes_actual,
-             substr(other_eukaryotes,instr(other_eukaryotes,' ',-1)+1,length(other_eukaryotes)-instr(other_eukaryotes,' ',-1)-1) as other_eukaryotes_total
-      FROM apidbtuning.PhyleticPattern
-     )
+       alveolata_actual,alveolata_total, alveolata_percent,
+       archaea_actual,archaea_total, archaea_percent,
+       amoeba_actual,amoeba_total, amoeba_percent,
+       bacteria_actual,bacteria_total, bacteria_percent,
+       fungi_actual,fungi_total, fungi_percent,
+       euglenozoa_actual,euglenozoa_total, euglenozoa_percent,
+       metazoa_actual,metazoa_total, metazoa_percent,
+       viridiplantae_actual,viridiplantae_total, viridiplantae_percent,
+       other_eukaryotes_actual, other_eukaryotes_total, other_eukaryotes_percent
+FROM apidbtuning.PhyleticPattern
             ]]>
 	  </sql>
 	</sqlQuery>

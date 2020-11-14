@@ -5,15 +5,15 @@
 
     <paramSet name="groupParams">
 
-        <stringParam name="group_name" prompt="Group Name" number="false">
-            <help>Assigned group name from current or previous releases. Wild card is supported</help>
-            <suggest default="OG6_101327" />
+        <stringParam name="group_name" prompt="Group or Sequence Name" number="false">
+            <help>Group or sequence name from current or previous releases. * can be used as wild card</help>
+            <suggest default="pfal|PF3D7_02086*" />
         </stringParam>
 
         <datasetParam name="group_names" prompt="Group Names"
 					  recordClassRef="GroupRecordClasses.GroupRecordClass">
-            <help>a list of group names</help>
-            <suggest default="OG6_101327, OG6r2_101799" />
+            <help>Group name(s), separated by commas or new lines, from current or previous releases.</help>
+            <suggest default="OG6_101327, OG6r3_101799" />
         </datasetParam>
 
         <stringParam name="core_count_min" prompt="Min # Core Proteins" number="true">
@@ -37,22 +37,22 @@
         </stringParam>
 
         <stringParam name="core_taxon_min" prompt="Min # Core Taxa" number="true">
-            <help>The minimum number of Core genomes in a group</help>
+            <help>The minimum number of Core taxa present in a group</help>
             <suggest default="5" />
         </stringParam>
 
         <stringParam name="core_taxon_max" prompt="Max # Core Taxa" number="true">
-            <help>The maximum number of Core genomes in a group</help>
+            <help>The maximum number of Core taxa present in a group</help>
             <suggest default="10" />
         </stringParam>
 
         <stringParam name="peripheral_taxon_min" prompt="Min # Peripheral Taxa" number="true">
-            <help>The minimum number of Peripheral genomes in a group</help>
+            <help>The minimum number of Peripheral taxa in a group</help>
             <suggest default="5" />
         </stringParam>
 
         <stringParam name="peripheral_taxon_max" prompt="Max # Peripheral Taxa" number="true">
-            <help>The maximum number of Peripheral genomes in a group</help>
+            <help>The maximum number of Peripheral taxa in a group</help>
             <suggest default="10" />
         </stringParam>
 
@@ -79,7 +79,7 @@
         <stringParam name="phyletic_expression" prompt="Expression" number="false">
             <help>
 			<![CDATA[
-<p>Phyletic Pattern Expression is a flexible way to do queries of ortholog groups. By using this tool, you can specify the presence or absence of genome (i.e. whether this genome has certain gene or not), and the number of copies (i.e. how many duplicates certain gene has in a specific genome).</p>
+<p>Phyletic Pattern Expression is a flexible and powerful way to identify ortholog groups with a certain conservation pattern. This tool identifies groups based on whether proteins from specific taxa are present or absent. Also, the tool finds groups with a certain copy number (e.g., duplications) within specified taxa.</p>
 			]]>
 			</help>
 	    <handler implementation="org.orthomcl.service.core.phyletic.ExpressionParamHandler" />

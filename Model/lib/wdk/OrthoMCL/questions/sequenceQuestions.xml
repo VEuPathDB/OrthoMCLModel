@@ -15,12 +15,12 @@
 
 
         <question name="ByIdList" queryRef="SequenceIds.ByIdList" 
-				  displayName="Sequence ID(s)"
+				  displayName="Protein ID(s)"
 				  shortDisplayName="Seq ID(s)"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
 			<![CDATA[
-                Find Sequences by OrthoMCL Sequence ID(s) (from the current or previous releases of OrthoMCL).
+                Find Proteins by OrthoMCL Protein ID(s) (from the current or previous releases of OrthoMCL).
 			]]>
             </description>
         </question>
@@ -30,31 +30,31 @@
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
 			<![CDATA[
-                Find Sequences by OrthoMCL Group ID(s) (from the current or previous releases of OrthoMCL).
+                Find Proteins by OrthoMCL Group ID(s) (from the current or previous releases of OrthoMCL).
 			]]>
             </description>
         </question>
 
 
         <question name="ByAccession" queryRef="SequenceIds.ByAccession" 
-                  displayName="Seq Accession"
+                  displayName="Group or Protein Name"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass"
                   noSummaryOnSingleRecord="true">
             <description>
                         <![CDATA[
-                Find Sequences by a Sequence ID or Group ID.
+                Find Proteins with the specified Protein or Group Name.
                         ]]>
             </description>
         </question>
 
 
-        <question name="ByPFamIdOrKeyword" queryRef="SequenceIds.ByPfamIdOrKeyword" 
+        <question name="ByPFamIdOrKeyword" queryRef="SequenceIds.ByPFamIdOrKeyword" 
 				  displayName="PFam ID or Keyword"
 				  shortDisplayName="PFam"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
 			<![CDATA[
-                Find Sequences that have a specified PFam domain.
+                Find Proteins with the specified PFam domain.
 			]]>
             </description>
         </question>
@@ -66,7 +66,7 @@
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
 			<![CDATA[
-                Find Sequences by the taxon abbreviation or taxon name.
+                Identify proteins by the taxon abbreviation or taxon name. Multiple taxa can be selected.
 			]]>
             </description>
         </question>
@@ -83,7 +83,7 @@
          sorting="score desc"
          /> 
          <summary>
-           Find Sequences that have BLAST similarity to your input sequence.
+           Find Proteins that have BLAST similarity to the input sequence.
          </summary>
 
          <description>
@@ -136,12 +136,12 @@
 
         <summary>
              <![CDATA[
-              Find Sequences that contain a motif pattern that you specify such as two cysteines followed by one or more hydrophobic amino acids.
+              Find Proteins that contain a motif pattern that you specify such as two cysteines followed by one or more hydrophobic amino acids.
               ]]>
          </summary>
          <description>
            <![CDATA[
-             Find Sequences that contain a motif pattern that
+             Find Proteins that contain a motif pattern that
              you specify., e.g. "CC6+RK", which means "two cysteines followed
              by one or more hydrophobic amino acids, followed by arginine,
              then lysine". The pattern need not be well conserved. If 
@@ -298,10 +298,10 @@
 
 
         <question name="FromGroups" queryRef="SequenceIds.FromGroups" 
-                  displayName="Transform to Sequences" shortDisplayName="To Sequences"
+                  displayName="Transform Groups to Proteins" shortDisplayName="To Proteins"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
-                        <![CDATA[ Transform a Ortholog Groups result into the Sequences in those groups. ]]>
+                        <![CDATA[ Transform a Ortholog Groups result into the Proteins in those groups. ]]>
             </description>
         </question>
 
@@ -317,17 +317,17 @@
                   displayName="EC Number (any)" shortDisplayName="Enzymes"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
-                        <![CDATA[ Find proteins that are assigned to at least one Enzyme Commission (EC) Number]]>
+                        <![CDATA[ Find all proteins that are assigned to at least one Enzyme Commission (EC) Number]]>
             </description>
         </question>
 
         <question name="AllSequences" queryRef="SequenceIds.AllSequences" 
-                                  displayName="All Sequences"
+                                  displayName="All Proteins"
                                   shortDisplayName="All"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
                         <![CDATA[
-                Find all Sequences in the current release of OrthoMCL.
+                Find all Proteins in the current release of OrthoMCL.
                         ]]>
             </description>
         </question>
@@ -338,7 +338,7 @@
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
                 <![CDATA[
-                    Find Sequences based on Text Terms
+                    Find Proteins based on Text Terms
                   ]]>
             </description>
             <dynamicAttributes>
