@@ -127,20 +127,8 @@
         <columnAttribute name="num_core" displayName="Number of Core Proteins" internal="false"/>
         <columnAttribute name="num_peripheral" displayName="Number of Peripheral Proteins" internal="false"/>
         <columnAttribute name="old_groups" displayName="Previous ortholog groups" internal="false"/>
-        <columnAttribute name="url" displayName="Source Database Link" internal="true" inReportMaker="true" />
-        <columnAttribute name="link_text" internal="true" inReportMaker="false" />
-
-        <linkAttribute name="source_link" inReportMaker="false"
-                       displayName="Source Database Link">
-          <displayText>
-            <![CDATA[
-                     $$link_text$$
-            ]]>
-          </displayText>
-          <url>
-            <![CDATA[http://$$url$$]]>
-          </url>
-        </linkAttribute>
+        <columnAttribute name="source_url" displayName="Source Database Link" />
+        <columnAttribute name="source_text" displayName="Source Database Name" />
 
       </attributeQueryRef>
 
@@ -191,6 +179,7 @@
 
 				      <div class="eupathdb-RecordOverviewItem" data-label="Ortholog group"><a href="@LEGACY_WEBAPP_BASE_URL@/app/record/group/$$group_name$$">$$group_name$$</a></div>
 				      <div class="eupathdb-RecordOverviewItem" data-label="Previous ortholog groups">$$old_groups$$</div>
+				      <div class="eupathdb-RecordOverviewItem" data-label="Link to protein source"><a href="$$source_url$$" target="_blank">$$source_text$$</a></div>
 			          </div>
 			      </div>
 			  </div>

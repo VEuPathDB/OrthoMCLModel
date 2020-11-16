@@ -83,10 +83,11 @@ SequenceRecordClasses.SequenceRecordClass.core_peripheral	http://edamontology.or
 SequenceRecordClasses.SequenceRecordClass.group_name		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_name							download	results
 SequenceRecordClasses.SequenceRecordClass.num_core		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	num_core							download	results
 SequenceRecordClasses.SequenceRecordClass.num_peripheral		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	num_peripheral							download	results
-SequenceRecordClasses.SequenceRecordClass.source_link		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	source_link								
 SequenceRecordClasses.SequenceRecordClass.sequence_text	http://edamontology.org/data_2976	Protein sequence	SequenceRecordClasses.SequenceRecordClass	attribute	sequence_text						record		results
 SequenceRecordClasses.SequenceRecordClass.group_link	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	group_link				sequence	5	record-internal		results
 SequenceRecordClasses.SequenceRecordClass.old_groups	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	old_groups				sequence	6	record-internal		results
+SequenceRecordClasses.SequenceRecordClass.source_url	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	source_url				sequence	7	record-internal		results
+SequenceRecordClasses.SequenceRecordClass.source_text	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	source_text				sequence	8	record-internal		results
 													
 ## Sequence Tables ##													
 SequenceRecordClasses.SequenceRecordClass.OldGroups	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	table	OldGroups								

@@ -66,16 +66,16 @@ FROM apidbTuning.SequenceAttributes sa
            <column name="group_name"/>
            <column name="num_core"/>
            <column name="num_peripheral"/>
-           <column name="url"/>
-           <column name="link_text"/>
+           <column name="source_url"/>
+           <column name="source_text"/>
            <column name="old_groups"/>
            <sql>
              <![CDATA[
-               SELECT sa.full_id, sa.group_name, sa.url, sa.old_groups,
+               SELECT sa.full_id, sa.group_name, sa.old_groups,
 	              CASE sa.core_peripheral WHEN 'C' THEN 'Core' WHEN 'P' THEN 'Peripheral' END AS core_peripheral,
 		      CASE WHEN sa.group_name LIKE 'OG%r%_%' THEN 0 ELSE sa.group_size END AS num_core,
 		      CASE WHEN sa.group_name LIKE 'OG%r%_%' THEN sa.group_size ELSE sa.peripheral_group_size-sa.group_size END AS num_peripheral,
-                      CASE WHEN sa.url is null THEN null ELSE sa.full_id END AS link_text
+                      sa.source_url, sa.source_text
                FROM ApidbTuning.SequenceAttributes sa
              ]]>
            </sql>

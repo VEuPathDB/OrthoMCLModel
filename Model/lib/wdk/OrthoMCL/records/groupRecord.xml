@@ -378,10 +378,10 @@
                 <columnAttribute name="descriptions" displayName="PFam Domains" />
             </attributeQueryRef>
 
-            <textAttribute name="cluster_page" displayName="" align="center" help="Open a new tab with cluster layout of this ortholog group" >
+            <textAttribute name="cluster_page" displayName="Cluster graph of all proteins" align="center" help="Open a new tab with cluster layout of this ortholog group" >
               <text>
                   <![CDATA[
-                           <a href="/a/app/cluster-graph/$$group_name$$" target="_blank">Click to open the Cluster Layout in a new tab</a>
+                           <a href="/a/app/cluster-graph/$$group_name$$" target="_blank">Click to open the Cluster graph in a new tab</a>
 			   <br><br>
                            <a href="/a/app/cluster-graph/$$group_name$$" target="_blank"><img src="/a/images/cluster_layout_thumbnail2.png" width="150" /></a> 
 		  ]]>
