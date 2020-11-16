@@ -27,6 +27,7 @@ modelprop:
   SERVICE_BASE_URL: "/{{ webapp_ctx }}/service"
   WEBSERVICEMIRROR: /eupath/data/apiSiteFiles/webServices/OrthoMCL
   YOUTUBE_URL: https://youtube.com/user/EuPathDB/videos?sort=dd&flow=list&view=1
+  SITE_SEARCH_SERVICE_URL: /site-search
 
 blastconfig_blastPath: '/opt/ncbi-blast+/bin/'
 blastconfig_idBlastRegex: '<![CDATA[^>{0,1}\s*\t*\s*(\S{3,4}\|\S+)]]>'
