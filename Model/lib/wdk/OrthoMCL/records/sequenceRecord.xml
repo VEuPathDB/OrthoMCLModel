@@ -134,16 +134,7 @@
 
       <attributeQueryRef ref="SequenceAttributes.SequenceSequence">
 
-        <columnAttribute name="sequence" displayName="Sequence" internal="true"/>
-
-        <textAttribute name="sequence_text" displayName="Protein Sequence" inReportMaker="false">
-          <display>
-            <![CDATA[ <pre>$$sequence$$</pre> ]]>
-          </display>
-          <text>
-            <![CDATA[ <pre>$$sequence$$</pre> ]]>
-          </text>
-        </textAttribute>
+        <columnAttribute name="sequence" displayName="Sequence" internal="false"/>
 
       </attributeQueryRef>
 
