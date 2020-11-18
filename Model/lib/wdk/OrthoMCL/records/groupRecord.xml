@@ -441,16 +441,31 @@
             <table name="Sequences"
                    displayName="List of All Proteins"
                    queryRef="GroupTables.Proteins">
-	      <linkAttribute displayName="Accession" name="sequence_link" inReportMaker="false" internal="false" >
-		<displayText>
-		  <![CDATA[ $$full_id$$  ]]>
-		</displayText>
-		<url>
-		  <![CDATA[
-			   @LEGACY_WEBAPP_BASE_URL@/app/record/sequence/$$full_id$$
-		  ]]>
-		</url>
-	      </linkAttribute>
+                 <description><![CDATA[To run Clustal Omega, select genes from the table below. Then choose the sequence type and initiate the alignment with the 'Run Clustal Omega for selected genes' button.]]>
+		 </description>
+
+
+		 <textAttribute name="clustalInput" displayName="Clustal Omega" inReportMaker="false" help="Select proteins to submit to clustal Omega at bottom of this table">
+		   <text>
+                     <![CDATA[
+			      <input type="checkbox" name="msa_full_ids" value="$$full_id$$">
+		     ]]>
+                   </text>
+		 </textAttribute>
+
+
+		 <linkAttribute displayName="Accession" name="sequence_link" inReportMaker="false" internal="false" >
+		   <displayText>
+		     <![CDATA[ $$full_id$$  ]]>
+		   </displayText>
+		   <url>
+		     <![CDATA[
+			      @LEGACY_WEBAPP_BASE_URL@/app/record/sequence/$$full_id$$
+		     ]]>
+		   </url>
+		 </linkAttribute>
+
+
 	      <columnAttribute name="full_id" internal="true" />
 	      <columnAttribute name="core_peripheral" displayName="Core/Peripheral" />
 	      <columnAttribute name="taxon_name" displayName="Taxon" />
