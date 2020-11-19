@@ -8,18 +8,6 @@
     <querySet name="GroupIds" queryType="id" isCacheable="false">
 
 
-      <!-- Do not remove.  needed for Site Search tests -->
-      <sqlQuery name="AllGroups" isCacheable="true">
-            <column name="group_name"/>
-            <sql>
-              <![CDATA[
-            select distinct name as group_name
-            from apidb.OrthologGroup
-            where core_peripheral_residual in ('P','R')                       
-	      ]]>
-            </sql>
-        </sqlQuery>  
-
         <sqlQuery name="ByNameList" isCacheable="true">
             <paramRef ref="groupParams.group_names"/>
             <column name="group_name"/>
@@ -303,7 +291,8 @@ GROUP BY sa.group_name
             </sql>
         </sqlQuery>
 
-        <sqlQuery name="AllGroups" isCacheable="false">
+      <!-- Do not remove.  needed for Site Search tests -->
+        <sqlQuery name="AllGroups" isCacheable="true">
             <column name="group_name"/>
             <sql>
                 <![CDATA[
