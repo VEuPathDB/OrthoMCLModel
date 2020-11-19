@@ -441,7 +441,7 @@
             <table name="Sequences"
                    displayName="List of All Proteins"
                    queryRef="GroupTables.Proteins">
-                 <description><![CDATA[To run Clustal Omega, select genes from the table below. Then choose the sequence type and initiate the alignment with the 'Run Clustal Omega for selected genes' button.]]>
+                 <description><![CDATA[To align sequences or obtain sequences in FASTA format, select genes from the table below. Then choose the 'Output format' and click the 'Run Clustal Omega for selected genes' button.]]>
 		 </description>
 
 
