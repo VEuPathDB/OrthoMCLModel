@@ -25,17 +25,6 @@
 
     <querySet name="SequenceIds" queryType="id" isCacheable="false">
 
-      <!-- Do not remove.  needed for Site Search tests -->
-      <sqlQuery name="AllSequences" isCacheable="true">
-            <column name="full_id"/>
-            <sql>
-              <![CDATA[
-                SELECT full_id
-                FROM ApidbTuning.SequenceAttributes                       
-	      ]]>
-            </sql>
-        </sqlQuery>  
-
       <sqlQuery name="ByIdList" isCacheable="true">
             <paramRef ref="sequenceParams.source_ids"/>
             <column name="full_id"/>
@@ -251,6 +240,7 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
         </sqlQuery>
 
 
+      <!-- Do not remove.  needed for Site Search tests -->
         <sqlQuery name="AllSequences" isCacheable="false">
             <column name="full_id"/>
             <sql>
