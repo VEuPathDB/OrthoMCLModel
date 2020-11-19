@@ -241,7 +241,7 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
 
 
       <!-- Do not remove.  needed for Site Search tests -->
-        <sqlQuery name="AllSequences" isCacheable="false">
+        <sqlQuery name="AllSequences" isCacheable="true">
             <column name="full_id"/>
             <sql>
                 <![CDATA[
