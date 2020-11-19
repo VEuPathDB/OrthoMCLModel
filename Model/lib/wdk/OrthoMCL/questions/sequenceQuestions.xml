@@ -14,6 +14,12 @@
         </description>
 
 
+      <!-- Do not remove.  needed for Site Search tests -->
+        <question name="AllSequences" queryRef="SequenceIds.AllSequences" 
+				  displayName="All Sequences"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+        </question>
+
         <question name="ByIdList" queryRef="SequenceIds.ByIdList" 
 				  displayName="Protein ID(s)"
 				  shortDisplayName="Seq ID(s)"

@@ -24,7 +24,19 @@
     <!-- Queries that return RNA primary keys (for use in questions and nested records.). -->
 
     <querySet name="SequenceIds" queryType="id" isCacheable="false">
-        <sqlQuery name="ByIdList" isCacheable="true">
+
+      <!-- Do not remove.  needed for Site Search tests -->
+      <sqlQuery name="AllSequences" isCacheable="true">
+            <column name="full_id"/>
+            <sql>
+              <![CDATA[
+                SELECT full_id
+                FROM ApidbTuning.SequenceAttributes                       
+	      ]]>
+            </sql>
+        </sqlQuery>  
+
+      <sqlQuery name="ByIdList" isCacheable="true">
             <paramRef ref="sequenceParams.source_ids"/>
             <column name="full_id"/>
             <sql>

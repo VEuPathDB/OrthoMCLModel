@@ -14,6 +14,12 @@
         ]]>
       </description>
 
+      <!-- Do not remove.  needed for Site Search tests -->
+      <question name="AllGroups" queryRef="GroupIds.AllGroups" 
+		displayName="All Groups"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+      </question>
+
       <question name="GroupsByNameList" queryRef="GroupIds.ByNameList" 
 		displayName="Group ID(s)"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
