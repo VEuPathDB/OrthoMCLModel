@@ -22,7 +22,7 @@
                ot.core_peripheral, OrthologGroup.group_name, OrthologGroup.ortholog_group_id,
                OrthologGroup.group_size, OrthologGroup.peripheral_ortholog_group_id,
 	       OrthologGroup.peripheral_group_size, EcNumbers.ec_numbers, OldGroups.old_groups,
-	       urls.source_url, urls.source_text
+	       Urls.source_url, Urls.source_text, Domains.protein_domain_min_max
         from dots.ExternalAaSequence eas, apidb.OrthomclTaxon ot,
 	     (select p.aa_sequence_id, p.group_name, og.ortholog_group_id, og.number_of_members as group_size,
 	             p.peripheral_ortholog_group_id, p.peripheral_group_size     
@@ -70,12 +70,17 @@
 	      FROM dots.ExternalAaSequence eas, apidb.OrthomclTaxon ot, apidb.orthomclresource ores
 	      WHERE NVL(SUBSTR(eas.secondary_identifier, 0, INSTR(eas.secondary_identifier, '|')-1), eas.secondary_identifier)
 	                 = ot.three_letter_abbrev
-		    AND ot.orthomcl_taxon_id = ores.orthomcl_taxon_id) urls
+		    AND ot.orthomcl_taxon_id = ores.orthomcl_taxon_id) Urls,
+	     (SELECT aa_sequence_id,
+	             listagg(accession || ' (' || start_min || ',' || end_max || ')', '; ') within group (order by start_min asc) as protein_domain_min_max
+	      FROM ApidbTuning.DomainAssignment
+	      GROUP BY aa_sequence_id) Domains
         where NVL(SUBSTR(eas.secondary_identifier, 0, INSTR(eas.secondary_identifier, '|')-1), eas.secondary_identifier) = ot.three_letter_abbrev
           and eas.aa_sequence_id = OrthologGroup.aa_sequence_id(+)
           and eas.aa_sequence_id = EcNumbers.aa_sequence_id(+)
           and eas.aa_sequence_id = OldGroups.aa_sequence_id(+)
-          and eas.aa_sequence_id = urls.aa_sequence_id(+)
+          and eas.aa_sequence_id = Urls.aa_sequence_id(+)
+          and eas.aa_sequence_id = Domains.aa_sequence_id(+)
       ]]>
     </sql>
 
