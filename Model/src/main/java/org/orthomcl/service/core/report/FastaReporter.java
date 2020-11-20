@@ -37,9 +37,10 @@ public class FastaReporter extends AbstractReporter {
   private static final String ATTR_ORGANISM = "taxon_name";
   private static final String ATTR_DESCRIPTION = "product";
   private static final String ATTR_SEQUENCE = "sequence";
+  private static final String ATTR_GROUP = "group_name";
 
   private static final String[] NEEDED_ATTRIBUTES = {
-      ATTR_FULL_ID, ATTR_ORGANISM, ATTR_DESCRIPTION, ATTR_SEQUENCE
+      ATTR_FULL_ID, ATTR_ORGANISM, ATTR_DESCRIPTION, ATTR_SEQUENCE, ATTR_GROUP
   };
 
   private static final int FASTA_LINE_LENGTH = 60;
@@ -132,6 +133,11 @@ public class FastaReporter extends AbstractReporter {
           String description = (value == null) ? "" : value.toString().trim();
           writer.print(" | " + description);
         }
+
+        // output ortholog group
+        Object value = record.getAttributeValue(ATTR_GROUP).getValue();
+        String group = (value == null) ? "no group" : value.toString().trim();
+        writer.print(" | " + group);
 
         writer.println();
 
