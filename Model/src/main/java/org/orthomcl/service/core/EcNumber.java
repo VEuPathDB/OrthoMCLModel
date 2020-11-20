@@ -9,6 +9,7 @@ public class EcNumber implements Renderable, Comparable<EcNumber>, ToJson {
   private final String code;
   private int index;
   private String color;
+  private String description;
   private int count = 0;
   
   public EcNumber(String code) {
@@ -19,6 +20,8 @@ public class EcNumber implements Renderable, Comparable<EcNumber>, ToJson {
    * @return the code
    */
   public String getCode() {
+
+
     return code;
   }
 
@@ -53,6 +56,21 @@ public class EcNumber implements Renderable, Comparable<EcNumber>, ToJson {
   }
 
   /**
+   * @return the description
+   */
+  public String getDescription() {
+    return description;
+  }
+
+  /**
+   * @param description
+   *          the description to set
+   */
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  /**
    * @return the count
    */
   public int getCount() {
@@ -77,6 +95,7 @@ public class EcNumber implements Renderable, Comparable<EcNumber>, ToJson {
       .put("code", code)
       .put("index", index)
       .put("color", color)
+      .put("description", description)
       .put("count", count);
   }
 }

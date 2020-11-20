@@ -27,6 +27,7 @@ public class GroupManager {
   private static final String GENES_TABLE = "Sequences";
   private static final String PFAMS_TABLE = "PFams";
   private static final String PROTEIN_PFAMS_TABLE = "ProteinPFams";
+  private static final String EC_TABLE = "EcNumber";
 
   private final WdkModel _wdkModel;
 
@@ -63,7 +64,6 @@ public class GroupManager {
     Map<String, Taxon> taxons = TaxonManager.getTaxons(_wdkModel);
 
     // load genes
-    Map<String, Integer> ecNumbers = new HashMap<>();
     TableValue genesTable = groupRecord.getTableValue(GENES_TABLE);
     for (Map<String, AttributeValue> row : genesTable) {
       Gene gene = new Gene(row.get("full_id").getValue());
@@ -80,12 +80,6 @@ public class GroupManager {
           ecNumber = ecNumber.trim();
           if (ecNumber.length() > 0) {
             gene.addEcNumber(ecNumber);
-            if (ecNumbers.containsKey(ecNumber)) {
-              ecNumbers.put(ecNumber, ecNumbers.get(ecNumber) + 1);
-            }
-            else {
-              ecNumbers.put(ecNumber, 1);
-            }
           }
         }
       }
@@ -96,14 +90,14 @@ public class GroupManager {
     loadPFamDomains(group, groupRecord);
 
     // TODO - process ec numbers to form tree
-    processEcNumbers(group, ecNumbers);
+    loadEcNumbers(group, groupRecord);
 
     return group;
   }
 
   private void loadPFamDomains(Group group, RecordInstance groupRecord) throws WdkModelException,
       WdkUserException {
-    // load pfam domian information
+    // load pfam domain information
     List<PFamDomain> pfams = new ArrayList<>();
     TableValue pfamsTable = groupRecord.getTableValue(PFAMS_TABLE);
     for (Map<String, AttributeValue> row : pfamsTable) {
@@ -136,22 +130,26 @@ public class GroupManager {
     }
   }
 
-  private void processEcNumbers(Group group, Map<String, Integer> ecNumberCodes) {
+    private void loadEcNumbers(Group group, RecordInstance groupRecord) throws WdkModelException,
+      WdkUserException {
+     // load ec number information
+     List<EcNumber> ecNums = new ArrayList<>();
+     TableValue ecTable = groupRecord.getTableValue(EC_TABLE);
+     for (Map<String, AttributeValue> row : ecTable) {
+	 EcNumber ecNum = new EcNumber(row.get("ec_number").getValue());
+	 ecNum.setDescription(row.get("description").getValue());
+	 ecNum.setCount(Integer.valueOf(row.get("sequence_count").getValue().toString()));
+	 group.addEcNumber(ecNum);
+	 ecNums.add(ecNum);
+     }
+
+     // generate random color for the ec numbers
+     Collections.sort(ecNums);
+     RenderingHelper.assignSpectrumColors(ecNums);
+
     // determine the index of each ecNumber
-    List<EcNumber> ecNumbers = new ArrayList<>();
-    for (String code : ecNumberCodes.keySet()) {
-      EcNumber ecNumber = new EcNumber(code);
-      ecNumber.setCount(ecNumberCodes.get(code));
-      group.addEcNumber(ecNumber);
-      ecNumbers.add(ecNumber);
+    for (int i = 0; i < ecNums.size(); i++) {
+      ecNums.get(i).setIndex(i);
     }
-
-    Collections.sort(ecNumbers);
-    for (int i = 0; i < ecNumbers.size(); i++) {
-      ecNumbers.get(i).setIndex(i);
-    }
-
-    // assign spectrum colors to the ec numbers
-    RenderingHelper.assignSpectrumColors(ecNumbers);
-  }
+   } 
 }
