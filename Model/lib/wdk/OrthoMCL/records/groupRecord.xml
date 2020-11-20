@@ -441,7 +441,7 @@
             <table name="Sequences"
                    displayName="List of All Proteins"
                    queryRef="GroupTables.Proteins">
-                 <description><![CDATA[To align sequences or obtain sequences in FASTA format, select genes from the table below. Then choose the 'Output format' and click the 'Run Clustal Omega for selected genes' button.]]>
+                 <description><![CDATA[To align sequences or display sequences in FASTA format, select genes from the table below. Then choose the 'Output format' and click the 'Run Clustal Omega for selected genes' button.]]>
 		 </description>
 
 
@@ -454,7 +454,7 @@
 		 </textAttribute>
 
 
-		 <linkAttribute displayName="Accession" name="sequence_link" inReportMaker="false" internal="false" >
+		 <linkAttribute displayName="Accession" name="sequence_link" inReportMaker="false" internal="false" help="Taxon-abbreviation|Protein-Id. Click to visit this protein's page at OrthoMCL.">
 		   <displayText>
 		     <![CDATA[ $$full_id$$  ]]>
 		   </displayText>
@@ -465,14 +465,13 @@
 		   </url>
 		 </linkAttribute>
 
-
-	      <columnAttribute name="full_id" internal="true" />
-	      <columnAttribute name="core_peripheral" displayName="Core/Peripheral" />
-	      <columnAttribute name="taxon_name" displayName="Taxon" />
-	      <columnAttribute name="length" displayName="Length" />
-	      <columnAttribute name="previous_groups" displayName="Previous Groups" />
-	      <columnAttribute name="ec_numbers" displayName="EC Numbers" />
 	      <columnAttribute name="description" displayName="Description" />
+	      <columnAttribute name="taxon_name" displayName="Taxon" />
+	      <columnAttribute name="core_peripheral" displayName="Core/Peripheral" />
+	      <columnAttribute name="length" displayName="Length (aa)" />
+	      <columnAttribute name="ec_numbers" displayName="EC Numbers" />
+	      <columnAttribute name="previous_groups" displayName="Previous Groups" />
+	      <columnAttribute name="full_id" internal="true" />
 	      <columnAttribute name="taxon_abbrev" displayName="Taxon Abbreviation" internal="true" inReportMaker="false" />
             </table>
             
@@ -517,7 +516,7 @@
               </linkAttribute>
               <columnAttribute displayName="EC Description"
                                name="description"/>
-              <columnAttribute name="sequence_count" displayName="Sequences"/>
+              <columnAttribute name="sequence_count" displayName="# Proteins in Group"/>
             </table>
 
             <table name="GroupName"
