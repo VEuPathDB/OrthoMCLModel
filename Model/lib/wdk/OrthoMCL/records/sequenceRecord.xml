@@ -57,6 +57,9 @@
       <!--  View definitions -->
       <!-- =============================================================== -->
 
+
+      <reporter name="blastSummaryView" displayName="Summary View for BLAST results"  scopes=""
+                implementation="org.eupathdb.common.model.report.summaryview.BlastViewReporter" />
 <!--
        <summaryView name="layout-view" display="Cluster Graph">
            <description>
