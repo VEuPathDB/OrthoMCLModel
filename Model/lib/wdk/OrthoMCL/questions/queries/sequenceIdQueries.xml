@@ -250,6 +250,7 @@ SELECT eas.secondary_identifier AS full_id FROM dots.ExternalAaSequence eas
             </sql>
         </sqlQuery>
 
+    <!-- old Oracle text search, replaced by SOLR search below
     <processQuery name="ByTextSearch"
              processName="org.orthomcl.service.core.wsfplugin.KeywordSearchPlugin">
 
@@ -267,6 +268,16 @@ SELECT eas.secondary_identifier AS full_id FROM dots.ExternalAaSequence eas
        <wsColumn name="project_id" width="20" wsName="ProjectId"/>
        <wsColumn name="max_score" width="10" wsName="MaxScore" columnType="float"/>
        <wsColumn name="fields_matched" width="64" wsName="Datasets"/>
+    </processQuery>
+    -->
+
+    <processQuery name="ByTextSearch"
+        processName="org.eupathdb.websvccommon.wsfplugin.solrsearch.EuPathSiteSearchPlugin">
+      <paramRef ref="sharedParams.text_expression"/>
+      <paramRef ref="sharedParams.document_type" default="sequence"/>
+      <paramRef ref="sharedParams.text_fields"/>
+      <wsColumn name="full_id" width="50"/>
+      <wsColumn name="max_score" width="10" columnType="float"/>
     </processQuery>
 
   </querySet>

@@ -303,8 +303,9 @@ WHERE og.core_peripheral_residual in ('P','R')
             </sql>
         </sqlQuery>
 
+    <!-- old Oracle text search, replaced by SOLR search below
     <processQuery name="ByTextSearch"
-             processName="org.orthomcl.service.core.wsfplugin.KeywordSearchPlugin">
+        processName="org.orthomcl.service.core.wsfplugin.KeywordSearchPlugin">
 
         <testParamValues>
             <paramValue name="text_expression">kinase</paramValue>
@@ -321,7 +322,17 @@ WHERE og.core_peripheral_residual in ('P','R')
        <wsColumn name="max_score" width="10" wsName="MaxScore" columnType="float"/>
        <wsColumn name="fields_matched" width="64" wsName="Datasets"/>
     </processQuery>
+    -->
 
-    </querySet>
+    <processQuery name="ByTextSearch"
+        processName="org.eupathdb.websvccommon.wsfplugin.solrsearch.EuPathSiteSearchPlugin">
+      <paramRef ref="sharedParams.text_expression"/>
+      <paramRef ref="sharedParams.document_type" default="group"/>
+      <paramRef ref="sharedParams.text_fields"/>
+      <wsColumn name="group_name" width="50"/>
+      <wsColumn name="max_score" width="10" columnType="float"/>
+    </processQuery>
+
+  </querySet>
 
 </wdkModel>

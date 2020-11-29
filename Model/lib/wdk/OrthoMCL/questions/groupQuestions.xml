@@ -45,13 +45,13 @@
 			]]>
         </description>
             <dynamicAttributes>
-                <columnAttribute name="fields_matched"
-                           displayName="Found in"/>
+                <!--<columnAttribute name="fields_matched"
+                           displayName="Found in"/>-->
                 <columnAttribute name="max_score"
                            displayName="Score" align="center"/>
             </dynamicAttributes>
             <attributesList
-               summary="max_score,fields_matched,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
+               summary="max_score,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
                sorting="max_score desc,number_of_members desc"/>
       </question>
 

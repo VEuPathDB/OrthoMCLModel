@@ -343,13 +343,13 @@
                   ]]>
             </description>
             <dynamicAttributes>
-                <columnAttribute name="fields_matched"
-                           displayName="Found in"/>
+                <!--<columnAttribute name="fields_matched"
+                           displayName="Found in"/>-->
                 <columnAttribute name="max_score"
                            displayName="Score" align="center"/>
             </dynamicAttributes>
             <attributesList
-                 summary="taxon_name,product,length,ec_numbers,pfam_domains,core_peripheral,group_link,max_score,fields_matched"
+                 summary="taxon_name,product,length,ec_numbers,pfam_domains,core_peripheral,group_link,max_score"
                  sorting="max_score desc,full_id asc"/> 
         </question>
 
