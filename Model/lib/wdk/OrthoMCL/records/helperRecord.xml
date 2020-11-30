@@ -56,7 +56,7 @@
                 <columnAttribute name="three_letter_abbrev" displayName="Abbreviation" />
                 <columnAttribute name="resource_name" displayName="Resource" />
                 <columnAttribute name="resource_url" displayName="URL for proteome" />
-                <columnAttribute name="description" displayName="Description" />
+                <columnAttribute name="resource_version" displayName="Proteome Version" />
                 <columnAttribute name="sequences" displayName="# Proteins" />
                 <columnAttribute name="clustered_sequences" displayName="# Proteins in Groups" />
                 <columnAttribute name="groups" displayName="# Ortholog Groups" />

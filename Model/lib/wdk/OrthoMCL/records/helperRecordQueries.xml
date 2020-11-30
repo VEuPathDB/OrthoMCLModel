@@ -89,14 +89,14 @@ ORDER BY parent_id ASC, species_order ASC
             <column name="three_letter_abbrev"/>
             <column name="resource_name"/>
             <column name="resource_url"/>
-            <column name="description"/>
+            <column name="resource_version"/>
             <column name="sequences"/>
             <column name="clustered_sequences"/>
             <column name="groups"/>
             <sql>
             <![CDATA[
 SELECT 'helper' AS helper_id, ot.name, ot.three_letter_abbrev,
-       od.resource_name, od.resource_url, od.description,
+       od.resource_name, od.resource_url, od.resource_version,
        case ot.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral,
        stats.sequences, stats.clustered_sequences, stats.groups
 FROM apidb.OrthomclTaxon ot, apidb.OrthomclResource od,
