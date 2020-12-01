@@ -2,7 +2,6 @@ package org.orthomcl.service.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,26 +129,25 @@ public class GroupManager {
     }
   }
 
-    private void loadEcNumbers(Group group, RecordInstance groupRecord) throws WdkModelException,
-      WdkUserException {
-     // load ec number information
-     List<EcNumber> ecNums = new ArrayList<>();
-     TableValue ecTable = groupRecord.getTableValue(EC_TABLE);
-     for (Map<String, AttributeValue> row : ecTable) {
-	 EcNumber ecNum = new EcNumber(row.get("ec_number").getValue());
-	 ecNum.setDescription(row.get("description").getValue());
-	 ecNum.setCount(Integer.valueOf(row.get("sequence_count").getValue().toString()));
-	 group.addEcNumber(ecNum);
-	 ecNums.add(ecNum);
-     }
+  private void loadEcNumbers(Group group, RecordInstance groupRecord) throws WdkModelException, WdkUserException {
+    // load ec number information
+    List<EcNumber> ecNums = new ArrayList<>();
+    TableValue ecTable = groupRecord.getTableValue(EC_TABLE);
+    for (Map<String, AttributeValue> row : ecTable) {
+      EcNumber ecNum = new EcNumber(row.get("ec_number").getValue());
+      ecNum.setDescription(row.get("description").getValue());
+      ecNum.setCount(Integer.valueOf(row.get("sequence_count").getValue().toString()));
+      group.addEcNumber(ecNum);
+      ecNums.add(ecNum);
+    }
 
-     // generate random color for the ec numbers
-     Collections.sort(ecNums);
-     RenderingHelper.assignSpectrumColors(ecNums);
+    // generate random color for the ec numbers
+    Collections.sort(ecNums);
+    RenderingHelper.assignSpectrumColors(ecNums);
 
     // determine the index of each ecNumber
     for (int i = 0; i < ecNums.size(); i++) {
       ecNums.get(i).setIndex(i);
     }
-   } 
+  } 
 }
