@@ -6,7 +6,7 @@ TextCategory					TextCategory	Text				1
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsBySequenceCount		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsBySequenceCount						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByNameList		Text, IDs	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByNameList						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByAccession		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByAccession						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByTextSearch		Text, IDs	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByTextSearch						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByText		Text, IDs	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByText						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPFamIdOrKeyword		Function	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPFamIdOrKeyword						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByEcNumber		Function	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByEcNumber						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByGenomeCount		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByGenomeCount						menu	webservice	
@@ -67,7 +67,7 @@ SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.FromGroups		Group St
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByEcNumber		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByEcNumber						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByEcAssignment		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByEcAssignment						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.AllSequences		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.AllSequences						menu	webservice	
-SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByTextSearch		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByTextSearch						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.SequencesByText		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.SequencesByText						menu	webservice	
 													
 ## Sequence Attributes ##													
 SequenceRecordClasses.SequenceRecordClass.record_overview	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	record_overview				sequence		record-internal	download	results

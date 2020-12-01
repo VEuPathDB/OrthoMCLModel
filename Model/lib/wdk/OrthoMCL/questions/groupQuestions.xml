@@ -35,7 +35,7 @@
         </description>
       </question>
 
-      <question name="GroupsByTextSearch" queryRef="GroupIds.ByTextSearch"
+      <question name="GroupsByText" queryRef="GroupIds.ByTextSearch"
                 displayName="Text Terms"
                 shortDisplayName="Text"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">

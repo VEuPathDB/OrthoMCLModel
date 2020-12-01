@@ -333,7 +333,7 @@
             </description>
         </question>
 
-        <question name="ByTextSearch" queryRef="SequenceIds.ByTextSearch"
+        <question name="SequencesByText" queryRef="SequenceIds.ByTextSearch"
                   displayName="Text Terms"
                   shortDisplayName="Text"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
