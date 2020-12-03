@@ -10,7 +10,7 @@
       <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 
       <stringParam name="text_expression"
-                   prompt="Text term (use * as wildcard)" number="false" length="100">
+                   prompt="Text term (use * as wildcard)" number="false" length="1000">
         <help>
           Enter the word or phrase that you wish to query.  Use an asterisk
           as a wildcard to match partial words.  Use quotation marks around
