@@ -82,6 +82,19 @@
     
 
 
+    <!-- http://edamontology.org/data_2530 -->
+
+    <owl:Class rdf:about="http://edamontology.org/data_2530">
+        <rdfs:label>Organism report</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <oboInOwl:hasExactSynonym>Organism annotation</oboInOwl:hasExactSynonym>
+        <oboInOwl:hasDefinition>A human-readable collection of information about a specific organism.</oboInOwl:hasDefinition>
+        <obo:IAO_0000115>A human-readable collection of information about a specific organism.</obo:IAO_0000115>
+        <obo:IAO_0000412 rdf:resource="http://edamontology.org/EDAM.owl"/>
+    </owl:Class>
+    
+
+
     <!-- http://edamontology.org/data_2757 -->
 
     <owl:Class rdf:about="http://edamontology.org/data_2757">
@@ -100,8 +113,24 @@
         <rdfs:label>Protein sequence</rdfs:label>
         <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
         <obo:IAO_0000115>One or more protein sequences, possibly with associated annotation.</obo:IAO_0000115>
+        <oboInOwl:hasExactSynonym>Amino acid sequence</oboInOwl:hasExactSynonym>
         <oboInOwl:hasExactSynonym>Protein sequences</oboInOwl:hasExactSynonym>
+        <oboInOwl:hasExactSynonym>Amino acid sequences</oboInOwl:hasExactSynonym>
         <oboInOwl:hasDefinition>One or more protein sequences, possibly with associated annotation.</oboInOwl:hasDefinition>
+        <obo:IAO_0000412 rdf:resource="http://edamontology.org/EDAM.owl"/>
+    </owl:Class>
+    
+
+
+    <!-- http://edamontology.org/operation_1777 -->
+
+    <owl:Class rdf:about="http://edamontology.org/operation_1777">
+        <rdfs:label>Protein function prediction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <oboInOwl:hasExactSynonym>Protein functional analysis</oboInOwl:hasExactSynonym>
+        <obo:IAO_0000115>Predict the biological or biochemical role of a protein, or other aspects of a protein function.</obo:IAO_0000115>
+        <oboInOwl:hasDefinition>Predict the biological or biochemical role of a protein, or other aspects of a protein function.</oboInOwl:hasDefinition>
+        <oboInOwl:hasExactSynonym>Protein function analysis</oboInOwl:hasExactSynonym>
         <obo:IAO_0000412 rdf:resource="http://edamontology.org/EDAM.owl"/>
     </owl:Class>
     
@@ -127,8 +156,29 @@
         <rdfs:label>Homology-based gene prediction</rdfs:label>
         <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
         <obo:IAO_0000115>Prediction of genes or gene components by reference to homologous genes.</obo:IAO_0000115>
-        <oboInOwl:hasDefinition>Prediction of genes or gene components by reference to homologous genes.</oboInOwl:hasDefinition>
+        <oboInOwl:hasExactSynonym>Empirical gene prediction</oboInOwl:hasExactSynonym>
+        <oboInOwl:hasNarrowSynonym>Homology prediction</oboInOwl:hasNarrowSynonym>
+        <oboInOwl:hasNarrowSynonym>Orthology prediction</oboInOwl:hasNarrowSynonym>
+        <oboInOwl:hasExactSynonym>Similarity-based gene prediction</oboInOwl:hasExactSynonym>
         <oboInOwl:hasExactSynonym>Gene prediction (homology-based)</oboInOwl:hasExactSynonym>
+        <oboInOwl:hasDefinition>Prediction of genes or gene components by reference to homologous genes.</oboInOwl:hasDefinition>
+        <oboInOwl:hasExactSynonym>Empirical gene finding</oboInOwl:hasExactSynonym>
+        <oboInOwl:hasExactSynonym>Evidence-based gene prediction</oboInOwl:hasExactSynonym>
+        <obo:IAO_0000412 rdf:resource="http://edamontology.org/EDAM.owl"/>
+    </owl:Class>
+    
+
+
+    <!-- http://edamontology.org/topic_0219 -->
+
+    <owl:Class rdf:about="http://edamontology.org/topic_0219">
+        <rdfs:label>Data submission, annotation and curation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <oboInOwl:hasDefinition>Deposition and curation of database accessions, including annotation, typically with terms from a controlled vocabulary.</oboInOwl:hasDefinition>
+        <oboInOwl:hasNarrowSynonym>Data curation</oboInOwl:hasNarrowSynonym>
+        <oboInOwl:hasNarrowSynonym>Data provenance</oboInOwl:hasNarrowSynonym>
+        <oboInOwl:hasNarrowSynonym>Database curation</oboInOwl:hasNarrowSynonym>
+        <obo:IAO_0000115>Deposition and curation of database accessions, including annotation, typically with terms from a controlled vocabulary.</obo:IAO_0000115>
         <obo:IAO_0000412 rdf:resource="http://edamontology.org/EDAM.owl"/>
     </owl:Class>
     
@@ -159,6 +209,7 @@
         <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
         <oboInOwl:hasExactSynonym>Protein structure</oboInOwl:hasExactSynonym>
         <oboInOwl:hasDefinition>Protein secondary or tertiary structural data and/or associated annotation.</oboInOwl:hasDefinition>
+        <oboInOwl:hasNarrowSynonym>Protein tertiary structure</oboInOwl:hasNarrowSynonym>
         <obo:IAO_0000115>Protein secondary or tertiary structural data and/or associated annotation.</obo:IAO_0000115>
         <obo:IAO_0000412 rdf:resource="http://edamontology.org/EDAM.owl"/>
     </owl:Class>

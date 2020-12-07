@@ -15,6 +15,8 @@ http://edamontology.org/data_2976 # Protein sequence
 http://edamontology.org/data_1011 # EC number
 http://edamontology.org/data_2757 # Pfam domain name
 http://edamontology.org/operation_3282 # ID mapping
+http://edamontology.org/data_2530 # Organism report
+http://edamontology.org/operation_1777 # Protein function prediction
 
 [Top level source term URIs and target direct superclass URIs]
 http://edamontology.org/topic_0219 # Annotation and curation
@@ -36,6 +38,10 @@ subClassOf http://www.w3.org/2002/07/owl#Thing
 http://edamontology.org/data_2757 # Pfam domain name
 subClassOf http://www.w3.org/2002/07/owl#Thing
 http://edamontology.org/operation_3282 # ID mapping
+subClassOf http://www.w3.org/2002/07/owl#Thing
+http://edamontology.org/data_2530 # Organism report
+subClassOf http://www.w3.org/2002/07/owl#Thing
+http://edamontology.org/operation_1777 # Protein function prediction
 subClassOf http://www.w3.org/2002/07/owl#Thing
 
 [Source term retrieval setting]

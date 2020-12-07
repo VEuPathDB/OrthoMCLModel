@@ -582,6 +582,7 @@
 
 
             <table name="KeywordFrequency" internal="true"
+		   displayName="Keyword Frequency"
                    queryRef="GroupTables.KeywordFrequency">
               <columnAttribute name="keyword"/>
               <columnAttribute name="frequency"/>
@@ -589,6 +590,7 @@
 
 
             <table name="DomainFrequency" internal="true"
+		   displayName="Domain Frequency"
                    queryRef="GroupTables.DomainFrequency">
               <columnAttribute name="keyword"/>
               <columnAttribute name="frequency"/>

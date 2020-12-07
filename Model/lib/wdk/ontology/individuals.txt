@@ -21,28 +21,28 @@ GroupRecordClasses.GroupRecordClass.GroupQuestions.AllGroups		Group Statistics	G
 													
 ## Group Attributes ##
 
-GroupRecordClasses.GroupRecordClass.primary_key		Group	GroupRecordClasses.GroupRecordClass	attribute	primary_key							download	results
-GroupRecordClasses.GroupRecordClass.number_of_members		Group	GroupRecordClasses.GroupRecordClass	attribute	number_of_members				group		record-internal	download	results
-GroupRecordClasses.GroupRecordClass.avg_connectivity		Group	GroupRecordClasses.GroupRecordClass	attribute	avg_connectivity							download	results
-GroupRecordClasses.GroupRecordClass.percent_match_pairs		Group	GroupRecordClasses.GroupRecordClass	attribute	percent_match_pairs							download	results
-GroupRecordClasses.GroupRecordClass.avg_percent_identity		Group	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_identity							download	results
-GroupRecordClasses.GroupRecordClass.avg_percent_match		Group	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_match							download	results
-GroupRecordClasses.GroupRecordClass.ec_numbers	http://edamontology.org/topic_0219	Annotation and curation	GroupRecordClasses.GroupRecordClass	attribute	ec_numbers				group		record-internal	download	results
-GroupRecordClasses.GroupRecordClass.record_overview	http://edamontology.org/topic_0219	Annotation and curation	GroupRecordClasses.GroupRecordClass	attribute	record_overview				group		record-internal	download	results
+GroupRecordClasses.GroupRecordClass.primary_key	http://edamontology.org/topic_0219	Annotation	GroupRecordClasses.GroupRecordClass	attribute	primary_key							download	results
+GroupRecordClasses.GroupRecordClass.number_of_members	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	number_of_members				group		record-internal	download	results
+GroupRecordClasses.GroupRecordClass.avg_connectivity	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	avg_connectivity							download	results
+GroupRecordClasses.GroupRecordClass.percent_match_pairs	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	percent_match_pairs							download	results
+GroupRecordClasses.GroupRecordClass.avg_percent_identity	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_identity							download	results
+GroupRecordClasses.GroupRecordClass.avg_percent_match	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	avg_percent_match							download	results
+GroupRecordClasses.GroupRecordClass.ec_numbers	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	ec_numbers				group		record-internal	download	results
+GroupRecordClasses.GroupRecordClass.record_overview	http://edamontology.org/topic_0219	Annotation and curation	GroupRecordClasses.GroupRecordClass	attribute	record_overview				group		record-internal		
 GroupRecordClasses.GroupRecordClass.layout		Group Layout	GroupRecordClasses.GroupRecordClass	attribute	layout				group		record-internal		
-GroupRecordClasses.GroupRecordClass.keywords		Group	GroupRecordClasses.GroupRecordClass	attribute	keywords				group		record-internal	download	results
-GroupRecordClasses.GroupRecordClass.descriptions		Group	GroupRecordClasses.GroupRecordClass	attribute	descriptions				group		record-internal	download	results
-GroupRecordClasses.GroupRecordClass.cluster_page	http://edamontology.org/operation_3663	Homology-based gene prediction	GroupRecordClasses.GroupRecordClass	attribute	cluster_page						record	download	
-GroupRecordClasses.GroupRecordClass.avg_evalue		Group	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue							download	results
-GroupRecordClasses.GroupRecordClass.alveolata		Group	GroupRecordClasses.GroupRecordClass	attribute	alveolata							download	results
-GroupRecordClasses.GroupRecordClass.archaea		Group	GroupRecordClasses.GroupRecordClass	attribute	archaea							download	results
-GroupRecordClasses.GroupRecordClass.amoeba		Group	GroupRecordClasses.GroupRecordClass	attribute	amoeba							download	results
-GroupRecordClasses.GroupRecordClass.bacteria		Group	GroupRecordClasses.GroupRecordClass	attribute	bacteria							download	results
-GroupRecordClasses.GroupRecordClass.fungi		Group	GroupRecordClasses.GroupRecordClass	attribute	fungi							download	results
-GroupRecordClasses.GroupRecordClass.euglenozoa		Group	GroupRecordClasses.GroupRecordClass	attribute	euglenozoa							download	results
-GroupRecordClasses.GroupRecordClass.metazoa		Group	GroupRecordClasses.GroupRecordClass	attribute	metazoa							download	results
-GroupRecordClasses.GroupRecordClass.viridiplantae		Group	GroupRecordClasses.GroupRecordClass	attribute	viridiplantae							download	results
-GroupRecordClasses.GroupRecordClass.other_eukaryotes		Group	GroupRecordClasses.GroupRecordClass	attribute	other_eukaryotes							download	results
+GroupRecordClasses.GroupRecordClass.keywords	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	keywords				group		record-internal	download	results
+GroupRecordClasses.GroupRecordClass.descriptions	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	descriptions				group		record-internal	download	results
+GroupRecordClasses.GroupRecordClass.cluster_page	http://edamontology.org/operation_3663	Homology-based gene prediction	GroupRecordClasses.GroupRecordClass	attribute	cluster_page						record		
+GroupRecordClasses.GroupRecordClass.avg_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue							download	results
+GroupRecordClasses.GroupRecordClass.alveolata	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	alveolata								results
+GroupRecordClasses.GroupRecordClass.archaea	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	archaea								results
+GroupRecordClasses.GroupRecordClass.amoeba	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	amoeba								results
+GroupRecordClasses.GroupRecordClass.bacteria	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	bacteria								results
+GroupRecordClasses.GroupRecordClass.fungi	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	fungi								results
+GroupRecordClasses.GroupRecordClass.euglenozoa	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	euglenozoa								results
+GroupRecordClasses.GroupRecordClass.metazoa	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	metazoa								results
+GroupRecordClasses.GroupRecordClass.viridiplantae	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	viridiplantae								results
+GroupRecordClasses.GroupRecordClass.other_eukaryotes	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	other_eukaryotes								results
 													
 ## Group Tables ##
 GroupRecordClasses.GroupRecordClass.Statistics	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	Statistics					1	record	download	
@@ -51,7 +51,7 @@ GroupRecordClasses.GroupRecordClass.Sequences	http://edamontology.org/topic_0623
 GroupRecordClasses.GroupRecordClass.PFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	PFams					1	record	download	
 GroupRecordClasses.GroupRecordClass.ProteinPFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	ProteinPFams					2	record	download	
 GroupRecordClasses.GroupRecordClass.EcNumber	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	EcNumber					2	record	download	
-GroupRecordClasses.GroupRecordClass.GroupName		Group	GroupRecordClasses.GroupRecordClass	table	GroupName							download	
+GroupRecordClasses.GroupRecordClass.GroupName		Group	GroupRecordClasses.GroupRecordClass	table	GroupName								
 GroupRecordClasses.GroupRecordClass.DomainFrequency	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	DomainFrequency							download	
 GroupRecordClasses.GroupRecordClass.KeywordFrequency	http://edamontology.org/topic_0623	Gene and protein families	GroupRecordClasses.GroupRecordClass	table	KeywordFrequency							download	
 													
@@ -70,24 +70,24 @@ SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.AllSequences		Group 
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.SequencesByText		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.SequencesByText						menu	webservice	
 													
 ## Sequence Attributes ##													
-SequenceRecordClasses.SequenceRecordClass.record_overview	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	record_overview				sequence		record-internal	download	results
-SequenceRecordClasses.SequenceRecordClass.source_id		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	source_id							download	results
+SequenceRecordClasses.SequenceRecordClass.record_overview	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	record_overview				sequence		record-internal		
+SequenceRecordClasses.SequenceRecordClass.source_id	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	source_id							download	results
 SequenceRecordClasses.SequenceRecordClass.length	http://edamontology.org/data_2976	Protein sequence	SequenceRecordClasses.SequenceRecordClass	attribute	length						record	download	results
 SequenceRecordClasses.SequenceRecordClass.product	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	product				sequence	1	record-internal	download	results
-SequenceRecordClasses.SequenceRecordClass.molecular_weight		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	molecular_weight							download	results
-SequenceRecordClasses.SequenceRecordClass.ec_numbers		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	ec_numbers							download	results
-SequenceRecordClasses.SequenceRecordClass.taxon_name	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	taxon_name				sequence	2	record-internal	download	results
-SequenceRecordClasses.SequenceRecordClass.pfam_domains		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	pfam_domains							download	results
-SequenceRecordClasses.SequenceRecordClass.abbreviation	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	abbreviation				sequence	3	record-internal	download	results
-SequenceRecordClasses.SequenceRecordClass.core_peripheral	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	core_peripheral				sequence	4	record-internal	download	results
-SequenceRecordClasses.SequenceRecordClass.group_name		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	group_name							download	results
-SequenceRecordClasses.SequenceRecordClass.num_core		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	num_core							download	results
-SequenceRecordClasses.SequenceRecordClass.num_peripheral		Group Statistics	SequenceRecordClasses.SequenceRecordClass	attribute	num_peripheral							download	results
+SequenceRecordClasses.SequenceRecordClass.molecular_weight	http://edamontology.org/operation_1777	Protein properties	SequenceRecordClasses.SequenceRecordClass	attribute	molecular_weight							download	results
+SequenceRecordClasses.SequenceRecordClass.ec_numbers	http://edamontology.org/operation_1777	Protein properties	SequenceRecordClasses.SequenceRecordClass	attribute	ec_numbers							download	results
+SequenceRecordClasses.SequenceRecordClass.taxon_name	http://edamontology.org/data_2530	Organism information	SequenceRecordClasses.SequenceRecordClass	attribute	taxon_name				sequence	2	record-internal	download	results
+SequenceRecordClasses.SequenceRecordClass.pfam_domains	http://edamontology.org/operation_1777	Protein properties	SequenceRecordClasses.SequenceRecordClass	attribute	pfam_domains							download	results
+SequenceRecordClasses.SequenceRecordClass.abbreviation	http://edamontology.org/data_2530	Organism information	SequenceRecordClasses.SequenceRecordClass	attribute	abbreviation				sequence	3	record-internal	download	results
+SequenceRecordClasses.SequenceRecordClass.core_peripheral	http://edamontology.org/data_2530	Organism information	SequenceRecordClasses.SequenceRecordClass	attribute	core_peripheral				sequence	4	record-internal	download	results
+SequenceRecordClasses.SequenceRecordClass.group_name	http://edamontology.org/data_0907	Group summary	SequenceRecordClasses.SequenceRecordClass	attribute	group_name							download	results
+SequenceRecordClasses.SequenceRecordClass.num_core	http://edamontology.org/data_0907	Group summary	SequenceRecordClasses.SequenceRecordClass	attribute	num_core							download	results
+SequenceRecordClasses.SequenceRecordClass.num_peripheral	http://edamontology.org/data_0907	Group summary	SequenceRecordClasses.SequenceRecordClass	attribute	num_peripheral							download	results
 SequenceRecordClasses.SequenceRecordClass.sequence	http://edamontology.org/data_2976	Protein sequence	SequenceRecordClasses.SequenceRecordClass	attribute	sequence						record	download	results
-SequenceRecordClasses.SequenceRecordClass.group_link	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	group_link				sequence	5	record-internal		results
-SequenceRecordClasses.SequenceRecordClass.old_groups	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	old_groups				sequence	6	record-internal		results
+SequenceRecordClasses.SequenceRecordClass.group_link	http://edamontology.org/data_0907	Group summary	SequenceRecordClasses.SequenceRecordClass	attribute	group_link				sequence	5	record-internal		
+SequenceRecordClasses.SequenceRecordClass.old_groups	http://edamontology.org/data_0907	Group summary	SequenceRecordClasses.SequenceRecordClass	attribute	old_groups				sequence	6	record-internal		results
 SequenceRecordClasses.SequenceRecordClass.source_url	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	source_url				sequence	7	record-internal		results
-SequenceRecordClasses.SequenceRecordClass.source_text	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	source_text				sequence	8	record-internal		results
+SequenceRecordClasses.SequenceRecordClass.source_text	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	source_text				sequence	8	record-internal		
 													
 ## Sequence Tables ##													
 SequenceRecordClasses.SequenceRecordClass.OldGroups	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	table	OldGroups								
