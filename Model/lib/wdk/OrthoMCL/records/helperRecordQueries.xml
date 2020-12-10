@@ -67,16 +67,27 @@ FROM
             <column name="name"/>
             <sql>
             <![CDATA[
-SELECT 'helper' AS helper_id, 
-       orthomcl_taxon_id AS taxon_id,
-       nvl(parent_id, orthomcl_taxon_id) AS parent_id,
-       three_letter_abbrev AS abbreviation,
-       is_species, 
-       species_order AS sort_index,
-       common_name, 
-       name
-FROM apidb.OrthomclTaxon
-ORDER BY parent_id ASC, species_order ASC
+select q.*, rownum as sort_index
+from (
+select 'helper' AS helper_id,
+       omt.orthomcl_taxon_id as taxon_id,
+       nvl(omt.parent_id, omt.orthomcl_taxon_id) AS parent_id,
+       omt.three_letter_abbrev as abbreviation,
+       omt.is_species,
+       omt.common_name,
+       omt.name,
+       cats.category
+from apidb.OrthomclTaxon omt,
+     (select orthomcl_taxon_id, name, connect_by_root name as category
+      from apidb.OrthomclTaxon
+      start with name
+            in ('Archaea', 'Bacteria', 'Alveolates', 'Amoebozoa', 'Euglenozoa',
+                'Fungi', 'Metazoa', 'Other Eukaryota', 'Viridiplantae')
+      connect by parent_id = prior orthomcl_taxon_id
+     ) cats
+where omt.orthomcl_taxon_id = cats.orthomcl_taxon_id(+)
+order by cats.category nulls first, is_species desc, name
+) q
 			]]>
             </sql>
         </sqlQuery>

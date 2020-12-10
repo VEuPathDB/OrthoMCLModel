@@ -211,7 +211,7 @@
       <table name="OldGroups"
              displayName="Previous OrthoMCL Group IDs"
              queryRef="SequenceTables.OldGroups">
-        <columnAttribute name="group_name" displayName="Old Group ID" />
+        <columnAttribute name="group_name" displayName="Previous Group ID" />
       </table>
 
       
