@@ -417,25 +417,25 @@ tablespace indx
       <![CDATA[
 CREATE TABLE GroupDomainAttribute&1 NOLOGGING AS
 (
-WITH agg AS (SELECT group_name, accession, count(full_id) AS num_proteins
-             FROM DomainAssignment
-	     GROUP BY group_name,accession
-	     ),
-     agg2 AS (SELECT group_name, accession, num_proteins,
-                     rank() OVER (PARTITION BY group_name ORDER BY num_proteins DESC) rnk
-	      FROM agg),
-     agg3 AS (SELECT group_name, accession, num_proteins, rnk
-              FROM agg2
-	      WHERE rnk <= 3),
-     agg4 AS (SELECT group_name,
-              LISTAGG(accession ||' (' || num_proteins|| ')', ', ') WITHIN GROUP (ORDER BY rnk) AS descriptions
-	      FROM agg3
-	      GROUP BY group_name
-	      ORDER BY 1)
-SELECT og.name AS group_name, agg4.descriptions
-FROM apidb.OrthologGroup og, agg4
+SELECT og.name AS group_name, ag.descriptions
+FROM apidb.OrthologGroup og,
+     (SELECT group_name,
+             LISTAGG(accession ||' (' || num_proteins|| ')', ', ') WITHIN GROUP (ORDER BY rnk) AS descriptions
+      FROM (SELECT group_name, accession, num_proteins, rnk
+            FROM (SELECT group_name, accession, num_proteins,
+	                 rank() OVER (PARTITION BY group_name ORDER BY num_proteins DESC) rnk
+		  FROM (SELECT group_name, accession, count(full_id) AS num_proteins
+		        FROM DomainAssignment
+			GROUP BY group_name,accession
+		        )
+		  )
+	    WHERE rnk <= 3
+	    )
+      GROUP BY group_name
+      ORDER BY 1
+      ) ag
 WHERE og.core_peripheral_residual IN ('P','R')
-      AND og.name = agg4.group_name(+)
+      AND og.name = ag.group_name(+)
 )
       ]]>
     </sql>
