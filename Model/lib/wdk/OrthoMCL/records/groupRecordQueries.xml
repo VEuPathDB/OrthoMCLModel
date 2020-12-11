@@ -31,13 +31,14 @@
             <column name="avg_connectivity"/>
             <sql>
             <![CDATA[
-		     SELECT pr.group_name, number_of_members, number_of_match_pairs, avg_percent_identity, percent_match_pairs, avg_percent_match, evalue, evalue_display, avg_connectivity
+		     SELECT pr.group_name, number_of_members, number_of_match_pairs, avg_percent_identity, percent_match_pairs, avg_percent_match, evalue, evalue_display, avg_connectivity, group_type
 		     FROM (SELECT name as group_name, number_of_members, number_of_match_pairs,
 		                  decode(avg_percent_identity,null,'',round(avg_percent_identity,1)) as avg_percent_identity,
 				  decode(percent_match_pairs,null,'',round(percent_match_pairs,1)) as percent_match_pairs,
 				  decode(avg_percent_match,null,'',round(avg_percent_match,1)) as avg_percent_match,
 				  CASE WHEN (number_of_members=1) THEN 1 WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN 0 ELSE ROUND(avg_evalue_mant,1) * power(10,avg_evalue_exp) END AS evalue,
-				  CASE WHEN (number_of_members=1) THEN NULL WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN '0' ELSE ROUND(avg_evalue_mant,1) || 'E' || avg_evalue_exp END AS evalue_display
+				  CASE WHEN (number_of_members=1) THEN NULL WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN '0' ELSE ROUND(avg_evalue_mant,1) || 'E' || avg_evalue_exp END AS evalue_display,
+				  CASE core_peripheral_residual WHEN 'P' THEN 'Core' WHEN 'R' THEN 'Residual' ELSE 'Unknown' END AS group_type
 		           FROM apidb.OrthologGroup
 			   WHERE core_peripheral_residual in ('P','R') ) pr,
 			  (SELECT name as group_name,
@@ -143,21 +144,8 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
 	  <column name="descriptions" />
 	  <sql>
             <![CDATA[
-WITH agg AS (SELECT group_name, accession, count(full_id) AS num_proteins
-             FROM ApidbTuning.DomainAssignment
-	     GROUP BY group_name,accession
-	     ),
-     agg2 AS (SELECT group_name, accession, num_proteins,
-                     rank() OVER (PARTITION BY group_name ORDER BY num_proteins DESC) rnk
-	      FROM agg),
-     agg3 AS (SELECT group_name, accession, num_proteins, rnk
-              FROM agg2
-	      WHERE rnk <= 3)
-SELECT group_name,
-       LISTAGG(accession ||' (' || num_proteins|| ')', ', ') WITHIN GROUP (ORDER BY rnk) AS descriptions
-FROM agg3
-GROUP BY group_name 
-ORDER BY 1
+		     SELECT group_name, descriptions
+		     FROM apidbtuning.GroupDomainAttribute
             ]]>
 	  </sql>
 	</sqlQuery>

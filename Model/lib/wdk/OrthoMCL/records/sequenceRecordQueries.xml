@@ -47,7 +47,7 @@
 		<![CDATA[
 SELECT sa.full_id, sa.source_id,
     sa.length, sa.product,
-    sa.molecular_weight,
+    round(sa.molecular_weight/1000,1) AS molecular_weight,
     sa.taxon_abbreviation AS abbreviation, 
     sa.taxon_name,
     sa.ec_numbers,

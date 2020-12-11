@@ -32,6 +32,7 @@ GroupRecordClasses.GroupRecordClass.record_overview	http://edamontology.org/topi
 GroupRecordClasses.GroupRecordClass.layout		Group Layout	GroupRecordClasses.GroupRecordClass	attribute	layout				group		record-internal		
 GroupRecordClasses.GroupRecordClass.keywords	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	keywords				group		record-internal	download	results
 GroupRecordClasses.GroupRecordClass.descriptions	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	descriptions				group		record-internal	download	results
+GroupRecordClasses.GroupRecordClass.group_type	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	group_type				group		record-internal	download	results
 GroupRecordClasses.GroupRecordClass.cluster_page	http://edamontology.org/operation_3663	Homology-based gene prediction	GroupRecordClasses.GroupRecordClass	attribute	cluster_page						record		
 GroupRecordClasses.GroupRecordClass.avg_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue							download	results
 GroupRecordClasses.GroupRecordClass.alveolata	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	alveolata								results
@@ -74,7 +75,7 @@ SequenceRecordClasses.SequenceRecordClass.record_overview	http://edamontology.or
 SequenceRecordClasses.SequenceRecordClass.source_id	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	source_id							download	results
 SequenceRecordClasses.SequenceRecordClass.length	http://edamontology.org/data_2976	Protein sequence	SequenceRecordClasses.SequenceRecordClass	attribute	length						record	download	results
 SequenceRecordClasses.SequenceRecordClass.product	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	product				sequence	1	record-internal	download	results
-SequenceRecordClasses.SequenceRecordClass.molecular_weight	http://edamontology.org/operation_1777	Protein properties	SequenceRecordClasses.SequenceRecordClass	attribute	molecular_weight							download	results
+SequenceRecordClasses.SequenceRecordClass.molecular_weight	http://edamontology.org/data_2976	Protein sequence	SequenceRecordClasses.SequenceRecordClass	attribute	molecular_weight						record	download	results
 SequenceRecordClasses.SequenceRecordClass.ec_numbers	http://edamontology.org/operation_1777	Protein properties	SequenceRecordClasses.SequenceRecordClass	attribute	ec_numbers							download	results
 SequenceRecordClasses.SequenceRecordClass.taxon_name	http://edamontology.org/data_2530	Organism information	SequenceRecordClasses.SequenceRecordClass	attribute	taxon_name				sequence	2	record-internal	download	results
 SequenceRecordClasses.SequenceRecordClass.pfam_domains	http://edamontology.org/operation_1777	Protein properties	SequenceRecordClasses.SequenceRecordClass	attribute	pfam_domains							download	results

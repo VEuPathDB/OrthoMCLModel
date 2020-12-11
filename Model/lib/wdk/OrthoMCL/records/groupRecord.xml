@@ -96,35 +96,47 @@
                   </reporter>
                 </columnAttribute>
 
-                <columnAttribute name="avg_connectivity" displayName="Average % Homology" help="The average percent homology for all proteins in the group. Each protein's percent homology is the number of its Ortholog, CoOrtholog or Inparalog pairs assigned by the OrthoMCL algorithm divided by the total number of possible pairs for that protein. See the Methods Section for details.">
+                <columnAttribute name="group_type" internal="false" displayName="Group Type" help="Core groups are first formed with core proteins and subsequently peripheral proteins are mapped in. Residual groups are formed with peripheral proteins that fail to map to any of the core groups.">
+		  <reporter name="wordCloud" displayName="Word Cloud" scopes=""
+			    implementation="org.eupathdb.common.model.report.EbrcWordCloudAttributeReporter">
+                    <description>
+                      <![CDATA[ Display the terms in the attribute as word clouds ]]>
+                    </description>
+                    <property name="min-word-length">1</property>
+                    <property name="exclude-numbers">false</property>
+                    <property name="split-pattern"><![CDATA[,]]></property>
+		  </reporter>
+                </columnAttribute>
+
+                <columnAttribute name="avg_connectivity" displayName="% Homology" help="The percentage of all possible protein pairs where the two proteins are orthologs, co-orthologs, or inparalogs.">
                   <reporter name="histogram" displayName="Histogram" scopes=""
                             implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
                     <description>Display the histogram of the values of this attribute</description>
                   </reporter>
                 </columnAttribute>
 
-                <columnAttribute name="percent_match_pairs" displayName="% Protein Pairs With Similarity" help="The percent of sequence pairs in a group that have an above-threshold similarity  See the Methods Section for details.">
+                <columnAttribute name="percent_match_pairs" displayName="% Protein Pairs With Similarity" help="The percent of sequence pairs in a group that have an above-threshold similarity (NCBI BLASTP E-Value is less than 1e-5 and the percent match length is at least 50%).">
                   <reporter name="histogram" displayName="Histogram" scopes=""
                             implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
                     <description>Display the histogram of the values of this attribute</description>
                   </reporter>
                 </columnAttribute>
 
-               <columnAttribute name="avg_percent_identity" displayName="Average % Identity" help="The average percent identity between two sequences in the group that have an above-threshold similarity. See the Methods Section for details.">
+               <columnAttribute name="avg_percent_identity" displayName="Average % Identity" help="The % Identity is calculated between two proteins by determining the percentage of residues within the best High-scoring Segment Pair (HSP) that are identical. The Avg % Identity takes the average of all % Identity results in the group.">
                   <reporter name="histogram" displayName="Histogram" scopes=""
                             implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
                     <description>Display the histogram of the values of this attribute</description>
                   </reporter>
                 </columnAttribute>
 
-                <columnAttribute name="avg_percent_match" displayName="Avg % Match Length" help="The average of the percent match length of all pairs of sequences in a group that have an above-threshold similarity. See the Methods Section for details.">
+                <columnAttribute name="avg_percent_match" displayName="Avg % Match Length" help="The % Match is calculated between two proteins by determining the percentage of the shorter protein sequence that is part of a High-scoring Segment Pair (HSP) with the other protein. The Avg % Match takes the average of all % Match results in the group.">
                   <reporter name="histogram" displayName="Histogram" scopes=""
                             implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
                     <description>Display the histogram of the values of this attribute</description>
                   </reporter>
                 </columnAttribute>
 
-                <columnAttribute name="evalue_display" displayName="Average BLAST E-value" />
+                <columnAttribute name="evalue_display" displayName="Average BLAST E-value" help="The average BLAST E-value for protein pairs, considering only pairs where the two proteins are considered similar (E-Value less than 1e-5 and percent match length at least 50%)." />
 
                 <columnAttribute name="evalue" displayName="Average BLAST E-value Actual" internal="true" />
 
@@ -371,7 +383,7 @@
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Keywords">
-                <columnAttribute name="keywords" displayName="Keywords" >
+                <columnAttribute name="keywords" displayName="Keywords" help="Words found in at least 50% of protein descriptions." >
 		  <reporter name="wordCloud" displayName="Word Cloud" scopes=""
 			    implementation="org.eupathdb.common.model.report.EbrcWordCloudAttributeReporter">
                     <description>
@@ -385,7 +397,7 @@
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Domains">
-                <columnAttribute name="descriptions" displayName="Top PFam Domains" help="Number of proteins in parentheses. Only top three most frequent domains are shown (or more if there are ties in frequency)." >
+                <columnAttribute name="descriptions" displayName="Top PFam Domains" help="Number of proteins in parentheses. Only three most frequent domains are shown (or more if there are ties in frequency)." >
 		  <reporter name="wordCloud" displayName="Word Cloud" scopes=""
 			    implementation="org.eupathdb.common.model.report.EbrcWordCloudAttributeReporter">
                     <description>
@@ -418,6 +430,7 @@
 
 			      <div class="eupathdb-RecordOverviewPanels">
 			          <div class="eupathdb-RecordOverviewLeft">
+				      <div class="eupathdb-RecordOverviewItem" data-label="Group Type">$$group_type$$</div>
 				      <div class="eupathdb-RecordOverviewItem" data-label="Total Number of Proteins">$$number_of_members$$</div>
 				      <div class="eupathdb-RecordOverviewItem" data-label="Keywords">$$keywords$$</div>
 				      <div class="eupathdb-RecordOverviewItem" data-label="EC Numbers">$$ec_numbers$$</div>
@@ -445,15 +458,15 @@
             <table name="Statistics" inReportMaker="false"
                    displayName="Group Statistics"
                    queryRef="GroupTables.Statistics">
-                <columnAttribute name="group_type" displayName="Protein types" />
+                <columnAttribute name="group_type" displayName="Protein types" help="A core protein is from one of the 150 core species that were initially used to form 'core' groups. A peripheral protein is from a peripheral species whose entire proteome was mapped into the 'core' groups. Peripheral proteins that do not map into a 'core' group are placed into residuals groups."/>
                 <columnAttribute name="number_of_members" displayName="# Proteins" />
-                <columnAttribute name="avg_percent_match" displayName="Avg % Match" />
-                <columnAttribute name="avg_percent_identity" displayName="Avg % Identity" help="The average of the percent identity of all pairs of sequences in a group that have an above-threshold similarity.  See the Methods Section for details." />
-                <columnAttribute name="number_of_match_pairs" displayName="Num Pairs With Similarity"/>
-                <columnAttribute name="max_match_pairs" displayName="Max Possible Pairs"/>
-                <columnAttribute name="percent_match_pairs" displayName="% Protein Pairs With Similarity"/>
-                <columnAttribute name="avg_connectivity" displayName="Avg % Homology"/>
-                <columnAttribute name="evalue_display" displayName="Average BLAST E-value" />
+                <columnAttribute name="avg_percent_match" displayName="Avg % Match" help="The % Match is calculated between two proteins by determining the percentage of the shorter protein sequence that is part of a High-scoring Segment Pair (HSP) with the other protein. The Avg % Match takes the average of all % Match results in the group."/>
+                <columnAttribute name="avg_percent_identity" displayName="Avg % Identity" help="The % Identity is calculated between two proteins by determining the percentage of residues within the best High-scoring Segment Pair (HSP) that are identical. The Avg % Identity takes the average of all % Identity results in the group." />
+                <columnAttribute name="number_of_match_pairs" displayName="Num Pairs With Similarity" help="The total number of protein pairs where the NCBI BLASTP E-Value is less than 1e-5 and the percent match length is at least 50%."/>
+                <columnAttribute name="max_match_pairs" displayName="Max Possible Pairs" help="The maximum number of unique protein pairs that are possible in the group, equal to n*(n-1)/2, where n = number of proteins in the group."/>
+                <columnAttribute name="percent_match_pairs" displayName="% Protein Pairs With Similarity" help="The percent of sequence pairs in a group that have an above-threshold similarity (NCBI BLASTP E-Value is less than 1e-5 and the percent match length is at least 50%)."/>
+                <columnAttribute name="avg_connectivity" displayName="% Homology" help="The percentage of all possible protein pairs where the two proteins are orthologs, co-orthologs, or inparalogs." />
+                <columnAttribute name="evalue_display" displayName="Average BLAST E-value" help="The average BLAST E-value for protein pairs, considering only pairs where the two proteins are considered similar (E-Value less than 1e-5 and percent match length at least 50%)." />
                 <columnAttribute name="evalue" displayName="Average BLAST E-value Actual" internal="true" />
             </table>
 
@@ -461,7 +474,7 @@
             <table name="Sequences"
                    displayName="List of All Proteins"
                    queryRef="GroupTables.Proteins">
-                 <description><![CDATA[To align sequences or display sequences in FASTA format, select genes from the table below. Then choose the 'Output format' and click the 'Run Clustal Omega for selected genes' button.]]>
+                 <description><![CDATA[To align sequences, select proteins from the table below. Then choose the 'Output format' and click the 'Run Clustal Omega for selected genes' button.]]>
 		 </description>
 
 
@@ -509,9 +522,9 @@
 		</reporter>
 	      </columnAttribute>
 
-	      <columnAttribute name="core_peripheral" displayName="Core/Peripheral" />
+	      <columnAttribute name="core_peripheral" displayName="Core/Peripheral" help="Whether the protein is from a core or peripheral species." />
 
-	      <columnAttribute name="length" displayName="Length (aa)" >
+	      <columnAttribute name="length" displayName="Length" help="Length of protein in amino acids" >
 		<reporter name="histogram" displayName="Histogram" scopes=""
 			  implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter" >
                   <description>Display the histogram of the values of this attribute</description>
@@ -519,7 +532,7 @@
               </columnAttribute>
 
 	      <columnAttribute name="ec_numbers" displayName="EC Numbers" />
-	      <columnAttribute name="previous_groups" displayName="Previous Groups" />
+	      <columnAttribute name="previous_groups" displayName="Previous Groups" help="Previous OrthoMCL ortholog groups containing this protein." />
 	      <columnAttribute name="full_id" internal="true" />
 	      <columnAttribute name="taxon_abbrev" displayName="Taxon Abbreviation" internal="true" inReportMaker="false" />
             </table>
@@ -530,7 +543,7 @@
                 <columnAttribute name="accession" displayName="Accession Number" />
                 <columnAttribute name="symbol" displayName="Symbol" />
                 <columnAttribute name="description" displayName="Description" />
-                <columnAttribute name="occurrences" displayName="Count" />
+                <columnAttribute name="occurrences" displayName="Count" help="Occurences of this domain within proteins of this ortholog group. There can be multiple occurrences per protein." />
                 <columnAttribute name="domain_index" internal="true" />
                 <columnAttribute name="max_index" internal="true" />
             </table>

@@ -95,7 +95,7 @@
 
       <attributeQueryRef ref="SequenceAttributes.SequenceAttrs">  
         <columnAttribute name="source_id" displayName="Source ID" />
-        <columnAttribute name="length" displayName="# amino acids">
+        <columnAttribute name="length" displayName="Length" help="Protein length in amino acids">
           <reporter name="histogram" displayName="Histogram" scopes=""
                     implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
             <description>Display the histogram of the values of this attribute</description>
@@ -107,7 +107,7 @@
             <description>Display the terms in the attribute as a word cloud</description>
           </reporter>
         </columnAttribute>
-        <columnAttribute name="molecular_weight" displayName="Molecular Weight">
+        <columnAttribute name="molecular_weight" displayName="Molecular Weight" help="Molecular weight in kiloDaltons (kD)">
           <reporter name="histogram" displayName="Histogram" scopes=""
                     implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
             <description>Display the histogram of the values of this attribute</description>
