@@ -269,6 +269,9 @@ tablespace indx
 
 
   <tuningTable name="PhyleticPattern">
+    <externalDependency name="apidb.OrthologGroup"/>
+    <externalDependency name="apidb.OrthologGroupTaxon"/>
+    <externalDependency name="apidb.OrthomclTaxon"/>
     <sql>
       <![CDATA[
 CREATE TABLE PhyleticPattern&1 NOLOGGING AS
@@ -406,6 +409,44 @@ tablespace indx
       ]]>
     </sql>
   </tuningTable>
+
+  <tuningTable name="GroupDomainAttribute">
+    <externalDependency name="apidb.OrthologGroup"/>
+    <internalDependency name="DomainAssignment"/>
+    <sql>
+      <![CDATA[
+CREATE TABLE GroupDomainAttribute&1 NOLOGGING AS
+(
+WITH agg AS (SELECT group_name, accession, count(full_id) AS num_proteins
+             FROM DomainAssignment
+	     GROUP BY group_name,accession
+	     ),
+     agg2 AS (SELECT group_name, accession, num_proteins,
+                     rank() OVER (PARTITION BY group_name ORDER BY num_proteins DESC) rnk
+	      FROM agg),
+     agg3 AS (SELECT group_name, accession, num_proteins, rnk
+              FROM agg2
+	      WHERE rnk <= 3),
+     agg4 AS (SELECT group_name,
+              LISTAGG(accession ||' (' || num_proteins|| ')', ', ') WITHIN GROUP (ORDER BY rnk) AS descriptions
+	      FROM agg3
+	      GROUP BY group_name
+	      ORDER BY 1)
+SELECT og.name AS group_name, agg4.descriptions
+FROM apidb.OrthologGroup og, agg4
+WHERE og.core_peripheral_residual IN ('P','R')
+      AND og.name = agg4.group_name(+)
+)
+      ]]>
+    </sql>
+    <sql>
+      <![CDATA[
+CREATE INDEX GroupDomainAttribute_idx&1 ON GroupDomainAttribute&1 (group_name)
+tablespace indx
+      ]]>
+    </sql>
+  </tuningTable>
+
 
 
 </tuningConfig>
