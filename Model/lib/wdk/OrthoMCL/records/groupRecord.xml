@@ -367,7 +367,7 @@
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.EcNumbers">
-                <columnAttribute name="ec_numbers" displayName="EC Numbers" />
+                <columnAttribute name="ec_numbers" displayName="EC Numbers"  help="Number of proteins in parentheses." />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Keywords">
@@ -385,7 +385,7 @@
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Domains">
-                <columnAttribute name="descriptions" displayName="PFam Domains" >
+                <columnAttribute name="descriptions" displayName="Top PFam Domains" help="Number of proteins in parentheses. Only top three most frequent domains are shown (or more if there are ties in frequency)." >
 		  <reporter name="wordCloud" displayName="Word Cloud" scopes=""
 			    implementation="org.eupathdb.common.model.report.EbrcWordCloudAttributeReporter">
                     <description>
@@ -421,7 +421,7 @@
 				      <div class="eupathdb-RecordOverviewItem" data-label="Total Number of Proteins">$$number_of_members$$</div>
 				      <div class="eupathdb-RecordOverviewItem" data-label="Keywords">$$keywords$$</div>
 				      <div class="eupathdb-RecordOverviewItem" data-label="EC Numbers">$$ec_numbers$$</div>
-				      <div class="eupathdb-RecordOverviewItem" data-label="PFam Domains">$$descriptions$$</div>
+				      <div class="eupathdb-RecordOverviewItem" data-label="Top PFam Domains">$$descriptions$$</div>
 			          </div>
 			      </div>
 			  </div>

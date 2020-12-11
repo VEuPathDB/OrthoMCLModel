@@ -143,15 +143,21 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
 	  <column name="descriptions" />
 	  <sql>
             <![CDATA[
-              select og.name as group_name, domains.descriptions
-              from apidb.OrthologGroup og,
-                   (select ortholog_group_id,
-                           listagg(description, '; ') within group (order by frequency desc) as descriptions
-                    from apidb.OrthomclGroupDomain
-                    group by ortholog_group_id
-                   ) domains
-              where og.ortholog_group_id = domains.ortholog_group_id(+)
-	      and og.core_peripheral_residual in ('P','R') 
+WITH agg AS (SELECT group_name, accession, count(full_id) AS num_proteins
+             FROM ApidbTuning.DomainAssignment
+	     GROUP BY group_name,accession
+	     ),
+     agg2 AS (SELECT group_name, accession, num_proteins,
+                     rank() OVER (PARTITION BY group_name ORDER BY num_proteins DESC) rnk
+	      FROM agg),
+     agg3 AS (SELECT group_name, accession, num_proteins, rnk
+              FROM agg2
+	      WHERE rnk <= 3)
+SELECT group_name,
+       LISTAGG(accession ||' (' || num_proteins|| ')', ', ') WITHIN GROUP (ORDER BY rnk) AS descriptions
+FROM agg3
+GROUP BY group_name 
+ORDER BY 1
             ]]>
 	  </sql>
 	</sqlQuery>
