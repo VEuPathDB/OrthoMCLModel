@@ -449,7 +449,11 @@
 
             <table name="TaxonCounts" inReportMaker="false"
                    displayName="Phlyetic Distribution of Proteins"
-                   queryRef="GroupTables.TaxonCounts">
+                   queryRef="GroupTables.TaxonCounts"
+		   help="Numbers refer to the number of proteins in that organism or taxonomic group. In order to see organisms and taxonomic groups without proteins in this ortholog group, uncheck 'Hide zero counts.'" >
+
+                 <description><![CDATA[Numbers refer to the number of proteins in that organism or taxonomic group.]]></description>
+
                 <columnAttribute name="taxon_id" displayName="Taxon ID" />
                 <columnAttribute name="abbrev" displayName="Taxon Abbreviation" />
                 <columnAttribute name="count" displayName="Count" />
