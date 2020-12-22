@@ -16,25 +16,35 @@
             <suggest default="OG6_101327, OG6r3_101799" />
         </datasetParam>
 
-        <stringParam name="core_count_min" prompt="Min # Core Proteins" number="true">
-            <help>The minimum number of core proteins in the group</help>
-            <suggest default="10" />
-        </stringParam>
+        <numberRangeParam name="core_count" 
+			  prompt="Number of Core Proteins"
+			  integer="true"
+			  min="0"
+			  max="100000"
+			  increment="1">
+            <help>Set the minimum and maximum number of core proteins in the group</help>
+            <suggest default="{'min':'1', 'max':'499'}" />
+        </numberRangeParam>
 
-        <stringParam name="core_count_max" prompt="Max # Core Proteins" number="true">
-            <help>The maximum number of core proteins in the group</help>
-            <suggest default="20" />
-        </stringParam>
+        <numberRangeParam name="peripheral_count" 
+			  prompt="Number of Peripheral Proteins"
+			  integer="true"
+			  min="0"
+			  max="100000"
+			  increment="1">
+            <help>Set the minimum and maximum number of peripheral proteins in the group</help>
+            <suggest default="{'min':'1', 'max':'499'}" />
+        </numberRangeParam>
 
-        <stringParam name="peripheral_count_min" prompt="Min # Peripheral Proteins" number="true">
-            <help>The minimum number of peripheral proteins in the group</help>
-            <suggest default="10" />
-        </stringParam>
-
-        <stringParam name="peripheral_count_max" prompt="Max # Peripheral Proteins" number="true">
-            <help>The maximum number of peripheral proteins in the group</help>
-            <suggest default="20" />
-        </stringParam>
+        <numberRangeParam name="all_count" 
+			  prompt="Number of All Proteins"
+			  integer="true"
+			  min="0"
+			  max="100000"
+			  increment="1">
+            <help>Set the minimum and maximum number of total proteins in the group</help>
+            <suggest default="{'min':'2', 'max':'499'}" />
+        </numberRangeParam>
 
         <stringParam name="core_taxon_min" prompt="Min # Core Taxa" number="true">
             <help>The minimum number of Core taxa present in a group</help>
