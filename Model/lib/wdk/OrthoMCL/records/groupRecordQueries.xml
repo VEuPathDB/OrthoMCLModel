@@ -306,6 +306,7 @@ FROM apidbtuning.PhyleticPattern
           <column name="symbol"/>
           <column name="full_id"/>
           <column name="protein_length"/>
+          <column name="taxon_name"/>
           <column name="core_peripheral"/>
           <column name="domain_index"/>
           <column name="start_min"/>
@@ -315,7 +316,7 @@ FROM apidbtuning.PhyleticPattern
      The minimum of all lengths was shown for each protein. The original phrase that resulted in this
      error was sa.length, but the current phrase round(sa.length,0) fixed this in an unknown way.  -->
             <![CDATA[
-     SELECT sa.group_name, sa.full_id, round(sa.length,0) as protein_length,
+     SELECT sa.group_name, sa.full_id, round(sa.length,0) as protein_length, sa.taxon_name,
      case sa.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral,
      da.accession, da.symbol, da.domain_index, da.start_min, da.end_max
      from ApidbTuning.SequenceAttributes sa            

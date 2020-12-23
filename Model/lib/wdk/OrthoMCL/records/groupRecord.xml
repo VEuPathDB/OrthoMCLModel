@@ -552,6 +552,7 @@
                 <columnAttribute name="accession" displayName="Accession Number" />
                 <columnAttribute name="symbol" displayName="Symbol" />
                 <columnAttribute name="full_id" displayName="Source Id" />
+                <columnAttribute name="taxon_name" displayName="Taxon" />
                 <columnAttribute name="core_peripheral" displayName="Core/Peripheral" />
 
                 <columnAttribute name="protein_length" displayName="Length (aa)" >
