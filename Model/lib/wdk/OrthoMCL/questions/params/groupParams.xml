@@ -39,52 +39,62 @@
         <numberRangeParam name="all_count" 
 			  prompt="Number of All Proteins"
 			  integer="true"
-			  min="0"
+			  min="1"
 			  max="100000"
 			  increment="1">
             <help>Set the minimum and maximum number of total proteins in the group</help>
             <suggest default="{'min':'2', 'max':'499'}" />
         </numberRangeParam>
 
-        <stringParam name="core_taxon_min" prompt="Min # Core Taxa" number="true">
-            <help>The minimum number of Core taxa present in a group</help>
-            <suggest default="5" />
-        </stringParam>
+        <numberRangeParam name="core_taxon" 
+			  prompt="Number of Core Taxa"
+			  integer="true"
+			  min="0"
+			  max="100000"
+			  increment="1">
+            <help>Set the minimum and maximum number of Core taxa in the group</help>
+            <suggest default="{'min':'2', 'max':'10'}" />
+        </numberRangeParam>
 
-        <stringParam name="core_taxon_max" prompt="Max # Core Taxa" number="true">
-            <help>The maximum number of Core taxa present in a group</help>
-            <suggest default="10" />
-        </stringParam>
+        <numberRangeParam name="peripheral_taxon" 
+			  prompt="Number of Peripheral Taxa"
+			  integer="true"
+			  min="0"
+			  max="100000"
+			  increment="1">
+            <help>Set the minimum and maximum number of Peripheral taxa in the group</help>
+            <suggest default="{'min':'2', 'max':'10'}" />
+        </numberRangeParam>
 
-        <stringParam name="peripheral_taxon_min" prompt="Min # Peripheral Taxa" number="true">
-            <help>The minimum number of Peripheral taxa in a group</help>
-            <suggest default="5" />
-        </stringParam>
+        <numberRangeParam name="all_taxon" 
+			  prompt="Number of All Taxa"
+			  integer="true"
+			  min="1"
+			  max="100000"
+			  increment="1">
+            <help>Set the minimum and maximum number of total taxa in the group</help>
+            <suggest default="{'min':'4', 'max':'20'}" />
+        </numberRangeParam>
 
-        <stringParam name="peripheral_taxon_max" prompt="Max # Peripheral Taxa" number="true">
-            <help>The maximum number of Peripheral taxa in a group</help>
-            <suggest default="10" />
-        </stringParam>
+        <numberRangeParam name="percent" 
+			  prompt="Percentage"
+			  integer="true"
+			  min="1"
+			  max="100"
+			  increment="1">
+            <help>Set the minimum and maximum percentage</help>
+            <suggest default="{'min':'80', 'max':'100'}" />
+        </numberRangeParam>
 
-        <stringParam name="percent_min" prompt="Min Percentage" number="true">
-            <help>The minimum percentage.</help>
-            <suggest default="50" />
-        </stringParam>
-
-        <stringParam name="percent_max" prompt="Max Percentage" number="true">
-            <help>The maximum percentage</help>
-            <suggest default="80" />
-        </stringParam>
-
-        <stringParam name="evalue_min" prompt="Min E-Value exponent" number="true">
-            <help>The minimum exponent.</help>
-            <suggest default="-100" />
-        </stringParam>
-
-        <stringParam name="evalue_max" prompt="Max E-Value exponent" number="true">
-            <help>The maximum exponent</help>
-            <suggest default="-5" />
-        </stringParam>
+        <numberRangeParam name="evalue" 
+			  prompt="E-value exponent"
+			  integer="true"
+			  min="-200"
+			  max="-4"
+			  increment="1">
+            <help>Set the minimum and maximum number of total taxa in the group</help>
+            <suggest default="{'min':'-200', 'max':'-150'}" />
+        </numberRangeParam>
 
         <stringParam name="phyletic_expression" prompt="Expression" number="false">
             <help>

@@ -69,7 +69,7 @@
 
 
       <question name="GroupsByEcNumber" queryRef="GroupIds.ByEcNumber" 
-                displayName="EC Number (specific)" shortDisplayName="Enzymes"
+                displayName="EC Number" shortDisplayName="Enzymes"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
           <![CDATA[ Find groups that have one or more proteins that are assigned a specific Enzyme Commission (EC) Number]]>
@@ -90,6 +90,17 @@
                 Find Ortholog Groups that contain a specified number of proteins. To get Core Groups with peripheral proteins mapped in, choose >=1 for Min/Max Number of Core Proteins and >=1 for Min/Max Core Peripheral Proteins. To get Core Groups with NO peripheral proteins mapped in, choose >=1 for Min/Max Number of Core Proteins and 0 for Min/Max Number of Peripheral Proteins. To get Residual Groups, choose 0 for Min/Max Number of Core Proteins and >=1 for Min/Max Number of Peripheral Proteins. To restrict the total size of the group, set the Number of All Proteins. For example, setting a range of 2 to 499 for Number of All Proteins will show groups for which a cluster graph has been calculated.
                         ]]>
         </description>
+
+        <attributesList
+            summary="core_num,peripheral_num,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
+            sorting="number_of_members desc"
+            /> 
+
+      <dynamicAttributes>
+        <columnAttribute name="core_num" displayName="Num Core Proteins"/>
+        <columnAttribute name="peripheral_num" displayName="Num Peripheral Proteins"/>
+      </dynamicAttributes>
+
       </question>
 
 
@@ -99,9 +110,21 @@
         <description>
           <![CDATA[
                 Find Ortholog Groups that contain a specified number of Core taxa and Peripheral taxa. To get Core Groups with
-peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Min/Max # Peripheral Taxa. To get Core Groups with NO peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and 0 for Min/Max # Peripheral Taxa. To get Residual Groups, choose 0 for Min/Max # Core Taxa and >=1 for Min/Max # Peripheral Taxa.
+peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Min/Max # Peripheral Taxa. To get Core Groups with NO peripheral proteins mapped in, choose >=1 for Min/Max Number of Core Taxa and 0 for Min/Max Number of Peripheral Taxa. To get Residual Groups, choose 0 for Min/Max Number of Core Taxa and >=1 for Min/Max Number of Peripheral Taxa. To restrict the total number of taxa represented in the group, set the Number of All Taxa.
                         ]]>
         </description>
+
+        <attributesList
+            summary="core_count,peripheral_count,all_count,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
+            sorting="all_count desc"
+            /> 
+
+      <dynamicAttributes>
+        <columnAttribute name="core_count" displayName="Num Core Taxa"/>
+        <columnAttribute name="peripheral_count" displayName="Num Peripheral Taxa"/>
+        <columnAttribute name="all_count" displayName="Num Total Taxa"/>
+      </dynamicAttributes>
+
       </question>
 
       <question name="GroupsByHomology" queryRef="GroupIds.ByAvgHomology" 
@@ -181,7 +204,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
            summary="evalue_display,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-           sorting="evalue asc"
+           sorting="avg_evalue_exp asc"
            /> 
         <description>
           <![CDATA[

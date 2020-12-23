@@ -26,26 +26,28 @@
             <column name="number_of_match_pairs"/>
             <column name="percent_match_pairs"/>
             <column name="avg_percent_match"/>
-            <column name="evalue"/>
+            <column name="avg_evalue_mant"/>
+            <column name="avg_evalue_exp"/>
             <column name="evalue_display"/>
             <column name="avg_connectivity"/>
             <sql>
             <![CDATA[
-		     SELECT pr.group_name, number_of_members, number_of_match_pairs, avg_percent_identity, percent_match_pairs, avg_percent_match, evalue, evalue_display, avg_connectivity, group_type
+		     SELECT pr.group_name, number_of_members, number_of_match_pairs, avg_percent_identity, percent_match_pairs, avg_percent_match, avg_evalue_mant, avg_evalue_exp, evalue_display, avg_connectivity, group_type
 		     FROM (SELECT name as group_name, number_of_members, number_of_match_pairs,
 		                  decode(avg_percent_identity,null,'',round(avg_percent_identity,1)) as avg_percent_identity,
 				  decode(percent_match_pairs,null,'',round(percent_match_pairs,1)) as percent_match_pairs,
 				  decode(avg_percent_match,null,'',round(avg_percent_match,1)) as avg_percent_match,
-				  CASE WHEN (number_of_members=1) THEN 1 WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN 0 ELSE ROUND(avg_evalue_mant,1) * power(10,avg_evalue_exp) END AS evalue,
 				  CASE WHEN (number_of_members=1) THEN NULL WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN '0' ELSE ROUND(avg_evalue_mant,1) || 'E' || avg_evalue_exp END AS evalue_display,
-				  CASE core_peripheral_residual WHEN 'P' THEN 'Core' WHEN 'R' THEN 'Residual' ELSE 'Unknown' END AS group_type
+				  CASE core_peripheral_residual WHEN 'P' THEN 'Core' WHEN 'R' THEN 'Residual' ELSE 'Unknown' END AS group_type,
+				  avg_evalue_mant,
+				  avg_evalue_exp
 		           FROM apidb.OrthologGroup
 			   WHERE core_peripheral_residual in ('P','R') ) pr,
 			  (SELECT name as group_name,
 			          decode(avg_connectivity,null,'',round(100*avg_connectivity/(number_of_members-1),1)) as avg_connectivity
 			   FROM apidb.OrthologGroup
-			   WHERE core_peripheral_residual = 'C' ) c
-	             WHERE pr.group_name = c.group_name(+)
+			   WHERE core_peripheral_residual IN ('C','R') ) cr
+	             WHERE pr.group_name = cr.group_name(+)
 			]]>
             </sql>
         </sqlQuery>

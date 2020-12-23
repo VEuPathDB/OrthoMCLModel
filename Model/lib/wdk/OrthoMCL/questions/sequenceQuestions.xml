@@ -306,7 +306,7 @@
         </question>
 
         <question name="ByEcNumber" queryRef="SequenceIds.ByEcNumber" 
-                  displayName="EC Number (specific)" shortDisplayName="Enzymes"
+                  displayName="EC Number" shortDisplayName="Enzymes"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
                         <![CDATA[ Find proteins that are assigned to a specific Enzyme Commission (EC) Number]]>

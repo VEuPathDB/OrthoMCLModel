@@ -95,7 +95,6 @@
                     <description>Display the histogram of the values of this attribute</description>
                   </reporter>
                 </columnAttribute>
-
                 <columnAttribute name="group_type" internal="false" displayName="Group Type" help="Core groups are first formed with core proteins and subsequently peripheral proteins are mapped in. Residual groups are formed with peripheral proteins that fail to map to any of the core groups.">
 		  <reporter name="wordCloud" displayName="Word Cloud" scopes=""
 			    implementation="org.eupathdb.common.model.report.EbrcWordCloudAttributeReporter">
@@ -107,38 +106,33 @@
                     <property name="split-pattern"><![CDATA[,]]></property>
 		  </reporter>
                 </columnAttribute>
-
                 <columnAttribute name="avg_connectivity" displayName="% Homology" help="The percentage of all possible protein pairs where the two proteins are orthologs, co-orthologs, or inparalogs.">
                   <reporter name="histogram" displayName="Histogram" scopes=""
                             implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
                     <description>Display the histogram of the values of this attribute</description>
                   </reporter>
                 </columnAttribute>
-
                 <columnAttribute name="percent_match_pairs" displayName="% Protein Pairs With Similarity" help="The percent of sequence pairs in a group that have an above-threshold similarity (NCBI BLASTP E-Value is less than 1e-5 and the percent match length is at least 50%).">
                   <reporter name="histogram" displayName="Histogram" scopes=""
                             implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
                     <description>Display the histogram of the values of this attribute</description>
                   </reporter>
                 </columnAttribute>
-
                <columnAttribute name="avg_percent_identity" displayName="Average % Identity" help="The % Identity is calculated between two proteins by determining the percentage of residues within the best High-scoring Segment Pair (HSP) that are identical. The Avg % Identity takes the average of all % Identity results in the group.">
                   <reporter name="histogram" displayName="Histogram" scopes=""
                             implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
                     <description>Display the histogram of the values of this attribute</description>
                   </reporter>
                 </columnAttribute>
-
                 <columnAttribute name="avg_percent_match" displayName="Avg % Match Length" help="The % Match is calculated between two proteins by determining the percentage of the shorter protein sequence that is part of a High-scoring Segment Pair (HSP) with the other protein. The Avg % Match takes the average of all % Match results in the group.">
                   <reporter name="histogram" displayName="Histogram" scopes=""
                             implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
                     <description>Display the histogram of the values of this attribute</description>
                   </reporter>
                 </columnAttribute>
-
                 <columnAttribute name="evalue_display" displayName="Average BLAST E-value" help="The average BLAST E-value for protein pairs, considering only pairs where the two proteins are considered similar (E-Value less than 1e-5 and percent match length at least 50%)." />
-
-                <columnAttribute name="evalue" displayName="Average BLAST E-value Actual" internal="true" />
+                <columnAttribute name="avg_evalue_mant" displayName="Average BLAST E-value Mantua" internal="true" />
+                <columnAttribute name="avg_evalue_exp" displayName="Average BLAST E-value Exponent" internal="true" />
 
 
             </attributeQueryRef>

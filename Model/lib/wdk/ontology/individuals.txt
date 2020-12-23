@@ -34,7 +34,8 @@ GroupRecordClasses.GroupRecordClass.keywords	http://edamontology.org/data_0907	G
 GroupRecordClasses.GroupRecordClass.descriptions	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	descriptions				group		record-internal	download	results
 GroupRecordClasses.GroupRecordClass.group_type	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	group_type				group		record-internal	download	results
 GroupRecordClasses.GroupRecordClass.cluster_page	http://edamontology.org/operation_3663	Homology-based gene prediction	GroupRecordClasses.GroupRecordClass	attribute	cluster_page						record		
-GroupRecordClasses.GroupRecordClass.avg_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue							download	results
+GroupRecordClasses.GroupRecordClass.avg_evalue_mant	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue_mant								results
+GroupRecordClasses.GroupRecordClass.avg_evalue_exp	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue_exp								results
 GroupRecordClasses.GroupRecordClass.alveolata	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	alveolata								results
 GroupRecordClasses.GroupRecordClass.archaea	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	archaea								results
 GroupRecordClasses.GroupRecordClass.amoeba	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	amoeba								results

@@ -105,6 +105,8 @@ WHERE sa.aa_sequence_id = asi.aa_sequence_id
             <paramRef ref="groupParams.peripheral_count"/>
             <paramRef ref="groupParams.all_count"/>
             <column name="group_name"/>
+            <column name="core_num"/>
+            <column name="peripheral_num"/>
             <sql>
                 <![CDATA[
 WITH core AS (SELECT og.name, og.number_of_members as core_num
@@ -117,7 +119,7 @@ WITH core AS (SELECT og.name, og.number_of_members as core_num
      peripheral AS (SELECT og.name, og.number_of_members as peripheral_num
                     FROM apidb.OrthologGroup og
 	            WHERE core_peripheral_residual IN ('P','R'))
-SELECT c.name as group_name
+SELECT c.name as group_name, c.core_num, p.peripheral_num-c.core_num AS peripheral_num
 FROM core c, peripheral p
 WHERE c.name = p.name
       AND c.core_num>=$$core_count_min$$ AND c.core_num<=$$core_count_max$$
@@ -129,16 +131,16 @@ WHERE c.name = p.name
         </sqlQuery>
 
         <sqlQuery name="ByGenomeCount" isCacheable="true">
-            <paramRef ref="groupParams.core_taxon_min"/>
-            <paramRef ref="groupParams.core_taxon_max"/>
-            <paramRef ref="groupParams.peripheral_taxon_min"/>
-            <paramRef ref="groupParams.peripheral_taxon_max"/>
+            <paramRef ref="groupParams.core_taxon"/>
+            <paramRef ref="groupParams.peripheral_taxon"/>
+            <paramRef ref="groupParams.all_taxon"/>
             <column name="group_name"/>
             <column name="core_count"/>
             <column name="peripheral_count"/>
+            <column name="all_count"/>
             <sql>
               <![CDATA[
-	   SELECT group_name, core_count, peripheral_count
+	   SELECT group_name, core_count, peripheral_count, core_count+peripheral_count AS all_count
 	   FROM (
                 SELECT DECODE(c.group_name,NULL,p.group_name,c.group_name) as group_name,
 		       DECODE(c.core_count,NULL,0,c.core_count) as core_count,
@@ -153,46 +155,45 @@ WHERE c.name = p.name
 		      GROUP BY group_name) p
 		ON c.group_name = p.group_name
 		)
-	   WHERE core_count>=$$core_taxon_min$$ AND core_count<=$$core_taxon_max$$ AND
-		 peripheral_count>=$$peripheral_taxon_min$$ AND peripheral_count<=$$peripheral_taxon_max$$
+	   WHERE core_count>=$$core_taxon_min$$ AND core_count<=$$core_taxon_max$$
+		 AND peripheral_count>=$$peripheral_taxon_min$$ AND peripheral_count<=$$peripheral_taxon_max$$
+		 AND (core_count+peripheral_count)>=$$all_taxon_min$$ AND (core_count+peripheral_count)<=$$all_taxon_max$$
               ]]>
             </sql>
         </sqlQuery>
 
 
         <sqlQuery name="ByAvgHomology" isCacheable="true">
-            <paramRef ref="groupParams.percent_min"/>
-            <paramRef ref="groupParams.percent_max"/>
+            <paramRef ref="groupParams.percent"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
 SELECT name AS group_name
 FROM apidb.OrthologGroup
-WHERE DECODE(avg_connectivity,NULL,0,100*avg_connectivity/(number_of_members-1)) BETWEEN $$percent_min$$ AND $$percent_max$$
-   AND core_peripheral_residual in ('C','R')
+WHERE DECODE(avg_connectivity,NULL,0,100*avg_connectivity/(number_of_members-1)) >= $$percent_min$$
+      AND DECODE(avg_connectivity,NULL,0,100*avg_connectivity/(number_of_members-1)) <= $$percent_max$$
+      AND core_peripheral_residual in ('C','R')
                 ]]>
             </sql>
         </sqlQuery>
 
 
         <sqlQuery name="ByPercentMatchPairs" isCacheable="true">
-            <paramRef ref="groupParams.percent_min"/>
-            <paramRef ref="groupParams.percent_max"/>
+            <paramRef ref="groupParams.percent"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
 SELECT name as group_name
 FROM apidb.OrthologGroup
-WHERE percent_match_pairs between $$percent_min$$ AND $$percent_max$$
-      and core_peripheral_residual in ('P','R')
+WHERE percent_match_pairs >= $$percent_min$$ AND percent_match_pairs <= $$percent_max$$
+      AND core_peripheral_residual in ('P','R')
                 ]]>
             </sql>
         </sqlQuery>
 
 
         <sqlQuery name="ByPercentIdentity" isCacheable="true">
-            <paramRef ref="groupParams.percent_min"/>
-            <paramRef ref="groupParams.percent_max"/>
+            <paramRef ref="groupParams.percent"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
@@ -200,15 +201,14 @@ SELECT og.name AS group_name
 FROM apidb.OrthologGroup og
 WHERE og.avg_percent_identity >= $$percent_min$$
   AND og.avg_percent_identity <= $$percent_max$$
-  and og.core_peripheral_residual in ('P','R')
+  AND og.core_peripheral_residual in ('P','R')
                 ]]>
             </sql>
         </sqlQuery>
 
 
         <sqlQuery name="ByPercentMatch" isCacheable="true">
-            <paramRef ref="groupParams.percent_min"/>
-            <paramRef ref="groupParams.percent_max"/>
+            <paramRef ref="groupParams.percent"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
@@ -223,8 +223,7 @@ WHERE og.avg_percent_match >= $$percent_min$$
 
 
         <sqlQuery name="ByEValue" isCacheable="true">
-            <paramRef ref="groupParams.evalue_min"/>
-            <paramRef ref="groupParams.evalue_max"/>
+            <paramRef ref="groupParams.evalue"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
