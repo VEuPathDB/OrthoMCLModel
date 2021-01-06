@@ -32,6 +32,7 @@ public class FastaReporter extends AbstractReporter {
   public static final String FIELD_DOWNLOAD_TYPE = "downloadType";
   public static final String FIELD_HAS_ORGANISM = "hasOrganism";
   public static final String FIELD_HAS_DESCRIPTION = "hasDescription";
+  public static final String FIELD_HAS_GROUP = "hasGroup";
 
   private static final String ATTR_FULL_ID = "full_id";
   private static final String ATTR_ORGANISM = "taxon_name";
@@ -47,6 +48,7 @@ public class FastaReporter extends AbstractReporter {
 
   private boolean _includeOrganism;
   private boolean _includeDescription;
+  private boolean _includeGroup;
   private String _downloadType;
 
   public FastaReporter(AnswerValue answerValue) {
@@ -65,6 +67,9 @@ public class FastaReporter extends AbstractReporter {
     String strDescription = config.get(FIELD_HAS_DESCRIPTION);
     _includeDescription = (strDescription != null && (strDescription.equals("yes") || strDescription.equals("true")));
 
+    String strGroup = config.get(FIELD_HAS_GROUP);
+    _includeGroup = (strGroup != null && (strGroup.equals("yes") || strGroup.equals("true")));
+
     return this;
   }
 
@@ -73,6 +78,7 @@ public class FastaReporter extends AbstractReporter {
    * {
    *   includeOrganism: bool,
    *   includeDescription: bool,
+   *   includeGroup: bool,
    *   attachmentType: string
    * }
    * where:
@@ -84,6 +90,7 @@ public class FastaReporter extends AbstractReporter {
     _downloadType = getValidDownloadTypeString(config.getString("attachmentType"));
     _includeOrganism = JsonUtil.getBooleanOrDefault(config, "includeOrganism", true);
     _includeDescription = JsonUtil.getBooleanOrDefault(config, "includeDescription", true);
+    _includeGroup = JsonUtil.getBooleanOrDefault(config, "includeGroup", true);
     return this;
   }
 
@@ -111,6 +118,7 @@ public class FastaReporter extends AbstractReporter {
   @Override
   public void write(OutputStream out) throws WdkModelException {
     RecordClass sequenceRecordClass = _baseAnswer.getAnswerSpec().getQuestion().getRecordClass(); // it better be!
+
     List<AttributeField> neededAttrs = Functions.mapToList(Arrays.asList(NEEDED_ATTRIBUTES),
         attrName -> sequenceRecordClass.getAttributeFieldMap().get(attrName));
     try (FileBasedRecordStream records = new FileBasedRecordStream(_baseAnswer, neededAttrs, Collections.EMPTY_LIST)) {
@@ -134,10 +142,12 @@ public class FastaReporter extends AbstractReporter {
           writer.print(" | " + description);
         }
 
-        // output ortholog group
-        Object value = record.getAttributeValue(ATTR_GROUP).getValue();
-        String group = (value == null) ? "no group" : value.toString().trim();
-        writer.print(" | " + group);
+        // output ortholog group if selected
+        if (_includeGroup) {
+	    Object value = record.getAttributeValue(ATTR_GROUP).getValue();
+	    String group = (value == null) ? "no group" : value.toString().trim();
+	    writer.print(" | " + group);
+	}
 
         writer.println();
 
