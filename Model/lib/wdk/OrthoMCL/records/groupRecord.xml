@@ -40,6 +40,8 @@
       <reporter name="json" displayName="json: choose from columns and/or tables" excludeProjects="EuPathDB"  scopes=""
                     implementation="org.gusdb.wdk.model.report.reporter.JSONReporter" />
 
+      <reporter name="fasta" displayName="FASTA: protein sequence" scopes="record,results"
+                implementation="org.orthomcl.service.core.report.GroupFastaReporter"/>
 
 
       <!-- =============================================================== -->
