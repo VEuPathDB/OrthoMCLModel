@@ -1,7 +1,7 @@
 package org.orthomcl.service.core.report;
 
-import static org.apidb.apicommon.model.TransformUtil.transformToNewResultTypeAnswer;
 import static org.gusdb.fgputil.functional.Functions.f0Swallow;
+import static org.gusdb.wdk.model.answer.TransformUtil.transformToNewResultTypeAnswer;
 
 import org.gusdb.wdk.model.answer.AnswerValue;
 
