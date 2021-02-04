@@ -11,6 +11,9 @@ model.prop:
 blast-config.xml:
   src: 'EbrcWebSvcCommon/blast-config.xml.j2'
   dest: '{{ gus_home }}/config/blast-config.xml'
+multiblast-config.xml:
+  src: 'EbrcWebSvcCommon/multiblast-config.xml.j2'
+  dest: '{{ gus_home }}/config/multiblast-config.xml'
 projects.xml:
   src: 'EbrcWebsiteCommon/projects.xml.j2'
   dest: '{{ gus_home }}/config/projects.xml'
