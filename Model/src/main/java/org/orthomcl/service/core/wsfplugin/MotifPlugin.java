@@ -149,9 +149,9 @@ public class MotifPlugin extends AbstractPlugin {
 
     // open the database and get a resultSet
     String sql = "SELECT eas.secondary_identifier AS source_id, eas.sequence "
-        + " FROM dots.ExternalAaSequence eas, apidb.OrthomclTaxon ot "
-        + " WHERE ot.three_letter_abbrev IN (" + organisms + ")"
-        + "   AND ot.taxon_id = eas.taxon_id";
+        + " FROM dots.ExternalAaSequence eas, apidbTuning.SequenceAttributes sa "
+        + " WHERE sa.taxon_abbreviation IN (" + organisms + ")"
+        + "   AND eas.secondary_identifier = sa.full_id";
     ResultSet resultSet = null;
     try {
       wdkModel = InstanceManager.getInstance(WdkModel.class, request.getProjectId());
