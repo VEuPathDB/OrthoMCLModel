@@ -4,7 +4,7 @@
     <executionConfig threadPoolSize="25" fileStoreDirectory="@STEP_ANALYSIS_JOB_DIR@"/>
 
     <stepAnalysisPlugin
-        name="sequence-cluster" displayName="Cluster Graph (only if your result is < 500)"
+        name="sequence-cluster" displayName="Cluster Graph (only if your result is smaller than 500 sequences)"
         customThumbnail="wdkCustomization/images/cluster-graph-logo.png"
         releaseVersion="22"
         analyzerClass="org.orthomcl.service.core.analysis.SequenceClusterAnalyzer">
