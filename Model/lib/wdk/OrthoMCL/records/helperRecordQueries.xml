@@ -104,11 +104,13 @@ order by cats.category nulls first, is_species desc, name
             <column name="sequences"/>
             <column name="clustered_sequences"/>
             <column name="groups"/>
+            <column name="most_recent"/>
             <sql>
             <![CDATA[
 SELECT 'helper' AS helper_id, ot.name, ot.three_letter_abbrev,
        od.resource_name, od.resource_url, od.resource_version,
        case ot.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral,
+       CASE SUBSTR(ot.three_letter_abbrev,5,4) WHEN '-old' THEN 'no' ELSE 'most_recent' END as most_recent,
        stats.sequences, stats.clustered_sequences, stats.groups
 FROM apidb.OrthomclTaxon ot, apidb.OrthomclResource od,
      (select orthomcl_taxon_id, count(*) sequences,

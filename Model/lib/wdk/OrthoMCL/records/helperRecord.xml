@@ -60,6 +60,7 @@
                 <columnAttribute name="sequences" displayName="# Proteins" />
                 <columnAttribute name="clustered_sequences" displayName="# Proteins in Groups" />
                 <columnAttribute name="groups" displayName="# Ortholog Groups" />
+                <columnAttribute name="most_recent" displayName="Most recent version" />
             </table>
     
             <table name="RootTaxons" queryRef="HelperTables.RootTaxons">
