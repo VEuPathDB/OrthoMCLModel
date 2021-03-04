@@ -423,7 +423,7 @@ FROM apidb.OrthologGroup og,
       FROM (SELECT group_name, accession, num_proteins, rnk
             FROM (SELECT group_name, accession, num_proteins,
 	                 rank() OVER (PARTITION BY group_name ORDER BY num_proteins DESC) rnk
-		  FROM (SELECT group_name, accession, count(full_id) AS num_proteins
+		  FROM (SELECT group_name, accession, count(distinct full_id) AS num_proteins
 		        FROM DomainAssignment
 			GROUP BY group_name,accession
 		        )

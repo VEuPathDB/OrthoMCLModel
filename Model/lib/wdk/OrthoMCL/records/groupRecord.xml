@@ -393,7 +393,7 @@
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Domains">
-                <columnAttribute name="descriptions" displayName="Top PFam Domains" help="Number of proteins in parentheses. Only three most frequent domains are shown (or more if there are ties in frequency)." >
+                <columnAttribute name="descriptions" displayName="Top PFam Domains" help="Number of proteins in parentheses. Shown are the three most frequent domains (or more if there are ties in frequency)." >
 		  <reporter name="wordCloud" displayName="Word Cloud" scopes=""
 			    implementation="org.eupathdb.common.model.report.EbrcWordCloudAttributeReporter">
                     <description>
@@ -543,7 +543,7 @@
                 <columnAttribute name="accession" displayName="Accession Number" />
                 <columnAttribute name="symbol" displayName="Symbol" />
                 <columnAttribute name="description" displayName="Description" />
-                <columnAttribute name="occurrences" displayName="Count" help="Occurences of this domain within proteins of this ortholog group. There can be multiple occurrences per protein." />
+                <columnAttribute name="num_proteins" displayName="Count" help="Number of proteins that contain this domain." />
                 <columnAttribute name="domain_index" internal="true" />
                 <columnAttribute name="max_index" internal="true" />
             </table>
@@ -586,7 +586,7 @@
               </linkAttribute>
               <columnAttribute displayName="EC Description"
                                name="description"/>
-              <columnAttribute name="sequence_count" displayName="# Proteins in Group"/>
+              <columnAttribute name="sequence_count" displayName="# Proteins"/>
             </table>
 
             <table name="GroupName"

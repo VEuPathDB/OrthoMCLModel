@@ -103,7 +103,7 @@ public class GroupManager {
       PFamDomain pfam = new PFamDomain(row.get("accession").getValue());
       pfam.setSymbol(row.get("symbol").getValue());
       pfam.setDescription(row.get("description").getValue());
-      pfam.setCount(Integer.valueOf(row.get("occurrences").getValue().toString()));
+      pfam.setCount(Integer.valueOf(row.get("num_proteins").getValue().toString()));
       pfam.setIndex(Integer.valueOf(row.get("domain_index").getValue().toString()));
       group.addPFamDomain(pfam);
       pfams.add(pfam);
