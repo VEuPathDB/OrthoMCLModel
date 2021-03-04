@@ -262,7 +262,8 @@ FROM apidbtuning.PhyleticPattern
             <column name="core_peripheral"/>
             <column name="group_name"/>
             <column name="full_id"/>
-            <column name="taxon_name"/>
+            <column name="organism_name"/>
+            <column name="taxon_group"/>
             <column name="taxon_abbrev"/>
             <column name="length"/>
             <column name="previous_groups"/>
@@ -271,8 +272,8 @@ FROM apidbtuning.PhyleticPattern
             <sql>
               <![CDATA[
                 select case sa.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral,
-		       sa.group_name, sa.full_id, sa.taxon_name, sa.taxon_abbreviation AS taxon_abbrev,
-                       sa.length, sa.product as description,
+		       sa.group_name, sa.full_id, sa.organism_name, sa.taxon_abbreviation AS taxon_abbrev,
+                       sa.taxon_group, sa.length, sa.product as description,
                        sa.old_groups as previous_groups, sa.ec_numbers
                 from ApidbTuning.SequenceAttributes sa
               ]]>
