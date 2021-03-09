@@ -19,11 +19,11 @@
                eas.length, substr(eas.description, 1, 120) AS product,
                eas.molecular_weight, eas.taxon_id, taxon.orthomcl_taxon_id, taxon.taxon_group,
                taxon.three_letter_abbrev AS taxon_abbreviation, taxon.name AS organism_name,
-               ot.core_peripheral, OrthologGroup.group_name, OrthologGroup.ortholog_group_id,
+               taxon.core_peripheral, OrthologGroup.group_name, OrthologGroup.ortholog_group_id,
                OrthologGroup.group_size, OrthologGroup.peripheral_ortholog_group_id,
 	       OrthologGroup.peripheral_group_size, EcNumbers.ec_numbers, OldGroups.old_groups,
 	       urls.source_url, urls.source_text
-        from dots.ExternalAaSequence eas, apidb.OrthomclTaxon ot,
+        from dots.ExternalAaSequence eas,
 	     (select p.aa_sequence_id, p.group_name, og.ortholog_group_id, og.number_of_members as group_size,
 	             p.peripheral_ortholog_group_id, p.peripheral_group_size     
               from apidb.OrthologGroup og, 
@@ -41,6 +41,7 @@
 	     ) OrthologGroup,
              ( SELECT three_letter_abbrev, orthomcl_taxon_id, name, connect_by_root name as taxon_group 
 	       FROM apidb.OrthomclTaxon
+	       WHERE core_peripheral in ('C','P')
 	       START WITH name IN ('Archaea', 'Bacteria', 'Alveolates', 'Amoebozoa', 'Euglenozoa',
                                    'Fungi', 'Metazoa', 'Other Eukaryota', 'Viridiplantae')
 	       CONNECT BY parent_id = prior orthomcl_taxon_id
@@ -77,7 +78,7 @@
 	      WHERE NVL(SUBSTR(eas.secondary_identifier, 0, INSTR(eas.secondary_identifier, '|')-1), eas.secondary_identifier)
 	                 = ot.three_letter_abbrev
 		    AND ot.orthomcl_taxon_id = ores.orthomcl_taxon_id) urls
-        where NVL(SUBSTR(eas.secondary_identifier, 0, INSTR(eas.secondary_identifier, '|')-1), eas.secondary_identifier) = taxon.three_letter_abbrev
+        where SUBSTR(eas.secondary_identifier, 0, INSTR(eas.secondary_identifier, '|')-1) = taxon.three_letter_abbrev(+)
           and eas.aa_sequence_id = OrthologGroup.aa_sequence_id(+)
           and eas.aa_sequence_id = EcNumbers.aa_sequence_id(+)
           and eas.aa_sequence_id = OldGroups.aa_sequence_id(+)
