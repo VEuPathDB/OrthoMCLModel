@@ -39,7 +39,7 @@
 	     where ogs.ortholog_group_id = og.ortholog_group_id
 	         and og.core_peripheral_residual='R'
 	     ) OrthologGroup,
-             ( SELECT three_letter_abbrev, orthomcl_taxon_id, name, connect_by_root name as taxon_group 
+             ( SELECT three_letter_abbrev, orthomcl_taxon_id, name, core_peripheral, connect_by_root name as taxon_group 
 	       FROM apidb.OrthomclTaxon
 	       WHERE core_peripheral in ('C','P')
 	       START WITH name IN ('Archaea', 'Bacteria', 'Alveolates', 'Amoebozoa', 'Euglenozoa',
