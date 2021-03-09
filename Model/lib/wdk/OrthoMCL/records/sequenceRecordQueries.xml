@@ -49,7 +49,7 @@ SELECT sa.full_id, sa.source_id,
     sa.length, sa.product,
     round(sa.molecular_weight/1000,1) AS molecular_weight,
     sa.taxon_abbreviation AS abbreviation, 
-    sa.taxon_name,
+    sa.organism_name as taxon_name,
     sa.ec_numbers,
     (SELECT apidb.tab_to_string(set(cast(collect(da.accession) as apidb.varchartab)), ', ')
     FROM ApidbTuning.DomainAssignment da
@@ -180,7 +180,7 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             <column name="abbreviation"/>
             <sql>
 		<![CDATA[
-                  SELECT full_id, taxon_abbreviation AS abbreviation, taxon_name AS taxon
+                  SELECT full_id, taxon_abbreviation AS abbreviation, organism_name AS taxon
                   FROM apidbtuning.sequenceattributes
  		]]>
             </sql>

@@ -522,7 +522,7 @@
 		</reporter>
 	      </columnAttribute>
 
-	      <columnAttribute name="taxon_group" displayName="Taxon" help="The taxonomic category of the organism. ALVE: Alveolata, AMOE: Amoeba, ARCH: Archaea, EUGL: Euglenozoa, FUNG: Fungi, META: Metazoa, OBAC: Other Bacteria, OEUK: Other Eukaryota, PROT: Proteobacteria, VIRI: Viridiplantae." />
+	      <columnAttribute name="taxon_group" displayName="Taxon" help="The taxonomic category of the organism." />
 
 	      <columnAttribute name="core_peripheral" displayName="Core/Peripheral" help="Whether the protein is from a core or peripheral species." />
 
