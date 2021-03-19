@@ -120,7 +120,7 @@ public class FastaReporter extends AbstractReporter {
     RecordClass sequenceRecordClass = _baseAnswer.getAnswerSpec().getQuestion().getRecordClass(); // it better be!
 
     List<AttributeField> neededAttrs = Functions.mapToList(Arrays.asList(NEEDED_ATTRIBUTES),
-        attrName -> sequenceRecordClass.getAttributeFieldMap().get(attrName));
+        attrName -> sequenceRecordClass.getAttributeField(attrName).orElseThrow());
     try (FileBasedRecordStream records = new FileBasedRecordStream(_baseAnswer, neededAttrs, Collections.EMPTY_LIST)) {
       PrintWriter writer = new PrintWriter(new OutputStreamWriter(out));
   
