@@ -38,7 +38,7 @@
         </stringParam>
 
         <stringParam name="BlastDatabase" number="false" visible="false">
-          <suggest default="@BLASTDB_PATH@/release-%%buildNumber%%/blast/proteinSeqs" />
+          <suggest default="@BLASTDB_PATH@/build-%%buildNumber%%/blast/proteinSeqs" />
         </stringParam>
 
         <enumParam name="BlastAlgorithm"
