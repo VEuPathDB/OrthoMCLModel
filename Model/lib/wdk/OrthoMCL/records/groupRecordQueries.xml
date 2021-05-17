@@ -290,12 +290,14 @@ FROM apidbtuning.PhyleticPattern
           <column name="max_index"/>
           <sql>
             <![CDATA[
-     SELECT * FROM (
-     SELECT group_name, accession, symbol, description, domain_index, COUNT(distinct full_id) as num_proteins,
-            (SELECT MAX(domain_index) FROM ApidbTuning.DomainAssignment) AS max_index
-     FROM ApidbTuning.DomainAssignment
-     GROUP BY group_name, accession, symbol, description, domain_index
-     ) ORDER BY num_proteins desc
+     SELECT *
+     FROM (
+           SELECT group_name, accession, symbol, description, domain_index, COUNT(distinct full_id) as num_proteins,
+                  (SELECT MAX(domain_index) FROM ApidbTuning.DomainAssignment) AS max_index
+           FROM ApidbTuning.DomainAssignment
+           GROUP BY group_name, accession, symbol, description, domain_index
+          )
+     ORDER BY num_proteins desc
             ]]>
           </sql>
         </sqlQuery>

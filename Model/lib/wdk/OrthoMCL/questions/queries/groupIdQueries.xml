@@ -67,19 +67,26 @@
         <sqlQuery name="ByPfamIdOrKeyword" 
 			isCacheable="true" doNotTest="true">
        <paramRef ref="sharedParams.pfam_id_type_ahead"/>
+       <paramRef ref="groupParams.min_num_proteins"/>
+       <paramRef ref="groupParams.min_fraction_proteins"/>
        <column name="group_name"/>
 
        <sql>
             <![CDATA[
-            SELECT DISTINCT group_name
-            FROM ApidbTuning.DomainAssignment
-            WHERE group_name is not null
-              AND (accession
-                   LIKE UPPER(REPLACE($$pfam_id_type_ahead$$,'*','%'))
-                  OR symbol
-                   LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
-                  OR description
-                   LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
+            SELECT domain.group_name
+	    FROM (SELECT group_name, COUNT(distinct full_id) as num_proteins
+                  FROM ApidbTuning.DomainAssignment
+                  WHERE group_name IS NOT NULL
+                        AND (accession LIKE UPPER(REPLACE($$pfam_id_type_ahead$$,'*','%'))
+                        OR symbol LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
+                        OR description LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
+	          GROUP BY group_name
+                  ) domain,
+		  apidb.OrthologGroup og
+	     WHERE og.core_peripheral_residual IN ('P','R')
+	           AND og.name = domain.group_name
+		   AND domain.num_proteins >= $$min_num_proteins$$
+		   AND (domain.num_proteins / og.number_of_members) >= $$min_fraction_proteins$$
             ]]>
        </sql>
     </sqlQuery>

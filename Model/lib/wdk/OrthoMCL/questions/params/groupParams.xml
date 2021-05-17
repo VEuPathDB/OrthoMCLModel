@@ -5,9 +5,19 @@
 
     <paramSet name="groupParams">
 
-        <stringParam name="group_name" prompt="Group or Sequence Name" number="false">
-            <help>Group or sequence name from current or previous releases. * can be used as wild card</help>
+        <stringParam name="group_name" prompt="Group or Protein Name" number="false">
+            <help>Group or proteim name from current or previous releases. * can be used as wild card</help>
             <suggest default="pfal|PF3D7_02086*" />
+        </stringParam>
+
+        <stringParam name="min_num_proteins" prompt="Minimum Number of Proteins" number="true">
+            <help>Minimum number of proteins in the group that contain this domain.</help>
+            <suggest default="1" />
+        </stringParam>
+
+        <stringParam name="min_fraction_proteins" prompt="Minimum Fraction of Proteins" number="true">
+            <help>Minimum fraction of proteins in the group that contain this domain.</help>
+            <suggest default="0" />
         </stringParam>
 
         <datasetParam name="group_names" prompt="Group Names"
