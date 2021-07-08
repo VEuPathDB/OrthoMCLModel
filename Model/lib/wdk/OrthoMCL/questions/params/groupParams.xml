@@ -23,7 +23,7 @@
         <datasetParam name="group_names" prompt="Group Names"
 					  recordClassRef="GroupRecordClasses.GroupRecordClass">
             <help>Group name(s), separated by commas or new lines, from current or previous releases.</help>
-            <suggest default="OG6_106861, OG6r5_100080" />
+            <suggest default="OG6_106861, OG6r6_100005" />
         </datasetParam>
 
         <numberRangeParam name="core_count" 
