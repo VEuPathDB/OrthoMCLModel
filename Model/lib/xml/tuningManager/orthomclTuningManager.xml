@@ -521,6 +521,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                 SUM(CASE three_letter_abbrev WHEN 'EUGL' THEN number_of_taxa ELSE 0 END) as euglenozoa,
                 SUM(CASE three_letter_abbrev WHEN 'META' THEN number_of_taxa ELSE 0 END) as metazoa,
                 SUM(CASE three_letter_abbrev WHEN 'VIRI' THEN number_of_taxa ELSE 0 END) as viridiplantae,
+                SUM(CASE three_letter_abbrev WHEN 'OEUK' THEN number_of_taxa ELSE 0 END) as other_eukaryotes,
                 SUM(CASE three_letter_abbrev WHEN 'FIRM' THEN number_of_taxa ELSE 0 END) as bacteria_firm,
                 SUM(CASE three_letter_abbrev WHEN 'PROA' THEN number_of_taxa ELSE 0 END) as bacteria_proa,
                 SUM(CASE three_letter_abbrev WHEN 'PROB' THEN number_of_taxa ELSE 0 END) as bacteria_prob,
@@ -537,7 +538,8 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                 SUM(CASE three_letter_abbrev WHEN 'CREN' THEN number_of_taxa ELSE 0 END) as archaea_cren,
                 SUM(CASE three_letter_abbrev WHEN 'NANO' THEN number_of_taxa ELSE 0 END) as archaea_nano,
                 SUM(CASE three_letter_abbrev WHEN 'KORA' THEN number_of_taxa ELSE 0 END) as archaea_kora,
-                SUM(CASE three_letter_abbrev WHEN 'OEUK' THEN number_of_taxa ELSE 0 END) as other_eukaryotes_oeuk,
+                SUM(CASE three_letter_abbrev WHEN 'OEUK' THEN number_of_taxa ELSE 0 END) -
+		SUM(CASE three_letter_abbrev WHEN 'OOMY' THEN number_of_taxa ELSE 0 END) as other_eukaryotes_oeuk,
                 SUM(CASE three_letter_abbrev WHEN 'OOMY' THEN number_of_taxa ELSE 0 END) as other_eukaryotes_oomy,
                 SUM(CASE three_letter_abbrev WHEN 'ALVE' THEN number_of_taxa ELSE 0 END) -
 		SUM(CASE three_letter_abbrev WHEN 'CILI' THEN number_of_taxa ELSE 0 END) -
