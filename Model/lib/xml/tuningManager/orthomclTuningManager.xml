@@ -308,6 +308,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
 	    round(100*actual.viridiplantae/total.viridiplantae,0) AS viridiplantae_percent,
             actual.other_eukaryotes as other_eukaryotes_actual,
 	    total.other_eukaryotes as other_eukaryotes_total,
+	    round(100*actual.other_eukaryotes/total.other_eukaryotes,0) AS other_eukaryotes_percent,
             actual.bacteria_firm as bacteria_firm_actual,
 	    total.bacteria_firm as bacteria_firm_total,
             actual.bacteria_proa as bacteria_proa_actual,
