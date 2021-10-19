@@ -570,7 +570,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                 SUM(CASE three_letter_abbrev WHEN 'OMET' THEN number_of_taxa ELSE 0 END) as metazoa_omet,
                 SUM(CASE three_letter_abbrev WHEN 'NEMA' THEN number_of_taxa ELSE 0 END) as metazoa_nema,
                 SUM(CASE three_letter_abbrev WHEN 'ARTH' THEN number_of_taxa ELSE 0 END) as metazoa_arth,
-                SUM(CASE three_letter_abbrev WHEN 'ARTH' THEN number_of_taxa ELSE 0 END) -
+                SUM(CASE three_letter_abbrev WHEN 'CHOR' THEN number_of_taxa ELSE 0 END) -
 		SUM(CASE three_letter_abbrev WHEN 'ACTI' THEN number_of_taxa ELSE 0 END) -
 		SUM(CASE three_letter_abbrev WHEN 'AVES' THEN number_of_taxa ELSE 0 END) -
 		SUM(CASE three_letter_abbrev WHEN 'MAMM' THEN number_of_taxa ELSE 0 END) -
