@@ -178,12 +178,115 @@
 	      <columnAttribute name="other_eukaryotes_actual" internal="true" />
 	      <columnAttribute name="other_eukaryotes_total" internal="true" />
 	      <columnAttribute name="other_eukaryotes_percent" internal="true" />
+	      <columnAttribute name="bacteria_firm_actual" internal="true" />
+	      <columnAttribute name="bacteria_firm_total" internal="true" />
+	      <columnAttribute name="bacteria_proa_actual" internal="true" />
+	      <columnAttribute name="bacteria_proa_total" internal="true" />
+	      <columnAttribute name="bacteria_prob_actual" internal="true" />
+	      <columnAttribute name="bacteria_prob_total" internal="true" />
+	      <columnAttribute name="bacteria_prod_actual" internal="true" />
+	      <columnAttribute name="bacteria_prod_total" internal="true" />
+	      <columnAttribute name="bacteria_proe_actual" internal="true" />
+	      <columnAttribute name="bacteria_proe_total" internal="true" />
+	      <columnAttribute name="bacteria_prog_actual" internal="true" />
+	      <columnAttribute name="bacteria_prog_total" internal="true" />
+	      <columnAttribute name="bacteria_obac_actual" internal="true" />
+	      <columnAttribute name="bacteria_obac_total" internal="true" />
+	      <columnAttribute name="archaea_arch_actual" internal="true" />
+	      <columnAttribute name="archaea_arch_total" internal="true" />
+	      <columnAttribute name="archaea_eury_actual" internal="true" />
+	      <columnAttribute name="archaea_eury_total" internal="true" />
+	      <columnAttribute name="archaea_cren_actual" internal="true" />
+	      <columnAttribute name="archaea_cren_total" internal="true" />
+	      <columnAttribute name="archaea_nano_actual" internal="true" />
+	      <columnAttribute name="archaea_nano_total" internal="true" />
+	      <columnAttribute name="archaea_kora_actual" internal="true" />
+	      <columnAttribute name="archaea_kora_total" internal="true" />
+	      <columnAttribute name="other_eukaryotes_oeuk_actual" internal="true" />
+	      <columnAttribute name="other_eukaryotes_oeuk_total" internal="true" />
+	      <columnAttribute name="other_eukaryotes_oomy_actual" internal="true" />
+	      <columnAttribute name="other_eukaryotes_oomy_total" internal="true" />
+	  <columnAttribute name="alveolata_alve_actual" internal="true" />
+	  <columnAttribute name="alveolata_alve_total" internal="true" />
+	  <columnAttribute name="alveolata_cili_actual" internal="true" />
+	  <columnAttribute name="alveolata_cili_total" internal="true" />
+	  <columnAttribute name="alveolata_apic_actual" internal="true" />
+	  <columnAttribute name="alveolata_apic_total" internal="true" />
+	  <columnAttribute name="alveolata_cocc_actual" internal="true" />
+	  <columnAttribute name="alveolata_cocc_total" internal="true" />
+	  <columnAttribute name="alveolata_haem_actual" internal="true" />
+	  <columnAttribute name="alveolata_haem_total" internal="true" />
+	  <columnAttribute name="alveolata_piro_actual" internal="true" />
+	  <columnAttribute name="alveolata_piro_total" internal="true" />
+	  <columnAttribute name="viridiplantae_stre_actual" internal="true" />
+	  <columnAttribute name="viridiplantae_stre_total" internal="true" />
+	  <columnAttribute name="viridiplantae_chlo_actual" internal="true" />
+	  <columnAttribute name="viridiplantae_chlo_total" internal="true" />
+	  <columnAttribute name="viridiplantae_rhod_actual" internal="true" />
+	  <columnAttribute name="viridiplantae_rhod_total" internal="true" />
+	  <columnAttribute name="viridiplantae_cryp_actual" internal="true" />
+	  <columnAttribute name="viridiplantae_cryp_total" internal="true" />
+	  <columnAttribute name="fungi_fung_actual" internal="true" />
+	  <columnAttribute name="fungi_fung_total" internal="true" />
+	  <columnAttribute name="fungi_micr_actual" internal="true" />
+	  <columnAttribute name="fungi_micr_total" internal="true" />
+	  <columnAttribute name="fungi_basi_actual" internal="true" />
+	  <columnAttribute name="fungi_basi_total" internal="true" />
+	  <columnAttribute name="fungi_asco_actual" internal="true" />
+	  <columnAttribute name="fungi_asco_total" internal="true" />
+	  <columnAttribute name="fungi_muco_actual" internal="true" />
+	  <columnAttribute name="fungi_muco_total" internal="true" />
+	  <columnAttribute name="fungi_chyt_actual" internal="true" />
+	  <columnAttribute name="fungi_chyt_total" internal="true" />
+	  <columnAttribute name="metazoa_omet_actual" internal="true" />
+	  <columnAttribute name="metazoa_omet_total" internal="true" />
+	  <columnAttribute name="metazoa_nema_actual" internal="true" />
+	  <columnAttribute name="metazoa_nema_total" internal="true" />
+	  <columnAttribute name="metazoa_arth_actual" internal="true" />
+	  <columnAttribute name="metazoa_arth_total" internal="true" />
+	  <columnAttribute name="metazoa_chor_actual" internal="true" />
+	  <columnAttribute name="metazoa_chor_total" internal="true" />
+	  <columnAttribute name="metazoa_acti_actual" internal="true" />
+	  <columnAttribute name="metazoa_acti_total" internal="true" />
+	  <columnAttribute name="metazoa_aves_actual" internal="true" />
+	  <columnAttribute name="metazoa_aves_total" internal="true" />
+	  <columnAttribute name="metazoa_mamm_actual" internal="true" />
+	  <columnAttribute name="metazoa_mamm_total" internal="true" />
+	  <columnAttribute name="metazoa_tuni_actual" internal="true" />
+	  <columnAttribute name="metazoa_tuni_total" internal="true" />
+
             </attributeQueryRef>
 
             <textAttribute name="alveolata" displayName="Alveolata" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+			   <style>
+			       .tooltip {
+			       position: relative;
+			       display: inline-block;
+			       }
+
+                               .tooltip .tooltiptext {
+			       top: 50%;
+			       right: 105%;
+			       visibility: hidden;
+			       width: 200px;
+			       background-color: black;
+			       color: #fff;
+			       text-align: left;
+			       padding: 10px;
+			       border-radius: 6px;
+                               position: absolute;
+			       z-index: 1;
+			       }
+
+                               .tooltip:hover .tooltiptext {
+			       visibility: visible;
+			       }
+			  </style>
+
+		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="tooltiptext">ALVEOLATA<br>Haemosporida: $$alveolata_haem_actual$$ / $$alveolata_haem_total$$<br>Coccidia: $$alveolata_cocc_actual$$ / $$alveolata_cocc_total$$<br>Piroplasmida: $$alveolata_piro_actual$$ / $$alveolata_piro_total$$<br>Other apicomplexa: $$alveolata_apic_actual$$ / $$alveolata_apic_total$$<br>Ciliates: $$alveolata_cili_actual$$ / $$alveolata_cili_total$$<br>Other alveolates: $$alveolata_alve_actual$$ / $$alveolata_alve_total$$</span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$alveolata_percent$$%; height: 100%; background-color: #CC3399;">
 			      </div>
@@ -204,7 +307,8 @@
             <textAttribute name="archaea" displayName="Archaea" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="tooltiptext">ARCHAEA<br>Euryarchaeota: $$archaea_eury_actual$$ / $$archaea_eury_total$$<br>Crenarchaeota: $$archaea_cren_actual$$ / $$archaea_cren_total$$<br>Nanoarchaeota: $$archaea_nano_actual$$ / $$archaea_nano_total$$<br>Korarchaeota: $$archaea_kora_actual$$ / $$archaea_kora_total$$<br>Other archaea: $$archaea_arch_actual$$ / $$archaea_arch_total$$</span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$archaea_percent$$%; height: 100%; background-color: #77CCDD;">
 			      </div>
@@ -246,7 +350,8 @@
             <textAttribute name="bacteria" displayName="Bacteria" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="tooltiptext">BACTERIA<br>Firmicutes: $$bacteria_firm_actual$$ / $$bacteria_firm_total$$<br>alpha-Proteobacteria: $$bacteria_proa_actual$$ / $$bacteria_proa_total$$<br>beta-Proteobacteria: $$bacteria_prob_actual$$ / $$bacteria_prob_total$$<br>gamma-Proteobacteria: $$bacteria_prog_actual$$ / $$bacteria_prog_total$$<br>delta-Proteobacteria: $$bacteria_prod_actual$$ / $$bacteria_prod_total$$<br>epsilon-Proteobacteria: $$bacteria_proe_actual$$ / $$bacteria_proe_total$$<br>Other bacteria: $$bacteria_obac_actual$$ / $$bacteria_obac_total$$<br></span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$bacteria_percent$$%; height: 100%; background-color: #9999CC;">
 			      </div>
@@ -267,7 +372,8 @@
             <textAttribute name="fungi" displayName="Fungi" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="tooltiptext">FUNGI<br>Microsporidia: $$fungi_micr_actual$$ / $$fungi_micr_total$$<br>Basidiomycota: $$fungi_basi_actual$$ / $$fungi_basi_total$$<br>Ascomycota: $$fungi_asco_actual$$ / $$fungi_asco_total$$<br>Mucoromycota: $$fungi_muco_actual$$ / $$fungi_muco_total$$<br>Chytridiomycota: $$fungi_chyt_actual$$ / $$fungi_chyt_total$$<br>Other fungi: $$fungi_fung_actual$$ / $$fungi_fung_total$$</span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$fungi_percent$$%; height: 100%; background-color: #AA44DD;">
 			      </div>
@@ -309,7 +415,8 @@
             <textAttribute name="metazoa" displayName="Metazoa" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="tooltiptext">METAZOA<br>Nematoda: $$metazoa_nema_actual$$ / $$metazoa_nema_total$$<br>Arthropoda: $$metazoa_arth_actual$$ / $$metazoa_arth_total$$<br>Actinopterygii: $$metazoa_acti_actual$$ / $$metazoa_acti_total$$<br>Aves: $$metazoa_aves_actual$$ / $$metazoa_aves_total$$<br>Mammalia: $$metazoa_mamm_actual$$ / $$metazoa_mamm_total$$<br>Tunicates: $$metazoa_tuni_actual$$ / $$metazoa_tuni_total$$<br>Other chordates: $$metazoa_chor_actual$$ / $$metazoa_chor_total$$<br>Other metazoa: $$metazoa_omet_actual$$ / $$metazoa_omet_total$$</span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$metazoa_percent$$%; height: 100%; background-color: #CC6666;">
 			      </div>
@@ -330,7 +437,8 @@
             <textAttribute name="viridiplantae" displayName="Viridiplantae" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="tooltiptext">VIRIDIPLANTAE<br>Streptophyta: $$viridiplantae_stre_actual$$ / $$viridiplantae_stre_total$$<br>Chlorophyta: $$viridiplantae_chlo_actual$$ / $$viridiplantae_chlo_total$$<br>Rhodophyta: $$viridiplantae_rhod_actual$$ / $$viridiplantae_rhod_total$$<br>Cryptophyta: $$viridiplantae_cryp_actual$$ / $$viridiplantae_cryp_total$$</span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$viridiplantae_percent$$%; height: 100%; background-color: #CC9933;">
 			      </div>
@@ -351,7 +459,8 @@
             <textAttribute name="other_eukaryotes" displayName="Other_Eukaryotes" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="tooltiptext">OTHER EUKARYOTES<br>Oomycota: $$other_eukaryotes_oomy_actual$$ / $$other_eukaryotes_oomy_total$$<br>Other: $$other_eukaryotes_oeuk_actual$$ / $$other_eukaryotes_oeuk_total$$</span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$other_eukaryotes_percent$$%; height: 100%; background-color: #CC9999;">
 			      </div>

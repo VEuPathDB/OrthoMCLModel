@@ -181,19 +181,110 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
 	  <column name="other_eukaryotes_actual" />
 	  <column name="other_eukaryotes_total" />
 	  <column name="other_eukaryotes_percent" />
-
+	  <column name="bacteria_firm_actual" />
+	  <column name="bacteria_firm_total" />
+	  <column name="bacteria_proa_actual" />
+	  <column name="bacteria_proa_total" />
+	  <column name="bacteria_prob_actual" />
+	  <column name="bacteria_prob_total" />
+	  <column name="bacteria_prod_actual" />
+	  <column name="bacteria_prod_total" />
+	  <column name="bacteria_proe_actual" />
+	  <column name="bacteria_proe_total" />
+	  <column name="bacteria_prog_actual" />
+	  <column name="bacteria_prog_total" />
+	  <column name="bacteria_obac_actual" />
+	  <column name="bacteria_obac_total" />
+	  <column name="archaea_arch_actual" />
+	  <column name="archaea_arch_total" />
+	  <column name="archaea_eury_actual" />
+	  <column name="archaea_eury_total" />
+	  <column name="archaea_cren_actual" />
+	  <column name="archaea_cren_total" />
+	  <column name="archaea_nano_actual" />
+	  <column name="archaea_nano_total" />
+	  <column name="archaea_kora_actual" />
+	  <column name="archaea_kora_total" />
+	  <column name="other_eukaryotes_oeuk_actual" />
+	  <column name="other_eukaryotes_oeuk_total" />
+	  <column name="other_eukaryotes_oomy_actual" />
+	  <column name="other_eukaryotes_oomy_total" />
+	  <column name="alveolata_alve_actual" />
+	  <column name="alveolata_alve_total" />
+	  <column name="alveolata_cili_actual" />
+	  <column name="alveolata_cili_total" />
+	  <column name="alveolata_apic_actual" />
+	  <column name="alveolata_apic_total" />
+	  <column name="alveolata_cocc_actual" />
+	  <column name="alveolata_cocc_total" />
+	  <column name="alveolata_haem_actual" />
+	  <column name="alveolata_haem_total" />
+	  <column name="alveolata_piro_actual" />
+	  <column name="alveolata_piro_total" />
+	  <column name="viridiplantae_stre_actual" />
+	  <column name="viridiplantae_stre_total" />
+	  <column name="viridiplantae_chlo_actual" />
+	  <column name="viridiplantae_chlo_total" />
+	  <column name="viridiplantae_rhod_actual" />
+	  <column name="viridiplantae_rhod_total" />
+	  <column name="viridiplantae_cryp_actual" />
+	  <column name="viridiplantae_cryp_total" />
+	  <column name="fungi_fung_actual" />
+	  <column name="fungi_fung_total" />
+	  <column name="fungi_micr_actual" />
+	  <column name="fungi_micr_total" />
+	  <column name="fungi_basi_actual" />
+	  <column name="fungi_basi_total" />
+	  <column name="fungi_asco_actual" />
+	  <column name="fungi_asco_total" />
+	  <column name="fungi_muco_actual" />
+	  <column name="fungi_muco_total" />
+	  <column name="fungi_chyt_actual" />
+	  <column name="fungi_chyt_total" />
+	  <column name="metazoa_omet_actual" />
+	  <column name="metazoa_omet_total" />
+	  <column name="metazoa_nema_actual" />
+	  <column name="metazoa_nema_total" />
+	  <column name="metazoa_arth_actual" />
+	  <column name="metazoa_arth_total" />
+	  <column name="metazoa_chor_actual" />
+	  <column name="metazoa_chor_total" />
+	  <column name="metazoa_acti_actual" />
+	  <column name="metazoa_acti_total" />
+	  <column name="metazoa_aves_actual" />
+	  <column name="metazoa_aves_total" />
+	  <column name="metazoa_mamm_actual" />
+	  <column name="metazoa_mamm_total" />
+	  <column name="metazoa_tuni_actual" />
+	  <column name="metazoa_tuni_total" />
 	  <sql>
             <![CDATA[
 SELECT group_name,
-       alveolata_actual,alveolata_total, alveolata_percent,
-       archaea_actual,archaea_total, archaea_percent,
-       amoeba_actual,amoeba_total, amoeba_percent,
-       bacteria_actual,bacteria_total, bacteria_percent,
-       fungi_actual,fungi_total, fungi_percent,
-       euglenozoa_actual,euglenozoa_total, euglenozoa_percent,
-       metazoa_actual,metazoa_total, metazoa_percent,
-       viridiplantae_actual,viridiplantae_total, viridiplantae_percent,
-       other_eukaryotes_actual, other_eukaryotes_total, other_eukaryotes_percent
+       alveolata_actual,alveolata_total,alveolata_percent,archaea_actual,archaea_total,archaea_percent,
+       amoeba_actual,amoeba_total,amoeba_percent,bacteria_actual,bacteria_total,bacteria_percent,
+       fungi_actual,fungi_total,fungi_percent,euglenozoa_actual,euglenozoa_total,euglenozoa_percent,
+       metazoa_actual,metazoa_total,metazoa_percent,viridiplantae_actual,viridiplantae_total,viridiplantae_percent,
+       other_eukaryotes_actual,other_eukaryotes_total,other_eukaryotes_percent,
+       bacteria_firm_actual, bacteria_firm_total, bacteria_proa_actual, bacteria_proa_total,
+       bacteria_prob_actual, bacteria_prob_total, bacteria_prod_actual, bacteria_prod_total,
+       bacteria_proe_actual,bacteria_proe_total, bacteria_prog_actual, bacteria_prog_total,
+       bacteria_obac_actual, bacteria_obac_total, archaea_arch_actual, archaea_arch_total,
+       archaea_eury_actual, archaea_eury_total, archaea_cren_actual, archaea_cren_total,
+       archaea_nano_actual, archaea_nano_total, archaea_kora_actual, archaea_kora_total,
+       other_eukaryotes_oeuk_actual, other_eukaryotes_oeuk_total, other_eukaryotes_oomy_actual,
+       other_eukaryotes_oomy_total, alveolata_alve_actual, alveolata_alve_total, alveolata_cili_actual,
+       alveolata_cili_total, alveolata_apic_actual, alveolata_apic_total, alveolata_cocc_actual,
+       alveolata_cocc_total, alveolata_haem_actual, alveolata_haem_total, alveolata_piro_actual,
+       alveolata_piro_total, viridiplantae_stre_actual, viridiplantae_stre_total,
+       viridiplantae_chlo_actual, viridiplantae_chlo_total, viridiplantae_rhod_actual,
+       viridiplantae_rhod_total, viridiplantae_cryp_actual, viridiplantae_cryp_total,
+       fungi_fung_actual, fungi_fung_total, fungi_micr_actual, fungi_micr_total,
+       fungi_basi_actual, fungi_basi_total, fungi_asco_actual, fungi_asco_total,
+       fungi_muco_actual, fungi_muco_total, fungi_chyt_actual, fungi_chyt_total,
+       metazoa_omet_actual, metazoa_omet_total, metazoa_nema_actual, metazoa_nema_total,
+       metazoa_arth_actual, metazoa_arth_total, metazoa_chor_actual, metazoa_chor_total,
+       metazoa_acti_actual, metazoa_acti_total, metazoa_aves_actual, metazoa_aves_total,
+       metazoa_mamm_actual, metazoa_mamm_total, metazoa_tuni_actual, metazoa_tuni_total
 FROM apidbtuning.PhyleticPattern
             ]]>
 	  </sql>
