@@ -20,7 +20,7 @@
       <!--  Step Analysis Plugins -->
       <!-- =============================================================== -->
 
-      <stepAnalysisRef name="sequence-cluster"/>
+      <!--  <stepAnalysisRef name="sequence-cluster"/>   needs to be updated -->
 
       <!-- =============================================================== -->
       <!-- Reporters -->  
