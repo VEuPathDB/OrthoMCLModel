@@ -286,7 +286,15 @@
 			  </style>
 
 		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class="tooltiptext">ALVEOLATA<br>Haemosporida: $$alveolata_haem_actual$$ / $$alveolata_haem_total$$<br>Coccidia: $$alveolata_cocc_actual$$ / $$alveolata_cocc_total$$<br>Piroplasmida: $$alveolata_piro_actual$$ / $$alveolata_piro_total$$<br>Other apicomplexa: $$alveolata_apic_actual$$ / $$alveolata_apic_total$$<br>Ciliates: $$alveolata_cili_actual$$ / $$alveolata_cili_total$$<br>Other alveolates: $$alveolata_alve_actual$$ / $$alveolata_alve_total$$</span>
+		          <span class="tooltiptext"><div style="text-align:center";><b>ALVEOLATA</b></div>
+				Ciliates: <span style="float:right;">$$alveolata_cili_actual$$ / $$alveolata_cili_total$$</span><br>
+			        Apicomplexa<br>
+				&emsp;Haemosporida: <span style="float:right;">$$alveolata_haem_actual$$ / $$alveolata_haem_total$$</span><br>
+				&emsp;Coccidia: <span style="float:right;">$$alveolata_cocc_actual$$ / $$alveolata_cocc_total$$</span><br>
+				&emsp;Piroplasmida: <span style="float:right;">$$alveolata_piro_actual$$ / $$alveolata_piro_total$$</span><br>
+				&emsp;Other apicomplexa: <span style="float:right;">$$alveolata_apic_actual$$ / $$alveolata_apic_total$$</span><br>
+				Other alveolata: <span style="float:right;">$$alveolata_alve_actual$$ / $$alveolata_alve_total$$</span>
+			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$alveolata_percent$$%; height: 100%; background-color: #CC3399;">
 			      </div>
@@ -308,7 +316,13 @@
 	      <display>
                   <![CDATA[
 		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class="tooltiptext">ARCHAEA<br>Euryarchaeota: $$archaea_eury_actual$$ / $$archaea_eury_total$$<br>Crenarchaeota: $$archaea_cren_actual$$ / $$archaea_cren_total$$<br>Nanoarchaeota: $$archaea_nano_actual$$ / $$archaea_nano_total$$<br>Korarchaeota: $$archaea_kora_actual$$ / $$archaea_kora_total$$<br>Other archaea: $$archaea_arch_actual$$ / $$archaea_arch_total$$</span>
+		          <span class="tooltiptext"><div style="text-align:center";><b>ARCHAEA</b></div>
+			       Euryarchaeota: <span style="float:right;">$$archaea_eury_actual$$ / $$archaea_eury_total$$</span><br>
+			       Crenarchaeota: <span style="float:right;">$$archaea_cren_actual$$ / $$archaea_cren_total$$</span><br>
+			       Nanoarchaeota: <span style="float:right;">$$archaea_nano_actual$$ / $$archaea_nano_total$$</span><br>
+			       Korarchaeota: <span style="float:right;">$$archaea_kora_actual$$ / $$archaea_kora_total$$</span><br>
+			       Other archaea: <span style="float:right;">$$archaea_arch_actual$$ / $$archaea_arch_total$$</span>
+			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$archaea_percent$$%; height: 100%; background-color: #77CCDD;">
 			      </div>
@@ -329,7 +343,11 @@
             <textAttribute name="amoeba" displayName="Amoeba" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="tooltiptext"><div style="text-align:center";><b>AMOEBA genera</b></div>
+			        Genus1: <span style="float:right;">1 / 2</span><br>
+				Genus2: <span style="float:right;">3 / 5</span>
+			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$amoeba_percent$$%; height: 100%; background-color: #3399CC;">
 			      </div>
@@ -351,7 +369,15 @@
 	      <display>
                   <![CDATA[
 		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class="tooltiptext">BACTERIA<br>Firmicutes: $$bacteria_firm_actual$$ / $$bacteria_firm_total$$<br>alpha-Proteobacteria: $$bacteria_proa_actual$$ / $$bacteria_proa_total$$<br>beta-Proteobacteria: $$bacteria_prob_actual$$ / $$bacteria_prob_total$$<br>gamma-Proteobacteria: $$bacteria_prog_actual$$ / $$bacteria_prog_total$$<br>delta-Proteobacteria: $$bacteria_prod_actual$$ / $$bacteria_prod_total$$<br>epsilon-Proteobacteria: $$bacteria_proe_actual$$ / $$bacteria_proe_total$$<br>Other bacteria: $$bacteria_obac_actual$$ / $$bacteria_obac_total$$<br></span>
+		          <span class="tooltiptext"><div style="text-align:center";><b>BACTERIA</b></div>
+			       Firmicutes: <span style="float:right;">$$bacteria_firm_actual$$ / $$bacteria_firm_total$$</span><br>
+			       alpha-Proteobacteria: <span style="float:right;">$$bacteria_proa_actual$$ / $$bacteria_proa_total$$</span><br>
+			       beta-Proteobacteria: <span style="float:right;">$$bacteria_prob_actual$$ / $$bacteria_prob_total$$</span><br>
+			       gamma-Proteobacteria: <span style="float:right;">$$bacteria_prog_actual$$ / $$bacteria_prog_total$$</span><br>
+			       delta-Proteobacteria: <span style="float:right;">$$bacteria_prod_actual$$ / $$bacteria_prod_total$$</span><br>
+			       epsilon-Proteobacteria: <span style="float:right;">$$bacteria_proe_actual$$ / $$bacteria_proe_total$$</span><br>
+			       Other bacteria: <span style="float:right;">$$bacteria_obac_actual$$ / $$bacteria_obac_total$$</span>
+			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$bacteria_percent$$%; height: 100%; background-color: #9999CC;">
 			      </div>
@@ -373,7 +399,14 @@
 	      <display>
                   <![CDATA[
 		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class="tooltiptext">FUNGI<br>Microsporidia: $$fungi_micr_actual$$ / $$fungi_micr_total$$<br>Basidiomycota: $$fungi_basi_actual$$ / $$fungi_basi_total$$<br>Ascomycota: $$fungi_asco_actual$$ / $$fungi_asco_total$$<br>Mucoromycota: $$fungi_muco_actual$$ / $$fungi_muco_total$$<br>Chytridiomycota: $$fungi_chyt_actual$$ / $$fungi_chyt_total$$<br>Other fungi: $$fungi_fung_actual$$ / $$fungi_fung_total$$</span>
+		          <span class="tooltiptext"><div style="text-align:center";><b>FUNGI</b></div>
+			       Microsporidia: <span style="float:right;">$$fungi_micr_actual$$ / $$fungi_micr_total$$</span><br>
+			       Basidiomycota: <span style="float:right;">$$fungi_basi_actual$$ / $$fungi_basi_total$$</span><br>
+			       Ascomycota: <span style="float:right;">$$fungi_asco_actual$$ / $$fungi_asco_total$$</span><br>
+			       Mucoromycota: <span style="float:right;">$$fungi_muco_actual$$ / $$fungi_muco_total$$</span><br>
+			       Chytridiomycota: <span style="float:right;">$$fungi_chyt_actual$$ / $$fungi_chyt_total$$</span><br>
+			       Other fungi: <span style="float:right;">$$fungi_fung_actual$$ / $$fungi_fung_total$$</span>
+			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$fungi_percent$$%; height: 100%; background-color: #AA44DD;">
 			      </div>
@@ -394,7 +427,11 @@
             <textAttribute name="euglenozoa" displayName="Euglenozoa" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="tooltiptext"><div style="text-align:center";><b>EUGLENOZOA genera</b></div>
+			        Genus1: <span style="float:right;">1 / 2</span><br>
+				Genus2: <span style="float:right;">3 / 5</span>
+			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$euglenozoa_percent$$%; height: 100%; background-color: #CCCC66;">
 			      </div>
@@ -416,7 +453,17 @@
 	      <display>
                   <![CDATA[
 		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class="tooltiptext">METAZOA<br>Nematoda: $$metazoa_nema_actual$$ / $$metazoa_nema_total$$<br>Arthropoda: $$metazoa_arth_actual$$ / $$metazoa_arth_total$$<br>Actinopterygii: $$metazoa_acti_actual$$ / $$metazoa_acti_total$$<br>Aves: $$metazoa_aves_actual$$ / $$metazoa_aves_total$$<br>Mammalia: $$metazoa_mamm_actual$$ / $$metazoa_mamm_total$$<br>Tunicates: $$metazoa_tuni_actual$$ / $$metazoa_tuni_total$$<br>Other chordates: $$metazoa_chor_actual$$ / $$metazoa_chor_total$$<br>Other metazoa: $$metazoa_omet_actual$$ / $$metazoa_omet_total$$</span>
+		          <span class="tooltiptext"><div style="text-align:center";><b>METAZOA</b></div>
+			       Nematoda: <span style="float:right;">$$metazoa_nema_actual$$ / $$metazoa_nema_total$$</span><br>
+			       Arthropoda: <span style="float:right;">$$metazoa_arth_actual$$ / $$metazoa_arth_total$$</span><br>
+			       Chordata<br>
+			       &emsp;Actinopterygii: <span style="float:right;">$$metazoa_acti_actual$$ / $$metazoa_acti_total$$</span><br>
+			       &emsp;Aves: <span style="float:right;">$$metazoa_aves_actual$$ / $$metazoa_aves_total$$</span><br>
+			       &emsp;Mammalia: <span style="float:right;">$$metazoa_mamm_actual$$ / $$metazoa_mamm_total$$</span><br>
+			       &emsp;Tunicates: <span style="float:right;">$$metazoa_tuni_actual$$ / $$metazoa_tuni_total$$</span><br>
+			       &emsp;Other chordata: <span style="float:right;">$$metazoa_chor_actual$$ / $$metazoa_chor_total$$</span><br>
+			       Other metazoa: <span style="float:right;">$$metazoa_omet_actual$$ / $$metazoa_omet_total$$</span>
+			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$metazoa_percent$$%; height: 100%; background-color: #CC6666;">
 			      </div>
@@ -438,7 +485,12 @@
 	      <display>
                   <![CDATA[
 		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class="tooltiptext">VIRIDIPLANTAE<br>Streptophyta: $$viridiplantae_stre_actual$$ / $$viridiplantae_stre_total$$<br>Chlorophyta: $$viridiplantae_chlo_actual$$ / $$viridiplantae_chlo_total$$<br>Rhodophyta: $$viridiplantae_rhod_actual$$ / $$viridiplantae_rhod_total$$<br>Cryptophyta: $$viridiplantae_cryp_actual$$ / $$viridiplantae_cryp_total$$</span>
+		          <span class="tooltiptext"><div style="text-align:center";><b>VIRIDIPLANTAE</b></div>
+			       Streptophyta: <span style="float:right;">$$viridiplantae_stre_actual$$ / $$viridiplantae_stre_total$$</span><br>
+			       Chlorophyta: <span style="float:right;">$$viridiplantae_chlo_actual$$ / $$viridiplantae_chlo_total$$</span><br>
+			       Rhodophyta: <span style="float:right;">$$viridiplantae_rhod_actual$$ / $$viridiplantae_rhod_total$$</span><br>
+			       Cryptophyta: <span style="float:right;">$$viridiplantae_cryp_actual$$ / $$viridiplantae_cryp_total$$</span>
+			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$viridiplantae_percent$$%; height: 100%; background-color: #CC9933;">
 			      </div>
@@ -460,7 +512,10 @@
 	      <display>
                   <![CDATA[
 		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class="tooltiptext">OTHER EUKARYOTES<br>Oomycota: $$other_eukaryotes_oomy_actual$$ / $$other_eukaryotes_oomy_total$$<br>Other: $$other_eukaryotes_oeuk_actual$$ / $$other_eukaryotes_oeuk_total$$</span>
+		          <span class="tooltiptext"><div style="text-align:center";><b>OTHER EUKARYOTES genera</b></div>
+			        Genus1: <span style="float:right;">1 / 2</span><br>
+				Genus2: <span style="float:right;">3 / 5</span>
+			  </span>			  
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$other_eukaryotes_percent$$%; height: 100%; background-color: #CC9999;">
 			      </div>
