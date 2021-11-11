@@ -577,7 +577,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                FROM ApiDB.OrthologGroupTaxon agt, apidb.orthologgroup og
                WHERE agt.ortholog_group_id = og.ortholog_group_id
 	             AND agt.three_letter_abbrev = UPPER(agt.three_letter_abbrev))
-         GROUP BY name) actual),
+         GROUP BY name) actual,
 	(SELECT name, listagg(prehtml, '<br>') within GROUP (ORDER by prehtml) AS html
 	 FROM (SELECT total.name, total.genera || ': <span style="float:right;">' || NVL(act.count,0) || ' / ' || total.count || '</span>' as prehtml
 	       FROM (SELECT og.name, a.genera, count(a.three_letter_abbrev) AS count
