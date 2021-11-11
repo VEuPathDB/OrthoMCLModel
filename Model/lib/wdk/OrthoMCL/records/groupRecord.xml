@@ -202,58 +202,57 @@
 	      <columnAttribute name="archaea_nano_total" internal="true" />
 	      <columnAttribute name="archaea_kora_actual" internal="true" />
 	      <columnAttribute name="archaea_kora_total" internal="true" />
-	      <columnAttribute name="other_eukaryotes_oeuk_actual" internal="true" />
-	      <columnAttribute name="other_eukaryotes_oeuk_total" internal="true" />
-	      <columnAttribute name="other_eukaryotes_oomy_actual" internal="true" />
-	      <columnAttribute name="other_eukaryotes_oomy_total" internal="true" />
-	  <columnAttribute name="alveolata_alve_actual" internal="true" />
-	  <columnAttribute name="alveolata_alve_total" internal="true" />
-	  <columnAttribute name="alveolata_cili_actual" internal="true" />
-	  <columnAttribute name="alveolata_cili_total" internal="true" />
-	  <columnAttribute name="alveolata_apic_actual" internal="true" />
-	  <columnAttribute name="alveolata_apic_total" internal="true" />
-	  <columnAttribute name="alveolata_cocc_actual" internal="true" />
-	  <columnAttribute name="alveolata_cocc_total" internal="true" />
-	  <columnAttribute name="alveolata_haem_actual" internal="true" />
-	  <columnAttribute name="alveolata_haem_total" internal="true" />
-	  <columnAttribute name="alveolata_piro_actual" internal="true" />
-	  <columnAttribute name="alveolata_piro_total" internal="true" />
-	  <columnAttribute name="viridiplantae_stre_actual" internal="true" />
-	  <columnAttribute name="viridiplantae_stre_total" internal="true" />
-	  <columnAttribute name="viridiplantae_chlo_actual" internal="true" />
-	  <columnAttribute name="viridiplantae_chlo_total" internal="true" />
-	  <columnAttribute name="viridiplantae_rhod_actual" internal="true" />
-	  <columnAttribute name="viridiplantae_rhod_total" internal="true" />
-	  <columnAttribute name="viridiplantae_cryp_actual" internal="true" />
-	  <columnAttribute name="viridiplantae_cryp_total" internal="true" />
-	  <columnAttribute name="fungi_fung_actual" internal="true" />
-	  <columnAttribute name="fungi_fung_total" internal="true" />
-	  <columnAttribute name="fungi_micr_actual" internal="true" />
-	  <columnAttribute name="fungi_micr_total" internal="true" />
-	  <columnAttribute name="fungi_basi_actual" internal="true" />
-	  <columnAttribute name="fungi_basi_total" internal="true" />
-	  <columnAttribute name="fungi_asco_actual" internal="true" />
-	  <columnAttribute name="fungi_asco_total" internal="true" />
-	  <columnAttribute name="fungi_muco_actual" internal="true" />
-	  <columnAttribute name="fungi_muco_total" internal="true" />
-	  <columnAttribute name="fungi_chyt_actual" internal="true" />
-	  <columnAttribute name="fungi_chyt_total" internal="true" />
-	  <columnAttribute name="metazoa_omet_actual" internal="true" />
-	  <columnAttribute name="metazoa_omet_total" internal="true" />
-	  <columnAttribute name="metazoa_nema_actual" internal="true" />
-	  <columnAttribute name="metazoa_nema_total" internal="true" />
-	  <columnAttribute name="metazoa_arth_actual" internal="true" />
-	  <columnAttribute name="metazoa_arth_total" internal="true" />
-	  <columnAttribute name="metazoa_chor_actual" internal="true" />
-	  <columnAttribute name="metazoa_chor_total" internal="true" />
-	  <columnAttribute name="metazoa_acti_actual" internal="true" />
-	  <columnAttribute name="metazoa_acti_total" internal="true" />
-	  <columnAttribute name="metazoa_aves_actual" internal="true" />
-	  <columnAttribute name="metazoa_aves_total" internal="true" />
-	  <columnAttribute name="metazoa_mamm_actual" internal="true" />
-	  <columnAttribute name="metazoa_mamm_total" internal="true" />
-	  <columnAttribute name="metazoa_tuni_actual" internal="true" />
-	  <columnAttribute name="metazoa_tuni_total" internal="true" />
+	      <columnAttribute name="oeuk_genera_html" internal="true" />
+	      <columnAttribute name="eugl_genera_html" internal="true" />
+	      <columnAttribute name="amoe_genera_html" internal="true" />
+	      <columnAttribute name="alveolata_alve_actual" internal="true" />
+	      <columnAttribute name="alveolata_alve_total" internal="true" />
+	      <columnAttribute name="alveolata_cili_actual" internal="true" />
+	      <columnAttribute name="alveolata_cili_total" internal="true" />
+	      <columnAttribute name="alveolata_apic_actual" internal="true" />
+	      <columnAttribute name="alveolata_apic_total" internal="true" />
+	      <columnAttribute name="alveolata_cocc_actual" internal="true" />
+	      <columnAttribute name="alveolata_cocc_total" internal="true" />
+	      <columnAttribute name="alveolata_haem_actual" internal="true" />
+	      <columnAttribute name="alveolata_haem_total" internal="true" />
+	      <columnAttribute name="alveolata_piro_actual" internal="true" />
+	      <columnAttribute name="alveolata_piro_total" internal="true" />
+	      <columnAttribute name="viridiplantae_stre_actual" internal="true" />
+	      <columnAttribute name="viridiplantae_stre_total" internal="true" />
+	      <columnAttribute name="viridiplantae_chlo_actual" internal="true" />
+	      <columnAttribute name="viridiplantae_chlo_total" internal="true" />
+	      <columnAttribute name="viridiplantae_rhod_actual" internal="true" />
+	      <columnAttribute name="viridiplantae_rhod_total" internal="true" />
+	      <columnAttribute name="viridiplantae_cryp_actual" internal="true" />
+	      <columnAttribute name="viridiplantae_cryp_total" internal="true" />
+	      <columnAttribute name="fungi_fung_actual" internal="true" />
+	      <columnAttribute name="fungi_fung_total" internal="true" />
+	      <columnAttribute name="fungi_micr_actual" internal="true" />
+	      <columnAttribute name="fungi_micr_total" internal="true" />
+	      <columnAttribute name="fungi_basi_actual" internal="true" />
+	      <columnAttribute name="fungi_basi_total" internal="true" />
+	      <columnAttribute name="fungi_asco_actual" internal="true" />
+	      <columnAttribute name="fungi_asco_total" internal="true" />
+	      <columnAttribute name="fungi_muco_actual" internal="true" />
+	      <columnAttribute name="fungi_muco_total" internal="true" />
+	      <columnAttribute name="fungi_chyt_actual" internal="true" />
+	      <columnAttribute name="fungi_chyt_total" internal="true" />
+	      <columnAttribute name="metazoa_omet_actual" internal="true" />
+	      <columnAttribute name="metazoa_omet_total" internal="true" />
+	      <columnAttribute name="metazoa_nema_actual" internal="true" />
+	      <columnAttribute name="metazoa_nema_total" internal="true" />
+	      <columnAttribute name="metazoa_arth_actual" internal="true" />
+	      <columnAttribute name="metazoa_arth_total" internal="true" />
+	      <columnAttribute name="metazoa_chor_actual" internal="true" />
+	      <columnAttribute name="metazoa_chor_total" internal="true" />
+	      <columnAttribute name="metazoa_acti_actual" internal="true" />
+	      <columnAttribute name="metazoa_acti_total" internal="true" />
+	      <columnAttribute name="metazoa_aves_actual" internal="true" />
+	      <columnAttribute name="metazoa_aves_total" internal="true" />
+	      <columnAttribute name="metazoa_mamm_actual" internal="true" />
+	      <columnAttribute name="metazoa_mamm_total" internal="true" />
+	      <columnAttribute name="metazoa_tuni_actual" internal="true" />
+	      <columnAttribute name="metazoa_tuni_total" internal="true" />
 
             </attributeQueryRef>
 
@@ -345,8 +344,7 @@
                   <![CDATA[
 		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
 		          <span class="tooltiptext"><div style="text-align:center";><b>AMOEBA genera</b></div>
-			        Genus1: <span style="float:right;">1 / 2</span><br>
-				Genus2: <span style="float:right;">3 / 5</span>
+			        $$amoe_genera_html$$
 			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$amoeba_percent$$%; height: 100%; background-color: #3399CC;">
@@ -429,8 +427,7 @@
                   <![CDATA[
 		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
 		          <span class="tooltiptext"><div style="text-align:center";><b>EUGLENOZOA genera</b></div>
-			        Genus1: <span style="float:right;">1 / 2</span><br>
-				Genus2: <span style="float:right;">3 / 5</span>
+			        $$eugl_genera_html$$
 			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$euglenozoa_percent$$%; height: 100%; background-color: #CCCC66;">
@@ -513,8 +510,7 @@
                   <![CDATA[
 		      <div class="tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
 		          <span class="tooltiptext"><div style="text-align:center";><b>OTHER EUKARYOTES genera</b></div>
-			        Genus1: <span style="float:right;">1 / 2</span><br>
-				Genus2: <span style="float:right;">3 / 5</span>
+			       $$oeuk_genera_html$$
 			  </span>			  
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$other_eukaryotes_percent$$%; height: 100%; background-color: #CC9999;">

@@ -205,10 +205,9 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
 	  <column name="archaea_nano_total" />
 	  <column name="archaea_kora_actual" />
 	  <column name="archaea_kora_total" />
-	  <column name="other_eukaryotes_oeuk_actual" />
-	  <column name="other_eukaryotes_oeuk_total" />
-	  <column name="other_eukaryotes_oomy_actual" />
-	  <column name="other_eukaryotes_oomy_total" />
+	  <column name="oeuk_genera_html" />
+	  <column name="eugl_genera_html" />
+	  <column name="amoe_genera_html" />
 	  <column name="alveolata_alve_actual" />
 	  <column name="alveolata_alve_total" />
 	  <column name="alveolata_cili_actual" />
@@ -271,8 +270,8 @@ SELECT group_name,
        bacteria_obac_actual, bacteria_obac_total, archaea_arch_actual, archaea_arch_total,
        archaea_eury_actual, archaea_eury_total, archaea_cren_actual, archaea_cren_total,
        archaea_nano_actual, archaea_nano_total, archaea_kora_actual, archaea_kora_total,
-       other_eukaryotes_oeuk_actual, other_eukaryotes_oeuk_total, other_eukaryotes_oomy_actual,
-       other_eukaryotes_oomy_total, alveolata_alve_actual, alveolata_alve_total, alveolata_cili_actual,
+       oeuk_genera_html, eugl_genera_html, amoe_genera_html,
+       alveolata_alve_actual, alveolata_alve_total, alveolata_cili_actual,
        alveolata_cili_total, alveolata_apic_actual, alveolata_apic_total, alveolata_cocc_actual,
        alveolata_cocc_total, alveolata_haem_actual, alveolata_haem_total, alveolata_piro_actual,
        alveolata_piro_total, viridiplantae_stre_actual, viridiplantae_stre_total,
