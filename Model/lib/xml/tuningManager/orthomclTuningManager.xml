@@ -664,7 +664,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
          GROUP BY name) oeuk_genera
     WHERE oeuk_genera.name = eugl_genera.name AND
           eugl_genera.name = amoe_genera.name AND
-	  amoe_genera.name = actual.group_name
+	  amoe_genera.name = actual.group_name)
       ]]>
     </sql>
     <sql>
