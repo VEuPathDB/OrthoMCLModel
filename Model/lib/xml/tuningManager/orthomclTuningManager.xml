@@ -278,6 +278,7 @@ tablespace indx
   <tuningTable name="PhyleticPattern">
     <externalDependency name="apidb.OrthologGroup"/>
     <externalDependency name="apidb.OrthomclTaxon"/>
+    <externalDependency name="apidb.OrthologGroupTaxon"/>
     <sql>
       <![CDATA[
 CREATE TABLE PhyleticPattern&1 NOLOGGING AS
@@ -333,10 +334,9 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
 	    total.archaea_nano as archaea_nano_total,
             actual.archaea_kora as archaea_kora_actual,
 	    total.archaea_kora as archaea_kora_total,
-            actual.other_eukaryotes_oeuk as other_eukaryotes_oeuk_actual,
-	    total.other_eukaryotes_oeuk as other_eukaryotes_oeuk_total,
-            actual.other_eukaryotes_oomy as other_eukaryotes_oomy_actual,
-	    total.other_eukaryotes_oomy as other_eukaryotes_oomy_total,
+            oeuk_genera.html as oeuk_genera_html,
+            eugl_genera.html as eugl_genera_html,
+            amoe_genera.html as amoe_genera_html,
             actual.alveolata_alve as alveolata_alve_actual,
 	    total.alveolata_alve as alveolata_alve_total,
             actual.alveolata_cili as alveolata_cili_actual,
@@ -407,8 +407,6 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
 		SUM(CASE clade WHEN 'CREN' THEN num ELSE 0 END) as archaea_cren,
 		SUM(CASE clade WHEN 'NANO' THEN num ELSE 0 END) as archaea_nano,
 		SUM(CASE clade WHEN 'KORA' THEN num ELSE 0 END) as archaea_kora,
-		SUM(CASE clade WHEN 'OEUK' THEN num ELSE 0 END) as other_eukaryotes_oeuk,
-		SUM(CASE clade WHEN 'OOMY' THEN num ELSE 0 END) as other_eukaryotes_oomy,
 		SUM(CASE clade WHEN 'ALVE' THEN num ELSE 0 END) as alveolata_alve,
 		SUM(CASE clade WHEN 'CILI' THEN num ELSE 0 END) as alveolata_cili,
 		SUM(CASE clade WHEN 'APIC' THEN num ELSE 0 END) as alveolata_apic,
@@ -539,9 +537,6 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                 SUM(CASE three_letter_abbrev WHEN 'CREN' THEN number_of_taxa ELSE 0 END) as archaea_cren,
                 SUM(CASE three_letter_abbrev WHEN 'NANO' THEN number_of_taxa ELSE 0 END) as archaea_nano,
                 SUM(CASE three_letter_abbrev WHEN 'KORA' THEN number_of_taxa ELSE 0 END) as archaea_kora,
-                SUM(CASE three_letter_abbrev WHEN 'OEUK' THEN number_of_taxa ELSE 0 END) -
-		SUM(CASE three_letter_abbrev WHEN 'OOMY' THEN number_of_taxa ELSE 0 END) as other_eukaryotes_oeuk,
-                SUM(CASE three_letter_abbrev WHEN 'OOMY' THEN number_of_taxa ELSE 0 END) as other_eukaryotes_oomy,
                 SUM(CASE three_letter_abbrev WHEN 'ALVE' THEN number_of_taxa ELSE 0 END) -
 		SUM(CASE three_letter_abbrev WHEN 'CILI' THEN number_of_taxa ELSE 0 END) -
 		SUM(CASE three_letter_abbrev WHEN 'APIC' THEN number_of_taxa ELSE 0 END) as alveolata_alve,
@@ -583,7 +578,94 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                FROM ApiDB.OrthologGroupTaxon agt, apidb.orthologgroup og
                WHERE agt.ortholog_group_id = og.ortholog_group_id
 	             AND agt.three_letter_abbrev = UPPER(agt.three_letter_abbrev))
-         GROUP BY name) actual)
+         GROUP BY name) actual),
+	(SELECT name, listagg(prehtml, '<br>') within GROUP (ORDER by prehtml) AS html
+	 FROM (SELECT total.name, total.genera || ': <span style="float:right;">' || NVL(act.count,0) || ' / ' || total.count || '</span>' as prehtml
+	       FROM (SELECT og.name, a.genera, count(a.three_letter_abbrev) AS count
+	             FROM (SELECT NVL(SUBSTR(name, 0, INSTR(name, ' ')-1), name) AS genera, three_letter_abbrev
+		           FROM apidb.OrthomclTaxon
+			   WHERE core_peripheral in ('C','P')
+			   CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+			   START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                            FROM apidb.OrthomclTaxon
+							    WHERE three_letter_abbrev ='AMOE')) a,
+                          ApiDb.OrthologGroupTaxon ogt,
+			  ApiDb.orthologgroup og
+		     WHERE a.three_letter_abbrev = ogt.three_letter_abbrev AND ogt.ortholog_group_id = og.ortholog_group_id
+		     GROUP by og.name,a.genera) act,
+		    (SELECT og.name, genera, count(three_letter_abbrev) as count
+		     FROM (SELECT NVL(SUBSTR(name, 0, INSTR(name, ' ')-1), name) AS genera, three_letter_abbrev
+                           FROM apidb.OrthomclTaxon
+			   WHERE core_peripheral in ('C','P')
+			   CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+			   START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                            FROM apidb.OrthomclTaxon
+							    WHERE three_letter_abbrev ='AMOE')),
+                           apidb.orthologgroup og
+		     WHERE core_peripheral_residual IN ('P','R')
+		     GROUP BY og.name,genera) total
+	       WHERE total.name = act.name (+)
+	             AND total.genera = act.genera (+))
+         GROUP BY name) amoeba_genera
+	(SELECT name, listagg(prehtml, '<br>') within GROUP (ORDER by prehtml) AS html
+	 FROM (SELECT total.name, total.genera || ': <span style="float:right;">' || NVL(act.count,0) || ' / ' || total.count || '</span>' as prehtml
+	       FROM (SELECT og.name, a.genera, count(a.three_letter_abbrev) AS count
+	             FROM (SELECT NVL(SUBSTR(name, 0, INSTR(name, ' ')-1), name) AS genera, three_letter_abbrev
+		           FROM apidb.OrthomclTaxon
+			   WHERE core_peripheral in ('C','P')
+			   CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+			   START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                            FROM apidb.OrthomclTaxon
+							    WHERE three_letter_abbrev ='EUGL')) a,
+                          ApiDb.OrthologGroupTaxon ogt,
+			  ApiDb.orthologgroup og
+		     WHERE a.three_letter_abbrev = ogt.three_letter_abbrev AND ogt.ortholog_group_id = og.ortholog_group_id
+		     GROUP by og.name,a.genera) act,
+		    (SELECT og.name, genera, count(three_letter_abbrev) as count
+		     FROM (SELECT NVL(SUBSTR(name, 0, INSTR(name, ' ')-1), name) AS genera, three_letter_abbrev
+                           FROM apidb.OrthomclTaxon
+			   WHERE core_peripheral in ('C','P')
+			   CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+			   START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                            FROM apidb.OrthomclTaxon
+							    WHERE three_letter_abbrev ='EUGL')),
+                           apidb.orthologgroup og
+		     WHERE core_peripheral_residual IN ('P','R')
+		     GROUP BY og.name,genera) total
+	       WHERE total.name = act.name (+)
+	             AND total.genera = act.genera (+))
+         GROUP BY name) eugl_genera
+	(SELECT name, listagg(prehtml, '<br>') within GROUP (ORDER by prehtml) AS html
+	 FROM (SELECT total.name, total.genera || ': <span style="float:right;">' || NVL(act.count,0) || ' / ' || total.count || '</span>' as prehtml
+	       FROM (SELECT og.name, a.genera, count(a.three_letter_abbrev) AS count
+	             FROM (SELECT NVL(SUBSTR(name, 0, INSTR(name, ' ')-1), name) AS genera, three_letter_abbrev
+		           FROM apidb.OrthomclTaxon
+			   WHERE core_peripheral in ('C','P')
+			   CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+			   START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                            FROM apidb.OrthomclTaxon
+							    WHERE three_letter_abbrev ='OEUK')) a,
+                          ApiDb.OrthologGroupTaxon ogt,
+			  ApiDb.orthologgroup og
+		     WHERE a.three_letter_abbrev = ogt.three_letter_abbrev AND ogt.ortholog_group_id = og.ortholog_group_id
+		     GROUP by og.name,a.genera) act,
+		    (SELECT og.name, genera, count(three_letter_abbrev) as count
+		     FROM (SELECT NVL(SUBSTR(name, 0, INSTR(name, ' ')-1), name) AS genera, three_letter_abbrev
+                           FROM apidb.OrthomclTaxon
+			   WHERE core_peripheral in ('C','P')
+			   CONNECT BY PRIOR orthomcl_taxon_id = parent_id
+			   START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
+                                                            FROM apidb.OrthomclTaxon
+							    WHERE three_letter_abbrev ='OEUK')),
+                           apidb.orthologgroup og
+		     WHERE core_peripheral_residual IN ('P','R')
+		     GROUP BY og.name,genera) total
+	       WHERE total.name = act.name (+)
+	             AND total.genera = act.genera (+))
+         GROUP BY name) oeuk_genera
+    WHERE oeuk_genera.name = eugl_genera.name AND
+          eugl_genera.name = amoe_genera.name AND
+	  amoe_genera.name = actual.group_name
       ]]>
     </sql>
     <sql>
