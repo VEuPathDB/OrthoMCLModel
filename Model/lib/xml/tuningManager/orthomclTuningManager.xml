@@ -605,7 +605,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
 		     GROUP BY og.name,genera) total
 	       WHERE total.name = act.name (+)
 	             AND total.genera = act.genera (+))
-         GROUP BY name) amoeba_genera,
+         GROUP BY name) amoe_genera,
 	(SELECT name, listagg(prehtml, '<br>') within GROUP (ORDER by prehtml) AS html
 	 FROM (SELECT total.name, total.genera || ': <span style="float:right;">' || NVL(act.count,0) || ' / ' || total.count || '</span>' as prehtml
 	       FROM (SELECT og.name, a.genera, count(a.three_letter_abbrev) AS count
