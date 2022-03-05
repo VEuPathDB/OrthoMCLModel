@@ -12,8 +12,9 @@ public class GroupFastaReporter extends FastaReporter {
   private static final String XFORM_QUESTION_NAME = "SequenceQuestions.FromGroups";
   private static final String XFORM_STEP_ID_PARAM_NAME = "group_answer";
 
-  public GroupFastaReporter(AnswerValue groupsAnswer) {
-    super(f0Swallow(() ->
+  @Override
+  public GroupFastaReporter setAnswerValue(AnswerValue groupsAnswer) {
+    super.setAnswerValue(f0Swallow(() ->
       transformToNewResultTypeAnswer(
         groupsAnswer,
         GROUP_RECORDCLASS,
@@ -22,6 +23,7 @@ public class GroupFastaReporter extends FastaReporter {
         SEQUENCE_RECORDCLASS
       )
     ).get());
+    return this;
   }
 
 }

@@ -13,7 +13,6 @@ import org.gusdb.fgputil.functional.Functions;
 import org.gusdb.fgputil.json.JsonUtil;
 import org.gusdb.wdk.model.WdkModelException;
 import org.gusdb.wdk.model.WdkUserException;
-import org.gusdb.wdk.model.answer.AnswerValue;
 import org.gusdb.wdk.model.answer.stream.FileBasedRecordStream;
 import org.gusdb.wdk.model.record.RecordClass;
 import org.gusdb.wdk.model.record.RecordInstance;
@@ -51,12 +50,8 @@ public class FastaReporter extends AbstractReporter {
   private boolean _includeGroup;
   private String _downloadType;
 
-  public FastaReporter(AnswerValue answerValue) {
-    super(answerValue);
-  }
-
   @Override
-  public FastaReporter configure(Map<String, String> config) throws ReporterConfigException {
+  public FastaReporter configure(Map<String,String> config) throws ReporterConfigException {
 
     // get basic configurations
     _downloadType = getValidDownloadTypeString(config.get(FIELD_DOWNLOAD_TYPE));
