@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.orthomcl.service.core.wsfplugin;
 
 import java.sql.ResultSet;
@@ -26,8 +23,7 @@ import org.gusdb.wsf.plugin.PluginUserException;
  * @author Jerric, modified by Cristina 2010 to add DNA motif
  * @created Jan 31, 2006
  */
-
-// geneID could be an ORF or a genomic sequence deending on who uses the plugin
+// geneID could be an ORF or a genomic sequence depending on who uses the plugin
 public class MotifPlugin extends AbstractPlugin {
 
   private static final Logger logger = Logger.getLogger(MotifPlugin.class);
