@@ -37,9 +37,13 @@
             <suggest default="CC6+RK"/>
         </stringParam>
 
-        <stringParam name="BlastDatabase" number="false" visible="false">
-          <suggest default="@BLASTDB_PATH@/build-%%buildNumber%%/blast/proteinSeqs" />
-        </stringParam>
+
+ <flatVocabParam name="BlastDatabase"
+                     queryRef="SequenceVQ.BlastOrganismFiles"
+                     visible='false'>
+          <help/>
+        </flatVocabParam>
+
 
         <enumParam name="BlastAlgorithm"
              prompt="BLAST Program"
@@ -169,6 +173,21 @@
                where is_species = 1
              </sql>
         </sqlQuery>
+
+        <sqlQuery name="BlastOrganismFiles">
+            <column name="internal" />
+            <column name="term" />
+            <sql>
+                <![CDATA[
+  SELECT 
+   '@BLASTDB_PATH@/build-%%buildNumber%%/blast/proteinSeqs' as internal
+  ,'@BLASTDB_PATH@/build-%%buildNumber%%/blast/proteinSeqs' as term
+  FROM DUAL
+                ]]>
+            </sql>
+        </sqlQuery>
+
+
     </querySet>
    
 </wdkModel>
