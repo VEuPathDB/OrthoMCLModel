@@ -13,7 +13,9 @@
   <target name="OrthoMCLModel-Installation" depends="EbrcWebSvcCommon-Installation,
                                                      OrthoMCLModel/Model-Installation">
 
-    <ant target="defaultProjectInstall" />
+    <ant target="defaultProjectInstall">
+      <property name="project" value="OrthoMCLModel" />
+    </ant>
 
   </target>
 
