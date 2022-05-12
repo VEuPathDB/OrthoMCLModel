@@ -11,46 +11,26 @@
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
   <target name="OrthoMCLModel-Installation" depends="EbrcWebSvcCommon-Installation,
-                                                     OrthoMCLModel-MavenInstallation,
                                                      OrthoMCLModel/Model-Installation">
 
     <ant target="defaultProjectInstall" />
 
   </target>
 
-  <target name="OrthoMCLModel-MavenInstallation">
-    <ant target="mavenBuildProject">
-      <property name="project" value="OrthoMCLModel" />
-    </ant>
-    <property name="alreadyBuilt" value="true" />
-  </target>
-
 
   <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLModel/Model-Installation" depends="ProjectTree">
+  <target name="OrthoMCLModel/Model-Installation">
     <ant target="defaultComponentInstall">
       <property name="project" value="OrthoMCLModel" />
       <property name="component" value="Model" />
     </ant>
 
-    <replace dir="${targetDir}/bin"
-             propertyFile="${targetDir}/config/gus.config">
-      <include name="**/*" />
-      <replacefilter token="@perl@" property="perl" />
-      <replacefilter token="@targetDir@" value="${targetDir}" />
-    </replace>
-
     <!-- the following three commands generate the OrthoMCL ontology -->
     <java failonerror="true" fork="true" classname="org.eupathdb.common.model.ontology.OwlClassGenerator">
       <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename individuals.txt -outputFilename individuals.owl -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/individuals.owl'" />
       <classpath>
-        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
-        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
-        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-1.2-api-2.16.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-api-2.16.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-core-2.16.0.jar" />
+        <pathelement location="${targetDir}/lib/java/*" />
         <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
@@ -58,12 +38,7 @@
     <java failonerror="true" fork="true" classname="org.eupathdb.common.model.ontology.EuPathAnnotPropAdder">
       <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename annotation.txt -outputFilename annotation.owl  -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/annotation.owl'" />
       <classpath>
-        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
-        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
-        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-1.2-api-2.16.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-api-2.16.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-core-2.16.0.jar" />
+        <pathelement location="${targetDir}/lib/java/*" />
         <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
@@ -71,27 +46,11 @@
     <java failonerror="true" fork="true" classname="org.eupathdb.common.model.ontology.OntologyMerger">
       <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename categories_full.owl -outputFilename categories_merged.owl" />
       <classpath>
-        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
-        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
-        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-1.2-api-2.16.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-api-2.16.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-core-2.16.0.jar" />
+        <pathelement location="${targetDir}/lib/java/*" />
         <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
 
   </target>
 
-
-  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
-  <!-- oooooooooooooooooooooooooo  ProjectTree  ooooooooooooooooooooooooooo -->
-  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
-
-  <target name="ProjectTree" if="${checkout}">
-    <ant target="projectCheckOut" />
-  </target>
-
 </project>
-
-
