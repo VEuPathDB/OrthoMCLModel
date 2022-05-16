@@ -1,4 +1,4 @@
-<project name="OrthoMCLModel" default="Installation" basedir=".">
+<project name="OrthoMCLModel" basedir=".">
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooo  Dependencies  oooooooooooooooooooooooooo -->
@@ -12,11 +12,9 @@
 
   <target name="OrthoMCLModel-Installation" depends="EbrcWebSvcCommon-Installation,
                                                      OrthoMCLModel/Model-Installation">
-
     <ant target="defaultProjectInstall">
       <property name="project" value="OrthoMCLModel" />
     </ant>
-
   </target>
 
 
