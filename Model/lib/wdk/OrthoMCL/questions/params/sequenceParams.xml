@@ -38,11 +38,16 @@
         </stringParam>
 
 
- <flatVocabParam name="BlastDatabase"
+        <stringParam name="BlastDatabase" number="false" visible="false">
+          <suggest default="@BLASTDB_PATH@/build-%%buildNumber%%/blast/proteinSeqs" />
+        </stringParam>
+
+
+ <!--flatVocabParam name="BlastDatabase"
                      queryRef="SequenceVQ.BlastOrganismFiles"
                      visible='false'>
           <help/>
-        </flatVocabParam>
+        </flatVocabParam-->
 
         <enumParam name="BlastAlgorithm"
              prompt="BLAST Program"
@@ -173,7 +178,7 @@
              </sql>
         </sqlQuery>
 
-        <sqlQuery name="BlastOrganismFiles">
+        <!-- sqlQuery name="BlastOrganismFiles">
             <column name="internal" />
             <column name="term" />
             <sql>
@@ -184,7 +189,7 @@
   FROM DUAL
                 ]]>
             </sql>
-        </sqlQuery>
+        </sqlQuery -->
 
 
     </querySet>
