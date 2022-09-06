@@ -192,7 +192,7 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
             <paramValue name="BlastQuerySequence">ESEGARVGTPEGTDNNVRRPEEEKGREGERNGFLKSCALCLRGLGCAWCCQDFDAYELS</paramValue>
         </testParamValues>
 
-       <paramRef ref="sequenceParams.BlastDatabase" default="@BLASTDB_PATH@/build-%%buildNumber%%/blast/proteinSeqs" />
+       <paramRef ref="sequenceParams.BlastDatabase" default="@BLASTDB_PATH@/build-current/blast/proteinSeqs" />
        <paramRef ref="sequenceParams.BlastAlgorithm" />
        <paramRef ref="sequenceParams.BlastQuerySequence"/>
        <paramRef ref="sequenceParams.BlastRecordClass" default="SequenceRecordClasses.SequenceRecordClass" />
