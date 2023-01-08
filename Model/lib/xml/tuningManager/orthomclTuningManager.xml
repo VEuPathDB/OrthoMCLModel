@@ -1,6 +1,176 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tuningConfig>
 
+
+
+
+<tuningTable name="GroupLayoutEdges">
+    <internalDependency name="SequenceAttributes"/>
+    <externalDependency name="apidb.orthologgroup"/>
+    <externalDependency name="apidb.orthologcore"/>
+    <externalDependency name="apidb.orthologresiduals"/>
+    <externalDependency name="apidb.coorthologcore"/>
+    <externalDependency name="apidb.coorthologresiduals"/>
+    <externalDependency name="apidb.inparalogcore"/>
+    <externalDependency name="apidb.inparalogresiduals"/>
+    <externalDependency name="apidb.SimilarSequencesGroupCore ss"/>
+    <intermediateTable name="OrthologGroupEdgeType"/>
+    <sql>
+      <![CDATA[
+        create table OrthologGroupEdgeType as
+        select t.sequence_id_a
+             , t.sequence_id_b
+             , g.ortholog_group_id
+             , 'ortholog' as edge_type
+             , 'C' as group_core_residual
+        from APIDB.ORTHOLOGCORE t
+           , apidbtuning.sequenceattributes sa1
+           , apidbtuning.sequenceattributes sa2
+           , apidb.orthologgroup g
+        where t.sequence_id_a = sa1.full_id
+        and t.sequence_id_b = sa2.full_id
+        and sa1.group_name = g.name
+        and sa2.group_name = g.name
+        and g.NUMBER_OF_MEMBERS < 501
+        and g.core_peripheral_residual in ('P','R')
+      ]]>
+    </sql>
+    <sql>
+      <![CDATA[
+        insert into OrthologGroupEdgeType (
+        select t.sequence_id_a
+             , t.sequence_id_b
+             , g.ortholog_group_id
+             , 'ortholog' as edge_type
+             , 'R' as group_core_residual
+        from APIDB.ORTHOLOGRESIDUALS t
+           , apidbtuning.sequenceattributes sa1
+           , apidbtuning.sequenceattributes sa2
+           , apidb.orthologgroup g
+        where t.sequence_id_a = sa1.full_id
+        and t.sequence_id_b = sa2.full_id
+        and sa1.group_name = g.name
+        and sa2.group_name = g.name
+        and g.NUMBER_OF_MEMBERS < 501
+        and g.core_peripheral_residual in ('P','R')
+        )
+      ]]>
+    </sql>
+    <sql>
+      <![CDATA[
+        insert into OrthologGroupEdgeType (
+        select t.sequence_id_a
+             , t.sequence_id_b
+             , g.ortholog_group_id
+             , 'coortholog' as edge_type
+             , 'C' as group_core_residual
+        from APIDB.COORTHOLOGCORE t
+           , apidbtuning.sequenceattributes sa1
+           , apidbtuning.sequenceattributes sa2
+           , apidb.orthologgroup g
+        where t.sequence_id_a = sa1.full_id
+        and t.sequence_id_b = sa2.full_id
+        and sa1.group_name = g.name
+        and sa2.group_name = g.name
+        and g.NUMBER_OF_MEMBERS < 501
+        and g.core_peripheral_residual in ('P','R')
+        )
+      ]]>
+    </sql>
+    <sql>
+      <![CDATA[
+        insert into OrthologGroupEdgeType (
+        select t.sequence_id_a
+             , t.sequence_id_b
+             , g.ortholog_group_id
+             , 'coortholog' as edge_type
+             , 'R' as group_core_residual
+        from APIDB.COORTHOLOGRESIDUALS t
+           , apidbtuning.sequenceattributes sa1
+           , apidbtuning.sequenceattributes sa2
+           , apidb.orthologgroup g
+        where t.sequence_id_a = sa1.full_id
+        and t.sequence_id_b = sa2.full_id
+        and sa1.group_name = g.name
+        and sa2.group_name = g.name
+        and g.NUMBER_OF_MEMBERS < 501
+        and g.core_peripheral_residual in ('P','R')
+        )
+      ]]>
+    </sql>
+    <sql>
+      <![CDATA[
+        insert into OrthologGroupEdgeType (
+        select t.sequence_id_a
+             , t.sequence_id_b
+             , g.ortholog_group_id
+             , 'inparalog' as edge_type
+             , 'C' as group_core_residual
+        from APIDB.INPARALOGCORE t
+           , apidbtuning.sequenceattributes sa1
+           , apidbtuning.sequenceattributes sa2
+           , apidb.orthologgroup g
+        where t.sequence_id_a = sa1.full_id
+        and t.sequence_id_b = sa2.full_id
+        and sa1.group_name = g.name
+        and sa2.group_name = g.name
+        and g.NUMBER_OF_MEMBERS < 501
+        and g.core_peripheral_residual in ('P','R')
+        )
+      ]]>
+    </sql>
+    <sql>
+      <![CDATA[
+        insert into OrthologGroupEdgeType (
+        select t.sequence_id_a
+             , t.sequence_id_b
+             , g.ortholog_group_id
+             , 'inparalog' as edge_type
+             , 'R' as group_core_residual
+        from APIDB.INPARALOGRESIDUALS t
+           , apidbtuning.sequenceattributes sa1
+           , apidbtuning.sequenceattributes sa2
+           , apidb.orthologgroup g
+        where t.sequence_id_a = sa1.full_id
+        and t.sequence_id_b = sa2.full_id
+        and sa1.group_name = g.name
+        and sa2.group_name = g.name
+        and g.NUMBER_OF_MEMBERS < 501
+        and g.core_peripheral_residual in ('P','R')
+        )
+      ]]>
+    </sql>
+
+    <sql>
+      <![CDATA[
+        create table GroupLayoutEdges&1 nologging as
+        select ss.*
+             , t.edge_type
+             , t.group_core_residual
+        from OrthologGroupEdgeType t
+           , apidb.SimilarSequencesGroupCore ss
+        where t.ortholog_group_id = ss.ortholog_group_id
+        and  ss.query_id = t.sequence_id_a
+        AND ss.subject_id = t.sequence_id_b
+      ]]>
+    </sql>
+    <sql>
+      <![CDATA[
+        insert into GroupLayoutEdges&1 (
+        select ss.*
+             , t.edge_type
+             , t.group_core_residual
+        from OrthologGroupEdgeType t
+           , apidb.SimilarSequencesGroupCore ss
+        where t.ortholog_group_id = ss.ortholog_group_id
+        and  ss.query_id = t.sequence_id_b
+        AND ss.subject_id = t.sequence_id_a
+        )
+      ]]>
+    </sql>
+</tuningTable>
+
+
   <tuningTable name="SequenceAttributes">
     <externalDependency name="apidb.OrthologGroup"/>
     <externalDependency name="apidb.OrthologGroupAaSequence"/>
