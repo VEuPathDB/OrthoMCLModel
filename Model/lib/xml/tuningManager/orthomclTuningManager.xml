@@ -23,7 +23,7 @@
         select t.sequence_id_a
              , t.sequence_id_b
              , g.ortholog_group_id
-             , 'ortholog' as edge_type
+             , 'O' as edge_type
              , 'C' as group_core_residual
         from APIDB.ORTHOLOGCORE t
            , apidbtuning.sequenceattributes sa1
@@ -43,7 +43,7 @@
         select t.sequence_id_a
              , t.sequence_id_b
              , g.ortholog_group_id
-             , 'ortholog' as edge_type
+             , 'O' as edge_type
              , 'R' as group_core_residual
         from APIDB.ORTHOLOGRESIDUALS t
            , apidbtuning.sequenceattributes sa1
@@ -64,7 +64,7 @@
         select t.sequence_id_a
              , t.sequence_id_b
              , g.ortholog_group_id
-             , 'coortholog' as edge_type
+             , 'C' as edge_type
              , 'C' as group_core_residual
         from APIDB.COORTHOLOGCORE t
            , apidbtuning.sequenceattributes sa1
@@ -85,7 +85,7 @@
         select t.sequence_id_a
              , t.sequence_id_b
              , g.ortholog_group_id
-             , 'coortholog' as edge_type
+             , 'C' as edge_type
              , 'R' as group_core_residual
         from APIDB.COORTHOLOGRESIDUALS t
            , apidbtuning.sequenceattributes sa1
@@ -106,7 +106,7 @@
         select t.sequence_id_a
              , t.sequence_id_b
              , g.ortholog_group_id
-             , 'inparalog' as edge_type
+             , 'P' as edge_type
              , 'C' as group_core_residual
         from APIDB.INPARALOGCORE t
            , apidbtuning.sequenceattributes sa1
@@ -127,7 +127,7 @@
         select t.sequence_id_a
              , t.sequence_id_b
              , g.ortholog_group_id
-             , 'inparalog' as edge_type
+             , 'P' as edge_type
              , 'R' as group_core_residual
         from APIDB.INPARALOGRESIDUALS t
            , apidbtuning.sequenceattributes sa1
