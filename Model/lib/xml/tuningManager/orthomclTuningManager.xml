@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tuningConfig>
 
-
-
-
 <tuningTable name="GroupLayoutEdges">
     <internalDependency name="SequenceAttributes"/>
     <externalDependency name="apidb.orthologgroup"/>
@@ -25,15 +22,15 @@
              , g.ortholog_group_id
              , 'O' as edge_type
              , 'C' as group_core_residual
-        from APIDB.ORTHOLOGCORE t
-           , apidbtuning.sequenceattributes sa1
-           , apidbtuning.sequenceattributes sa2
-           , apidb.orthologgroup g
+        from apidb.OrthologCore t
+           , SequenceAttributes sa1
+           , SequenceAttributes sa2
+           , apidb.OrthologGroup g
         where t.sequence_id_a = sa1.full_id
         and t.sequence_id_b = sa2.full_id
         and sa1.group_name = g.name
         and sa2.group_name = g.name
-        and g.NUMBER_OF_MEMBERS < 501
+        and g.number_of_members < 501
         and g.core_peripheral_residual in ('P','R')
       ]]>
     </sql>
@@ -45,15 +42,15 @@
              , g.ortholog_group_id
              , 'O' as edge_type
              , 'R' as group_core_residual
-        from APIDB.ORTHOLOGRESIDUALS t
-           , apidbtuning.sequenceattributes sa1
-           , apidbtuning.sequenceattributes sa2
-           , apidb.orthologgroup g
+        from apidb.OrthologResiduals t
+           , SequenceAttributes sa1
+           , SequenceAttributes sa2
+           , apidb.OrthologGroup g
         where t.sequence_id_a = sa1.full_id
         and t.sequence_id_b = sa2.full_id
         and sa1.group_name = g.name
         and sa2.group_name = g.name
-        and g.NUMBER_OF_MEMBERS < 501
+        and g.number_of_members < 501
         and g.core_peripheral_residual in ('P','R')
         )
       ]]>
@@ -66,15 +63,15 @@
              , g.ortholog_group_id
              , 'C' as edge_type
              , 'C' as group_core_residual
-        from APIDB.COORTHOLOGCORE t
-           , apidbtuning.sequenceattributes sa1
-           , apidbtuning.sequenceattributes sa2
-           , apidb.orthologgroup g
+        from apidb.CoorthologCore t
+           , SequenceAttributes sa1
+           , SequenceAttributes sa2
+           , apidb.OrthologGroup g
         where t.sequence_id_a = sa1.full_id
         and t.sequence_id_b = sa2.full_id
         and sa1.group_name = g.name
         and sa2.group_name = g.name
-        and g.NUMBER_OF_MEMBERS < 501
+        and g.number_of_members < 501
         and g.core_peripheral_residual in ('P','R')
         )
       ]]>
@@ -87,15 +84,15 @@
              , g.ortholog_group_id
              , 'C' as edge_type
              , 'R' as group_core_residual
-        from APIDB.COORTHOLOGRESIDUALS t
-           , apidbtuning.sequenceattributes sa1
-           , apidbtuning.sequenceattributes sa2
-           , apidb.orthologgroup g
+        from apidb.CoorthologResiduals t
+           , SequenceAttributes sa1
+           , SequenceAttributes sa2
+           , apidb.OrthologGroup g
         where t.sequence_id_a = sa1.full_id
         and t.sequence_id_b = sa2.full_id
         and sa1.group_name = g.name
         and sa2.group_name = g.name
-        and g.NUMBER_OF_MEMBERS < 501
+        and g.number_of_members < 501
         and g.core_peripheral_residual in ('P','R')
         )
       ]]>
@@ -108,15 +105,15 @@
              , g.ortholog_group_id
              , 'P' as edge_type
              , 'C' as group_core_residual
-        from APIDB.INPARALOGCORE t
-           , apidbtuning.sequenceattributes sa1
-           , apidbtuning.sequenceattributes sa2
-           , apidb.orthologgroup g
+        from apidb.InparalogCore t
+           , SequenceAttributes sa1
+           , SequenceAttributes sa2
+           , apidb.OrthologGroup g
         where t.sequence_id_a = sa1.full_id
         and t.sequence_id_b = sa2.full_id
         and sa1.group_name = g.name
         and sa2.group_name = g.name
-        and g.NUMBER_OF_MEMBERS < 501
+        and g.number_of_members < 501
         and g.core_peripheral_residual in ('P','R')
         )
       ]]>
@@ -129,15 +126,15 @@
              , g.ortholog_group_id
              , 'P' as edge_type
              , 'R' as group_core_residual
-        from APIDB.INPARALOGRESIDUALS t
-           , apidbtuning.sequenceattributes sa1
-           , apidbtuning.sequenceattributes sa2
-           , apidb.orthologgroup g
+        from apidb.InparalogResiduals t
+           , SequenceAttributes sa1
+           , SequenceAttributes sa2
+           , apidb.OrthologGroup g
         where t.sequence_id_a = sa1.full_id
         and t.sequence_id_b = sa2.full_id
         and sa1.group_name = g.name
         and sa2.group_name = g.name
-        and g.NUMBER_OF_MEMBERS < 501
+        and g.number_of_members < 501
         and g.core_peripheral_residual in ('P','R')
         )
       ]]>
@@ -148,7 +145,7 @@
         create table GroupLayoutEdges&1 nologging as
         select ss.*
              , t.edge_type
-             , t.group_core_residual
+             , cast(null as varchar(1)) as group_core_residual
         from OrthologGroupEdgeType t
            , apidb.SimilarSequencesGroupCore ss
         where t.ortholog_group_id = ss.ortholog_group_id
@@ -161,7 +158,7 @@
         insert into GroupLayoutEdges&1 (
         select ss.*
              , t.edge_type
-             , t.group_core_residual
+             , cast(null as varchar(1)) as group_core_residual
         from OrthologGroupEdgeType t
            , apidb.SimilarSequencesGroupCore ss
         where t.ortholog_group_id = ss.ortholog_group_id
@@ -170,8 +167,26 @@
         )
       ]]>
     </sql>
-</tuningTable>
-
+    <sql>
+      <![CDATA[
+        insert into GroupLayoutEdges&1 (
+        select ss.*
+             , case
+	          when query_core_peripheral = 'P' and subject_core_peripheral = 'P'
+                    then 'M'
+                  when (query_core_peripheral = 'P' and subject_core_peripheral = 'C')
+                       or (query_core_peripheral = 'C' and subject_core_peripheral = 'P')
+                    then 'L'
+                  else 'N'
+               end as edge_type
+             , cast(null as varchar(1)) as group_core_residual
+        from apidb.SimilarSequencesGroupCore ss
+        where (ss.query_core_peripheral != 'C'
+               or ss.subject_core_peripheral != 'C')
+        )
+      ]]>
+    </sql>
+  </tuningTable>
 
   <tuningTable name="SequenceAttributes">
     <externalDependency name="apidb.OrthologGroup"/>
@@ -445,7 +460,6 @@ tablespace indx
     </sql>
 
   </tuningTable>
-
 
   <tuningTable name="PhyleticPattern">
     <externalDependency name="apidb.OrthologGroup"/>
@@ -883,7 +897,5 @@ tablespace indx
       ]]>
     </sql>
   </tuningTable>
-
-
 
 </tuningConfig>
