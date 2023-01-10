@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tuningConfig>
 
-<tuningTable name="GroupLayoutEdges">
+  <tuningTable name="GroupLayoutEdges">
     <internalDependency name="SequenceAttributes"/>
     <externalDependency name="apidb.orthologgroup"/>
 <!-- OrthologGroup Table is updated as last step in wf;these other tables do not have modification_date field
