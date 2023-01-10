@@ -181,6 +181,7 @@
                end as edge_type
              , cast(null as varchar(1)) as group_core_residual
         from apidb.SimilarSequencesGroupCore ss
+        -- we want every record, as long as the *_core_peripheral columns are not both 'C'
         where (ss.query_core_peripheral != 'C'
                or ss.subject_core_peripheral != 'C')
         )
