@@ -170,6 +170,7 @@
     <sql>
       <![CDATA[
         insert into GroupLayoutEdges&1 (
+check error handling
         select ss.*
              , case
 	          when query_core_peripheral = 'P' and subject_core_peripheral = 'P'
