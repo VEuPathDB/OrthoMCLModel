@@ -170,21 +170,24 @@
     <sql>
       <![CDATA[
         insert into GroupLayoutEdges&1 (
-        select --+ NO_PARALLEL
-               ss.*
+        select ss.*
              , case
-	          when query_core_peripheral = 'P' and subject_core_peripheral = 'P'
+	          when ss.query_core_peripheral = 'P' and ss.subject_core_peripheral = 'P'
                     then 'M'
-                  when (query_core_peripheral = 'P' and subject_core_peripheral = 'C')
-                       or (query_core_peripheral = 'C' and subject_core_peripheral = 'P')
+                  when (ss.query_core_peripheral = 'P' and ss.subject_core_peripheral = 'C')
+                       or (ss.query_core_peripheral = 'C' and ss.subject_core_peripheral = 'P')
                     then 'L'
                   else 'N'
                end as edge_type
              , cast(null as varchar(1)) as group_core_residual
         from apidb.SimilarSequencesGroupCore ss
+           , apidb.OrthologGroup g
         -- we want every record, as long as the *_core_peripheral columns are not both 'C'
         where (ss.query_core_peripheral != 'C'
                or ss.subject_core_peripheral != 'C')
+          and ss.ortholog_group_id = g.ortholog_group_id
+          and g.number_of_members < 501
+       -- and g.core_peripheral_residual in ('P','R') -- redundant(?) and forces a table access
         )
       ]]>
     </sql>
