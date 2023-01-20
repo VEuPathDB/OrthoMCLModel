@@ -191,6 +191,15 @@
         )
       ]]>
     </sql>
+    <sql>
+      <![CDATA[
+        create index gleix&1
+          on GroupLayoutEdges&1
+             (ortholog_group_id, edge_type, query_id, subject_id, evalue_mant, evalue_exp,
+              query_core_peripheral, subject_core_peripheral)
+          tablespace indx
+      ]]>
+    </sql>
   </tuningTable>
 
   <tuningTable name="SequenceAttributes">
