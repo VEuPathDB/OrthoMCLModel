@@ -202,6 +202,81 @@
     </sql>
   </tuningTable>
 
+  <tuningTable name="GroupLayout">
+    <internalDependency name="GroupLayoutEdges"/>
+    <externalDependency name="apidb.OrthologGroup"/>
+    <sql>
+      <![CDATA[
+        create table GroupLayout&1 nologging as
+        with nodeq
+             as (select group_name, full_id as id,
+                        row_number() over (partition by group_name order by full_id) as i
+                 from SequenceAttributes
+                ),
+             nodes
+             as (select group_name,
+                        json_arrayagg(node order by node) as nodes
+                 from (select group_name,
+                              json_object('id' VALUE id, 'i' VALUE i) as node
+                       from nodeq)
+                 group by group_name
+                ),
+             edges
+             as (select group_name,
+                        json_arrayagg(edge order by 1 returning clob) as edges
+                 from (select group_name,
+                              json_object('E' value evalue,
+                                          'T' value edge_type,
+                                          'S' value subject_node_id,
+                                          'Q' value query_node_id returning clob) as edge
+                       from (select *
+                             from (select -- gle.ortholog_group_id,
+                                          og.name as group_name, gle.query_id, query_nodeq.i query_node_id,
+                                          gle.subject_id, subject_nodeq.i subject_node_id,
+                                          gle.edge_type,
+                                          gle.evalue_mant || 'E' || gle.evalue_exp ||
+                                            case
+                                              when reverse_gle.query_id is null
+                                                then ''
+                                              else
+                                                '/' || reverse_gle.evalue_mant || 'E' || reverse_gle.evalue_exp
+                                            end as evalue,
+                                          row_number()
+                                              over (partition by least(gle.query_id, gle.subject_id) || '-'
+                                                                 || greatest(gle.query_id, gle.subject_id)
+                                              order by gle.evalue_exp) as rank_within_pair
+                                   from GroupLayoutEdges gle, GroupLayoutEdges reverse_gle,
+                                        apidb.OrthologGroup og, nodeq query_nodeq, nodeq subject_nodeq
+                                   where gle.ortholog_group_id = reverse_gle.ortholog_group_id(+)
+                                     and gle.subject_id = reverse_gle.query_id(+)
+                                     and gle.query_id = reverse_gle.subject_id(+)
+                                     and gle.ortholog_group_id = og.ortholog_group_id
+                                     and og.number_of_members <= 500
+                                     and gle.query_id = query_nodeq.id
+                                     and gle.subject_id = subject_nodeq.id
+                                   )
+                             where rank_within_pair = 1
+                            )
+                      )
+                 group by group_name
+                )
+        select nodes.group_name,
+               json_object('N' value nodes.nodes,
+                           'E' value edges.edges
+                           returning clob) as layout
+        from nodes, edges
+        where nodes.group_name = edges.group_name
+      ]]>
+    </sql>
+    <sql>
+      <![CDATA[
+        create index gleix&1
+          on GroupLayout&1 (group_name)
+          tablespace indx
+      ]]>
+    </sql>
+  </tuningTable>
+
   <tuningTable name="SequenceAttributes">
     <externalDependency name="apidb.OrthologGroup"/>
     <externalDependency name="apidb.OrthologGroupAaSequence"/>
