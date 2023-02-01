@@ -208,10 +208,20 @@
     <sql>
       <![CDATA[
         create table GroupLayout&1 nologging as
-        with nodeq
+        with smallgroups
+             as (  select name
+                   from apidb.OrthologGroup
+                 minus
+                   select name
+                   from apidb.OrthologGroup
+                   where number_of_members > 300
+                ),
+             nodeq
              as (select group_name, full_id as id,
                         row_number() over (partition by group_name order by full_id) as i
                  from SequenceAttributes
+                 where group_name
+                       in (select name from smallgroups)
                 ),
              nodes
              as (select group_name,
