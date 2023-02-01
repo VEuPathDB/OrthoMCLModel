@@ -146,6 +146,7 @@
         select ss.*
              , t.edge_type
              , cast(null as varchar(1)) as group_core_residual
+             , cast(null as varchar(20)) as group_name
         from OrthologGroupEdgeType t
            , apidb.SimilarSequencesGroupCore ss
         where t.ortholog_group_id = ss.ortholog_group_id
@@ -189,6 +190,24 @@
           and g.number_of_members < 501
        -- and g.core_peripheral_residual in ('P','R') -- redundant(?) and forces a table access
         )
+      ]]>
+    </sql>
+    <sql>
+      <![CDATA[
+        update GroupLayoutEdges&1 gle
+        set group_name
+            = (select name
+               from apidb.OrthologGroup
+               where ortholog_group_id = gle.ortholog_group_id)
+      ]]>
+    </sql>
+    <sql>
+      <![CDATA[
+        create index gleix2_&1
+          on GroupLayoutEdges&1
+             (group_name, ortholog_group_id, edge_type, query_id, subject_id,
+              evalue_mant, evalue_exp)
+          tablespace indx
       ]]>
     </sql>
     <sql>
