@@ -215,9 +215,9 @@
                 ),
              nodes
              as (select group_name,
-                        json_arrayagg(node order by node) as nodes
+                        json_arrayagg(node order by 1 returning clob) as nodes
                  from (select group_name,
-                              json_object('id' VALUE id, 'i' VALUE i) as node
+                              json_object('id' VALUE id, 'i' VALUE i returning clob) as node
                        from nodeq)
                  group by group_name
                 ),
