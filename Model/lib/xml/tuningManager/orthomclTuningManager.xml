@@ -22,6 +22,7 @@
              , g.ortholog_group_id
              , 'O' as edge_type
              , 'C' as group_core_residual
+             , g.name as group_name
         from apidb.OrthologCore t
            , SequenceAttributes sa1
            , SequenceAttributes sa2
@@ -42,6 +43,7 @@
              , g.ortholog_group_id
              , 'O' as edge_type
              , 'R' as group_core_residual
+             , g.name as group_name
         from apidb.OrthologResiduals t
            , SequenceAttributes sa1
            , SequenceAttributes sa2
@@ -63,6 +65,7 @@
              , g.ortholog_group_id
              , 'C' as edge_type
              , 'C' as group_core_residual
+             , g.name as group_name
         from apidb.CoorthologCore t
            , SequenceAttributes sa1
            , SequenceAttributes sa2
@@ -84,6 +87,7 @@
              , g.ortholog_group_id
              , 'C' as edge_type
              , 'R' as group_core_residual
+             , g.name as group_name
         from apidb.CoorthologResiduals t
            , SequenceAttributes sa1
            , SequenceAttributes sa2
@@ -105,6 +109,7 @@
              , g.ortholog_group_id
              , 'P' as edge_type
              , 'C' as group_core_residual
+             , g.name as group_name
         from apidb.InparalogCore t
            , SequenceAttributes sa1
            , SequenceAttributes sa2
@@ -126,6 +131,7 @@
              , g.ortholog_group_id
              , 'P' as edge_type
              , 'R' as group_core_residual
+             , g.name as group_name
         from apidb.InparalogResiduals t
            , SequenceAttributes sa1
            , SequenceAttributes sa2
@@ -146,7 +152,7 @@
         select ss.*
              , t.edge_type
              , cast(null as varchar(1)) as group_core_residual
-             , cast(null as varchar(20)) as group_name
+             , t.group_name
         from OrthologGroupEdgeType t
            , apidb.SimilarSequencesGroupCore ss
         where t.ortholog_group_id = ss.ortholog_group_id
@@ -160,6 +166,8 @@
         select ss.*
              , t.edge_type
              , cast(null as varchar(1)) as group_core_residual
+             , t.group_name
+             , t.group_name
         from OrthologGroupEdgeType t
            , apidb.SimilarSequencesGroupCore ss
         where t.ortholog_group_id = ss.ortholog_group_id
@@ -181,6 +189,7 @@
                   else 'N'
                end as edge_type
              , cast(null as varchar(1)) as group_core_residual
+             , g.name as group_name
         from apidb.SimilarSequencesGroupCore ss
            , apidb.OrthologGroup g
         -- we want every record, as long as the *_core_peripheral columns are not both 'C'
@@ -190,15 +199,6 @@
           and g.number_of_members < 501
        -- and g.core_peripheral_residual in ('P','R') -- redundant(?) and forces a table access
         )
-      ]]>
-    </sql>
-    <sql>
-      <![CDATA[
-        update GroupLayoutEdges&1 gle
-        set group_name
-            = (select name
-               from apidb.OrthologGroup
-               where ortholog_group_id = gle.ortholog_group_id)
       ]]>
     </sql>
     <sql>
