@@ -227,7 +227,8 @@
       <![CDATA[
         create table GroupLayout&1 nologging as
         with smallgroups
-             as (  select name
+             as (  select --+ NO_PARALLEL
+                          name
                    from apidb.OrthologGroup
                  minus
                    select name
