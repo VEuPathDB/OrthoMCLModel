@@ -233,7 +233,7 @@
                  minus
                    select name
                    from apidb.OrthologGroup
-                   where number_of_members > 300
+                   where number_of_members > 500
                 ),
              nodeq
              as (select group_name, full_id as id,
