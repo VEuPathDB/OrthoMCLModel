@@ -167,7 +167,6 @@
              , t.edge_type
              , cast(null as varchar(1)) as group_core_residual
              , t.group_name
-             , t.group_name
         from OrthologGroupEdgeType t
            , apidb.SimilarSequencesGroupCore ss
         where t.ortholog_group_id = ss.ortholog_group_id
@@ -260,7 +259,7 @@
                                           'Q' value query_node_id returning clob) as edge
                        from (select *
                              from (select -- gle.ortholog_group_id,
-                                          og.name as group_name, gle.query_id, query_nodeq.i query_node_id,
+                                          gle.group_name, gle.query_id, query_nodeq.i query_node_id,
                                           gle.subject_id, subject_nodeq.i subject_node_id,
                                           gle.edge_type,
                                           gle.evalue_mant || 'E' || gle.evalue_exp ||
@@ -275,12 +274,10 @@
                                                                  || greatest(gle.query_id, gle.subject_id)
                                               order by gle.evalue_exp) as rank_within_pair
                                    from GroupLayoutEdges gle, GroupLayoutEdges reverse_gle,
-                                        apidb.OrthologGroup og, nodeq query_nodeq, nodeq subject_nodeq
+                                        nodeq query_nodeq, nodeq subject_nodeq
                                    where gle.ortholog_group_id = reverse_gle.ortholog_group_id(+)
                                      and gle.subject_id = reverse_gle.query_id(+)
                                      and gle.query_id = reverse_gle.subject_id(+)
-                                     and gle.ortholog_group_id = og.ortholog_group_id
-                                     and og.number_of_members <= 500
                                      and gle.query_id = query_nodeq.id
                                      and gle.subject_id = subject_nodeq.id
                                    )
