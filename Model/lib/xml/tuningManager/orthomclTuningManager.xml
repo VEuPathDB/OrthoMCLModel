@@ -297,7 +297,7 @@
     </sql>
     <sql>
       <![CDATA[
-        create index gleix&1
+        create index gl_ix&1
           on GroupLayout&1 (group_name)
           tablespace indx
       ]]>
