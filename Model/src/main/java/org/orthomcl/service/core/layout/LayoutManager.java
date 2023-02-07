@@ -41,9 +41,9 @@ public abstract class LayoutManager {
       GeneNode node = new GeneNode(group.getGene(sourceId));
       node.setIndex(jsNode.getInt("i"));
 
-      double x = Double.valueOf(jsNode.getString("x"));
-      double y = Double.valueOf(jsNode.getString("y"));
-      node.setLocation(x, y);
+      // double x = Double.valueOf(jsNode.getString("x"));
+      // double y = Double.valueOf(jsNode.getString("y"));
+      // node.setLocation(x, y);
       layout.addNode(node);
     }
 

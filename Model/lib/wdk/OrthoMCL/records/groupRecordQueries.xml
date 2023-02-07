@@ -83,10 +83,10 @@
             <column name="layout"/>
             <sql>
             <![CDATA[
-                SELECT g.name AS group_name, l.layout
-                FROM apidb.OrthologGroup g, apidb.OrthologGroupLayoutCore l 
-		WHERE g.ortholog_group_id = l.ortholog_group_id(+)
-		     and g.core_peripheral_residual in ('P','R')
+                select g.name AS group_name, l.layout
+                from apidb.OrthologGroup g, apidbTuning.GroupLayout l
+                where g.name = l.group_name(+)
+                  and g.core_peripheral_residual in ('P','R')
                         ]]>
             </sql>
         </sqlQuery>
