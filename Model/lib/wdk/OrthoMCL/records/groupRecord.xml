@@ -259,8 +259,8 @@
             <textAttribute name="alveolata" displayName="Alveolata" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div class=".phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class=".phyletic-distribution-tooltiptext"><div style="text-align:center";><b>ALVEOLATA</b></div>
+		      <div class="phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="phyletic-distribution-tooltiptext"><div style="text-align:center";><b>ALVEOLATA</b></div>
 				Ciliates: <span style="float:right;">$$alveolata_cili_actual$$ / $$alveolata_cili_total$$</span><br>
 			        Apicomplexa<br>
 				&emsp;Haemosporida: <span style="float:right;">$$alveolata_haem_actual$$ / $$alveolata_haem_total$$</span><br>
@@ -289,8 +289,8 @@
             <textAttribute name="archaea" displayName="Archaea" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div class=".phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class=".phyletic-distribution-tooltiptext"><div style="text-align:center";><b>ARCHAEA</b></div>
+		      <div class="phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="phyletic-distribution-tooltiptext"><div style="text-align:center";><b>ARCHAEA</b></div>
 			       Euryarchaeota: <span style="float:right;">$$archaea_eury_actual$$ / $$archaea_eury_total$$</span><br>
 			       Crenarchaeota: <span style="float:right;">$$archaea_cren_actual$$ / $$archaea_cren_total$$</span><br>
 			       Nanoarchaeota: <span style="float:right;">$$archaea_nano_actual$$ / $$archaea_nano_total$$</span><br>
@@ -317,8 +317,8 @@
             <textAttribute name="amoeba" displayName="Amoeba" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div class=".phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class=".phyletic-distribution-tooltiptext"><div style="text-align:center";><b>AMOEBA genera</b></div>
+		      <div class="phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="phyletic-distribution-tooltiptext"><div style="text-align:center";><b>AMOEBA genera</b></div>
 			        $$amoe_genera_html$$
 			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
@@ -341,8 +341,8 @@
             <textAttribute name="bacteria" displayName="Bacteria" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div class=".phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class=".phyletic-distribution-tooltiptext"><div style="text-align:center";><b>BACTERIA</b></div>
+		      <div class="phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="phyletic-distribution-tooltiptext"><div style="text-align:center";><b>BACTERIA</b></div>
 			       Firmicutes: <span style="float:right;">$$bacteria_firm_actual$$ / $$bacteria_firm_total$$</span><br>
 			       alpha-Proteobacteria: <span style="float:right;">$$bacteria_proa_actual$$ / $$bacteria_proa_total$$</span><br>
 			       beta-Proteobacteria: <span style="float:right;">$$bacteria_prob_actual$$ / $$bacteria_prob_total$$</span><br>
@@ -371,8 +371,8 @@
             <textAttribute name="fungi" displayName="Fungi" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div class=".phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class=".phyletic-distribution-tooltiptext"><div style="text-align:center";><b>FUNGI</b></div>
+		      <div class="phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="phyletic-distribution-tooltiptext"><div style="text-align:center";><b>FUNGI</b></div>
 			       Microsporidia: <span style="float:right;">$$fungi_micr_actual$$ / $$fungi_micr_total$$</span><br>
 			       Basidiomycota: <span style="float:right;">$$fungi_basi_actual$$ / $$fungi_basi_total$$</span><br>
 			       Ascomycota: <span style="float:right;">$$fungi_asco_actual$$ / $$fungi_asco_total$$</span><br>
@@ -400,8 +400,8 @@
             <textAttribute name="euglenozoa" displayName="Euglenozoa" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div class=".phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class=".phyletic-distribution-tooltiptext"><div style="text-align:center";><b>EUGLENOZOA genera</b></div>
+		      <div class="phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="phyletic-distribution-tooltiptext"><div style="text-align:center";><b>EUGLENOZOA genera</b></div>
 			        $$eugl_genera_html$$
 			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
@@ -424,8 +424,8 @@
             <textAttribute name="metazoa" displayName="Metazoa" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div class=".phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class=".phyletic-distribution-tooltiptext"><div style="text-align:center";><b>METAZOA</b></div>
+		      <div class="phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="phyletic-distribution-tooltiptext"><div style="text-align:center";><b>METAZOA</b></div>
 			       Nematoda: <span style="float:right;">$$metazoa_nema_actual$$ / $$metazoa_nema_total$$</span><br>
 			       Arthropoda: <span style="float:right;">$$metazoa_arth_actual$$ / $$metazoa_arth_total$$</span><br>
 			       Chordata<br>
@@ -456,8 +456,8 @@
             <textAttribute name="viridiplantae" displayName="Viridiplantae" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div class=".phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class=".phyletic-distribution-tooltiptext"><div style="text-align:center";><b>VIRIDIPLANTAE</b></div>
+		      <div class="phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="phyletic-distribution-tooltiptext"><div style="text-align:center";><b>VIRIDIPLANTAE</b></div>
 			       Streptophyta: <span style="float:right;">$$viridiplantae_stre_actual$$ / $$viridiplantae_stre_total$$</span><br>
 			       Chlorophyta: <span style="float:right;">$$viridiplantae_chlo_actual$$ / $$viridiplantae_chlo_total$$</span><br>
 			       Rhodophyta: <span style="float:right;">$$viridiplantae_rhod_actual$$ / $$viridiplantae_rhod_total$$</span><br>
@@ -483,8 +483,8 @@
             <textAttribute name="other_eukaryotes" displayName="Other_Eukaryotes" truncateTo="100000" >
 	      <display>
                   <![CDATA[
-		      <div class=".phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
-		          <span class=".phyletic-distribution-tooltiptext"><div style="text-align:center";><b>OTHER EUKARYOTES genera</b></div>
+		      <div class="phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
+		          <span class="phyletic-distribution-tooltiptext"><div style="text-align:center";><b>OTHER EUKARYOTES genera</b></div>
 			       $$oeuk_genera_html$$
 			  </span>			  
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
