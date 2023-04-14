@@ -267,6 +267,8 @@
                                             case
                                               when reverse_gle.query_id is null
                                                 then ''
+                                              when gle.evalue_exp = reverse_gle.evalue_exp
+                                                then ''
                                               else
                                                 '/' || reverse_gle.evalue_mant || 'E' || reverse_gle.evalue_exp
                                             end as evalue,
