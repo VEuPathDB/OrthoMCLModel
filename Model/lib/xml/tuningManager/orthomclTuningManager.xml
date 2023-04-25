@@ -263,16 +263,12 @@
                                           gle.group_name, gle.query_id, query_nodeq.i query_node_id,
                                           gle.subject_id, subject_nodeq.i subject_node_id,
                                           gle.edge_type,
-                                   --     gle.evalue_mant || 'E' || gle.evalue_exp ||
-                                   --       case
-                                   --         when reverse_gle.query_id is null
-                                   --           then ''
-                                   --         when gle.evalue_exp = reverse_gle.evalue_exp
-                                   --           then ''
-                                   --         else
-                                   --           '/' || reverse_gle.evalue_mant || 'E' || reverse_gle.evalue_exp
-                                   --       end
-                                          reverse_gle.evalue_mant || 'E' || reverse_gle.evalue_exp as evalue,
+                                          case
+                                            when reverse_gle.query_id is null
+                                              then gle.evalue_mant || 'E' || gle.evalue_exp
+                                            else
+                                              reverse_gle.evalue_mant || 'E' || reverse_gle.evalue_exp
+                                          end as evalue,
                                           row_number()
                                               over (partition by least(gle.query_id, gle.subject_id) || '-'
                                                                  || greatest(gle.query_id, gle.subject_id)
