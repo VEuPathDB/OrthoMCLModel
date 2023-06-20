@@ -111,8 +111,9 @@ SELECT 'helper' AS helper_id, ot.name, ot.three_letter_abbrev,
        od.resource_name, od.resource_url, od.resource_version,
        case ot.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral,
        CASE SUBSTR(ot.three_letter_abbrev,5,4) WHEN '-old' THEN 'no' ELSE 'most_recent' END as most_recent,
+       t.ncbi_tax_id,
        stats.sequences, stats.clustered_sequences, stats.groups
-FROM apidb.OrthomclTaxon ot, apidb.OrthomclResource od,
+FROM apidb.OrthomclTaxon ot, apidb.OrthomclResource od, sres.Taxon t,
      (select orthomcl_taxon_id, count(*) sequences,
              count(distinct ortholog_group_id) groups,
              sum(case when ortholog_group_id is null then 0 else 1 end) clustered_sequences                         
@@ -121,6 +122,7 @@ FROM apidb.OrthomclTaxon ot, apidb.OrthomclResource od,
 WHERE od.orthomcl_taxon_id(+) = ot.orthomcl_taxon_id
       AND ot.orthomcl_taxon_id = stats.orthomcl_taxon_id(+)
       AND ot.is_species != 0
+      AND ot.orthomcl_taxon_id = t.taxon_id(+)
 ORDER BY ot.name
             ]]>
             </sql>
