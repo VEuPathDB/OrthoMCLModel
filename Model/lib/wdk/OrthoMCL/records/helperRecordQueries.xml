@@ -122,7 +122,7 @@ FROM apidb.OrthomclTaxon ot, apidb.OrthomclResource od, sres.Taxon t,
 WHERE od.orthomcl_taxon_id(+) = ot.orthomcl_taxon_id
       AND ot.orthomcl_taxon_id = stats.orthomcl_taxon_id(+)
       AND ot.is_species != 0
-      AND ot.orthomcl_taxon_id = t.taxon_id(+)
+      AND ot.taxon_id = t.taxon_id(+)
 ORDER BY ot.name
             ]]>
             </sql>
