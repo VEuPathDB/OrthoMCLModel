@@ -101,6 +101,7 @@ order by cats.category nulls first, is_species desc, name
             <column name="resource_name"/>
             <column name="resource_url"/>
             <column name="resource_version"/>
+            <column name="ncbi_tax_id"/>
             <column name="sequences"/>
             <column name="clustered_sequences"/>
             <column name="groups"/>

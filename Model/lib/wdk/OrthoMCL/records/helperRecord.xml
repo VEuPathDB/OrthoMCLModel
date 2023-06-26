@@ -62,7 +62,7 @@
                 <columnAttribute name="groups" displayName="# Ortholog Groups" />
                 <columnAttribute name="most_recent" displayName="Most recent version" />
                 <columnAttribute name="ncbi_tax_id" internal="true" />
-                <linkAttribute displayName="NCBI Taxonomy ID" name="taxon_link" inReportMaker="false" internal="false" help="Taxonomy ID. Click to visit this organism's page at the NCBI Taxonomy">
+                <linkAttribute displayName="NCBI Taxonomy ID" name="ncbi_taxon_link" inReportMaker="false" internal="false" help="Taxonomy ID. Click to visit this organism's page at the NCBI Taxonomy">
 		   <displayText>
 		     <![CDATA[ $$ncbi_tax_id$$  ]]>
 		   </displayText>
@@ -72,6 +72,7 @@
 		     ]]>
 		   </url>
                 </linkAttribute>
+
             </table>
     
             <table name="RootTaxons" queryRef="HelperTables.RootTaxons">
