@@ -55,7 +55,11 @@
                 <columnAttribute name="core_peripheral" displayName="Core/Peripheral" />
                 <columnAttribute name="three_letter_abbrev" displayName="Abbreviation" />
                 <columnAttribute name="resource_name" displayName="Resource" />
-                <columnAttribute name="resource_url" displayName="URL for proteome" />
+                <columnAttribute name="resource_url" internal="true" displayName="URL for proteome" />
+                <linkAttribute name="resource_url_link" displayName="URL for proteome">
+                    <url>$$resource_url$$</url>
+                    <displayText>$$resource_url$$</displayText>
+                </linkAttribute>
                 <columnAttribute name="resource_version" displayName="Proteome Version" />
                 <columnAttribute name="sequences" displayName="# Proteins" />
                 <columnAttribute name="clustered_sequences" displayName="# Proteins in Groups" />
@@ -63,14 +67,14 @@
                 <columnAttribute name="most_recent" displayName="Most recent version" />
                 <columnAttribute name="ncbi_tax_id" internal="true" />
                 <linkAttribute displayName="NCBI Taxonomy ID" name="ncbi_taxon_link" inReportMaker="false" internal="false" help="Taxonomy ID. Click to visit this organism's page at the NCBI Taxonomy">
-		   <displayText>
-		     <![CDATA[ $$ncbi_tax_id$$  ]]>
-		   </displayText>
-		   <url>
-		     <![CDATA[
-			      https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=$$ncbi_tax_id$$
-		     ]]>
-		   </url>
+                    <displayText>
+                        <![CDATA[ $$ncbi_tax_id$$  ]]>
+                    </displayText>
+                    <url>
+                        <![CDATA[
+                            https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=$$ncbi_tax_id$$
+                            ]]>
+                    </url>
                 </linkAttribute>
 
             </table>
