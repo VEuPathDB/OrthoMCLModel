@@ -92,7 +92,7 @@ order by cats.category nulls first, is_species desc, name
             </sql>
         </sqlQuery>
 
-        
+
         <sqlQuery name="DataSummary" isCacheable="true">
             <column name="helper_id"/>
             <column name="name"/>
@@ -101,7 +101,8 @@ order by cats.category nulls first, is_species desc, name
             <column name="resource_name"/>
             <column name="resource_url"/>
             <column name="resource_version"/>
-            <column name="ncbi_tax_id"/>
+            <column name="ncbi_taxon_id"/>
+            <column name="ncbi_taxon_url"/>
             <column name="sequences"/>
             <column name="clustered_sequences"/>
             <column name="groups"/>
@@ -112,7 +113,8 @@ SELECT 'helper' AS helper_id, ot.name, ot.three_letter_abbrev,
        od.resource_name, od.resource_url, od.resource_version,
        case ot.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral,
        CASE SUBSTR(ot.three_letter_abbrev,5,4) WHEN '-old' THEN 'no' ELSE 'most_recent' END as most_recent,
-       t.ncbi_tax_id,
+       t.ncbi_tax_id as ncbi_taxon_id,
+'https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=' || t.ncbi_tax_id AS ncbi_taxon_url,
        stats.sequences, stats.clustered_sequences, stats.groups
 FROM apidb.OrthomclTaxon ot, apidb.OrthomclResource od, sres.Taxon t,
      (select orthomcl_taxon_id, count(*) sequences,
