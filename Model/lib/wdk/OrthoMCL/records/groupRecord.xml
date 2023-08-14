@@ -747,6 +747,43 @@
               <columnAttribute name="frequency"/>
             </table>
 
+
+          <table name="PhyleticDistributionCounts"
+                 displayName="Phyletic Distribution Counts"
+                 queryRef="GroupTables.PhyleticDistributionCounts">
+              <columnAttribute name="group_name" displayName="Ortholog Group" />
+	      <columnAttribute name="alveolata_actual"  />
+	      <columnAttribute name="alveolata_total"  />
+	      <columnAttribute name="alveolata_percent"  />
+	      <columnAttribute name="archaea_actual"  />
+	      <columnAttribute name="archaea_total"  />
+	      <columnAttribute name="archaea_percent"  />
+	      <columnAttribute name="amoeba_actual"  />
+	      <columnAttribute name="amoeba_total"  />
+	      <columnAttribute name="amoeba_percent"  />
+	      <columnAttribute name="bacteria_actual"  />
+	      <columnAttribute name="bacteria_total"  />
+	      <columnAttribute name="bacteria_percent"  />
+	      <columnAttribute name="fungi_actual"  />
+	      <columnAttribute name="fungi_total"  />
+	      <columnAttribute name="fungi_percent"  />
+	      <columnAttribute name="euglenozoa_actual"  />
+	      <columnAttribute name="euglenozoa_total"  />
+	      <columnAttribute name="euglenozoa_percent"  />
+	      <columnAttribute name="metazoa_actual"  />
+	      <columnAttribute name="metazoa_total"  />
+	      <columnAttribute name="metazoa_percent"  />
+	      <columnAttribute name="viridiplantae_actual"  />
+	      <columnAttribute name="viridiplantae_total"  />
+	      <columnAttribute name="viridiplantae_percent"  />
+	      <columnAttribute name="other_eukaryotes_actual"  />
+	      <columnAttribute name="other_eukaryotes_total"  />
+	      <columnAttribute name="other_eukaryotes_percent"  />
+
+            </table>
+
+
+
         </recordClass>
 
     </recordClassSet>

@@ -482,5 +482,47 @@ FROM apidbtuning.PhyleticPattern
         </sqlQuery>
 
 
+        <sqlQuery name="PhyleticDistributionCounts">
+              <column name="group_name" />
+	      <column name="alveolata_actual"  />
+	      <column name="alveolata_total"  />
+	      <column name="alveolata_percent"  />
+	      <column name="archaea_actual"  />
+	      <column name="archaea_total"  />
+	      <column name="archaea_percent"  />
+	      <column name="amoeba_actual"  />
+	      <column name="amoeba_total"  />
+	      <column name="amoeba_percent"  />
+	      <column name="bacteria_actual"  />
+	      <column name="bacteria_total"  />
+	      <column name="bacteria_percent"  />
+	      <column name="fungi_actual"  />
+	      <column name="fungi_total"  />
+	      <column name="fungi_percent"  />
+	      <column name="euglenozoa_actual"  />
+	      <column name="euglenozoa_total"  />
+	      <column name="euglenozoa_percent"  />
+	      <column name="metazoa_actual"  />
+	      <column name="metazoa_total"  />
+	      <column name="metazoa_percent"  />
+	      <column name="viridiplantae_actual"  />
+	      <column name="viridiplantae_total"  />
+	      <column name="viridiplantae_percent"  />
+	      <column name="other_eukaryotes_actual"  />
+	      <column name="other_eukaryotes_total"  />
+	      <column name="other_eukaryotes_percent"  />
+          <sql>
+            <![CDATA[
+     SELECT group_name,
+       alveolata_actual,alveolata_total,alveolata_percent,archaea_actual,archaea_total,archaea_percent,
+       amoeba_actual,amoeba_total,amoeba_percent,bacteria_actual,bacteria_total,bacteria_percent,
+       fungi_actual,fungi_total,fungi_percent,euglenozoa_actual,euglenozoa_total,euglenozoa_percent,
+       metazoa_actual,metazoa_total,metazoa_percent,viridiplantae_actual,viridiplantae_total,viridiplantae_percent,
+       other_eukaryotes_actual,other_eukaryotes_total,other_eukaryotes_percent
+     FROM apidbtuning.PhyleticPattern
+            ]]>
+          </sql>
+        </sqlQuery>
+
     </querySet>
 </wdkModel>
