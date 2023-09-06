@@ -751,7 +751,7 @@
           <table name="PhyleticDistributionCounts"
                  displayName="Phyletic Distribution clade abundance"
                  queryRef="GroupTables.PhyleticDistributionCounts">
-              <columnAttribute name="group_name" displayName="Ortholog Group" />
+              <columnAttribute name="group_name" internal="true" />
 	      <columnAttribute name="alveolata_actual"  />
 	      <columnAttribute name="alveolata_total"  />
 	      <columnAttribute name="alveolata_percent"  />
