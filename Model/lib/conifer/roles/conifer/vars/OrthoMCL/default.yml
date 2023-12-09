@@ -25,7 +25,7 @@ modelprop:
   USE_LEGACY_RECORD_PAGE: 'false'
   WEBAPP_BASE_URL: "/{{ webapp_ctx }}/app"
   SERVICE_BASE_URL: "/{{ webapp_ctx }}/service"
-  WEBSERVICEMIRROR: /eupath/data/apiSiteFiles/webServices/OrthoMCL
+  WEBSERVICEMIRROR: /var/www/Common/apiSiteFilesMirror/webServices
   YOUTUBE_URL: https://youtube.com/user/EuPathDB/videos?sort=dd&flow=list&view=1
   SITE_SEARCH_SERVICE_URL: /site-search
 
