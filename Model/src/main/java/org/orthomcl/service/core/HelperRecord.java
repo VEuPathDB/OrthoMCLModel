@@ -2,7 +2,6 @@ package org.orthomcl.service.core;
 
 import org.gusdb.wdk.model.WdkModel;
 import org.gusdb.wdk.model.WdkModelException;
-import org.gusdb.wdk.model.WdkUserException;
 import org.gusdb.wdk.model.answer.AnswerValue;
 import org.gusdb.wdk.model.answer.factory.AnswerValueFactory;
 import org.gusdb.wdk.model.answer.spec.AnswerSpec;
@@ -15,7 +14,7 @@ public class HelperRecord {
 
   private static final String HELPER_QUESTION = "HelperQuestions.ByDefault";
 
-  public static RecordInstance get(WdkModel wdkModel) throws WdkModelException, WdkUserException {
+  public static RecordInstance get(WdkModel wdkModel) throws WdkModelException {
     // load helper record into request
     Question question = wdkModel.getQuestionByFullName(HELPER_QUESTION)
         .orElseThrow(() -> new WdkModelException(HELPER_QUESTION + " does not exist in this model."));
