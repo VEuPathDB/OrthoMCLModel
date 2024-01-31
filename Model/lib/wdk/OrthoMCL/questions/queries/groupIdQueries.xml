@@ -111,6 +111,7 @@ WHERE sa.aa_sequence_id = asi.aa_sequence_id
             <paramRef ref="groupParams.core_count"/>
             <paramRef ref="groupParams.peripheral_count"/>
             <paramRef ref="groupParams.all_count"/>
+            <paramRef ref="groupParams.range_fields"/>
             <column name="group_name"/>
             <column name="core_num"/>
             <column name="peripheral_num"/>

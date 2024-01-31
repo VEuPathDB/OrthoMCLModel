@@ -56,6 +56,32 @@
             <suggest default="{'min':'1', 'max':'499'}" />
         </numberRangeParam>
 
+       <enumParam name="range_fields"
+                  prompt="Fields"
+                  multiPick="true">
+          <help>                                                                                                                                                                                          
+                 Choose which range fields to filter on.     
+          </help>
+          <enumList>
+
+            <enumValue default="true">
+              <term>Total Number</term>
+              <internal>total</internal>
+            </enumValue>
+
+            <enumValue default="false">
+              <term>Core Sequences</term>
+              <internal>core</internal>
+            </enumValue>
+
+            <enumValue default="false">
+              <term>Peripheral</term>
+              <internal>peripheral</internal>
+            </enumValue>
+
+          </enumList>
+       </enumParam>
+
         <numberRangeParam name="core_taxon" 
 			  prompt="Number of Core Taxa"
 			  integer="true"
