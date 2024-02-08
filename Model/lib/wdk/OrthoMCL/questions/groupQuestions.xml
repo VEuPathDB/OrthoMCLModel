@@ -14,73 +14,6 @@
         ]]>
       </description>
 
-      <question name="GroupsByNameList" queryRef="GroupIds.ByNameList" 
-		displayName="Group ID(s)"
-                recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <description>
-	  <![CDATA[
-                Find Ortholog Groups by ID(s) assigned in the current or previous releases of OrthoMCL.
-			]]>
-        </description>
-      </question>
-
-      <question name="GroupsByAccession" queryRef="GroupIds.ByAccession" 
-                displayName="Group or Sequence ID"
-                recordClassRef="GroupRecordClasses.GroupRecordClass"
-                noSummaryOnSingleRecord="true">
-        <description>
-          <![CDATA[
-                Find Ortholog Groups by an ID assigned in the current or previous releases of OrthoMCL.
-                        ]]>
-        </description>
-      </question>
-
-      <question name="GroupsByText" queryRef="GroupIds.ByTextSearch"
-                displayName="Text Terms"
-                shortDisplayName="Text"
-                recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <description>
-	  <![CDATA[
-                Find Ortholog Groups based on text terms.
-			]]>
-        </description>
-            <dynamicAttributes>
-                <!--<columnAttribute name="fields_matched"
-                           displayName="Found in"/>-->
-                <columnAttribute name="max_score"
-                           displayName="Score" align="center"/>
-            </dynamicAttributes>
-            <attributesList
-               summary="max_score,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-               sorting="max_score desc,number_of_members desc"/>
-      </question>
-
-
-      <question name="GroupsByPFamIdOrKeyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
-                displayName="PFam ID or Keyword"
-                shortDisplayName="PFam"
-                recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <description>
-          <![CDATA[
-                Find Ortholog Groups that contain one or more Sequences with the specified PFam domain.
-                        ]]>
-        </description>
-      </question>
-
-
-      <question name="GroupsByEcNumber" queryRef="GroupIds.ByEcNumber" 
-                displayName="EC Number" shortDisplayName="Enzymes"
-                recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <description>
-          <![CDATA[ Find groups that have one or more proteins that are assigned a specific Enzyme Commission (EC) Number]]>
-        </description>
-      <propertyList name="radio-params">
-        <value>ec_number_type_ahead</value>
-        <value>ec_wildcard</value>
-      </propertyList>
-
-      </question>
-
       <question name="GroupsBySequenceCount" queryRef="GroupIds.BySequenceCount" 
                 displayName="Number of Sequences"
                 shortDisplayName="Number Seqs"
@@ -102,7 +35,6 @@
       </dynamicAttributes>
 
       </question>
-
 
       <question name="GroupsByGenomeCount" queryRef="GroupIds.ByGenomeCount" 
                 displayName="Number of Taxa"
@@ -127,80 +59,103 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
 
       </question>
 
-      <question name="GroupsByHomology" queryRef="GroupIds.ByAvgHomology" 
-                displayName="Avg % Homology"
-                shortDisplayName="Avg Homol"
+      <question name="GroupsBySingleCopy" queryRef="GroupIds.ByGenomeCount" 
+                displayName="Single Copy Orthogroups"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <attributesList
-           summary="avg_connectivity,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-           sorting="avg_connectivity desc"
-           /> 
-        <summary>
-          <![CDATA[
-                Find Ortholog Groups by the average percent homology of the sequences in the group.
-                        ]]>
-        </summary>
         <description>
           <![CDATA[
-                   Find Ortholog Groups by the average percent homology of proteins in the group. Importantly, homology only applies to core proteins in a 'Core' group and peripheral proteins in a 'Residual' group, because only these proteins are used in the OrthoMCL algorithm to define groups. (Peripheral proteins that map to a Core Group are not assigned homology, and thus are not included in this search.) For example, consider a Core group containing 5 core proteins. A protein in this group has 75% homology if it is a Ortholog, CoOrtholog or Inparalog of 3 of the 4 other proteins, as assigned by the OrthoMCL algorithm. The average percent equals each protein's % homology divided by the number of proteins in the group.
+                        ]]>
+        </description>
+
+        <attributesList
+            summary="core_count,peripheral_count,all_count,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
+            sorting="all_count desc"
+            /> 
+
+      <dynamicAttributes>
+        <columnAttribute name="core_count" displayName="Num Core Taxa"/>
+        <columnAttribute name="peripheral_count" displayName="Num Peripheral Taxa"/>
+        <columnAttribute name="all_count" displayName="Num Total Taxa"/>
+      </dynamicAttributes>
+
+      </question>
+
+      <question name="GroupsByOverlap" queryRef="GroupIds.ByPfamIdOrKeyword" 
+                displayName="Group Overlap"
+                shortDisplayName="Overlap"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+          <![CDATA[
                         ]]>
         </description>
       </question>
 
-
-      <question name="GroupsByPercentMatchPairs" queryRef="GroupIds.ByPercentMatchPairs" 
-                displayName="% Pairs w/ Similarity"
-                shortDisplayName="% Sim Pairs"
+      <question name="GroupsBySimilarity" queryRef="GroupIds.ByPfamIdOrKeyword" 
+                displayName="Number Of Similar Groups"
+                shortDisplayName="Similar"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <attributesList
-           summary="percent_match_pairs,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-           sorting="percent_match_pairs desc"
-           /> 
-        <summary>
-          <![CDATA[
-                Find Ortholog Groups by the percentage of the protein pairs that are considered similar, based on two thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. For examaple, a group of size 5 can have a maximum of 10 unique pairs. If 8 of these pairs meet the criteria, then the % matched pairs = 80%. Note that this search considers ALL of the proteins (core and peripheral) in a group.
-                        ]]>
-        </summary>
         <description>
           <![CDATA[
-		Find Ortholog Groups by the percentage of the protein pairs that are considered similar, based on two thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. For examaple, a group of size 5 can have a maximum of 10 unique pairs. If 8 of these pairs meet the criteria, then the % matched pairs = 80%. Note that this search considers ALL of the proteins (core and peripheral) in a group.
                         ]]>
         </description>
       </question>
 
-
-      <question name="GroupsByPercentIdentity" queryRef="GroupIds.ByPercentIdentity" 
-                displayName="Avg % Identity"
+      <question name="GroupsByNameList" queryRef="GroupIds.ByNameList" 
+		displayName="Group ID(s)"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <attributesList
-           summary="avg_percent_identity,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-           sorting="avg_percent_identity desc"
-           /> 
+        <description>
+	  <![CDATA[
+                Find Ortholog Groups by ID(s) assigned in the current or previous releases of OrthoMCL.
+			]]>
+        </description>
+      </question>
+
+      <question name="GroupsByText" queryRef="GroupIds.ByTextSearch"
+                displayName="Text Terms"
+                shortDisplayName="Text"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+	  <![CDATA[
+                Find Ortholog Groups based on text terms.
+			]]>
+        </description>
+            <dynamicAttributes>
+                <!--<columnAttribute name="fields_matched"
+                           displayName="Found in"/>-->
+                <columnAttribute name="max_score"
+                           displayName="Score" align="center"/>
+            </dynamicAttributes>
+            <attributesList
+               summary="max_score,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
+               sorting="max_score desc,number_of_members desc"/>
+      </question>
+
+      <question name="GroupsByPFamIdOrKeyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
+                displayName="PFam ID or Keyword"
+                shortDisplayName="PFam"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
           <![CDATA[
-		   Find Ortholog Groups by average percent identity between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group.
+                Find Ortholog Groups that contain one or more Sequences with the specified PFam domain.
                         ]]>
         </description>
       </question>
 
-
-      <question name="GroupsByPercentMatch" queryRef="GroupIds.ByPercentMatch" 
-                displayName="Avg % Match Length"
+      <question name="GroupsByEcNumber" queryRef="GroupIds.ByEcNumber" 
+                displayName="EC Number" shortDisplayName="Enzymes"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <attributesList
-           summary="avg_percent_match,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-           sorting="avg_percent_match desc"
-           /> 
         <description>
-          <![CDATA[
-		   Find Ortholog Groups by the average percent match length between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group.
-
-                        ]]>
+          <![CDATA[ Find groups that have one or more proteins that are assigned a specific Enzyme Commission (EC) Number]]>
         </description>
+      <propertyList name="radio-params">
+        <value>ec_number_type_ahead</value>
+        <value>ec_wildcard</value>
+      </propertyList>
+
       </question>
 
       <question name="GroupsByEValue" queryRef="GroupIds.ByEValue" 
-                displayName="Avg E-Value"
+                displayName="E-Value"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <attributesList
            summary="evalue_display,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
@@ -208,7 +163,7 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
            /> 
         <description>
           <![CDATA[
-		   Find Ortholog Groups by the average Blast e-value between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group.
+		   Find Ortholog Groups by the median BLAST e-value between all protein sequences in the group compared to the Representative Sequence (the group centroid).  This is a measure of group cohesiveness; smaller (more significant) e-values indicate a tighter group while larger e-values indicate a group that is more dispersed.
                         ]]>
         </description>
       </question>

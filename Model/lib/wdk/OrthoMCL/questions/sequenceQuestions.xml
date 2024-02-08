@@ -25,17 +25,6 @@
             </description>
         </question>
 
-        <question name="ByGroupIdList" queryRef="SequenceIds.ByGroupIdList" 
-				  displayName="Group ID(s)"
-                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
-            <description>
-			<![CDATA[
-                Find Proteins by OrthoMCL Group ID(s) (from the current or previous releases of OrthoMCL).
-			]]>
-            </description>
-        </question>
-
-
         <question name="ByAccession" queryRef="SequenceIds.ByAccession" 
                   displayName="Group or Protein Name"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass"

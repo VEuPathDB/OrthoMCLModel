@@ -33,37 +33,6 @@
             </sql>
         </sqlQuery>  
 
-
-        <sqlQuery name="ByAccession" isCacheable="true">
-          <paramRef ref="groupParams.group_name"/>
-          <column name="group_name"/>
-          <sql>
-            <![CDATA[
-              SELECT og.name AS group_name
-              FROM apidb.OrthologGroup og
-              WHERE og.name LIKE replace($$group_name$$, '*', '%')
-	            and og.core_peripheral_residual in ('P','R')
-              UNION
-              SELECT sa.group_name
-              FROM ApidbTuning.SequenceAttributes sa,
-                   Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
-                   Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr
-              WHERE sa.aa_sequence_id = seqref.aa_sequence_id
-                AND seqref.db_ref_id = ref.db_ref_id
-                AND ref.external_database_release_id = dbr.external_database_release_id
-                AND dbr.external_database_id = db.external_database_id
-                AND db.name = 'OrthoMCL Old Groups'
-                AND ref.primary_identifier LIKE replace($$group_name$$, '*', '%')
-              UNION
-              SELECT sa.group_name
-              FROM ApidbTuning.SequenceAttributes sa
-              WHERE (sa.source_id LIKE replace($$group_name$$, '*', '%')
-                     OR sa.full_id LIKE replace($$group_name$$, '*', '%'))
-            ]]>
-          </sql>
-        </sqlQuery>
-
-
         <sqlQuery name="ByPfamIdOrKeyword" 
 			isCacheable="true" doNotTest="true">
        <paramRef ref="sharedParams.pfam_id_type_ahead"/>
@@ -108,10 +77,9 @@ WHERE sa.aa_sequence_id = asi.aa_sequence_id
 
 
         <sqlQuery name="BySequenceCount" isCacheable="true">
-            <paramRef ref="groupParams.core_count"/>
-            <paramRef ref="groupParams.peripheral_count"/>
             <paramRef ref="groupParams.all_count"/>
-            <paramRef ref="groupParams.range_fields"/>
+            <paramRef ref="groupParams.core_count" groupRef="paramGroups.corePeripheralAdvancedParams"/>
+            <paramRef ref="groupParams.peripheral_count" groupRef="paramGroups.corePeripheralAdvancedParams"/>
             <column name="group_name"/>
             <column name="core_num"/>
             <column name="peripheral_num"/>
@@ -139,9 +107,9 @@ WHERE c.name = p.name
         </sqlQuery>
 
         <sqlQuery name="ByGenomeCount" isCacheable="true">
-            <paramRef ref="groupParams.core_taxon"/>
-            <paramRef ref="groupParams.peripheral_taxon"/>
             <paramRef ref="groupParams.all_taxon"/>
+            <paramRef ref="groupParams.core_taxon" groupRef="paramGroups.corePeripheralAdvancedParams"/>
+            <paramRef ref="groupParams.peripheral_taxon" groupRef="paramGroups.corePeripheralAdvancedParams"/>
             <column name="group_name"/>
             <column name="core_count"/>
             <column name="peripheral_count"/>
@@ -169,66 +137,6 @@ WHERE c.name = p.name
               ]]>
             </sql>
         </sqlQuery>
-
-
-        <sqlQuery name="ByAvgHomology" isCacheable="true">
-            <paramRef ref="groupParams.percent"/>
-            <column name="group_name"/>
-            <sql>
-                <![CDATA[
-SELECT name AS group_name
-FROM apidb.OrthologGroup
-WHERE DECODE(avg_connectivity,NULL,0,100*avg_connectivity/(number_of_members-1)) >= $$percent_min$$
-      AND DECODE(avg_connectivity,NULL,0,100*avg_connectivity/(number_of_members-1)) <= $$percent_max$$
-      AND core_peripheral_residual in ('C','R')
-                ]]>
-            </sql>
-        </sqlQuery>
-
-
-        <sqlQuery name="ByPercentMatchPairs" isCacheable="true">
-            <paramRef ref="groupParams.percent"/>
-            <column name="group_name"/>
-            <sql>
-                <![CDATA[
-SELECT name as group_name
-FROM apidb.OrthologGroup
-WHERE percent_match_pairs >= $$percent_min$$ AND percent_match_pairs <= $$percent_max$$
-      AND core_peripheral_residual in ('P','R')
-                ]]>
-            </sql>
-        </sqlQuery>
-
-
-        <sqlQuery name="ByPercentIdentity" isCacheable="true">
-            <paramRef ref="groupParams.percent"/>
-            <column name="group_name"/>
-            <sql>
-                <![CDATA[
-SELECT og.name AS group_name
-FROM apidb.OrthologGroup og
-WHERE og.avg_percent_identity >= $$percent_min$$
-  AND og.avg_percent_identity <= $$percent_max$$
-  AND og.core_peripheral_residual in ('P','R')
-                ]]>
-            </sql>
-        </sqlQuery>
-
-
-        <sqlQuery name="ByPercentMatch" isCacheable="true">
-            <paramRef ref="groupParams.percent"/>
-            <column name="group_name"/>
-            <sql>
-                <![CDATA[
-SELECT og.name AS group_name
-FROM apidb.OrthologGroup og
-WHERE og.avg_percent_match >= $$percent_min$$
-  AND og.avg_percent_match <= $$percent_max$$
-  and og.core_peripheral_residual in ('P','R')
-                ]]>
-            </sql>
-        </sqlQuery>
-
 
         <sqlQuery name="ByEValue" isCacheable="true">
             <paramRef ref="groupParams.evalue"/>

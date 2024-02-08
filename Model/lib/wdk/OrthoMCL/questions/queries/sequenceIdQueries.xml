@@ -79,32 +79,6 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             </sql>
         </sqlQuery>
 
-
-        <sqlQuery name="ByGroupIdList" isCacheable="true">
-            <paramRef ref="groupParams.group_names"/>
-            <column name="full_id"/>
-            <sql>
-              <![CDATA[
-                  SELECT sa.full_id
-                  FROM ($$group_names$$) ds,
-                     ApidbTuning.SequenceAttributes sa
-                  WHERE sa.group_name = ds.group_name
-                UNION
-                  SELECT sa.full_id
-                  FROM ApidbTuning.SequenceAttributes sa,
-                           ($$group_names$$) ds,
-                           Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
-                           Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr
-                  WHERE sa.aa_sequence_id = seqref.aa_sequence_id
-                    AND seqref.db_ref_id = ref.db_ref_id
-                    AND ref.external_database_release_id = dbr.external_database_release_id
-                    AND dbr.external_database_id = db.external_database_id
-                    AND db.name = 'OrthoMCL Old Groups'
-                    AND ref.primary_identifier =  ds.group_name
-              ]]>
-            </sql>
-        </sqlQuery>  
-
         <sqlQuery name="ByKeyword" isCacheable="true">
             <paramRef ref="sharedParams.keyword"/>
             <column name="full_id"/>

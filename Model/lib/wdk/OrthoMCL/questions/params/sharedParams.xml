@@ -172,4 +172,12 @@ FROM apidb.OrthomclTaxon t
         </processQuery>
 
     </querySet>
+
+
+    <groupSet name="paramGroups">
+        <group name="corePeripheralAdvancedParams" displayName="Advanced Parameters" displayType="ShowHide">
+   <description>![CDATA[OrthoMCL contains two sets of genomes. A Core set of 150 genomes have been chosen as well annotated reference organisms that broadly represent the major branches of the tree of life. All of the additional non-core VEuPathDB organisms (pathogens, hosts, and vectors) are called Peripheral organisms, in some cases including multiple strains and genome assemblies for the same species. The search ranges below can be used to filter the number of proteins {taxa} in each orthogroup by the number of Core and Peripheral  (minimum and maximum) in each group.  The number of Core and Peripheral will sum to the number of all proteins {taxa} in the group.]]</description>
+        </group>
+    </groupSet>
+
 </wdkModel>

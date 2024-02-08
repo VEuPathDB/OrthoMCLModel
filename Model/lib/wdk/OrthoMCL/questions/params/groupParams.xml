@@ -5,11 +5,6 @@
 
     <paramSet name="groupParams">
 
-        <stringParam name="group_name" prompt="Group or Protein Name" number="false">
-            <help>Group or proteim name from current or previous releases. * can be used as wild card</help>
-            <suggest default="pfal|PF3D7_02086*" />
-        </stringParam>
-
         <stringParam name="min_num_proteins" prompt="Minimum Number of Proteins" number="true">
             <help>Minimum number of proteins in the group that contain this domain.</help>
             <suggest default="1" />
@@ -32,6 +27,7 @@
 			  min="0"
 			  max="100000"
 			  increment="1">
+            
             <help>Set the minimum and maximum number of core proteins in the group</help>
             <suggest default="{'min':'0', 'max':'499'}" />
         </numberRangeParam>
@@ -42,6 +38,7 @@
 			  min="0"
 			  max="100000"
 			  increment="1">
+
             <help>Set the minimum and maximum number of peripheral proteins in the group</help>
             <suggest default="{'min':'0', 'max':'499'}" />
         </numberRangeParam>
@@ -53,34 +50,8 @@
 			  max="100000"
 			  increment="1">
             <help>Set the minimum and maximum number of total proteins in the group</help>
-            <suggest default="{'min':'1', 'max':'499'}" />
+            <suggest default="{'min':'1', 'max':'1000'}" />
         </numberRangeParam>
-
-       <enumParam name="range_fields"
-                  prompt="Fields"
-                  multiPick="true">
-          <help>                                                                                                                                                                                          
-                 Choose which range fields to filter on.     
-          </help>
-          <enumList>
-
-            <enumValue default="true">
-              <term>Total Number</term>
-              <internal>total</internal>
-            </enumValue>
-
-            <enumValue default="false">
-              <term>Core Sequences</term>
-              <internal>core</internal>
-            </enumValue>
-
-            <enumValue default="false">
-              <term>Peripheral</term>
-              <internal>peripheral</internal>
-            </enumValue>
-
-          </enumList>
-       </enumParam>
 
         <numberRangeParam name="core_taxon" 
 			  prompt="Number of Core Taxa"
@@ -112,24 +83,14 @@
             <suggest default="{'min':'4', 'max':'20'}" />
         </numberRangeParam>
 
-        <numberRangeParam name="percent" 
-			  prompt="Percentage"
-			  integer="true"
-			  min="1"
-			  max="100"
-			  increment="1">
-            <help>Set the minimum and maximum percentage</help>
-            <suggest default="{'min':'80', 'max':'100'}" />
-        </numberRangeParam>
-
         <numberRangeParam name="evalue" 
 			  prompt="E-value exponent"
 			  integer="true"
 			  min="-200"
 			  max="-4"
 			  increment="1">
-            <help>Set the minimum and maximum number of total taxa in the group</help>
-            <suggest default="{'min':'-200', 'max':'-150'}" />
+            <help>Set the minimum and maximum number of total taxa in the group (min: -200 max: -4)</help>
+            <suggest default="{'min':'-200', 'max':'-50'}" />
         </numberRangeParam>
 
         <stringParam name="phyletic_expression" prompt="Expression" number="false">
