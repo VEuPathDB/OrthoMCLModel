@@ -179,8 +179,8 @@
             <sql>
                 <![CDATA[
   SELECT 
-   '@BLASTDB_PATH@/build-%%buildNumber%%/blast/proteinSeqs' as internal
-  ,'@BLASTDB_PATH@/build-%%buildNumber%%/blast/proteinSeqs' as term
+   '@BLASTDB_PATH@/build-current/blast/proteinSeqs' as internal
+  ,'@BLASTDB_PATH@/build-current/blast/proteinSeqs' as term
   FROM DUAL
                 ]]>
             </sql>
