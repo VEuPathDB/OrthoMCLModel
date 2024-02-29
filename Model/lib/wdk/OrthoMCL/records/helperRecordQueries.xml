@@ -110,7 +110,8 @@ order by cats.category nulls first, is_species desc, name
             <sql>
             <![CDATA[
 SELECT 'helper' AS helper_id, ot.name, ot.three_letter_abbrev,
-       od.resource_name, od.resource_url, od.resource_version,
+       CASE when (od.resource_url = '-') then '-' else od.resource_name end as resource_name,
+       od.resource_url, od.resource_version,
        case ot.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral,
        CASE SUBSTR(ot.three_letter_abbrev,5,4) WHEN '-old' THEN 'no' ELSE 'most_recent' END as most_recent,
        t.ncbi_tax_id as ncbi_taxon_id,
