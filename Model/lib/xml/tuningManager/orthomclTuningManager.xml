@@ -315,76 +315,99 @@
     <externalDependency name="sres.ExternalDatabase"/>
     <externalDependency name="sres.ExternalDatabaseRelease"/>
     <sql>
+      <!-- TODO:  urls and lenght are broken -->
       <![CDATA[
         create table SequenceAttributes&1 nologging as
-        select eas.secondary_identifier AS full_id, eas.source_id, eas.aa_sequence_id,
-               eas.length, substr(eas.description, 1, 120) AS product,
-               eas.molecular_weight, eas.taxon_id, taxon.orthomcl_taxon_id, taxon.taxon_group,
-               taxon.three_letter_abbrev AS taxon_abbreviation, taxon.name AS organism_name,
-               taxon.core_peripheral, OrthologGroup.group_name, OrthologGroup.ortholog_group_id,
-               OrthologGroup.group_size, OrthologGroup.peripheral_ortholog_group_id,
-	       OrthologGroup.peripheral_group_size, EcNumbers.ec_numbers, OldGroups.old_groups,
-	       urls.source_url, urls.source_text
-        from dots.ExternalAaSequence eas,
-	     (select p.aa_sequence_id, p.group_name, og.ortholog_group_id, og.number_of_members as group_size,
-	             p.peripheral_ortholog_group_id, p.peripheral_group_size     
-              from apidb.OrthologGroup og, 
-                   (select ogs.aa_sequence_id, og.name as group_name, og.ortholog_group_id as peripheral_ortholog_group_id, 
-		           og.number_of_members as peripheral_group_size
-		    from apidb.OrthologGroupAaSequence ogs, apidb.OrthologGroup og
-                    where ogs.ortholog_group_id = og.ortholog_group_id                                                                                                                                  and og.core_peripheral_residual='P') p
-              where og.core_peripheral_residual='C'
-                    and p.group_name = og.name
-	     UNION
-	     select ogs.aa_sequence_id, og.name as group_name, og.ortholog_group_id, og.number_of_members as group_size,og.ortholog_group_id as peripheral_ortholog_group_id, og.number_of_members as peripheral_group_size         
-	     from apidb.OrthologGroupAaSequence ogs, apidb.OrthologGroup og                                                                  
-	     where ogs.ortholog_group_id = og.ortholog_group_id
-	         and og.core_peripheral_residual='R'
-	     ) OrthologGroup,
-             ( SELECT three_letter_abbrev, orthomcl_taxon_id, name, core_peripheral, connect_by_root name as taxon_group 
-	       FROM apidb.OrthomclTaxon
-	       WHERE core_peripheral in ('C','P')
-	       START WITH name IN ('Archaea', 'Bacteria', 'Alveolates', 'Amoebozoa', 'Euglenozoa',
-                                   'Fungi', 'Metazoa', 'Other Eukaryota', 'Viridiplantae')
-	       CONNECT BY parent_id = prior orthomcl_taxon_id
-	     ) taxon,
-             (select asec.aa_sequence_id,
-                     substr(listagg(ec.ec_number, ', ') within group (order by ec.ec_number), 1, 200) as ec_numbers
-               from dots.AaSequenceEnzymeClass asec,
-               sres.EnzymeClass ec
-             where asec.enzyme_class_id = ec.enzyme_class_id
-             group by asec.aa_sequence_id
-             ) EcNumbers,
-             (select aa.aa_sequence_id,
-              listagg(ref.primary_identifier, ', ') within group (order by ref.primary_identifier) as old_groups
-              from sres.DbRef ref, sres.ExternalDatabase db, sres.ExternalDatabaseRelease dbr,
-	          (select distinct aa_sequence_id, db_ref_id
-                    from dots.AaSequenceDbRef sdbr) aa
-              where db.name = 'OrthoMCL Old Groups'
-                and dbr.external_database_id = db.external_database_id
-                and ref.external_database_release_id = dbr.external_database_release_id
-                and aa.db_ref_id = ref.db_ref_id
-              group by aa.aa_sequence_id
-             ) OldGroups,
-	     (SELECT eas.aa_sequence_id,
-	             CASE WHEN ores.resource_name IN ('CryptoDB','PlasmoDB','PiroplasmaDB','MicrosporidiaDB','SchistoDB',
-                          'FungiDB','TriTrypDB','VectorBase','AmoebaDB','ToxoDB','HostDB','TrichDB','GiardiaDB')
-		     THEN SUBSTR(ores.resource_url,0,INSTR(ores.resource_url,'/downloads')) || 'record/gene/' 
-                          || eas.source_id 
-	             WHEN ores.resource_name ='Uniprot'
-		     THEN SUBSTR(ores.resource_url,0,INSTR(ores.resource_url,'/proteomes')) || 'uniprot/' 
-		          || eas.source_id
-		     ELSE '' END AS source_url,
-		     CASE WHEN ores.resource_name is null THEN '' ELSE eas.source_id || ' (' || ores.resource_name || ')' END AS source_text
-	      FROM dots.ExternalAaSequence eas, apidb.OrthomclTaxon ot, apidb.orthomclresource ores
-	      WHERE NVL(SUBSTR(eas.secondary_identifier, 0, INSTR(eas.secondary_identifier, '|')-1), eas.secondary_identifier)
-	                 = ot.three_letter_abbrev
-		    AND ot.orthomcl_taxon_id = ores.orthomcl_taxon_id) urls
-        where SUBSTR(eas.secondary_identifier, 0, INSTR(eas.secondary_identifier, '|')-1) = taxon.three_letter_abbrev(+)
-          and eas.aa_sequence_id = OrthologGroup.aa_sequence_id(+)
-          and eas.aa_sequence_id = EcNumbers.aa_sequence_id(+)
-          and eas.aa_sequence_id = OldGroups.aa_sequence_id(+)
-          and eas.aa_sequence_id = urls.aa_sequence_id(+)
+        SELECT
+            eas.secondary_identifier AS full_id,
+            eas.source_id,
+            eas.aa_sequence_id,
+            eas.length,
+            eas.description AS product,
+            eas.taxon_id,
+
+            taxon.orthomcl_taxon_id,
+            taxon.taxon_group,
+            taxon.three_letter_abbrev AS taxon_abbreviation,
+            taxon.name AS organism_name,
+            taxon.core_peripheral,
+
+
+            OrthologGroup.group_id AS group_name,
+            OrthologGroup.ortholog_group_id,
+            OrthologGroup.number_of_members AS group_size,
+            OrthologGroup.number_of_core_members,
+            OrthologGroup.number_of_peripheral_members,
+            decode(OrthologGroup.is_residual, 1, 'Residual', 'Core') AS group_type,
+
+                   EcNumbers.ec_numbers,
+                   urls.source_url,
+            urls.source_text
+        FROM
+            dots.orthoaasequence eas,
+            apidb.OrthologGroup orthologgroup,
+            apidb.ORTHOLOGGROUPAASEQUENCE ogseq,
+            (
+            SELECT
+                three_letter_abbrev,
+                orthomcl_taxon_id,
+                name,
+                core_peripheral,
+                connect_by_root name AS taxon_group
+            FROM
+                apidb.OrthomclTaxon
+            WHERE
+                core_peripheral IN ('C', 'P')
+            START WITH
+                name IN ('Archaea', 'Bacteria', 'Alveolates', 'Amoebozoa', 'Euglenozoa',
+                                           'Fungi', 'Metazoa', 'Other Eukaryota', 'Viridiplantae')
+            CONNECT BY
+                parent_id = PRIOR orthomcl_taxon_id
+                 ) taxon,
+            (
+            SELECT
+                asec.aa_sequence_id,
+                substr(listagg(ec.ec_number, ', ') WITHIN GROUP (ORDER BY ec.ec_number), 1, 200) AS ec_numbers
+            FROM
+                dots.AaSequenceEnzymeClass asec,
+                sres.EnzymeClass ec
+            WHERE
+                asec.enzyme_class_id = ec.enzyme_class_id
+            GROUP BY
+                asec.aa_sequence_id
+                     ) EcNumbers,
+
+                 (
+            SELECT
+                eas.aa_sequence_id,
+                CASE
+                    WHEN ores.resource_name IN ('CryptoDB', 'PlasmoDB', 'PiroplasmaDB', 'MicrosporidiaDB', 'SchistoDB',
+                                  'FungiDB', 'TriTrypDB', 'VectorBase', 'AmoebaDB', 'ToxoDB', 'HostDB', 'TrichDB', 'GiardiaDB')
+                     THEN SUBSTR(ores.resource_url, 0, INSTR(ores.resource_url, '/downloads')) || 'record/gene/'
+                                  || eas.source_id
+                    WHEN ores.resource_name = 'Uniprot'
+                     THEN SUBSTR(ores.resource_url, 0, INSTR(ores.resource_url, '/proteomes')) || 'uniprot/'
+                          || eas.source_id
+                    ELSE ''
+                END AS source_url,
+                     CASE
+                    WHEN ores.resource_name IS NULL THEN ''
+                    ELSE eas.source_id || ' (' || ores.resource_name || ')'
+                END AS source_text
+            FROM
+                dots.ExternalAaSequence eas,
+                apidb.OrthomclTaxon ot,
+                apidb.orthomclresource ores
+            WHERE
+                NVL(SUBSTR(eas.secondary_identifier, 0, INSTR(eas.secondary_identifier, '|')-1), eas.secondary_identifier)
+                             = ot.three_letter_abbrev
+                    AND ot.orthomcl_taxon_id = ores.orthomcl_taxon_id) urls
+        WHERE
+            SUBSTR(eas.secondary_identifier, 0, INSTR(eas.secondary_identifier, '|')-1) = taxon.three_letter_abbrev(+)
+            AND eas.aa_sequence_id = ogseq.aa_sequence_id(+)
+            AND ogseq.GROUP_ID = orthologgroup.GROUP_ID (+)
+            AND eas.aa_sequence_id = EcNumbers.aa_sequence_id(+)
+            AND eas.aa_sequence_id = urls.aa_sequence_id(+)
       ]]>
     </sql>
 
