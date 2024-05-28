@@ -286,7 +286,9 @@ tablespace indx
   </tuningTable>
 
   <tuningTable name="PhyleticPattern">
+<!-- This should be included BUT this table is not created until the plugin is run so it breaks the tm
     <externalDependency name="apidb.OrthologGroup"/>
+    -->
     <externalDependency name="apidb.OrthomclTaxon"/>
     <externalDependency name="ApiDB.OrthologGroupTaxon"/>
     <sql>
