@@ -288,6 +288,7 @@ tablespace indx
   <tuningTable name="PhyleticPattern">
     <externalDependency name="apidb.OrthologGroup"/>
     <externalDependency name="apidb.OrthomclTaxon"/>
+    <externalDependency name="ApiDB.OrthologGroupTaxon"/>
     <sql>
       <![CDATA[
 CREATE TABLE PhyleticPattern&1 NOLOGGING AS
@@ -692,7 +693,7 @@ tablespace indx
       <![CDATA[
 CREATE TABLE GroupDomainAttribute&1 NOLOGGING AS
 (
-SELECT og.name AS group_name, ag.descriptions
+SELECT og.group_id AS group_name, ag.descriptions
 FROM apidb.OrthologGroup og,
      (SELECT group_name,
              LISTAGG(accession ||' (' || num_proteins|| ')', ', ') WITHIN GROUP (ORDER BY rnk) AS descriptions
@@ -709,8 +710,7 @@ FROM apidb.OrthologGroup og,
       GROUP BY group_name
       ORDER BY 1
       ) ag
-WHERE og.core_peripheral_residual IN ('P','R')
-      AND og.name = ag.group_name(+)
+WHERE  og.group_id = ag.group_name(+)
 )
       ]]>
     </sql>
