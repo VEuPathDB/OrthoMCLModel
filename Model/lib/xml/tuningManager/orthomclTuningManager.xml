@@ -18,7 +18,7 @@
             eas.secondary_identifier AS full_id,
             eas.source_id,
             eas.aa_sequence_id,
-            eas.length,
+            length(eas.sequence) as length,
             eas.description AS product,
             eas.taxon_id,
 
