@@ -48,11 +48,11 @@
       <!--  Default summary attributes and sorting attributes -->  
       <!-- =============================================================== -->
 
-<!--      
+
       <attributesList
         summary="taxon_name,product,length,ec_numbers,pfam_domains,core_peripheral,group_link"
         sorting="primary_key asc"/>
--->
+
 
       <!-- =============================================================== -->
       <!--  View definitions -->
