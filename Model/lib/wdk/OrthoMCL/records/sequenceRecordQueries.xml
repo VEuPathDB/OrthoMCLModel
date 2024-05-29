@@ -29,7 +29,7 @@
        </defaultTestParamValues>
 
         <testRowCountSql>
-            SELECT count(*) FROM dots.ExternalAaSequence
+            SELECT count(*) FROM dots.Orthoaasequence
         </testRowCountSql>
 
 
@@ -38,7 +38,9 @@
             <column name="source_id"/>
             <column name="length"/>
             <column name="product"/>
+<!--
             <column name="molecular_weight"/>
+-->
             <column name="abbreviation"/>
             <column name="taxon_name"/>          
             <column name="ec_numbers"/>          
@@ -47,7 +49,7 @@
 		<![CDATA[
 SELECT sa.full_id, sa.source_id,
     sa.length, sa.product,
-    round(sa.molecular_weight/1000,1) AS molecular_weight,
+    --round(sa.molecular_weight/1000,1) AS molecular_weight,
     sa.taxon_abbreviation AS abbreviation, 
     sa.organism_name as taxon_name,
     sa.ec_numbers,
@@ -66,17 +68,19 @@ FROM apidbTuning.SequenceAttributes sa
            <column name="group_name"/>
            <column name="num_core"/>
            <column name="num_peripheral"/>
+<!-- TODO??
            <column name="source_url"/>
            <column name="source_text"/>
            <column name="old_groups"/>
-           <sql>
+-->
+            <sql>
              <![CDATA[
-               SELECT sa.full_id, sa.group_name, sa.old_groups,
-	              CASE sa.core_peripheral WHEN 'C' THEN 'Core' WHEN 'P' THEN 'Peripheral' END AS core_peripheral,
-		      CASE WHEN sa.group_name LIKE 'OG%r%_%' THEN 0 ELSE sa.group_size END AS num_core,
-		      CASE WHEN sa.group_name LIKE 'OG%r%_%' THEN sa.group_size ELSE sa.peripheral_group_size-sa.group_size END AS num_peripheral,
-                      sa.source_url, sa.source_text
-               FROM ApidbTuning.SequenceAttributes sa
+            SELECT sa.full_id, sa.group_name, --, sa.old_groups,
+                             CASE sa.core_peripheral WHEN 'C' THEN 'Core' WHEN 'P' THEN 'Peripheral' END AS core_peripheral,
+                             number_of_core_members AS num_core,
+                             number_of_peripheral_members AS num_peripheral
+                                 --sa.source_url, sa.source_text
+                                 FROM ApidbTuning.SequenceAttributes sa
              ]]>
            </sql>
         </sqlQuery>
@@ -87,7 +91,7 @@ FROM apidbTuning.SequenceAttributes sa
             <sql>
 			<![CDATA[
             SELECT eas.secondary_identifier AS full_id, eas.sequence 
-            FROM dots.ExternalAaSequence eas
+            FROM dots.Orthoaasequence eas
  			]]>
             </sql>
         </sqlQuery>
@@ -102,7 +106,7 @@ FROM apidbTuning.SequenceAttributes sa
             <sql>
                         <![CDATA[
 SELECT eas.secondary_identifier AS full_id, ref.primary_identifier AS group_name
-FROM dots.ExternalAaSequence eas,
+FROM dots.Orthoaasequence eas,
      Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
      Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr
 WHERE eas.aa_sequence_id = seqref.aa_sequence_id
@@ -118,7 +122,9 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
         <sqlQuery name="PFamDomains">
             <column name="full_id"/>
             <column name="accession"/>
+<!--
             <column name="symbol"/>
+-->
             <column name="description"/>
             <column name="domain_index"/>
             <column name="max_index"/>
@@ -127,7 +133,7 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             <column name="length"/>
             <sql>
                         <![CDATA[
-     SELECT da.full_id, da.accession, da.symbol, da.description, da.domain_index,
+     SELECT da.full_id, da.accession, da.description, da.domain_index,
             (SELECT MAX(domain_index) FROM ApidbTuning.DomainAssignment) AS max_index,
             da.start_min, da.end_max, sa.length
      FROM ApidbTuning.DomainAssignment da, ApidbTuning.SequenceAttributes sa
@@ -150,7 +156,7 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
                                  || chr(38) || 'field2=' || ec.ec_number_2
                                  || chr(38) || 'field3=' || ec.ec_number_3
                                  || chr(38) || 'field4=' || ec.ec_number_4 as expasy_url
-                    FROM dots.ExternalAaSequence eas,
+                    FROM dots.Orthoaasequence eas,
                          dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
                     WHERE eas.aa_sequence_id = asec.aa_sequence_id
                       AND asec.enzyme_class_id = ec.enzyme_class_id
@@ -169,7 +175,7 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
                   SELECT eas.secondary_identifier AS full_id,
                          eas.description AS product,
                          eas.secondary_identifier AS id_string
-                  FROM dots.ExternalAaSequence eas
+                  FROM dots.Orthoaasequence eas
  		]]>
             </sql>
         </sqlQuery>
