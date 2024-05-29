@@ -47,11 +47,12 @@
       <!-- =============================================================== -->
       <!--  Default summary attributes and sorting attributes -->  
       <!-- =============================================================== -->
-      
+
+<!--      
       <attributesList
         summary="taxon_name,product,length,ec_numbers,pfam_domains,core_peripheral,group_link"
         sorting="primary_key asc"/>
-
+-->
 
       <!-- =============================================================== -->
       <!--  View definitions -->
@@ -93,6 +94,7 @@
         </text>
       </idAttribute>
 
+<!--
       <attributeQueryRef ref="SequenceAttributes.SequenceAttrs">  
         <columnAttribute name="source_id" displayName="Source ID" />
         <columnAttribute name="length" displayName="Length" help="Protein length in amino acids">
@@ -202,7 +204,7 @@
               </text>
             </textAttribute>
 
-
+-->
 
       <!-- =============================================================== -->
       <!-- Tables -->

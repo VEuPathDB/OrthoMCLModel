@@ -29,14 +29,16 @@
     <import file="OrthoMCL/questions/groupQuestions.xml" />
     <import file="OrthoMCL/questions/queries/groupIdQueries.xml" />
     <import file="OrthoMCL/questions/params/groupParams.xml" />
-    
+
     <!-- import the sequence related pieces -->
     <import file="OrthoMCL/records/sequenceRecord.xml" />
     <import file="OrthoMCL/records/sequenceRecordQueries.xml" />
+
+<!--
     <import file="OrthoMCL/questions/sequenceQuestions.xml" />
     <import file="OrthoMCL/questions/queries/sequenceIdQueries.xml" />
     <import file="OrthoMCL/questions/params/sequenceParams.xml" />
-
+-->
     <!-- XML -->
     <import file="OrthoMCL/records/xmlRecords.xml"/>
     <import file="OrthoMCL/questions/xmlQuestions.xml"/>

@@ -24,10 +24,12 @@
                         ]]>
         </description>
 
+        <!-- TODO: set default in record
         <attributesList
             summary="core_num,peripheral_num,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
             sorting="number_of_members desc"
-            /> 
+            />
+            -->
 
       <dynamicAttributes>
         <columnAttribute name="core_num" displayName="Num Core Proteins"/>
@@ -45,12 +47,12 @@
 peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Min/Max # Peripheral Taxa. To get Core Groups with NO peripheral proteins mapped in, choose >=1 for Min/Max Number of Core Taxa and 0 for Min/Max Number of Peripheral Taxa. To get Residual Groups, choose 0 for Min/Max Number of Core Taxa and >=1 for Min/Max Number of Peripheral Taxa. To restrict the total number of taxa represented in the group, set the Number of All Taxa.
                         ]]>
         </description>
-
+<!-- TODO: set default in record
         <attributesList
             summary="core_count,peripheral_count,all_count,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
             sorting="all_count desc"
             /> 
-
+-->
       <dynamicAttributes>
         <columnAttribute name="core_count" displayName="Num Core Taxa"/>
         <columnAttribute name="peripheral_count" displayName="Num Peripheral Taxa"/>
@@ -67,11 +69,12 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
                         ]]>
         </description>
 
+        <!-- TODO: set default in record
         <attributesList
             summary="core_count,peripheral_count,all_count,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
             sorting="all_count desc"
             /> 
-
+-->
       <dynamicAttributes>
         <columnAttribute name="core_count" displayName="Num Core Taxa"/>
         <columnAttribute name="peripheral_count" displayName="Num Peripheral Taxa"/>
@@ -125,10 +128,12 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
                 <columnAttribute name="max_score"
                            displayName="Score" align="center"/>
             </dynamicAttributes>
+<!-- TODO: set default in record
             <attributesList
                summary="max_score,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
                sorting="max_score desc,number_of_members desc"/>
-      </question>
+-->
+</question>
 
       <question name="GroupsByPFamIdOrKeyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
                 displayName="PFam ID or Keyword"
@@ -157,11 +162,15 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
       <question name="GroupsByEValue" queryRef="GroupIds.ByEValue" 
                 displayName="E-Value"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
+
+<!--TODO: set default
         <attributesList
            summary="evalue_display,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
            sorting="avg_evalue_exp asc"
            /> 
-        <description>
+
+-->
+<description>
           <![CDATA[
 		   Find Ortholog Groups by the median BLAST e-value between all protein sequences in the group compared to the Representative Sequence (the group centroid).  This is a measure of group cohesiveness; smaller (more significant) e-values indicate a tighter group while larger e-values indicate a group that is more dispersed.
                         ]]>

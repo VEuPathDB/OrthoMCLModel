@@ -14,7 +14,6 @@
         <testRowCountSql>
             SELECT count(*)
 	    FROM apidb.OrthologGroup
-	    WHERE core_peripheral_residual in ('P','R')
         </testRowCountSql>
 
 
@@ -22,48 +21,21 @@
             <column name="group_name"/>
             <column name="group_type"/>
             <column name="number_of_members"/>
-            <column name="avg_percent_identity"/>
-            <column name="number_of_match_pairs"/>
-            <column name="percent_match_pairs"/>
-            <column name="avg_percent_match"/>
-            <column name="avg_evalue_mant"/>
-            <column name="avg_evalue_exp"/>
-            <column name="evalue_display"/>
-            <column name="avg_connectivity"/>
+            <column name="number_of_core_members"/>
+            <column name="number_of_peripheral_members"/>
             <sql>
             <![CDATA[
-		     SELECT pr.group_name, number_of_members, number_of_match_pairs, avg_percent_identity, percent_match_pairs, avg_percent_match, avg_evalue_mant, avg_evalue_exp, evalue_display, avg_connectivity, group_type
-		     FROM (SELECT name as group_name, number_of_members, number_of_match_pairs,
-		                  decode(avg_percent_identity,null,'',round(avg_percent_identity,1)) as avg_percent_identity,
-				  decode(percent_match_pairs,null,'',round(percent_match_pairs,1)) as percent_match_pairs,
-				  decode(avg_percent_match,null,'',round(avg_percent_match,1)) as avg_percent_match,
-				  CASE WHEN (number_of_members=1) THEN NULL WHEN (avg_evalue_mant IS NULL OR avg_evalue_exp IS NULL) THEN '0' ELSE ROUND(avg_evalue_mant,1) || 'E' || avg_evalue_exp END AS evalue_display,
-				  CASE core_peripheral_residual WHEN 'P' THEN 'Core' WHEN 'R' THEN 'Residual' ELSE 'Unknown' END AS group_type,
-				  avg_evalue_mant,
-				  avg_evalue_exp
-		           FROM apidb.OrthologGroup
-			   WHERE core_peripheral_residual in ('P','R') ) pr,
-			  (SELECT name as group_name,
-			          decode(avg_connectivity,null,'',round(100*avg_connectivity/(number_of_members-1),1)) as avg_connectivity
-			   FROM apidb.OrthologGroup
-			   WHERE core_peripheral_residual IN ('C','R') ) cr
-	             WHERE pr.group_name = cr.group_name(+)
-			]]>
+            SELECT
+              group_id AS group_name,
+              number_of_members,
+              number_of_core_members,
+              number_of_peripheral_members,
+              decode(is_residual, 1, 'Residual', 'Core') AS group_type
+            FROM
+              apidb.ORTHOLOGGROUP
+      ]]>
             </sql>
         </sqlQuery>
-
-        <sqlQuery name="MSA">
-            <column name="group_name"/>
-            <column name="msa"/>
-            <sql>
-            <![CDATA[
-                SELECT g.name AS group_name, g.multiple_sequence_alignment AS msa
-                FROM apidb.OrthologGroup g
-		where core_peripheral_residual in ('C','R') 
-                        ]]>
-            </sql>
-        </sqlQuery>
-
 
         <sqlQuery name="MaxSequenceLength">
           <column name="group_name"/>
@@ -86,7 +58,6 @@
                 select g.name AS group_name, l.layout
                 from apidb.OrthologGroup g, apidbTuning.GroupLayout l
                 where g.name = l.group_name(+)
-                  and g.core_peripheral_residual in ('P','R')
                         ]]>
             </sql>
         </sqlQuery>
@@ -95,31 +66,28 @@
 	  <column name="group_name" />
 	  <column name="ec_numbers" />
 	  <sql>
-<!-- formatted in SQL Developer -->
-SELECT og.name AS group_name,
-  ecListMap.ec_list as ec_numbers
-FROM apidb.OrthologGroup og,
-  (SELECT ec_map.peripheral_ortholog_group_id,
-    listagg(ec.ec_number
-    || ' ('
-    || ec_count
-    || ')', ', ') within GROUP (
-  ORDER BY ec_count DESC) AS ec_list
-  FROM sres.EnzymeClass ec,
-    (SELECT ogs.peripheral_ortholog_group_id,
-      asec.enzyme_class_id,
-      COUNT(*) AS ec_count
-    FROM ApidbTuning.SequenceAttributes ogs,
-      dots.AaSequenceEnzymeClass asec
-    WHERE asec.aa_sequence_id = ogs.aa_sequence_id
-    GROUP BY ogs.peripheral_ortholog_group_id,
-      asec.enzyme_class_id
-    ) ec_map
-  WHERE ec_map.enzyme_class_id = ec.enzyme_class_id
-  GROUP BY ec_map.peripheral_ortholog_group_id
-  ) ecListMap
-WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
-      and og.core_peripheral_residual in ('P','R')
+    SELECT group_id as group_name,
+      LISTAGG(EC_NUMBER || '(' || ec_count || ')', ', ') WITHIN GROUP (
+      ORDER BY
+        ec_count DESC) AS ec_numbers
+    FROM
+      (
+      SELECT
+        ogaaseq.GROUP_ID,
+        COUNT(*) AS ec_count,
+        ec.EC_NUMBER
+      FROM
+        apidb.ORTHOLOGGROUPAASEQUENCE ogaaseq,
+        dots.AaSequenceEnzymeClass asec,
+        sres.EnzymeClass ec
+      WHERE
+        asec.aa_sequence_id = ogaaseq.AA_SEQUENCE_ID
+        AND asec.enzyme_class_id = ec.enzyme_class_id
+      GROUP BY
+        ogaaseq.GROUP_ID ,
+        ec.EC_NUMBER
+            ) t
+            group by group_id
 	  </sql>
 	</sqlQuery>
 
@@ -128,7 +96,7 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
 	  <column name="keywords" />
 	  <sql>
             <![CDATA[
-              select og.name as group_name, verbiage.keywords
+              select og.group_id as group_name, verbiage.keywords
               from apidb.OrthologGroup og,
                    (select ortholog_group_id,
                            listagg(keyword, '; ') within group (order by to_number(frequency) desc) as keywords
@@ -136,7 +104,7 @@ WHERE og.ortholog_group_id = ecListMap.peripheral_ortholog_group_id(+)
                     group by ortholog_group_id
                    ) verbiage
               where og.ortholog_group_id = verbiage.ortholog_group_id(+)
-	      and og.core_peripheral_residual in ('P','R')
+
             ]]>
 	  </sql>
 	</sqlQuery>
@@ -356,16 +324,29 @@ FROM apidbtuning.PhyleticPattern
             <column name="taxon_group"/>
             <column name="taxon_abbrev"/>
             <column name="length"/>
+            <!--
             <column name="previous_groups"/>
+            -->
             <column name="description"/>
             <column name="ec_numbers"/>
             <sql>
               <![CDATA[
-                select case sa.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral,
-		       sa.group_name, sa.full_id, sa.organism_name, sa.taxon_abbreviation AS taxon_abbrev,
-                       sa.taxon_group, sa.length, sa.product as description,
-                       sa.old_groups as previous_groups, sa.ec_numbers
-                from ApidbTuning.SequenceAttributes sa
+              SELECT
+                CASE
+                  sa.core_peripheral WHEN 'C' THEN 'Core'
+                  WHEN 'P' THEN 'Peripheral'
+                  ELSE ''
+                END AS core_peripheral,
+                  sa.group_name,
+                sa.full_id,
+                sa.organism_name,
+                sa.taxon_abbreviation AS taxon_abbrev,
+                sa.taxon_group,
+                sa.length,
+                sa.product AS description,
+                sa.ec_numbers
+              FROM
+                ApidbTuning.SequenceAttributes sa
               ]]>
             </sql>
         </sqlQuery>
@@ -373,7 +354,6 @@ FROM apidbtuning.PhyleticPattern
         <sqlQuery name="PFams">
           <column name="group_name"/>
           <column name="accession"/>
-          <column name="symbol"/>
           <column name="description"/>
           <column name="num_proteins"/>
           <column name="domain_index"/>
@@ -382,10 +362,10 @@ FROM apidbtuning.PhyleticPattern
             <![CDATA[
      SELECT *
      FROM (
-           SELECT group_name, accession, symbol, description, domain_index, COUNT(distinct full_id) as num_proteins,
+           SELECT group_name, accession, description, domain_index, COUNT(distinct full_id) as num_proteins,
                   (SELECT MAX(domain_index) FROM ApidbTuning.DomainAssignment) AS max_index
            FROM ApidbTuning.DomainAssignment
-           GROUP BY group_name, accession, symbol, description, domain_index
+           GROUP BY group_name, accession, description, domain_index
           )
      ORDER BY num_proteins desc
             ]]>
@@ -396,7 +376,6 @@ FROM apidbtuning.PhyleticPattern
         <sqlQuery name="ProteinPFams">
           <column name="group_name"/>
           <column name="accession"/>
-          <column name="symbol"/>
           <column name="full_id"/>
           <column name="protein_length"/>
           <column name="taxon_name"/>
@@ -411,7 +390,7 @@ FROM apidbtuning.PhyleticPattern
             <![CDATA[
      SELECT sa.group_name, sa.full_id, round(sa.length,0) as protein_length, sa.organism_name as taxon_name,
      case sa.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral,
-     da.accession, da.symbol, da.domain_index, da.start_min, da.end_max
+     da.accession, da.domain_index, da.start_min, da.end_max
      from ApidbTuning.SequenceAttributes sa            
      Left outer join ApidbTuning.DomainAssignment da
      on da.full_id = sa.full_id
