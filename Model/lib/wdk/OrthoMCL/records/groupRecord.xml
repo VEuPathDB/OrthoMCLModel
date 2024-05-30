@@ -163,7 +163,7 @@
                 <columnAttribute name="max_length" displayName="Longest Sequence" internal="true" inReportMaker="false" />
             </attributeQueryRef>
 
-<!--
+
 
             <attributeQueryRef ref="GroupAttributes.PhyleticPattern">
 	      <columnAttribute name="alveolata_actual" internal="true" />
@@ -518,7 +518,7 @@
 		  ]]>
               </text>
             </textAttribute>
--->
+
 <!--
             <attributeQueryRef ref="GroupAttributes.Layout">
                 <columnAttribute name="layout" displayName="Layout" internal="true" inReportMaker="false" />

@@ -158,10 +158,9 @@ WHERE og.avg_evalue_exp >= $$evalue_min$$
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT og.name AS group_name
+SELECT og.group_id AS group_name
 FROM apidb.OrthologGroup og, ($$phyletic_expression$$) ex
-WHERE og.ortholog_group_id = ex.ortholog_group_id
-and og.core_peripheral_residual in ('P','R')
+WHERE og.group_id = ex.group_id
                 ]]>
             </sql>
         </sqlQuery>
