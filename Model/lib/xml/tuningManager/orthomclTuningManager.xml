@@ -452,7 +452,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
                                                 FROM apidb.OrthomclTaxon
                                                 WHERE three_letter_abbrev ='BACT')
-               UNION                                 
+               UNION
                SELECT 'archaea' AS clade, COUNT(*) AS num
                FROM apidb.OrthomclTaxon
                WHERE core_peripheral in ('C','P')
@@ -468,7 +468,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
                                                 FROM apidb.OrthomclTaxon
                                                 WHERE three_letter_abbrev ='ALVE')
-               UNION                                 
+               UNION
                SELECT 'amoeba' AS clade, COUNT(*) AS num
                FROM apidb.OrthomclTaxon
                WHERE core_peripheral in ('C','P')
@@ -476,7 +476,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
                                                 FROM apidb.OrthomclTaxon
                                                 WHERE three_letter_abbrev ='AMOE')
-               UNION                                 
+               UNION
                SELECT 'euglenozoa' AS clade, COUNT(*) AS num
                FROM apidb.OrthomclTaxon
                WHERE core_peripheral in ('C','P')
@@ -484,7 +484,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
                                                 FROM apidb.OrthomclTaxon
                                                 WHERE three_letter_abbrev ='EUGL')
-               UNION                                 
+               UNION
                SELECT 'viridiplantae' AS clade, COUNT(*) AS num
                FROM apidb.OrthomclTaxon
                WHERE core_peripheral in ('C','P')
@@ -492,7 +492,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
                                                 FROM apidb.OrthomclTaxon
                                                 WHERE three_letter_abbrev ='VIRI')
-               UNION                                 
+               UNION
                SELECT 'fungi' AS clade, COUNT(*) AS num
                FROM apidb.OrthomclTaxon
                WHERE core_peripheral in ('C','P')
@@ -500,7 +500,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
                                                 FROM apidb.OrthomclTaxon
                                                 WHERE three_letter_abbrev ='FUNG')
-               UNION                                 
+               UNION
                SELECT 'metazoa' AS clade, COUNT(*) AS num
                FROM apidb.OrthomclTaxon
                WHERE core_peripheral in ('C','P')
@@ -508,7 +508,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                START WITH orthomcl_taxon_id IN (SELECT orthomcl_taxon_id
                                                 FROM apidb.OrthomclTaxon
                                                 WHERE three_letter_abbrev ='META')
-               UNION                                 
+               UNION
                SELECT 'other_eukaryotes' AS clade, COUNT(*) AS num
                FROM apidb.OrthomclTaxon
                WHERE core_peripheral in ('C','P')
@@ -545,7 +545,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                 SUM(CASE three_letter_abbrev WHEN 'ARCH' THEN number_of_taxa ELSE 0 END) -
 		SUM(CASE three_letter_abbrev WHEN 'EURY' THEN number_of_taxa ELSE 0 END) -
 		SUM(CASE three_letter_abbrev WHEN 'CREN' THEN number_of_taxa ELSE 0 END) -
-		SUM(CASE three_letter_abbrev WHEN 'NANO' THEN number_of_taxa ELSE 0 END) - 
+		SUM(CASE three_letter_abbrev WHEN 'NANO' THEN number_of_taxa ELSE 0 END) -
 		SUM(CASE three_letter_abbrev WHEN 'KORA' THEN number_of_taxa ELSE 0 END) as archaea_arch,
                 SUM(CASE three_letter_abbrev WHEN 'EURY' THEN number_of_taxa ELSE 0 END) as archaea_eury,
                 SUM(CASE three_letter_abbrev WHEN 'CREN' THEN number_of_taxa ELSE 0 END) as archaea_cren,
@@ -566,7 +566,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                 SUM(CASE three_letter_abbrev WHEN 'RHOD' THEN number_of_taxa ELSE 0 END) as viridiplantae_rhod,
                 SUM(CASE three_letter_abbrev WHEN 'CRYP' THEN number_of_taxa ELSE 0 END) as viridiplantae_cryp,
                 SUM(CASE three_letter_abbrev WHEN 'FUNG' THEN number_of_taxa ELSE 0 END) -
-		SUM(CASE three_letter_abbrev WHEN 'MICR' THEN number_of_taxa ELSE 0 END) - 
+		SUM(CASE three_letter_abbrev WHEN 'MICR' THEN number_of_taxa ELSE 0 END) -
 		SUM(CASE three_letter_abbrev WHEN 'BASI' THEN number_of_taxa ELSE 0 END) -
 		SUM(CASE three_letter_abbrev WHEN 'ASCO' THEN number_of_taxa ELSE 0 END) -
 		SUM(CASE three_letter_abbrev WHEN 'MUCO' THEN number_of_taxa ELSE 0 END) -
@@ -588,14 +588,14 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                 SUM(CASE three_letter_abbrev WHEN 'AVES' THEN number_of_taxa ELSE 0 END) as metazoa_aves,
                 SUM(CASE three_letter_abbrev WHEN 'MAMM' THEN number_of_taxa ELSE 0 END) as metazoa_mamm,
                 SUM(CASE three_letter_abbrev WHEN 'TUNI' THEN number_of_taxa ELSE 0 END) as metazoa_tuni
-         FROM (SELECT og.name,agt.three_letter_abbrev,agt.number_of_taxa
+         FROM (SELECT og.group_id AS name,agt.three_letter_abbrev,agt.number_of_taxa
                FROM ApiDB.OrthologGroupTaxon agt, apidb.orthologgroup og
-               WHERE agt.ortholog_group_id = og.ortholog_group_id
+               WHERE agt.group_id = og.group_id
 	             AND agt.three_letter_abbrev = UPPER(agt.three_letter_abbrev))
          GROUP BY name) actual,
 	(SELECT name, listagg(prehtml, '<br>') within GROUP (ORDER by prehtml) AS html
 	 FROM (SELECT total.name, total.genera || ': <span style="float:right;">' || NVL(act.count,0) || ' / ' || total.count || '</span>' as prehtml
-	       FROM (SELECT og.name, a.genera, count(a.three_letter_abbrev) AS count
+	       FROM (SELECT og.group_id AS name, a.genera, count(a.three_letter_abbrev) AS count
 	             FROM (SELECT NVL(SUBSTR(name, 0, INSTR(name, ' ')-1), name) AS genera, three_letter_abbrev
 		           FROM apidb.OrthomclTaxon
 			   WHERE core_peripheral in ('C','P')
@@ -605,9 +605,9 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
 							    WHERE three_letter_abbrev ='AMOE')) a,
                           ApiDb.OrthologGroupTaxon ogt,
 			  ApiDb.orthologgroup og
-		     WHERE a.three_letter_abbrev = ogt.three_letter_abbrev AND ogt.ortholog_group_id = og.ortholog_group_id
-		     GROUP by og.name,a.genera) act,
-		    (SELECT og.name, genera, count(three_letter_abbrev) as count
+		     WHERE a.three_letter_abbrev = ogt.three_letter_abbrev AND ogt.group_id = og.group_id
+		     GROUP by og.group_id,a.genera) act,
+		    (SELECT og.group_id AS name, genera, count(three_letter_abbrev) as count
 		     FROM (SELECT NVL(SUBSTR(name, 0, INSTR(name, ' ')-1), name) AS genera, three_letter_abbrev
                            FROM apidb.OrthomclTaxon
 			   WHERE core_peripheral in ('C','P')
@@ -616,14 +616,13 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                                                             FROM apidb.OrthomclTaxon
 							    WHERE three_letter_abbrev ='AMOE')),
                            apidb.orthologgroup og
-		     WHERE core_peripheral_residual IN ('P','R')
-		     GROUP BY og.name,genera) total
+		     GROUP BY og.group_id,genera) total
 	       WHERE total.name = act.name (+)
 	             AND total.genera = act.genera (+))
          GROUP BY name) amoe_genera,
 	(SELECT name, listagg(prehtml, '<br>') within GROUP (ORDER by prehtml) AS html
 	 FROM (SELECT total.name, total.genera || ': <span style="float:right;">' || NVL(act.count,0) || ' / ' || total.count || '</span>' as prehtml
-	       FROM (SELECT og.name, a.genera, count(a.three_letter_abbrev) AS count
+	       FROM (SELECT og.group_id AS name, a.genera, count(a.three_letter_abbrev) AS count
 	             FROM (SELECT NVL(SUBSTR(name, 0, INSTR(name, ' ')-1), name) AS genera, three_letter_abbrev
 		           FROM apidb.OrthomclTaxon
 			   WHERE core_peripheral in ('C','P')
@@ -633,9 +632,9 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
 							    WHERE three_letter_abbrev ='EUGL')) a,
                           ApiDb.OrthologGroupTaxon ogt,
 			  ApiDb.orthologgroup og
-		     WHERE a.three_letter_abbrev = ogt.three_letter_abbrev AND ogt.ortholog_group_id = og.ortholog_group_id
-		     GROUP by og.name,a.genera) act,
-		    (SELECT og.name, genera, count(three_letter_abbrev) as count
+		     WHERE a.three_letter_abbrev = ogt.three_letter_abbrev AND ogt.group_id = og.group_id
+		     GROUP by og.group_id,a.genera) act,
+		    (SELECT og.group_id AS name, genera, count(three_letter_abbrev) as count
 		     FROM (SELECT NVL(SUBSTR(name, 0, INSTR(name, ' ')-1), name) AS genera, three_letter_abbrev
                            FROM apidb.OrthomclTaxon
 			   WHERE core_peripheral in ('C','P')
@@ -644,14 +643,13 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                                                             FROM apidb.OrthomclTaxon
 							    WHERE three_letter_abbrev ='EUGL')),
                            apidb.orthologgroup og
-		     WHERE core_peripheral_residual IN ('P','R')
-		     GROUP BY og.name,genera) total
+		     GROUP BY og.group_id,genera) total
 	       WHERE total.name = act.name (+)
 	             AND total.genera = act.genera (+))
          GROUP BY name) eugl_genera,
 	(SELECT name, listagg(prehtml, '<br>') within GROUP (ORDER by prehtml) AS html
 	 FROM (SELECT total.name, total.genera || ': <span style="float:right;">' || NVL(act.count,0) || ' / ' || total.count || '</span>' as prehtml
-	       FROM (SELECT og.name, a.genera, count(a.three_letter_abbrev) AS count
+	       FROM (SELECT og.group_id AS name, a.genera, count(a.three_letter_abbrev) AS count
 	             FROM (SELECT NVL(SUBSTR(name, 0, INSTR(name, ' ')-1), name) AS genera, three_letter_abbrev
 		           FROM apidb.OrthomclTaxon
 			   WHERE core_peripheral in ('C','P')
@@ -661,9 +659,9 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
 							    WHERE three_letter_abbrev ='OEUK')) a,
                           ApiDb.OrthologGroupTaxon ogt,
 			  ApiDb.orthologgroup og
-		     WHERE a.three_letter_abbrev = ogt.three_letter_abbrev AND ogt.ortholog_group_id = og.ortholog_group_id
-		     GROUP by og.name,a.genera) act,
-		    (SELECT og.name, genera, count(three_letter_abbrev) as count
+		     WHERE a.three_letter_abbrev = ogt.three_letter_abbrev AND ogt.group_id = og.group_id
+		     GROUP by og.group_id,a.genera) act,
+		    (SELECT og.group_id AS name, genera, count(three_letter_abbrev) as count
 		     FROM (SELECT NVL(SUBSTR(name, 0, INSTR(name, ' ')-1), name) AS genera, three_letter_abbrev
                            FROM apidb.OrthomclTaxon
 			   WHERE core_peripheral in ('C','P')
@@ -672,8 +670,7 @@ CREATE TABLE PhyleticPattern&1 NOLOGGING AS
                                                             FROM apidb.OrthomclTaxon
 							    WHERE three_letter_abbrev ='OEUK')),
                            apidb.orthologgroup og
-		     WHERE core_peripheral_residual IN ('P','R')
-		     GROUP BY og.name,genera) total
+		     GROUP BY og.group_id,genera) total
 	       WHERE total.name = act.name (+)
 	             AND total.genera = act.genera (+))
          GROUP BY name) oeuk_genera
