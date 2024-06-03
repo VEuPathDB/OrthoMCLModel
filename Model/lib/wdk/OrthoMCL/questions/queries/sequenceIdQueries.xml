@@ -106,8 +106,6 @@ WHERE asi.subclass_view = 'OrthoAASequence'
             FROM ApidbTuning.DomainAssignment
             WHERE (accession
                    LIKE UPPER(REPLACE($$pfam_id_type_ahead$$,'*','%'))
-                  OR symbol
-                   LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
                   OR description
                    LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
             ]]>
