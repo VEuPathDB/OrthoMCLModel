@@ -136,12 +136,11 @@ FROM apidb.OrthomclTaxon t
             <column name="display"/>
             <sql>
                 SELECT distinct accession AS internal,
-                       accession || ' : ' || symbol AS term,
-                       accession || ' : ' || symbol || ' ' ||
-                       description AS display,
-                       symbol, description
+                       accession  AS term,
+                       accession  || ' ' ||description AS display,
+                       description
                 FROM ApidbTuning.DomainAssignment
-                ORDER BY lower(symbol), lower(description)
+                ORDER BY lower(description)
             </sql>
         </sqlQuery>
 
