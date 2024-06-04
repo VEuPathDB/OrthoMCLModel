@@ -66,7 +66,9 @@
 	  <column name="group_name" />
 	  <column name="ec_numbers" />
 	  <sql>
-    SELECT group_id as group_name,
+      select og.group_id as group_name, ec.ec_numbers
+      from (
+      SELECT group_id,
       LISTAGG(EC_NUMBER || '(' || ec_count || ')', ', ') WITHIN GROUP (
       ORDER BY
         ec_count DESC) AS ec_numbers
@@ -88,6 +90,8 @@
         ec.EC_NUMBER
             ) t
             group by group_id
+            ) ec, apidb.orthologgroup og
+       where og.group_id = ec.group_id (+)
 	  </sql>
 	</sqlQuery>
 
