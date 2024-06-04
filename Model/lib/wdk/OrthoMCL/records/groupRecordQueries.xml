@@ -428,9 +428,8 @@ FROM apidbtuning.PhyleticPattern
 
           <sql>
             <![CDATA[
-              select name as group_name, name as name_string
+              select group_id as group_name, group_id as name_string
               from apidb.OrthologGroup
-	      where core_peripheral_residual in ('P','R')
             ]]>
           </sql>
         </sqlQuery>
@@ -442,10 +441,9 @@ FROM apidbtuning.PhyleticPattern
           <column name="frequency" />
           <sql>
             <![CDATA[
-              select og.name as group_name, k.keyword, k.frequency
+              select og.group_id as group_name, k.keyword, k.frequency
               from apidb.OrthologGroup og, apidb.OrthomclGroupKeyword k
               WHERE og.ortholog_group_id = k.ortholog_group_id
-	            and og.core_peripheral_residual in ('P','R')
             ]]>
           </sql>
         </sqlQuery>
@@ -456,10 +454,9 @@ FROM apidbtuning.PhyleticPattern
           <column name="frequency" />
           <sql>
             <![CDATA[
-              select og.name as group_name, d.description AS keyword, d.frequency
+              select og.group_id as group_name, d.description AS keyword, d.frequency
               from apidb.OrthologGroup og, apidb.OrthomclGroupDomain d
               WHERE og.ortholog_group_id = d.ortholog_group_id
-	           and og.core_peripheral_residual in ('P','R')
             ]]>
           </sql>
         </sqlQuery>

@@ -206,9 +206,8 @@ GROUP BY sa.group_name
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT og.name AS group_name
+SELECT og.group_id AS group_name
 FROM apidb.OrthologGroup og
-WHERE og.core_peripheral_residual in ('P','R')
               ]]>
             </sql>
         </sqlQuery>
