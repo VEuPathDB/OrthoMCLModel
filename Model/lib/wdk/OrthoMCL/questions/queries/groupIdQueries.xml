@@ -13,11 +13,10 @@
             <column name="group_name"/>
             <sql>
               <![CDATA[
-                SELECT og.name AS group_name
+                SELECT og.group_id AS group_name
                 FROM apidb.OrthologGroup og, ($$group_names$$) ds
-                WHERE lower(og.name) = lower(ds.group_name)
-		      and og.core_peripheral_residual in ('P','R')
-                UNION
+                WHERE lower(og.group_id) = lower(ds.group_name)
+               UNION
                 SELECT sa.group_name
                 FROM ApidbTuning.SequenceAttributes sa,
                      Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
@@ -85,23 +84,11 @@ WHERE sa.aa_sequence_id = asi.aa_sequence_id
             <column name="peripheral_num"/>
             <sql>
                 <![CDATA[
-WITH core AS (SELECT og.name, og.number_of_members as core_num
-              FROM apidb.OrthologGroup og
-              WHERE core_peripheral_residual = 'C' 
-              UNION
-              SELECT og.name, 0 as core_num
-	      FROM apidb.OrthologGroup og
-	      WHERE core_peripheral_residual = 'R' ),
-     peripheral AS (SELECT og.name, og.number_of_members as peripheral_num
-                    FROM apidb.OrthologGroup og
-	            WHERE core_peripheral_residual IN ('P','R'))
-SELECT c.name as group_name, c.core_num, p.peripheral_num-c.core_num AS peripheral_num
-FROM core c, peripheral p
-WHERE c.name = p.name
-      AND c.core_num>=$$core_count_min$$ AND c.core_num<=$$core_count_max$$
-      AND (p.peripheral_num-c.core_num)>=$$peripheral_count_min$$
-      AND (p.peripheral_num-c.core_num)<=$$peripheral_count_max$$
-      AND p.peripheral_num>=$$all_count_min$$ AND p.peripheral_num<=$$all_count_max$$
+select og.group_id as group_name, og.number_of_core_members as core_num, og.number_of_peripheral_members as peripheral_num
+from apidb.orthologgroup og
+WHERE og.number_of_core_members >= $$core_count_min$$ AND og.number_of_core_members <= $$core_count_max$$
+AND og.number_of_peripheral_members >= $$peripheral_count_min$$ AND og.number_of_peripheral_members <= $$peripheral_count_max$$
+AND og.number_of_members >= $$all_count_min$$ AND og.number_of_members <=$$all_count_max$$
                 ]]>
             </sql>
         </sqlQuery>
