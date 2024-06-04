@@ -107,7 +107,7 @@
                     from apidb.OrthomclGroupKeyword
                     group by ortholog_group_id
                    ) verbiage
-              where og.ortholog_group_id = verbiage.ortholog_group_id(+)
+              where og.group_id = verbiage.ortholog_group_id(+)
 
             ]]>
 	  </sql>
@@ -443,7 +443,7 @@ FROM apidbtuning.PhyleticPattern
             <![CDATA[
               select og.group_id as group_name, k.keyword, k.frequency
               from apidb.OrthologGroup og, apidb.OrthomclGroupKeyword k
-              WHERE og.ortholog_group_id = k.ortholog_group_id
+              WHERE og.group_id = k.ortholog_group_id
             ]]>
           </sql>
         </sqlQuery>
