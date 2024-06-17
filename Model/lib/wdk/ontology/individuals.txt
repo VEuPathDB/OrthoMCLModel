@@ -50,8 +50,8 @@ GroupRecordClasses.GroupRecordClass.Statistics	http://edamontology.org/data_0907
 GroupRecordClasses.GroupRecordClass.PhyleticDistributionCounts	http://edamontology.org/topic_3293	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	PhyleticDistributionCounts							download		
 GroupRecordClasses.GroupRecordClass.TaxonCounts	http://edamontology.org/topic_3293	Phylogenetics	GroupRecordClasses.GroupRecordClass	table	TaxonCounts						record	download	
 GroupRecordClasses.GroupRecordClass.Sequences	http://edamontology.org/topic_0623	Gene and protein families	GroupRecordClasses.GroupRecordClass	table	Sequences						record	download	
-GroupRecordClasses.GroupRecordClass.PFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	PFams					1	record	download	
-GroupRecordClasses.GroupRecordClass.ProteinPFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	ProteinPFams					2	record	download	
+GroupRecordClasses.GroupRecordClass.PFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	PFams					1	record-internal	download
+GroupRecordClasses.GroupRecordClass.ProteinPFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	ProteinPFams					2	record-internal	download
 GroupRecordClasses.GroupRecordClass.EcNumber	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	EcNumber					2	record	download	
 GroupRecordClasses.GroupRecordClass.GroupName		Group	GroupRecordClasses.GroupRecordClass	table	GroupName								
 GroupRecordClasses.GroupRecordClass.DomainFrequency	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	DomainFrequency							download	
