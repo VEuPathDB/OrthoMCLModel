@@ -159,24 +159,18 @@ peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Mi
 
       </question>
 
-      <question name="GroupsByEValue" queryRef="GroupIds.ByEValue" 
+      <!--
+      <question name="GroupsByEValue" queryRef="GroupIds.ByEValue"
                 displayName="E-Value"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
 
-<!--TODO: set default
-        <attributesList
-           summary="evalue_display,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-           sorting="avg_evalue_exp asc"
-           /> 
-
--->
-<description>
+        <description>
           <![CDATA[
-		   Find Ortholog Groups by the median BLAST e-value between all protein sequences in the group compared to the Representative Sequence (the group centroid).  This is a measure of group cohesiveness; smaller (more significant) e-values indicate a tighter group while larger e-values indicate a group that is more dispersed.
-                        ]]>
+		               Find Ortholog Groups by the median BLAST e-value between all protein sequences in the group compared to the Representative Sequence (the group centroid).  This is a measure of group cohesiveness; smaller (more significant) e-values indicate a tighter group while larger e-values indicate a group that is more dispersed.
+          ]]>
         </description>
       </question>
-
+    -->
       
       <question name="GroupsByPhyleticPattern" queryRef="GroupIds.ByPhyleticPattern" 
 		displayName="Phyletic Pattern" shortDisplayName="Phyletic"

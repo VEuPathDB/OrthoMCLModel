@@ -14,8 +14,7 @@ GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByHomology		Group Stati
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPercentMatchPairs		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPercentMatchPairs						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPercentIdentity		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPercentIdentity						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPercentMatch		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPercentMatch						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByEValue		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByEValue						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPhyleticPattern		Evolution	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPhyleticPattern						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPhyleticPattern		Evolution	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPhyleticPattern						menu	webservice
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsFromSequences		Group Statistics	GroupRecordClasses.GroupRecordClass		GroupQuestions.GroupsFromSequences						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.AllGroups		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.AllGroups						menu	webservice	
 													
