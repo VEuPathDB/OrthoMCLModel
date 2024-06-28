@@ -632,7 +632,7 @@
               <description><![CDATA[This section features a Clustal Omega alignment tool (max 1000 sequences) and a tree visualization of proteins in this group. The Pfam Legend table and/or the Protein Table can be used to choose proteins  included in these features. For example, 
               <ul>
               <li>Select one or more Pfam groups from the Pfam Legend table.</li>
-              <li>Select Core Only, Peripheral Only or Core & Peripheral using the buttons above the Proteins List table.</li>
+              <li>Select Core Only, Peripheral Only or Core & Peripheral using the buttons above the Protein Table.</li>
               <li>Select individual proteins from the Protein Table which includes a table filter at the top to aid in finding proteins of interest.</li>
               </ul>
               The tree visualization is automatically updated with each selection. To run a Clustal Omega alignment after proteins are selected, choose the ‘Output format’ below the Protein List table and click the ‘Run Clustal Omega for selected genes’ button.]]>
