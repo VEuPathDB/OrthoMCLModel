@@ -61,13 +61,12 @@
       <!-- =============================================================== -->
       <!--  Default summary attributes and sorting attributes -->  
       <!-- =============================================================== -->
-<!--
+
          <attributesList
            summary="number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
 
            sorting="number_of_members DESC"/>
 
--->
       <!-- =============================================================== -->
       <!-- Attributes -->  
       <!-- =============================================================== -->
