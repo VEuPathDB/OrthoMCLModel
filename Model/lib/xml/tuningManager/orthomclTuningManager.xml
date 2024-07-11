@@ -35,8 +35,6 @@
             OrthologGroup.number_of_core_members,
             OrthologGroup.number_of_peripheral_members,
             decode(OrthologGroup.is_residual, 1, 'Residual', 'Core') AS group_type,
-
-                   EcNumbers.ec_numbers,
                    urls.source_url,
             urls.source_text
         FROM
@@ -60,18 +58,6 @@
             CONNECT BY
                 parent_id = PRIOR orthomcl_taxon_id
                  ) taxon,
-            (
-            SELECT
-                asec.aa_sequence_id,
-                substr(listagg(ec.ec_number, ', ') WITHIN GROUP (ORDER BY ec.ec_number), 1, 200) AS ec_numbers
-            FROM
-                dots.AaSequenceEnzymeClass asec,
-                sres.EnzymeClass ec
-            WHERE
-                asec.enzyme_class_id = ec.enzyme_class_id
-            GROUP BY
-                asec.aa_sequence_id
-                     ) EcNumbers,
 
                  (
             SELECT
@@ -102,7 +88,6 @@
             SUBSTR(eas.secondary_identifier, 0, INSTR(eas.secondary_identifier, '|')-1) = taxon.three_letter_abbrev(+)
             AND eas.aa_sequence_id = ogseq.aa_sequence_id(+)
             AND ogseq.GROUP_ID = orthologgroup.GROUP_ID (+)
-            AND eas.aa_sequence_id = EcNumbers.aa_sequence_id(+)
             AND eas.aa_sequence_id = urls.aa_sequence_id(+)
       ]]>
     </sql>
@@ -152,6 +137,8 @@
 
   </tuningTable>
 
+
+<!-- TODO:  if this is needed, need to redo the EC_NUMBER query -->
   <tuningTable name="TypeAheadCounts">
     <!-- internalDependency name="GeneAttributes"/ -->
     <externalDependency name="dots.DbRefAaFeature"/>
@@ -740,6 +727,10 @@ tablespace indx
              , ec.EC_NUMBER 
              , ec.DESCRIPTION 
              , ec.parent_id as ec_parent
+             , ec.ec_number_1
+             , ec.ec_number_2
+             , ec.ec_number_3
+             , ec.ec_number_4
         FROM sequenceattributes sa
            , apidb.AASEQUENCEUNIPROT au
            , apidb.UNIPROTENZYMECLASS uec 
