@@ -739,6 +739,7 @@ tablespace indx
              , uec.UNIPROT_ACCESSION 
              , ec.EC_NUMBER 
              , ec.DESCRIPTION 
+             , ec.parent_id as ec_parent
         FROM sequenceattributes sa
            , apidb.AASEQUENCEUNIPROT au
            , apidb.UNIPROTENZYMECLASS uec 
