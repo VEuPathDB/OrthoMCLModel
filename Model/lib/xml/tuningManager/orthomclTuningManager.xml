@@ -751,13 +751,13 @@ tablespace indx
     </sql>
     <sql>
       <![CDATA[
-        CREATE INDEX SequenceEnzymeClass_idx&1 ON SequenceEnzymeClass&1 (group_name, ec_number, description)
+        CREATE INDEX SequenceEnzymeClass_idx1&1 ON SequenceEnzymeClass&1 (group_name, ec_number, description)
         tablespace indx
       ]]>
     </sql>
     <sql>
       <![CDATA[
-        CREATE INDEX SequenceEnzymeClass_idx&2 ON SequenceEnzymeClass&1 (full_id, ec_number, description)
+        CREATE INDEX SequenceEnzymeClass_idx2&1 ON SequenceEnzymeClass&1 (full_id, ec_number, description)
         tablespace indx
       ]]>
     </sql>
