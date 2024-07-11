@@ -723,4 +723,47 @@ tablespace indx
     </sql>
   </tuningTable>
 
+
+
+  <tuningTable name="SequenceEnzymeClass">
+    <externalDependency name="apidb.AASEQUENCEUNIPROT"/>
+    <externalDependency name="apidb.UNIPROTENZYMECLASS"/>
+    <externalDependency name="sres.enzymeclass"/>
+    <internalDependency name="SequenceAttributes"/>
+    <sql>
+      <![CDATA[
+        CREATE TABLE SequenceEnzymeClass&1 NOLOGGING AS
+        (
+        SELECT sa.full_id
+             , sa.group_name
+             , uec.UNIPROT_ACCESSION 
+             , ec.EC_NUMBER 
+             , ec.DESCRIPTION 
+        FROM sequenceattributes sa
+           , apidb.AASEQUENCEUNIPROT au
+           , apidb.UNIPROTENZYMECLASS uec 
+           , sres.ENZYMECLASS ec
+        WHERE au.UNIPROT_ACCESSION = uec.UNIPROT_ACCESSION 
+        AND sa.aa_sequence_id = au.AA_SEQUENCE_ID 
+        AND uec.enzyme_class_id = ec.enzyme_class_id
+        )
+      ]]>
+    </sql>
+    <sql>
+      <![CDATA[
+        CREATE INDEX SequenceEnzymeClass_idx&1 ON SequenceEnzymeClass&1 (group_name, ec_number, description)
+        tablespace indx
+      ]]>
+    </sql>
+    <sql>
+      <![CDATA[
+        CREATE INDEX SequenceEnzymeClass_idx&2 ON SequenceEnzymeClass&1 (full_id, ec_number, description)
+        tablespace indx
+      ]]>
+    </sql>
+
+  </tuningTable>
+
+
+
 </tuningConfig>
