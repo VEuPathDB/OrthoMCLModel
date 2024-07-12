@@ -109,9 +109,9 @@
     <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 
         <stringParam name="ec_wildcard"
-                        prompt="EC Number wildcard search" number="false">
+                        prompt="EC Name wildcard search" number="false">
             <suggest default="N/A"/>
-            <help>Asterisks can be used as wildcard characters in an EC Number (e.g. "1.*"). To find genes with any EC Number, you may use "*" or "any".</help>
+            <help>Type an Enzyme name or partial name.</help>
         </stringParam>
 
 

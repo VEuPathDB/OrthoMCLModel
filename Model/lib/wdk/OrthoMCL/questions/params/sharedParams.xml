@@ -149,17 +149,16 @@ FROM apidb.OrthomclTaxon t
             <column name="term" />
             <column name="display"/>
             <sql>
-               SELECT ec2.ec_number AS internal,
-                      ec2.ec_number AS term,
-                      ec2.ec_number || ' (' || ec2.description || ')' AS display
-               FROM 
-                 (select distinct ec.ec_number, ec.description
-                  from dots.aaSequenceEnzymeClass asec, sres.enzymeClass ec
-                  where asec.enzyme_class_id = ec.enzyme_class_id) ec2
-               UNION
-               SELECT 'N/A' AS internal, 'N/A' AS term, 'N/A' AS display
-               FROM dual
-
+               WITH leaves AS (
+               SELECT DISTINCT ec_number, description
+               FROM apidbtuning.sequenceenzymeclass
+               )
+               SELECT ec_number AS term, ec_number AS internal, ec_number || ' (' || CASE WHEN ec_number = '-.-.-.-' THEN 'Any Enzyme' ELSE description end || ')' AS display 
+               from sres.ENZYMECLASS 
+               start with ec_number IN (SELECT ec_number FROM leaves)
+               connect by prior parent_id = enzyme_class_id
+               UNION 
+               SELECT ec_number, ec_number, ec_number || ' (' || description || ')' AS display FROM leaves
              </sql>
          </sqlQuery>
 

@@ -68,30 +68,25 @@
 	  <sql>
       select og.group_id as group_name, ec.ec_numbers
       from (
-      SELECT group_id,
+      SELECT group_name,
       LISTAGG(EC_NUMBER || '(' || ec_count || ')', ', ') WITHIN GROUP (
       ORDER BY
         ec_count DESC) AS ec_numbers
     FROM
       (
       SELECT
-        ogaaseq.GROUP_ID,
+        GROUP_NAME,
         COUNT(*) AS ec_count,
-        ec.EC_NUMBER
+        EC_NUMBER
       FROM
-        apidb.ORTHOLOGGROUPAASEQUENCE ogaaseq,
-        dots.AaSequenceEnzymeClass asec,
-        sres.EnzymeClass ec
-      WHERE
-        asec.aa_sequence_id = ogaaseq.AA_SEQUENCE_ID
-        AND asec.enzyme_class_id = ec.enzyme_class_id
+        apidbtuning.sequenceenzymeclass
       GROUP BY
-        ogaaseq.GROUP_ID ,
-        ec.EC_NUMBER
+        group_name ,
+        EC_NUMBER
             ) t
-            group by group_id
+            group by group_name
             ) ec, apidb.orthologgroup og
-       where og.group_id = ec.group_id (+)
+       where og.group_id = ec.group_name (+)
 	  </sql>
 	</sqlQuery>
 
@@ -348,9 +343,13 @@ FROM apidbtuning.PhyleticPattern
                 sa.taxon_group,
                 sa.length,
                 sa.product AS description,
-                sa.ec_numbers
+                sec.ec_numbers
               FROM
                 ApidbTuning.SequenceAttributes sa
+              , (select full_id
+                      , LISTAGG(EC_NUMBER, ', ') WITHIN GROUP (ORDER BY ec_number) AS ec_numbers 
+                 from apidbtuning.sequenceenzymeclass group by full_id) sec
+                where sa.full_id = sec.full_id
               ]]>
             </sql>
         </sqlQuery>
@@ -410,14 +409,13 @@ FROM apidbtuning.PhyleticPattern
           <column name="sequence_count"/>
           <sql>
             <![CDATA[
-              select sa.group_name, ec_map.ec_number, ec_map.description, count(*) as sequence_count
-              from ApidbTuning.SequenceAttributes sa,
-                   (select distinct asec.aa_sequence_id, ec.ec_number, ec.description
-                    from dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
-                    where asec.enzyme_class_id = ec.enzyme_class_id) ec_map
-              where ec_map.aa_sequence_id = sa.aa_sequence_id
-              group by sa.group_name, ec_map.ec_number, ec_map.description
-              order by sa.group_name, sequence_count desc
+              select sec.group_name
+                   , sec.ec_number
+                   , sec.description
+                   , count(*) as sequence_count
+              from apidbtuning.sequenceenzymeclass sec
+              group by group_name, ec_number, description
+              order by count(*) desc
             ]]>
           </sql>
         </sqlQuery>

@@ -302,6 +302,7 @@
             </description>
         </question>
 
+<!--
         <question name="ByEcAssignment" queryRef="SequenceIds.ByEcAssignment" 
                   displayName="EC Number (any)" shortDisplayName="Enzymes"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
@@ -309,7 +310,7 @@
                         <![CDATA[ Find all proteins that are assigned to at least one Enzyme Commission (EC) Number]]>
             </description>
         </question>
-
+-->
         <!-- Do not remove.  needed for Site Search tests -->
         <question name="AllSequences" queryRef="SequenceIds.AllSequences" 
                                   displayName="All Proteins"

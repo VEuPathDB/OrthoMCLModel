@@ -117,12 +117,6 @@
           </reporter>
         </columnAttribute>
 -->
-        <columnAttribute name="ec_numbers" displayName="EC Numbers">
-          <reporter name="wordCloud" displayName="Word Cloud" scopes=""
-                    implementation="org.gusdb.wdk.model.report.reporter.WordCloudAttributeReporter">
-            <description>Display the terms in the attribute as a word cloud</description>
-          </reporter>
-        </columnAttribute>
         <columnAttribute name="pfam_domains" displayName="PFam Domains">
           <reporter name="wordCloud" displayName="Word Cloud" scopes=""
                     implementation="org.gusdb.wdk.model.report.reporter.WordCloudAttributeReporter">
@@ -142,6 +136,16 @@
           </reporter>
         </columnAttribute>
 
+      </attributeQueryRef>
+
+
+      <attributeQueryRef ref="SequenceAttributes.ECNumbersAttr">
+        <columnAttribute name="ec_numbers" displayName="EC Numbers">
+          <reporter name="wordCloud" displayName="Word Cloud" scopes=""
+                    implementation="org.gusdb.wdk.model.report.reporter.WordCloudAttributeReporter">
+            <description>Display the terms in the attribute as a word cloud</description>
+          </reporter>
+        </columnAttribute>
       </attributeQueryRef>
 
 

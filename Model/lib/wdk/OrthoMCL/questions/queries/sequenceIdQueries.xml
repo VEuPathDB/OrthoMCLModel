@@ -130,12 +130,9 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-                    SELECT distinct eas.secondary_identifier as full_id
-                    FROM dots.OrthoAaSequence eas,
-                         dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
-                    WHERE eas.aa_sequence_id = asec.aa_sequence_id
-                      AND asec.enzyme_class_id = ec.enzyme_class_id
-                      AND ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE($$ec_number_type_ahead$$,' ',''),'-', '%'),'*','%'),'any','%')
+                   select distinct sec.full_id
+                   from ApidbTuning.sequenceenzymeclass sec
+                   WHERE sec.ec_number LIKE REPLACE(REPLACE($$ec_number_type_ahead$$,' ',''),'-', '%')
                  ]]>
             </sql>
         </sqlQuery>

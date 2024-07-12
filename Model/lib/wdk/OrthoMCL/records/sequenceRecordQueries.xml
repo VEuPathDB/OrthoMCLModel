@@ -43,7 +43,6 @@
 -->
             <column name="abbreviation"/>
             <column name="taxon_name"/>          
-            <column name="ec_numbers"/>          
             <column name="pfam_domains"/>          
             <sql>
 		<![CDATA[
@@ -52,7 +51,6 @@ SELECT sa.full_id, sa.source_id,
     --round(sa.molecular_weight/1000,1) AS molecular_weight,
     sa.taxon_abbreviation AS abbreviation, 
     sa.organism_name as taxon_name,
-    sa.ec_numbers,
     (SELECT apidb.tab_to_string(set(cast(collect(da.accession) as apidb.varchartab)), ', ')
     FROM ApidbTuning.DomainAssignment da
     WHERE da.aa_sequence_id = sa.aa_sequence_id
@@ -60,6 +58,21 @@ SELECT sa.full_id, sa.source_id,
 FROM apidbTuning.SequenceAttributes sa
  		]]>
             </sql>
+        </sqlQuery>
+
+        <sqlQuery name="ECNumbersAttr">
+           <column name="full_id"/>
+           <column name="ec_numbers"/>          
+           <sql>
+             <![CDATA[
+                  select sa.full_id, ec.ec_numbers
+                  from (
+                  select full_id, listagg(sec.ec_number, ', ') WITHIN GROUP (ORDER BY sec.ec_number) AS ec_numbers
+                  from apidbtuning.sequenceenzymeclass sec
+                  group by full_id) ec, apidbtuning.sequenceattributes sa
+                  where sa.full_id = ec.full_id (+)
+             ]]>
+           </sql>
         </sqlQuery>
 
         <sqlQuery name="SequenceGroup">
@@ -151,15 +164,12 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             <column name="expasy_url"/>
             <sql>
                 <![CDATA[
-                    SELECT eas.secondary_identifier as full_id, ec.ec_number, ec.description,
-                                 'http://enzyme.expasy.org/cgi-bin/enzyme/enzyme-search-ec?field1=' || ec.ec_number_1
-                                 || chr(38) || 'field2=' || ec.ec_number_2
-                                 || chr(38) || 'field3=' || ec.ec_number_3
-                                 || chr(38) || 'field4=' || ec.ec_number_4 as expasy_url
-                    FROM dots.Orthoaasequence eas,
-                         dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
-                    WHERE eas.aa_sequence_id = asec.aa_sequence_id
-                      AND asec.enzyme_class_id = ec.enzyme_class_id
+                    SELECT sec.full_id, sec.ec_number, sec.description,
+                                 'http://enzyme.expasy.org/cgi-bin/enzyme/enzyme-search-ec?field1=' || sec.ec_number_1
+                                 || chr(38) || 'field2=' || sec.ec_number_2
+                                 || chr(38) || 'field3=' || sec.ec_number_3
+                                 || chr(38) || 'field4=' || sec.ec_number_4 as expasy_url
+                    FROM apidbtuning.sequenceenzymeclass sec
  		]]>
             </sql>
         </sqlQuery>

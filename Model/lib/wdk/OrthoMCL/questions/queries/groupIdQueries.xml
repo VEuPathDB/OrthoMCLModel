@@ -158,17 +158,15 @@ WHERE og.group_id = ex.group_id
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-                    select distinct sa.group_name 
-                    from ApidbTuning.SequenceAttributes sa, dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
-                    where (
-ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_number_type_ahead$$),' ',''),'-', '%'),'*','%'),'any','%')
-                OR
-                ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_wildcard$$),' ',''),'-', '%'),'*','%'),'any','%')
-                OR
-                ec.description LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_wildcard$$),' ',''),'-', '%'),'*','%'),'any','%')
-)
-                      and asec.enzyme_class_id = ec.enzyme_class_id
-                      and sa.aa_sequence_id = asec.aa_sequence_id
+                   select distinct sec.group_name 
+                   from ApidbTuning.sequenceenzymeclass sec
+                   where (
+                      sec.ec_number LIKE REPLACE(REPLACE(lower($$ec_number_type_ahead$$),' ',''),'-', '%')
+                      OR
+                      sec.ec_number LIKE REPLACE(REPLACE(REPLACE(lower($$ec_wildcard$$),' ',''),'-', '%'),'*','%')
+                      OR
+                      sec.description LIKE REPLACE($$ec_wildcard$$, '*', '%')
+                     )
                  ]]>
             </sql>
         </sqlQuery>

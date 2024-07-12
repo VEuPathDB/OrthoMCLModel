@@ -67,7 +67,6 @@ SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByBlast		Group Stati
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByMotif		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByMotif						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.FromGroups		Group Statistics	SequenceRecordClasses.SequenceRecordClass		SequenceQuestions.FromGroups						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByEcNumber		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByEcNumber						menu	webservice	
-SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByEcAssignment		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByEcAssignment						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.AllSequences		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.AllSequences						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.SequencesByText		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.SequencesByText						menu	webservice	
 													
