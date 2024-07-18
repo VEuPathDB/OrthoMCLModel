@@ -349,7 +349,7 @@ FROM apidbtuning.PhyleticPattern
               , (select full_id
                       , LISTAGG(EC_NUMBER, ', ') WITHIN GROUP (ORDER BY ec_number) AS ec_numbers 
                  from apidbtuning.sequenceenzymeclass group by full_id) sec
-                where sa.full_id = sec.full_id
+                where sa.full_id = sec.full_id (+)
               ]]>
             </sql>
         </sqlQuery>
