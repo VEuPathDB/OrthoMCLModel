@@ -754,6 +754,36 @@
               <columnAttribute name="sequence_count" displayName="# Proteins"/>
             </table>
 
+            <table name="SimilarGroup"
+                   displayName="Similar Groups"
+                   queryRef="GroupTables.SimilarGroup">
+              <columnAttribute name="similar_group" internal="true" inReportMaker="true"/>
+              <columnAttribute name="evalue" inReportMaker="true" displayName="E-value"/>
+              <columnAttribute name="protein_count" inReportMaker="true" displayName="# Proteins"/>
+              <columnAttribute name="keyword" inReportMaker="true" displayName="Keyword"/>
+              <linkAttribute name="similar_group_link" inReportMaker="false"
+                             displayName="Similar Group ID">
+                   <displayText>
+                      <![CDATA[
+                      $$similar_group$$
+                      ]]>
+                   </displayText>
+                   <url>
+                      <![CDATA[https://qa.orthomcl.org/orthomcl/app/record/group/$$similar_group$$]]>
+                   </url>
+              </linkAttribute>
+            </table>
+
+            <table name="GroupStat"
+                   displayName="Group Statistics"
+                   queryRef="GroupTables.GroupStat"
+                   help="Group Statistics are a measure of cohesiveness for the proteins in an orthogroup. A pairwise BLAST e-value is computed between each protein and the Representative Sequence, which is the centroid of the group. A tight group will have a highly significant median of these pairwise e-values and also a significant maximum e-value (ie. less than 1e-10, since smaller e-values are more significant). The maximum e-value is a measure of the distance between the most dissimilar protein compared to the Representative Sequence.">
+              <columnAttribute name="group_name" internal="true" inReportMaker="true"/>
+              <columnAttribute name="stat_type" inReportMaker="true" displayName="Type"/>
+              <columnAttribute name="evalue" inReportMaker="true" displayName="E-value"/>
+              <columnAttribute name="group_type" inReportMaker="true" displayName="Protein Subset"/>
+            </table>
+
             <table name="GroupName"
                    queryRef="GroupTables.GroupName">
               <columnAttribute name="name_string" internal="true" inReportMaker="true"/>

@@ -420,6 +420,38 @@ FROM apidbtuning.PhyleticPattern
           </sql>
         </sqlQuery>
 
+	<sqlQuery name="SimilarGroup">
+	  <column name="group_name" />
+	  <column name="similar_group" />
+	  <column name="evalue" />
+	  <column name="protein_count" />
+	  <column name="keyword" />
+	  <sql>
+          SELECT og.group_id AS group_name, sog.similar_group_id AS similar_group, evalue, groupProteinCount.protein_count as protein_count, verbiage.keywords as keyword
+          FROM apidb.SimilarOrthologGroup sog, apidb.orthologgroup og, (SELECT ogas.group_id, count(ogas.aa_sequence_id) as protein_count 
+                                                                        FROM apidb.orthologgroupaasequence ogas 
+                                                                        GROUP BY ogas.group_id) groupProteinCount,
+          (select ortholog_group_id, listagg(keyword, '; ') within group (order by to_number(frequency) desc) as keywords from apidb.OrthomclGroupKeyword group by ortholog_group_id) verbiage
+          WHERE og.group_id = sog.group_id 
+          AND sog.similar_group_id = groupProteinCount.group_id 
+          AND sog.similar_group_id = verbiage.ortholog_group_id
+          ORDER BY evalue ASC
+      	  </sql>
+	</sqlQuery>
+
+	<sqlQuery name="GroupStat">
+	  <column name="group_name" />
+          <column name="stat_type" />
+	  <column name="evalue" />
+	  <column name="group_type" />
+	  <sql>
+          SELECT og.group_id as group_name, ogs.stat_type, ogs.evalue, 
+          CASE ogs.protein_subset WHEN 'C' THEN 'Core only' WHEN 'C+P' THEN 'Core+Peripheral' WHEN 'R' THEN 'Peripheral only' ELSE '' END AS group_type 
+          FROM apidb.orthologgroupstats ogs, apidb.orthologgroup og 
+          WHERE og.group_id = ogs.group_id 
+      	  </sql>
+	</sqlQuery>
+
         <sqlQuery name="GroupName">
           <column name="group_name"/>
           <column name="name_string"/>
