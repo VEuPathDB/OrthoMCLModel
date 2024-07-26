@@ -63,7 +63,7 @@
       <!-- =============================================================== -->
 
          <attributesList
-           summary="number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
+           summary="number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes,core_min_evalue,core_25_evalue,core_median_evalue,core_75_evalue,core_max_evalue,core_min_evalue,core_peripheral_25_evalue,core_peripheral_median_evalue,core_peripheral_75_evalue,core_peripheral_max_evalue"
 
            sorting="number_of_members DESC"/>
 
@@ -162,7 +162,45 @@
                 <columnAttribute name="max_length" displayName="Longest Sequence" internal="true" inReportMaker="false" />
             </attributeQueryRef>
 
+            <attributeQueryRef ref="GroupAttributes.CoreMinEvalue">
+                <columnAttribute name="core_min_evalue" displayName="Min E-value (CORE)" inReportMaker="false" />
+            </attributeQueryRef>
 
+            <attributeQueryRef ref="GroupAttributes.Core25Evalue">
+                <columnAttribute name="core_25_evalue" displayName="25% E-value (CORE)" inReportMaker="false" />
+            </attributeQueryRef>
+
+            <attributeQueryRef ref="GroupAttributes.CoreMedianEvalue">
+                <columnAttribute name="core_median_evalue" displayName="Median E-value (CORE)" inReportMaker="false" />
+            </attributeQueryRef>
+
+            <attributeQueryRef ref="GroupAttributes.Core75Evalue">
+                <columnAttribute name="core_75_evalue" displayName="75% E-value (CORE)" inReportMaker="false" />
+            </attributeQueryRef>
+
+            <attributeQueryRef ref="GroupAttributes.CoreMaxEvalue">
+                <columnAttribute name="core_max_evalue" displayName="Max E-value (CORE)" inReportMaker="false" />
+            </attributeQueryRef>
+
+            <attributeQueryRef ref="GroupAttributes.CorePeripheralMinEvalue">
+                <columnAttribute name="core_peripheral_min_evalue" displayName="Min E-value (CORE+PERIPHERAL)" inReportMaker="false" />
+            </attributeQueryRef>
+
+            <attributeQueryRef ref="GroupAttributes.CorePeripheral25Evalue">
+                <columnAttribute name="core_peripheral_25_evalue" displayName="25% E-value (CORE+PERIPHERAL)" inReportMaker="false" />
+            </attributeQueryRef>
+
+            <attributeQueryRef ref="GroupAttributes.CorePeripheralMedianEvalue">
+                <columnAttribute name="core_peripheral_median_evalue" displayName="Median E-value (CORE+PERIPHERAL)" inReportMaker="false" />
+            </attributeQueryRef>
+
+            <attributeQueryRef ref="GroupAttributes.CorePeripheral75Evalue">
+                <columnAttribute name="core_peripheral_75_evalue" displayName="75% E-value (CORE+PERIPHERAL)" inReportMaker="false" />
+            </attributeQueryRef>
+
+            <attributeQueryRef ref="GroupAttributes.CorePeripheralMaxEvalue">
+                <columnAttribute name="core_peripheral_max_evalue" displayName="Max E-value (CORE+PERIPHERAL)" inReportMaker="false" />
+            </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.PhyleticPattern">
 	      <columnAttribute name="alveolata_actual" internal="true" />

@@ -49,6 +49,145 @@
           </sql>
         </sqlQuery>
 
+        <sqlQuery name="CoreMinEvalue">
+          <column name="group_name"/>
+          <column name="core_min_evalue"/>
+          <sql>
+            <![CDATA[
+                select group_id as group_name, 
+                evalue as core_min_evalue
+                from apidb.orthologgroupstats 
+                where protein_subset = 'C' 
+                and stat_type = 'min'
+            ]]>
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="Core25Evalue">
+          <column name="group_name"/>
+          <column name="core_25_evalue"/>
+          <sql>
+            <![CDATA[
+                select group_id as group_name, 
+                evalue as core_25_evalue
+                from apidb.orthologgroupstats 
+                where protein_subset = 'C' 
+                and stat_type = '25 PCT'
+            ]]>
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="CoreMedianEvalue">
+          <column name="group_name"/>
+          <column name="core_median_evalue"/>
+          <sql>
+            <![CDATA[
+                select group_id as group_name, 
+                evalue as core_median_evalue
+                from apidb.orthologgroupstats 
+                where protein_subset = 'C' 
+                and stat_type = 'median'
+            ]]>
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="Core75Evalue">
+          <column name="group_name"/>
+          <column name="core_75_evalue"/>
+          <sql>
+            <![CDATA[
+                select group_id as group_name, 
+                evalue as core_75_evalue
+                from apidb.orthologgroupstats 
+                where protein_subset = 'C' 
+                and stat_type = '75 PCT'
+            ]]>
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="CoreMaxEvalue">
+          <column name="group_name"/>
+          <column name="core_max_evalue"/>
+          <sql>
+            <![CDATA[
+                select group_id as group_name, 
+                evalue as core_max_evalue
+                from apidb.orthologgroupstats 
+                where protein_subset = 'C' 
+                and stat_type = 'max'
+            ]]>
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="CorePeripheralMinEvalue">
+          <column name="group_name"/>
+          <column name="core_peripheral_min_evalue"/>
+          <sql>
+            <![CDATA[
+                select group_id as group_name, 
+                evalue as core_peripheral_min_evalue
+                from apidb.orthologgroupstats 
+                where protein_subset = 'C+P' 
+                and stat_type = 'min'
+            ]]>
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="CorePeripheral25Evalue">
+          <column name="group_name"/>
+          <column name="core_peripheral_25_evalue"/>
+          <sql>
+            <![CDATA[
+                select group_id as group_name, 
+                evalue as core_peripheral_25_evalue
+                from apidb.orthologgroupstats 
+                where protein_subset = 'C+P' 
+                and stat_type = '25 PCT'
+            ]]>
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="CorePeripheralMedianEvalue">
+          <column name="group_name"/>
+          <column name="core_peripheral_median_evalue"/>
+          <sql>
+            <![CDATA[
+                select group_id as group_name, 
+                evalue as core_peripheral_median_evalue
+                from apidb.orthologgroupstats 
+                where protein_subset = 'C+P' 
+                and stat_type = 'median'
+            ]]>
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="CorePeripheral75Evalue">
+          <column name="group_name"/>
+          <column name="core_peripheral_75_evalue"/>
+          <sql>
+            <![CDATA[
+                select group_id as group_name, 
+                evalue as core_peripheral_75_evalue
+                from apidb.orthologgroupstats 
+                where protein_subset = 'C+P' 
+                and stat_type = '75 PCT'
+            ]]>
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="CorePeripheralMaxEvalue">
+          <column name="group_name"/>
+          <column name="core_peripheral_max_evalue"/>
+          <sql>
+            <![CDATA[
+                select group_id as group_name, 
+                evalue as core_peripheral_max_evalue
+                from apidb.orthologgroupstats 
+                where protein_subset = 'C+P' 
+                and stat_type = 'max'
+            ]]>
+          </sql>
+        </sqlQuery>
 
         <sqlQuery name="Layout">
             <column name="group_name"/>

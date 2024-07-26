@@ -44,6 +44,16 @@ GroupRecordClasses.GroupRecordClass.euglenozoa	http://edamontology.org/topic_329
 GroupRecordClasses.GroupRecordClass.metazoa	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	metazoa								results
 GroupRecordClasses.GroupRecordClass.viridiplantae	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	viridiplantae								results
 GroupRecordClasses.GroupRecordClass.other_eukaryotes	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	other_eukaryotes								results
+GroupRecordClasses.GroupRecordClass.core_min_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_min_evalue								results
+GroupRecordClasses.GroupRecordClass.core_25_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_25_evalue								results
+GroupRecordClasses.GroupRecordClass.core_median_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_median_evalue								results
+GroupRecordClasses.GroupRecordClass.core_75_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_75_evalue								results
+GroupRecordClasses.GroupRecordClass.core_max_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_max_evalue								results
+GroupRecordClasses.GroupRecordClass.core_peripheral_min_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_peripheral_min_evalue								results
+GroupRecordClasses.GroupRecordClass.core_peripheral_25_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_peripheral_25_evalue								results
+GroupRecordClasses.GroupRecordClass.core_peripheral_median_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_peripheral_median_evalue								results
+GroupRecordClasses.GroupRecordClass.core_peripheral_75_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_peripheral_75_evalue								results
+GroupRecordClasses.GroupRecordClass.core_peripheral_max_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_peripheral_max_evalue								results
 
 ## Group Tables ##
 GroupRecordClasses.GroupRecordClass.Statistics	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	Statistics					1	record	download	
