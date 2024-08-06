@@ -562,11 +562,11 @@ FROM apidbtuning.PhyleticPattern
 	<sqlQuery name="SimilarGroup">
 	  <column name="group_name" />
 	  <column name="similar_group" />
-	  <column name="evalue" />
 	  <column name="protein_count" />
 	  <column name="keyword" />
+	  <column name="evalue" />
 	  <sql>
-          SELECT og.group_id AS group_name, sog.similar_group_id AS similar_group, evalue, groupProteinCount.protein_count as protein_count, verbiage.keywords as keyword
+          SELECT og.group_id AS group_name, sog.similar_group_id AS similar_group,  groupProteinCount.protein_count as protein_count, verbiage.keywords as keyword, evalue
           FROM apidb.SimilarOrthologGroup sog, apidb.orthologgroup og, (SELECT ogas.group_id, count(ogas.aa_sequence_id) as protein_count 
                                                                         FROM apidb.orthologgroupaasequence ogas 
                                                                         GROUP BY ogas.group_id) groupProteinCount,
