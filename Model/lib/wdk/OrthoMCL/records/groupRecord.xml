@@ -794,8 +794,8 @@
 
             <table name="SimilarGroup"
                    displayName="Similar Groups"
-                   queryRef="GroupTables.SimilarGroup"
-                   help="Similar groups are computed by a Diamond BLASTX comparison of the Representative Sequences (centroids) of all groups with each other. Groups with pairwise BLAST scores better than 1e-5 are considered similar.">
+                   queryRef="GroupTables.SimilarGroup">
+              <description><![CDATA[Similar groups are computed by a Diamond BLASTX comparison of the Representative Sequences (centroids) of all groups with each other. Groups with pairwise BLAST scores better than 1e-5 are considered similar.]]></description>
               <columnAttribute name="similar_group" internal="true" inReportMaker="true"/>
               <linkAttribute name="similar_group_link" inReportMaker="false"
                              displayName="Similar Group ID">
@@ -810,6 +810,7 @@
               </linkAttribute>
               <columnAttribute name="protein_count" inReportMaker="true" displayName="# Proteins"/>
               <columnAttribute name="keyword" inReportMaker="true" displayName="Keyword"/>
+              <columnAttribute name="pfam" inReportMaker="true" displayName="Pfam Domain"/>
               <columnAttribute name="evalue" inReportMaker="true" displayName="E-value"/>
             </table>
 
@@ -817,6 +818,7 @@
                    displayName="Group Statistics"
                    queryRef="GroupTables.GroupStat"
                    help="Group Statistics are a measure of cohesiveness for the proteins in an orthogroup. A pairwise BLAST e-value is computed between each protein and the Representative Sequence, which is the centroid of the group. A tight group will have a highly significant median of these pairwise e-values and also a significant maximum e-value (ie. less than 1e-10, since smaller e-values are more significant). The maximum e-value is a measure of the distance between the most dissimilar protein compared to the Representative Sequence.">
+              <description><![CDATA[Group Statistics are a measure of cohesiveness for the proteins in an orthogroup. BLAST e-values are computed for all of the proteins in each group vs. a central protein in the group.]]></description>
               <columnAttribute name="group_name" internal="true" inReportMaker="true"/>
               <columnAttribute name="group_type" inReportMaker="true" displayName="Protein Subset"/>
               <columnAttribute name="stat_type" inReportMaker="true" displayName="Statistic"/>

@@ -564,16 +564,20 @@ FROM apidbtuning.PhyleticPattern
 	  <column name="similar_group" />
 	  <column name="protein_count" />
 	  <column name="keyword" />
+	  <column name="pfam" />
 	  <column name="evalue" />
+
 	  <sql>
-          SELECT og.group_id AS group_name, sog.similar_group_id AS similar_group,  groupProteinCount.protein_count as protein_count, verbiage.keywords as keyword, evalue
+          SELECT og.group_id AS group_name, sog.similar_group_id AS similar_group,  groupProteinCount.protein_count as protein_count, verbiage.keywords as keyword, domains.pfam, evalue
           FROM apidb.SimilarOrthologGroup sog, apidb.orthologgroup og, (SELECT ogas.group_id, count(ogas.aa_sequence_id) as protein_count 
                                                                         FROM apidb.orthologgroupaasequence ogas 
                                                                         GROUP BY ogas.group_id) groupProteinCount,
-          (select ortholog_group_id, listagg(keyword, '; ') within group (order by to_number(frequency) desc) as keywords from apidb.OrthomclGroupKeyword group by ortholog_group_id) verbiage
+          (select ortholog_group_id, listagg(keyword, '; ') within group (order by to_number(frequency) desc) as keywords from apidb.OrthomclGroupKeyword group by ortholog_group_id) verbiage,
+          (SELECT group_name, listagg(unique(accession), ', ') as pfam FROM ApidbTuning.DomainAssignment group by group_name) domains
           WHERE og.group_id = sog.group_id 
           AND sog.similar_group_id = groupProteinCount.group_id 
           AND sog.similar_group_id = verbiage.ortholog_group_id
+          AND sog.similar_group_id = domains.group_name
           ORDER BY evalue ASC
       	  </sql>
 	</sqlQuery>
