@@ -675,7 +675,7 @@
               </ul>
               The tree visualization is automatically updated with each selection. To run a Clustal Omega alignment after proteins are selected, choose the ‘Output format’ below the Protein List table and click the ‘Run Clustal Omega for selected genes’ button.]]>
               </description>
-              <textAttribute name="clustalInput" displayName="Clustal Omega" isDisplayable="false" inReportMaker="false" help="Select proteins to submit to clustal Omega at bottom of this table">
+              <textAttribute name="clustalInput" displayName="Clustal Omega" internal="true" inReportMaker="false" help="Select proteins to submit to clustal Omega at bottom of this table">
                 <text>
                   <![CDATA[
                            <input type="checkbox" name="msa_full_ids" value="$$full_id$$">
@@ -732,8 +732,8 @@
               <!--
               <columnAttribute name="previous_groups" displayName="Previous Groups" help="Previous OrthoMCL ortholog groups containing this protein." />
               -->
-              <columnAttribute name="full_id" internal="true" isDisplayable="false" />
-              <columnAttribute name="taxon_abbrev" displayName="Taxon Abbreviation" internal="true" inReportMaker="false" isDisplayable="false" />
+              <columnAttribute name="full_id" internal="true"/>
+              <columnAttribute name="taxon_abbrev" displayName="Taxon Abbreviation" internal="true" inReportMaker="false" />
             </table>
             
             <table name="PFams"
