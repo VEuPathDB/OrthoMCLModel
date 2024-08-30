@@ -666,15 +666,16 @@
             <table name="Sequences"
                    displayName="List of All Proteins"
                    queryRef="GroupTables.Proteins">
-              <description><![CDATA[This section features a Clustal Omega alignment tool (max 1000 sequences) and a tree visualization of proteins in this group. The Pfam Legend table and/or the Protein Table can be used to choose proteins  included in these features. For example, 
+              <description><![CDATA[This section features a Clustal Omega alignment tool (max 1000 sequences) and a tree visualization of proteins in this group. The proteins can be filtered in a number of ways, 
               <ul>
-              <li>Select one or more Pfam groups from the Pfam Legend table.</li>
-              <li>Select Core Only, Peripheral Only or Core & Peripheral using the buttons above the Protein Table.</li>
-              <li>Select individual proteins from the Protein Table which includes a table filter at the top to aid in finding proteins of interest.</li>
+	      <li>Filter via text search on any/specific columns in the table.</li>
+              <li>Select one or more Pfam domains from the Pfam filter.</li>
+              <li>Restrict to Core Only, Peripheral Only or Core & Peripheral using the dropdown filter.</li>
+              <li>Filter taxonomically using the Organism filter.</li>
               </ul>
               The tree visualization is automatically updated with each selection. To run a Clustal Omega alignment after proteins are selected, choose the ‘Output format’ below the Protein List table and click the ‘Run Clustal Omega for selected genes’ button.]]>
               </description>
-              <textAttribute name="clustalInput" displayName="Clustal Omega" inReportMaker="false" help="Select proteins to submit to clustal Omega at bottom of this table">
+              <textAttribute name="clustalInput" displayName="Clustal Omega" isDisplayable="false" inReportMaker="false" help="Select proteins to submit to clustal Omega at bottom of this table">
                 <text>
                   <![CDATA[
                            <input type="checkbox" name="msa_full_ids" value="$$full_id$$">
@@ -716,7 +717,7 @@
                 </reporter>
               </columnAttribute>
 
-              <columnAttribute name="taxon_group" displayName="Taxon" help="The taxonomic category of the organism." />
+              <columnAttribute name="taxon_group" displayName="Clade" help="The taxonomic category of the organism." />
 
               <columnAttribute name="core_peripheral" displayName="Core/Peripheral" help="Whether the protein is from a core or peripheral species." />
 
@@ -731,8 +732,8 @@
               <!--
               <columnAttribute name="previous_groups" displayName="Previous Groups" help="Previous OrthoMCL ortholog groups containing this protein." />
               -->
-              <columnAttribute name="full_id" internal="true" />
-              <columnAttribute name="taxon_abbrev" displayName="Taxon Abbreviation" internal="true" inReportMaker="false" />
+              <columnAttribute name="full_id" internal="true" isDisplayable="false" />
+              <columnAttribute name="taxon_abbrev" displayName="Taxon Abbreviation" internal="true" inReportMaker="false" isDisplayable="false" />
             </table>
             
             <table name="PFams"
@@ -818,7 +819,7 @@
                    displayName="Group Statistics"
                    queryRef="GroupTables.GroupStat"
                    help="Group Statistics are a measure of cohesiveness for the proteins in an orthogroup. A pairwise BLAST e-value is computed between each protein and the Representative Sequence, which is the centroid of the group. A tight group will have a highly significant median of these pairwise e-values and also a significant maximum e-value (ie. less than 1e-10, since smaller e-values are more significant). The maximum e-value is a measure of the distance between the most dissimilar protein compared to the Representative Sequence.">
-              <description><![CDATA[Group Statistics are a measure of cohesiveness for the proteins in an orthogroup. BLAST e-values are computed for all of the proteins in each group vs. a central protein in the group./><img src='/a/images/eval-hist.png' height='250' width='250'/>]]></description>
+              <description><![CDATA[Group Statistics are a measure of cohesiveness for the proteins in an orthogroup. BLAST e-values are computed for all of the proteins in each group vs. a central protein in the group.]]></description>
               <columnAttribute name="group_name" internal="true" inReportMaker="true"/>
               <columnAttribute name="group_type" inReportMaker="true" displayName="Protein Subset"/>
               <columnAttribute name="stat_type" inReportMaker="true" displayName="Statistic"/>
