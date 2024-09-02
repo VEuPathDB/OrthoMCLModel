@@ -737,7 +737,7 @@
             </table>
             
             <table name="PFams"
-                   displayName="PFam Legend"
+                   displayName="Summary of Pfam domains"
                    queryRef="GroupTables.PFams">
                 <columnAttribute name="accession" displayName="Accession Number" />
 
