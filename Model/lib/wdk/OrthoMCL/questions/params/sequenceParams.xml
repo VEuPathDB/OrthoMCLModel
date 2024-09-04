@@ -38,11 +38,37 @@
         </stringParam>
 
 
+
+  <enumParam name="BlastDatabaseType"
+                      prompt="Target Data Type"
+                      displayType="checkBox"
+                      quote="false"
+                      multiPick="false">
+      <help>
+        Select the type of sequence that your Input Sequence will be BLASTed against.
+      </help>
+      <enumList>
+        <enumValue>
+          <display>Proteins</display>
+          <term>AnnotatedProteins</term>
+          <internal>AnnotatedProteins</internal>
+        </enumValue>
+      </enumList>
+  </enumParam>
+
  <flatVocabParam name="BlastDatabase"
                      queryRef="SequenceVQ.BlastOrganismFiles"
                      visible='false'>
           <help/>
         </flatVocabParam>
+
+  <stringParam name="BlastJobDescription"
+                prompt="Job Description" number="false">
+      <help>
+        Give your job a short description.
+      </help>
+      <suggest default="My New Job" allowEmpty="true" />
+  </stringParam>
 
         <enumParam name="BlastAlgorithm"
              prompt="BLAST Program"
@@ -101,11 +127,128 @@
             </enumList>   
         </enumParam>
 
+        <enumParam name="Masking" quote="false" multiPick="false"
+                   prompt="Repeat Masking">
+            <help>
+              If this filter is set to yes, you will omit results which contain repetitive and low complexity sequence. 
+            </help>
+            <enumList>   
+                <enumValue default="true">
+                    <term>yes</term>
+                    <internal>1</internal>
+                </enumValue>
+                <enumValue>
+                    <term>no</term>
+                    <internal>0</internal>
+                </enumValue>
+            </enumList>   
+        </enumParam>
+
+        <enumParam name="Iterate" quote="false" multiPick="false"
+                   prompt="Iterate">
+            <help>
+              Run multiple rounds of searches with increasing sensitivity.
+            </help>
+            <enumList>   
+                <enumValue default="true">
+                    <term>yes</term>
+                    <internal>--iterate</internal>
+                </enumValue>
+                <enumValue>
+                    <term>no</term>
+                    <internal></internal>
+                </enumValue>
+            </enumList>   
+        </enumParam>
+
+
+        <enumParam name="CompBasedStats" quote="false" multiPick="false"
+                   prompt="Composition based statistics">
+            <help>
+              These algorithms adjust alignment scores based on sequence composition in order to improve search specificity.
+            </help>
+            <enumList>   
+                <enumValue default="true">
+                    <term>0</term>
+                    <internal>0</internal>
+                </enumValue>
+                <enumValue>
+                    <term>1</term>
+                    <internal>1</internal>
+                </enumValue>
+                <enumValue>
+                    <term>2</term>
+                    <internal>2</internal>
+                </enumValue>
+                <enumValue>
+                    <term>3</term>
+                    <internal>3</internal>
+                </enumValue>
+                <enumValue>
+                    <term>4</term>
+                    <internal>4</internal>
+                </enumValue>
+
+            </enumList>   
+        </enumParam>
+
+        <enumParam name="Sensitivity" quote="false" multiPick="false"
+                   prompt="Sensitivity">
+            <help>
+             Without using any sensitivity option, the default mode will run which is designed for finding hits of greater than 60% identity and short read alignment.
+            </help>
+            <enumList>   
+                <enumValue default="true">
+                    <term>Default</term>
+                    <internal></internal>
+                </enumValue>
+                <enumValue>
+                    <term>fast</term>
+                    <internal>--fast</internal>
+                </enumValue>
+                <enumValue>
+                    <term>mid sensitive</term>
+                    <internal>--mid-sensitive</internal>
+                </enumValue>
+                <enumValue>
+                    <term>sensitive</term>
+                    <internal>--sensitive</internal>
+                </enumValue>
+                <enumValue>
+                    <term>more sensitive</term>
+                    <internal>--more-sensitive</internal>
+                </enumValue>
+                <enumValue>
+                    <term>very sensitive</term>
+                    <internal>--very-sensitive</internal>
+                </enumValue>
+                <enumValue>
+                    <term>ultra sensitive</term>
+                    <internal>--ultra-sensitive</internal>
+                </enumValue>
+            </enumList>   
+        </enumParam>
+
+
         <stringParam name="-e"
                       prompt="Expectation value" number="true">
              <help>Expected number of hits with at least this score. The lower the e- value the more significant the hit.</help>
              <suggest default="1e-5"/>
         </stringParam>
+
+
+         <stringParam name="ExpectationValue"
+                      prompt="Expectation value" number="true">
+             <help>Expected number of hits with at least this score. The lower the e- value the more significant the hit.</help>
+             <suggest default="0.05"/>
+         </stringParam>
+
+         <numberParam name="MaxTargetSeqs"
+                      prompt="Max Target Sequences" integer="true" min="1" max="5000">
+             <help>Maximum number of Hits returned</help>
+             <suggest default="100"/>
+          
+         </numberParam>
 
 <!--
         <stringParam name="-v"

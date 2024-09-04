@@ -208,6 +208,34 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
        <wsColumn name="alignment" columnType="clob"/>       
     </processQuery>
 
+<!--
+    <processQuery name="ByMultiBlast" 
+             processName="org.apidb.apicomplexa.wsfplugin.blast.ProteinSequenceMultiBlastServicePlugin">
+
+       <paramRef ref="sequenceParams.BlastDatabaseType"  quote="false" noTranslation="false"/>
+       <paramRef ref="sequenceParams.BlastAlgorithm" quote="false" noTranslation="false" />
+       <paramRef ref="sequenceParams.BlastQuerySequence"/>
+       <paramRef ref="sequenceParams.BlastDatabase"  quote="false" noTranslation="false"/>
+       <paramRef ref="sequenceParams.BlastJobDescription"/>
+       <paramRef groupRef="paramGroups.advancedParams" ref="sequenceParams.ExpectationValue"/>
+       <paramRef groupRef="paramGroups.advancedParams" ref="sequenceParams.MaxTargetSeqs"/>
+       <paramRef groupRef="paramGroups.advancedParams" ref="sequenceParams.Sensitivity"/>
+       <paramRef groupRef="paramGroups.advancedParams" ref="sequenceParams.Masking"/>
+       <paramRef groupRef="paramGroups.advancedParams" ref="sequenceParams.CompBasedStats"/>
+       <paramRef groupRef="paramGroups.advancedParams" ref="sequenceParams.Iterate"/>
+
+        <wsColumn name="full_id" width="50" wsName="identifier"/>
+        <wsColumn name="project_id" width="20" />
+        <wsColumn name="matched_result" width="1" wsName="matched_result"/>
+        <wsColumn name="summary" width="3000"/>
+        <wsColumn name="alignment" columnType="clob"/>
+        <wsColumn name="evalue_mant" columnType="float" />
+        <wsColumn name="evalue_exp" columnType="number" />
+        <wsColumn name="score" columnType="float" />
+      </processQuery>
+-->
+
+
 
     <processQuery name="ByMotif"
                   processName="org.orthomcl.service.core.wsfplugin.MotifPlugin">
