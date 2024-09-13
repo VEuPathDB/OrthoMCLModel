@@ -229,7 +229,6 @@
             </enumList>   
         </enumParam>
 
-
         <stringParam name="-e"
                       prompt="Expectation value" number="true">
              <help>Expected number of hits with at least this score. The lower the e- value the more significant the hit.</help>
@@ -249,6 +248,7 @@
              <suggest default="100"/>
           
          </numberParam>
+
 
 <!--
         <stringParam name="-v"
@@ -300,6 +300,192 @@
         </enumParam>
 
     </paramSet>
+
+    <!--
+        This paramSet exists so that we can use the same param name for both
+        legacy blast and multi-blast. The frontend code expects the param name
+        "BlastAlgorithm", and we need to prefix the options with "diamond-".
+    -->
+    <paramSet name="multiBlastSequenceParams">
+
+      <stringParam name="BlastQuerySequence"
+          prompt="Input Sequence"
+          length="31000"
+          number="false">
+        <noTranslation value="true"  />
+        <help>BLAST Input Sequence (upto 31K bps)</help>
+        <suggest default=""/>
+        <propertyList name="multiBlastOptions">
+          <value>fileOnly</value>
+        </propertyList>
+      </stringParam>
+
+
+      <enumParam name="MultiBlastDatabaseType"
+        prompt="Target Data Type"
+        displayType="checkBox"
+        quote="false"
+        multiPick="false">
+      <help>
+        Select the type of sequence that your Input Sequence will be BLASTed against.
+      </help>
+      <enumList>
+        <enumValue>
+          <display>Proteins</display>
+          <term>AnnotatedProteins</term>
+          <internal>AnnotatedProteins</internal>
+        </enumValue>
+      </enumList>
+    </enumParam>
+
+
+    <enumParam name="BlastAlgorithm"
+      prompt="BLAST Program"
+      displayType="checkBox" quote="false"
+      multiPick="false">
+    <help>
+      <![CDATA[
+        The Blast Program that will be executed: &#60;b&#62; blastp &#60;/b&#62;  compares an 
+        aminoacid query sequence against a protein sequence database; blastx  &#60;/b&#62; 
+        compares the six-frame conceptual translation products of a nucleotide query sequence 
+        (both strands) against a protein sequence database.
+        ]]>
+    </help>
+    <enumList>  
+      <enumValue default="true">
+        <term>diamond-blastp</term>
+        <internal>diamond-blastp</internal>
+      </enumValue>   
+      <enumValue>
+        <term>diamond-blastx</term>
+        <internal>diamond-blastx</internal>
+      </enumValue>   
+    </enumList>
+  </enumParam>
+
+  <enumParam name="ReportUnaligned" quote="false" multiPick="false" prompt="Report Unaligned">
+    <enumList>
+      <enumValue default="true">
+        <term>yes</term>
+        <internal>1</internal>
+      </enumValue>
+      <enumValue>
+        <term>no</term>
+        <internal>0</internal>
+      </enumValue>
+    </enumList>
+  </enumParam>
+
+  <stringParam name="DiamondOutputFields" prompt="Output Fields" number="false">
+    <help>Space-separate list of fields to include in diamond output.</help>
+    <suggest default="qseqid sseqid stitle length pident evalue"/>
+  </stringParam>
+
+        <enumParam name="Sensitivity" quote="false" multiPick="false"
+                   prompt="Sensitivity">
+            <help>
+             Without using any sensitivity option, the default mode will run which is designed for finding hits of greater than 60% identity and short read alignment.
+            </help>
+            <enumList>   
+                <enumValue>
+                    <term>default</term>
+                    <internal></internal>
+                </enumValue>
+                <enumValue>
+                    <term>fast</term>
+                    <internal>fast</internal>
+                </enumValue>
+                <enumValue>
+                    <term>mid sensitive</term>
+                    <internal>mid-sensitive</internal>
+                </enumValue>
+                <enumValue>
+                    <term>sensitive</term>
+                    <internal>sensitive</internal>
+                </enumValue>
+                <enumValue>
+                    <term>more sensitive</term>
+                    <internal>more-sensitive</internal>
+                </enumValue>
+                <enumValue default="true">
+                    <term>very sensitive</term>
+                    <internal>very-sensitive</internal>
+                </enumValue>
+                <enumValue>
+                    <term>ultra sensitive</term>
+                    <internal>ultra-sensitive</internal>
+                </enumValue>
+            </enumList>   
+        </enumParam>
+        
+        <enumParam name="Masking" quote="false" multiPick="false"
+        prompt="Repeat masking">
+          <help>
+            If this filter is set to yes, you will omit results which contain repetitive and low complexity sequence. 
+          </help>
+          <enumList>   
+              <enumValue>
+                  <term>none</term>
+                  <internal>none</internal>
+              </enumValue>
+              <enumValue default="true">
+                  <term>tantan</term>
+                  <internal>tantan</internal>
+              </enumValue>
+              <enumValue>
+                  <term>seg</term>
+                  <internal>seg</internal>
+              </enumValue>
+          </enumList>   
+          </enumParam>
+
+
+        <enumParam name="CompBasedStats" quote="false" multiPick="false"
+                   prompt="Composition based statistics">
+            <help>
+             Without using any sensitivity option, the default mode will run which is designed for finding hits of greater than 60% identity and short read alignment.
+            </help>
+            <enumList>
+                <enumValue default="true">
+                    <term>disabled</term>
+                    <internal>disabled</internal>
+                </enumValue>
+                <enumValue>
+                    <term>hauser</term>
+                    <internal>hauser</internal>
+                </enumValue>
+                <enumValue>
+                    <term>hauser-and-avg-matrix-adjust</term>
+                    <internal>hauser-and-avg-matrix-adjust</internal>
+                </enumValue>
+                <enumValue>
+                    <term>hauser-and-matrix-adjust</term>
+                    <internal>hauser-and-matrix-adjust</internal>
+                </enumValue>
+                <enumValue>
+                    <term>matrix-adjust</term>
+                    <internal>matrix-adjust</internal>
+                </enumValue>
+            </enumList>   
+        </enumParam>
+
+        <enumParam name="Iterate" quote="false" multiPick="false"
+                   prompt="Iterate">
+            <help>
+              Run multiple rounds of searches with increasing sensitivity.
+            </help>
+            <enumList>   
+                <enumValue default="true">
+                    <term>yes</term>
+                    <internal>yes</internal>
+                </enumValue>
+                <enumValue>
+                    <term>no</term>
+                    <internal>no</internal>
+                </enumValue>
+            </enumList>   
+        </enumParam>
+</paramSet>
 
   <querySet name="SequenceVQ" queryType="vocab" isCacheable="true">
 
