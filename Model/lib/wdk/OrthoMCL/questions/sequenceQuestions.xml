@@ -89,12 +89,11 @@
 
          <description>
            <![CDATA[
-             Find Sequences that have BLAST similarity to your input query sequence.
-           This search uses NCBI-BLAST to determine sequence similarity. 
-                 See the 
-             <a target="_blank" href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs">NCBI-BLAST help</a> for 
-                 more information.
-
+            This tool will map a set of proteins (usually a complete proteome from an organism)
+            to OrthoMCL groups using Diamond blastp. Query proteins with no significant match to
+            any OrthoMCL proteins will be shown in the results list with an asterisk (*) for the
+            matched protein and an e-value of -1. The search could take from a few minutes to a
+            few hours depending on the size of your input file and the load on our servers.
           ]]>
          </description>
 

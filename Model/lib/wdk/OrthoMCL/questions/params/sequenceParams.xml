@@ -314,6 +314,9 @@
           number="false">
         <noTranslation value="true"  />
         <help>BLAST Input Sequence (upto 31K bps)</help>
+        <visibleHelp>
+            Upload your set of proteins as a FASTA file. The file must have unique protein identifiers as the first word in the header line.
+        </visibleHelp>
         <suggest default=""/>
         <propertyList name="multiBlastOptions">
           <value>fileOnly</value>
@@ -366,11 +369,11 @@
   <enumParam name="ReportUnaligned" quote="false" multiPick="false" prompt="Report Unaligned">
     <enumList>
       <enumValue default="true">
-        <term>yes</term>
+        <term>1</term>
         <internal>1</internal>
       </enumValue>
       <enumValue>
-        <term>no</term>
+        <term>0</term>
         <internal>0</internal>
       </enumValue>
     </enumList>
@@ -396,7 +399,7 @@
                     <internal>fast</internal>
                 </enumValue>
                 <enumValue>
-                    <term>mid sensitive</term>
+                    <term>mid-sensitive</term>
                     <internal>mid-sensitive</internal>
                 </enumValue>
                 <enumValue>
@@ -404,15 +407,15 @@
                     <internal>sensitive</internal>
                 </enumValue>
                 <enumValue>
-                    <term>more sensitive</term>
+                    <term>more-sensitive</term>
                     <internal>more-sensitive</internal>
                 </enumValue>
                 <enumValue default="true">
-                    <term>very sensitive</term>
+                    <term>very-sensitive</term>
                     <internal>very-sensitive</internal>
                 </enumValue>
                 <enumValue>
-                    <term>ultra sensitive</term>
+                    <term>ultra-sensitive</term>
                     <internal>ultra-sensitive</internal>
                 </enumValue>
             </enumList>   
