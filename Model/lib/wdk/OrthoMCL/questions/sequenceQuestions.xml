@@ -71,7 +71,6 @@
             </description>
         </question>
 
-    <!-- TODO This is a WIP and details need to be filled out properly -->
     <question name="MapProteinsByDiamond"
          displayName="Map Proteins by Diamond"
          shortDisplayName="Map Proteins"
@@ -94,58 +93,6 @@
             any OrthoMCL proteins will be shown in the results list with an asterisk (*) for the
             matched protein and an e-value of -1. The search could take from a few minutes to a
             few hours depending on the size of your input file and the load on our servers.
-          ]]>
-         </description>
-
-         <summaryView name="blast-view" display="BLAST" default="true" />
-
-         <dynamicAttributes>
-             <columnAttribute name="evalue_mant" displayName="E-Value-Mant"
-                              internal="true" inReportMaker="false"/>
-             <columnAttribute name="evalue_exp" displayName="E-Value-Exp"
-                              internal="true" inReportMaker="false"/>
-             <columnAttribute name="score" displayName="Score">
-               <reporter name="histogram" displayName="Histogram" scopes=""
-                         implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
-                 <description>Display the histogram of the values of this attribute</description>
-               </reporter>
-             </columnAttribute>
-             <columnAttribute name="summary" displayName="Summary" internal="true" inReportMaker="false"/>
-             <columnAttribute name="alignment" displayName="Alignment" internal="true" inReportMaker="false"/>             
-             <textAttribute name="evalue" displayName="E-Value">
-                 <display>
-                     <![CDATA[
-                     <span style="display:none">$$evalue_exp$$ $$evalue_mant$$</span>$$evalue_mant$$E$$evalue_exp$$
-                     ]]>
-                 </display>
-                 <text>$$evalue_mant$$E$$evalue_exp$$</text>
-             </textAttribute>
-         </dynamicAttributes>
-    </question>
-
-    <question name="ByMultiBlast"
-         displayName="BLAST"
-         shortDisplayName="BLAST"
-         searchCategory="Similarity/Pattern"
-         queryRef="SequenceIds.ByMultiBlast"
-         recordClassRef="SequenceRecordClasses.SequenceRecordClass"
-         fullAnswer="true">
-        <attributesList
-         summary="taxon_name,product,length,ec_numbers,pfam_domains,core_peripheral,group_link,score,evalue"
-         sorting="score desc"
-         /> 
-         <summary>
-           Find Proteins that have BLAST similarity to the input sequence.
-         </summary>
-
-         <description>
-           <![CDATA[
-             Find Sequences that have BLAST similarity to your input query sequence.
-           This search uses NCBI-BLAST to determine sequence similarity. 
-			See the 
-		  <a target="_blank" href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs">NCBI-BLAST help</a> for 
-		  more information.
-
           ]]>
          </description>
 
