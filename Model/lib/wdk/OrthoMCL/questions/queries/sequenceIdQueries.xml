@@ -208,13 +208,13 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
        <wsColumn name="alignment" columnType="clob"/>       
     </processQuery>
 
+    <!--
     <processQuery name="ByMultiBlast" 
              processName="org.apidb.apicomplexa.wsfplugin.blast.ProteinSequenceMultiBlastServicePlugin">
 
        <paramRef ref="multiBlastSequenceParams.MultiBlastDatabaseType" visible="false" quote="false" noTranslation="false"/>
        <paramRef ref="multiBlastSequenceParams.BlastAlgorithm" visible="false" quote="false" noTranslation="false" />
        <paramRef ref="sequenceParams.BlastQuerySequence"/>
-      <!-- <paramRef ref="sequenceParams.BlastDatabase"  quote="false" noTranslation="false"/> -->
        <paramRef ref="sequenceParams.BlastJobDescription"/>
        <paramRef groupRef="paramGroups.advancedParams" ref="sequenceParams.ExpectationValue"/>
        <paramRef groupRef="paramGroups.advancedParams" ref="sequenceParams.MaxTargetSeqs"/>
@@ -232,7 +232,7 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
         <wsColumn name="evalue_exp" columnType="number" />
         <wsColumn name="score" columnType="float" />
       </processQuery>
-
+    -->
 
       <processQuery name="MapProteinsByDiamond" 
         processName="org.apidb.apicomplexa.wsfplugin.blast.ProteinSequenceMultiBlastServicePlugin">
