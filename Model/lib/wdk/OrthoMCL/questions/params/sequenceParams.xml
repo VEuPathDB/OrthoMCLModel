@@ -381,7 +381,7 @@
 
   <stringParam name="DiamondOutputFields" prompt="Output Fields" number="false">
     <help>Space-separate list of fields to include in diamond output.</help>
-    <suggest default="qseqid sseqid stitle length pident evalue"/>
+    <suggest default="qseqid stitle length pident evalue"/>
   </stringParam>
 
         <enumParam name="Sensitivity" quote="false" multiPick="false"
