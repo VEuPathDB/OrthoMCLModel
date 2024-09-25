@@ -64,7 +64,7 @@ GroupRecordClasses.GroupRecordClass.PFams	http://edamontology.org/topic_2814	Pro
 GroupRecordClasses.GroupRecordClass.ProteinPFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	ProteinPFams					2	record-internal	download
 GroupRecordClasses.GroupRecordClass.EcNumber	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	EcNumber					2	record	download	
 GroupRecordClasses.GroupRecordClass.SimilarGroup	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	SimilarGroup					2	record-collapsed	download	
-GroupRecordClasses.GroupRecordClass.GroupStat	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	GroupStat					2	record	download	
+GroupRecordClasses.GroupRecordClass.GroupStat	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	GroupStat					2	record-collapsed	download	
 GroupRecordClasses.GroupRecordClass.GroupName		Group	GroupRecordClasses.GroupRecordClass	table	GroupName								
 GroupRecordClasses.GroupRecordClass.DomainFrequency	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	DomainFrequency							download	
 GroupRecordClasses.GroupRecordClass.KeywordFrequency	http://edamontology.org/topic_0623	Gene and protein families	GroupRecordClasses.GroupRecordClass	table	KeywordFrequency							download
