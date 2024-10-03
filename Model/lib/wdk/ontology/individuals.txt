@@ -33,7 +33,7 @@ GroupRecordClasses.GroupRecordClass.layout		Group Layout	GroupRecordClasses.Grou
 GroupRecordClasses.GroupRecordClass.keywords	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	keywords				group		record-internal	download	results
 GroupRecordClasses.GroupRecordClass.descriptions	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	descriptions				group		record-internal	download	results
 GroupRecordClasses.GroupRecordClass.group_type	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	group_type				group		record-internal	download	results
-GroupRecordClasses.GroupRecordClass.cluster_page	http://edamontology.org/operation_3663	Homology-based gene prediction	GroupRecordClasses.GroupRecordClass	attribute	cluster_page						record		
+GroupRecordClasses.GroupRecordClass.cluster_page	http://edamontology.org/operation_3663	Homology-based gene prediction	GroupRecordClasses.GroupRecordClass	attribute	cluster_page						
 GroupRecordClasses.GroupRecordClass.avg_evalue_mant	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue_mant								results
 GroupRecordClasses.GroupRecordClass.avg_evalue_exp	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	avg_evalue_exp								results
 GroupRecordClasses.GroupRecordClass.alveolata	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	alveolata								results
@@ -50,8 +50,8 @@ GroupRecordClasses.GroupRecordClass.Statistics	http://edamontology.org/data_0907
 GroupRecordClasses.GroupRecordClass.PhyleticDistributionCounts	http://edamontology.org/topic_3293	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	PhyleticDistributionCounts							download		
 GroupRecordClasses.GroupRecordClass.TaxonCounts	http://edamontology.org/topic_3293	Phylogenetics	GroupRecordClasses.GroupRecordClass	table	TaxonCounts						record	download	
 GroupRecordClasses.GroupRecordClass.Sequences	http://edamontology.org/topic_0623	Gene and protein families	GroupRecordClasses.GroupRecordClass	table	Sequences						record	download	
-GroupRecordClasses.GroupRecordClass.PFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	PFams					1	record	download	
-GroupRecordClasses.GroupRecordClass.ProteinPFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	ProteinPFams					2	record	download	
+GroupRecordClasses.GroupRecordClass.PFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	PFams					1	record-internal	download	
+GroupRecordClasses.GroupRecordClass.ProteinPFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	ProteinPFams					2	record-internal	download	
 GroupRecordClasses.GroupRecordClass.EcNumber	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	EcNumber					2	record	download	
 GroupRecordClasses.GroupRecordClass.GroupName		Group	GroupRecordClasses.GroupRecordClass	table	GroupName								
 GroupRecordClasses.GroupRecordClass.DomainFrequency	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	DomainFrequency							download	
