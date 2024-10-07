@@ -313,9 +313,22 @@
           length="31000"
           number="false">
         <noTranslation value="true"  />
-        <help>BLAST Input Sequence (upto 31K bps)</help>
+        <help>
+          <![CDATA[
+            <p>Upload a FASTA file, no larger than 30MB.</p>
+            <p>
+              <a
+                href='https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=BlastHelp#filter'
+                target='_blank'
+                rel="noreferrer"
+              >
+                Learn more about BLAST query inputs here.
+              </a>
+           </p>
+          ]]>
+        </help>
         <visibleHelp>
-            Upload your set of proteins as a FASTA file. The file must have unique protein identifiers as the first word in the header line.
+            Upload your set of proteins as a FASTA file. The file must have unique protein identifiers as the first word in the header line, and be no larger than 30MB.
         </visibleHelp>
         <suggest default=""/>
         <propertyList name="multiBlastOptions">
