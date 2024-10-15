@@ -63,7 +63,7 @@
       <!-- =============================================================== -->
 
          <attributesList
-           summary="number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes,core_min_evalue,core_25_evalue,core_median_evalue,core_75_evalue,core_max_evalue,core_min_evalue,core_peripheral_25_evalue,core_peripheral_median_evalue,core_peripheral_75_evalue,core_peripheral_max_evalue"
+           summary="number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes,core_min_evalue,core_25_evalue,core_median_evalue,core_75_evalue,core_max_evalue,core_peripheral_min_evalue,core_peripheral_25_evalue,core_peripheral_median_evalue,core_peripheral_75_evalue,core_peripheral_max_evalue"
 
            sorting="number_of_members DESC"/>
 
