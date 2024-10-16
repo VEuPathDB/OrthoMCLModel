@@ -49,17 +49,22 @@
           </sql>
         </sqlQuery>
 
+
+
         <sqlQuery name="CoreMinEvalue">
           <column name="group_name"/>
           <column name="core_min_evalue"/>
           <sql>
-            <![CDATA[
-                select group_id as group_name, 
-                evalue as core_min_evalue
-                from apidb.orthologgroupstats 
-                where protein_subset = 'C' 
-                and stat_type = 'min'
-            ]]>
+                WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'C'
+                    and stat_type = 'min')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as core_min_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
           </sql>
         </sqlQuery>
 
@@ -67,13 +72,16 @@
           <column name="group_name"/>
           <column name="core_25_evalue"/>
           <sql>
-            <![CDATA[
-                select group_id as group_name, 
-                evalue as core_25_evalue
-                from apidb.orthologgroupstats 
-                where protein_subset = 'C' 
-                and stat_type = '25 PCT'
-            ]]>
+                WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'C'
+                    and stat_type = '25 PCT')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as core_25_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
           </sql>
         </sqlQuery>
 
@@ -81,13 +89,16 @@
           <column name="group_name"/>
           <column name="core_median_evalue"/>
           <sql>
-            <![CDATA[
-                select group_id as group_name, 
-                evalue as core_median_evalue
-                from apidb.orthologgroupstats 
-                where protein_subset = 'C' 
-                and stat_type = 'median'
-            ]]>
+                WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'C'
+                    and stat_type = 'median')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as core_median_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
           </sql>
         </sqlQuery>
 
@@ -95,13 +106,16 @@
           <column name="group_name"/>
           <column name="core_75_evalue"/>
           <sql>
-            <![CDATA[
-                select group_id as group_name, 
-                evalue as core_75_evalue
-                from apidb.orthologgroupstats 
-                where protein_subset = 'C' 
-                and stat_type = '75 PCT'
-            ]]>
+                WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'C'
+                    and stat_type = '75 PCT')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as core_75_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
           </sql>
         </sqlQuery>
 
@@ -109,13 +123,16 @@
           <column name="group_name"/>
           <column name="core_max_evalue"/>
           <sql>
-            <![CDATA[
-                select group_id as group_name, 
-                evalue as core_max_evalue
-                from apidb.orthologgroupstats 
-                where protein_subset = 'C' 
-                and stat_type = 'max'
-            ]]>
+                WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'C'
+                    and stat_type = 'max')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as core_max_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
           </sql>
         </sqlQuery>
 
@@ -123,13 +140,16 @@
           <column name="group_name"/>
           <column name="core_peripheral_min_evalue"/>
           <sql>
-            <![CDATA[
-                select group_id as group_name, 
-                evalue as core_peripheral_min_evalue
-                from apidb.orthologgroupstats 
-                where protein_subset = 'C+P' 
-                and stat_type = 'min'
-            ]]>
+                WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'C+P'
+                    and stat_type = 'min')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as core_peripheral_min_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
           </sql>
         </sqlQuery>
 
@@ -137,13 +157,16 @@
           <column name="group_name"/>
           <column name="core_peripheral_25_evalue"/>
           <sql>
-            <![CDATA[
-                select group_id as group_name, 
-                evalue as core_peripheral_25_evalue
-                from apidb.orthologgroupstats 
-                where protein_subset = 'C+P' 
-                and stat_type = '25 PCT'
-            ]]>
+                WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'C+P'
+                    and stat_type = '25 PCT')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as core_peripheral_25_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
           </sql>
         </sqlQuery>
 
@@ -151,13 +174,16 @@
           <column name="group_name"/>
           <column name="core_peripheral_median_evalue"/>
           <sql>
-            <![CDATA[
-                select group_id as group_name, 
-                evalue as core_peripheral_median_evalue
-                from apidb.orthologgroupstats 
-                where protein_subset = 'C+P' 
-                and stat_type = 'median'
-            ]]>
+                WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'C+P'
+                    and stat_type = 'median')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as core_peripheral_median_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
           </sql>
         </sqlQuery>
 
@@ -165,13 +191,16 @@
           <column name="group_name"/>
           <column name="core_peripheral_75_evalue"/>
           <sql>
-            <![CDATA[
-                select group_id as group_name, 
-                evalue as core_peripheral_75_evalue
-                from apidb.orthologgroupstats 
-                where protein_subset = 'C+P' 
-                and stat_type = '75 PCT'
-            ]]>
+                 WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'C+P'
+                    and stat_type = '75 PCT')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as core_peripheral_75_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
           </sql>
         </sqlQuery>
 
@@ -179,13 +208,16 @@
           <column name="group_name"/>
           <column name="core_peripheral_max_evalue"/>
           <sql>
-            <![CDATA[
-                select group_id as group_name, 
-                evalue as core_peripheral_max_evalue
-                from apidb.orthologgroupstats 
-                where protein_subset = 'C+P' 
-                and stat_type = 'max'
-            ]]>
+                WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'C+P'
+                    and stat_type = 'max')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as core_peripheral_max_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
           </sql>
         </sqlQuery>
 
