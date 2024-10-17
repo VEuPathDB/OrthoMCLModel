@@ -524,7 +524,7 @@ FROM apidbtuning.PhyleticPattern
     <querySet name="GroupTables" queryType="table"  isCacheable="false">
 
       <defaultTestParamValues>
-            <paramValue name="group_name">OG6_101427</paramValue>
+            <paramValue name="group_name">OG7_0008348</paramValue>
       </defaultTestParamValues>
 
 
