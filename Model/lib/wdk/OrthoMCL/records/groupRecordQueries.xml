@@ -136,6 +136,7 @@
           </sql>
         </sqlQuery>
 
+
         <sqlQuery name="CorePeripheralMinEvalue">
           <column name="group_name"/>
           <column name="core_peripheral_min_evalue"/>
@@ -220,6 +221,93 @@
                 WHERE og.group_id = s.group_id(+)
           </sql>
         </sqlQuery>
+
+
+        <sqlQuery name="ResidualMinEvalue">
+          <column name="group_name"/>
+          <column name="residual_min_evalue"/>
+          <sql>
+                WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'R'
+                    and stat_type = 'min')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as residual_min_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="Residual25Evalue">
+          <column name="group_name"/>
+          <column name="residual_25_evalue"/>
+          <sql>
+                WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'R'
+                    and stat_type = '25 PCT')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as residual_25_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="ResidualMedianEvalue">
+          <column name="group_name"/>
+          <column name="residual_median_evalue"/>
+          <sql>
+                WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'R'
+                    and stat_type = 'median')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as residual_median_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="Residual75Evalue">
+          <column name="group_name"/>
+          <column name="residual_75_evalue"/>
+          <sql>
+                 WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'R'
+                    and stat_type = '75 PCT')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as residual_75_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
+          </sql>
+        </sqlQuery>
+
+        <sqlQuery name="ResidualMaxEvalue">
+          <column name="group_name"/>
+          <column name="residual_max_evalue"/>
+          <sql>
+                WITH selection AS (
+                    select group_id, evalue
+                    from apidb.orthologgroupstats
+                    where protein_subset = 'R'
+                    and stat_type = 'max')
+                SELECT og.group_id as group_name,
+                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                        ELSE NULL END as residual_max_evalue
+                FROM apidb.orthologgroup og, selection s
+                WHERE og.group_id = s.group_id(+)
+          </sql>
+        </sqlQuery>
+
 
         <sqlQuery name="Layout">
             <column name="group_name"/>
