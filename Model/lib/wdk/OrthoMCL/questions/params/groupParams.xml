@@ -29,7 +29,7 @@
 			  increment="1">
             
             <help>Set the minimum and maximum number of core proteins in the group</help>
-            <suggest default="{'min':'0', 'max':'499'}" />
+            <suggest default="{'min':'0', 'max':'100000'}" />
         </numberRangeParam>
 
         <numberRangeParam name="peripheral_count" 
@@ -40,7 +40,7 @@
 			  increment="1">
 
             <help>Set the minimum and maximum number of peripheral proteins in the group</help>
-            <suggest default="{'min':'0', 'max':'499'}" />
+            <suggest default="{'min':'0', 'max':'100000'}" />
         </numberRangeParam>
 
         <numberRangeParam name="all_count" 
