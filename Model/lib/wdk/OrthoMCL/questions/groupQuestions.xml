@@ -20,7 +20,28 @@
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
           <![CDATA[
-                Find Ortholog Groups that contain a specified number of proteins. To get Core Groups with peripheral proteins mapped in, choose >=1 for Min/Max Number of Core Proteins and >=1 for Min/Max Core Peripheral Proteins. To get Core Groups with NO peripheral proteins mapped in, choose >=1 for Min/Max Number of Core Proteins and 0 for Min/Max Number of Peripheral Proteins. To get Residual Groups, choose 0 for Min/Max Number of Core Proteins and >=1 for Min/Max Number of Peripheral Proteins. To restrict the total size of the group, set the Number of All Proteins. For example, setting a range of 2 to 499 for Number of All Proteins will show groups for which a cluster graph has been calculated.
+                Configure the search to find Ortholog Groups that contain a specified number of Core taxa and Peripheral taxa. For each number, the first box represents the minimum (min) number and the second box represents the maximum (max) number.</p>
+                <ul>
+                 <li>The <b>Number of All Taxa</b> can be restricted to a range of your choice by inputting numbers into the min and max boxes.</li>
+                 <li>To get <b>core groups with peripheral proteins mapped in</b>, input
+                    <ul>
+                    <li>Number of Core Taxa: min=1 and max=150</li>
+                    <li>Number of Peripheral Taxa: min=1 and max=700</li>
+                    </ul>
+                 </li>
+                 <li>To get <b>core groups with NO peripheral proteins mapped in</b>, input
+                 <ul>
+                    <li>Number of Core Taxa: min=1 and max=150</li>
+                    <li>Number of Peripheral Taxa: min=0 and max=0</li>
+                    </ul>
+                 </li>
+                 <li>To get <b>residual groups</b>, input
+                 <ul>
+                    <li>Number of Core Taxa: min=0 and max=0</li>
+                    <li>Number of Peripheral Taxa: min=1 and max=700</li>
+                    </ul>
+                 </li>
+               </ul>
                         ]]>
         </description>
 
