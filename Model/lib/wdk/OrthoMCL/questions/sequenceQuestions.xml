@@ -408,6 +408,20 @@
             <attributesList summary="full_id,group_name,target_id" sorting="group_name desc, full_id desc"/>
         </question>
 
+        <question name="BySharedOrthologFromSequenceList" queryRef="SequenceIds.BySharedOrthologFromSequenceList"
+                  displayName="Shared Orthologs From List"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+                        <![CDATA[
+                Find shared orthologs from a set of protein IDs.
+                        ]]>
+            </description>
+            <dynamicAttributes>
+              <columnAttribute name="target_id" displayName="Target ID" internal="false" inReportMaker="false"/>
+	    </dynamicAttributes>
+            <attributesList summary="full_id,group_name,target_id" sorting="group_name desc, full_id desc"/>
+        </question>
+
     </questionSet>
 
 </wdkModel>

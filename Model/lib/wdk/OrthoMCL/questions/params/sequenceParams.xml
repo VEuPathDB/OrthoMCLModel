@@ -11,7 +11,6 @@
             <suggest default="PF11_0344" />
         </datasetParam>
 
-
         <stringParam name="accession" prompt="Accession" number="false">
             <help>Sequence source ids from current release. Wild card is supported</help>
             <suggest default="PF3D7_1133400" />
@@ -25,6 +24,11 @@
         <stringParam name="targetOrganism" prompt="Target Organism" number="false">
             <help>Name of Target Organism</help>
             <suggest default="Trypanosoma vivax Y486" />
+        </stringParam>
+
+        <stringParam name="querySequenceList" prompt="Query Sequence List" number="false">
+            <help>List of Query Sequences</help>
+            <suggest default="pfal|PF3D7_1474700" />
         </stringParam>
 
          <flatVocabParam name="taxon_type_ahead"

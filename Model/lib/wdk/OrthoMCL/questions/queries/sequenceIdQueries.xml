@@ -328,6 +328,33 @@ SELECT eas.secondary_identifier AS full_id FROM dots.OrthoAaSequence eas
                ]]>
       </sql>
     </sqlQuery>
+ 
+    <sqlQuery name="BySharedOrthologFromSequenceList" isCacheable="true">
+      <paramRef ref="sequenceParams.querySequenceList"/>
+      <paramRef ref="sequenceParams.targetOrganism"/>
+      <column name="full_id"/>
+      <column name="group_name"/>
+      <column name="target_id"/>
+      <sql>
+                <![CDATA[
+                SELECT query.query as full_id, query.GroupID as group_name, target.target as target_id 
+                FROM (SELECT sequenceID.sid as query, ogas.group_id as GroupID 
+                      FROM (SELECT oaas.aa_sequence_id as aasid, oaas.secondary_identifier as sid 
+                            FROM dots.orthoaasequence oaas 
+                            WHERE oaas.secondary_identifier IN ($$querySequenceList$$)) sequenceID, 
+                      apidb.orthologgroupaasequence ogas 
+                      WHERE ogas.aa_sequence_id = sequenceID.aasid) query 
+                INNER JOIN (SELECT LISTAGG(org2.secondary_identifier, ',' ON OVERFLOW TRUNCATE) AS target, ogas.group_id AS GroupID 
+                            FROM apidb.orthologgroupaasequence ogas, (SELECT aa_sequence_id, secondary_identifier 
+                                                                      FROM dots.orthoaasequence 
+                                                                      WHERE taxon_id = (SELECT taxon_id 
+                                                                                        FROM sres.taxonname 
+                                                                                        WHERE name = $$targetOrganism$$)) org2 
+                WHERE ogas.aa_sequence_id = org2.aa_sequence_id 
+                GROUP BY group_id) target ON query.GroupID=target.GroupID
+               ]]>
+      </sql>
+    </sqlQuery>
 
   </querySet>
 

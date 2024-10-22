@@ -83,6 +83,7 @@ SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByEcNumber		Group St
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.AllSequences		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.AllSequences						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.SequencesByText		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.SequencesByText						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.BySharedOrtholog		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.BySharedOrtholog						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.BySharedOrthologFromSequenceList		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.BySharedOrthologFromSequenceList						menu	webservice	
 													
 ## Sequence Attributes ##													
 SequenceRecordClasses.SequenceRecordClass.record_overview	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	record_overview				sequence		record-internal		
