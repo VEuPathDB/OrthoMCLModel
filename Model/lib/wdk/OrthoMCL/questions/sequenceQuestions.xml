@@ -402,7 +402,10 @@
                 Find orthologs shared between two organsims.
                         ]]>
             </description>
-            <attributesList summary="full_id,group_name,source_id" sorting="group_name desc, full_id desc"/>
+            <dynamicAttributes>
+              <columnAttribute name="target_id" displayName="Target ID" internal="false" inReportMaker="false"/>
+	    </dynamicAttributes>
+            <attributesList summary="full_id,group_name,target_id" sorting="group_name desc, full_id desc"/>
         </question>
 
     </questionSet>
