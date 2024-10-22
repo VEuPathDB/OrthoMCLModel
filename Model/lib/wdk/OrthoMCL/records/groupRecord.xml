@@ -74,7 +74,7 @@
             <favorite noteField="group_name" />
 -->
              
-            <primaryKey aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin">
+            <primaryKey aliasQueryRef="GroupIds.GroupAlias">
                 <columnRef>group_name</columnRef>
             </primaryKey>
 

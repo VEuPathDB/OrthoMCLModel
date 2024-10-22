@@ -7,6 +7,29 @@
 
     <querySet name="GroupIds" queryType="id" isCacheable="false">
 
+        <sqlQuery name="GroupAlias" isCacheable="true" doNotTest="true">
+            <column name="group_name"/>
+            <column name="old_group_name"/>
+            <sql>
+              <![CDATA[
+                SELECT
+                    pr.group_name,
+                    pr.group_name AS old_group_name
+                FROM (
+                        SELECT name AS group_name
+                        FROM apidb.orthologgroup
+                        WHERE core_peripheral_residual IN ( 'P', 'R' )
+                    ) pr,
+                    (
+                        SELECT name AS group_name
+                        FROM apidb.orthologgroup
+                        WHERE core_peripheral_residual IN ( 'C', 'R' )
+                    ) cr
+                WHERE
+                    pr.group_name = cr.group_name (+)
+              ]]>
+            </sql>
+        </sqlQuery>
 
         <sqlQuery name="ByNameList" isCacheable="true">
             <paramRef ref="groupParams.group_names"/>

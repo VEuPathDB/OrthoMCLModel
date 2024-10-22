@@ -10,6 +10,9 @@
 .classpath
 .vscode
 
+# VIM configuration dir
+.vim/
+
 
 # Build directories
 /build/
