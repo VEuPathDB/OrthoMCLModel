@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <wdkModel>
 
     <!-- ************ -->
@@ -392,6 +392,17 @@
             <attributesList
                  summary="taxon_name,product,length,ec_numbers,pfam_domains,core_peripheral,group_link,max_score"
                  sorting="max_score desc,full_id asc"/> 
+        </question>
+
+        <question name="BySharedOrtholog" queryRef="SequenceIds.BySharedOrtholog"
+                  displayName="Shared Orthologs By Organisms"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+                        <![CDATA[
+                Find orthologs shared between two organsims.
+                        ]]>
+            </description>
+            <attributesList summary="full_id,group_name,source_id" sorting="group_name desc, full_id desc"/>
         </question>
 
     </questionSet>

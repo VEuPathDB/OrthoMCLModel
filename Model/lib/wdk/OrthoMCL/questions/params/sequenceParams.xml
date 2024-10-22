@@ -17,6 +17,16 @@
             <suggest default="PF3D7_1133400" />
         </stringParam>
        
+        <stringParam name="queryOrganism" prompt="Query Organism" number="false">
+            <help>Name of Query Organism</help>
+            <suggest default="Plasmodium falciparum 3D7" />
+        </stringParam>
+
+        <stringParam name="targetOrganism" prompt="Target Organism" number="false">
+            <help>Name of Target Organism</help>
+            <suggest default="Trypanosoma vivax Y486" />
+        </stringParam>
+
          <flatVocabParam name="taxon_type_ahead"
                      queryRef="SequenceVQ.TaxonTypeAhead"
                      prompt="Taxon"
