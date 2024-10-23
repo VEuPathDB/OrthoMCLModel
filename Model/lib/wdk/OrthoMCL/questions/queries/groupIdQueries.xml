@@ -12,7 +12,7 @@
             <column name="old_group_name"/>
             <sql>
               <![CDATA[
-               select og.group_id as group_name
+               select og.group_id as group_name,
                       og.group_id as old_group_name
               from apidb.orthologgroup
               ]]>
