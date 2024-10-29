@@ -89,19 +89,9 @@
 			  min="-200"
 			  max="-4"
 			  increment="1">
-            <help>Set the minimum and maximum number of total taxa in the group (min: -200 max: -4)</help>
+            <help>Set the minimum and maximum exponent of the median blast evalue in the group (min: -200 max: -4)</help>
             <suggest default="{'min':'-200', 'max':'-50'}" />
         </numberRangeParam>
-
-        <stringParam name="evalue_exponent_min" prompt="Minimum E-value Exponent" number="true">
-            <help>Set the minimum evalue exponent for average group evalue (min: -200 max: -4)</help>
-            <suggest default="-200" />
-        </stringParam>
-
-        <stringParam name="evalue_exponent_max" prompt="Minimum E-value Exponent" number="true">
-            <help>Set the maximum evalue exponent for average group evalue (min: -200 max: -4)</help>
-            <suggest default="-4" />
-        </stringParam>
 
         <stringParam name="phyletic_expression" prompt="Expression" number="false">
             <help>

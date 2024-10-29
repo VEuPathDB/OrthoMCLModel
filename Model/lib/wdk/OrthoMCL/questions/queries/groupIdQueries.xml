@@ -136,16 +136,16 @@ AND og.number_of_members >= $$all_count_min$$ AND og.number_of_members <=$$all_c
         </sqlQuery>
 
         <sqlQuery name="ByEValue" isCacheable="true">
-            <paramRef ref="groupParams.evalue_exponent_min"/>
-            <paramRef ref="groupParams.evalue_exponent_max"/>
+            <paramRef ref="groupParams.evalue"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT ogs.group_id AS group_name 
+SELECT ogs.group_id AS group_name
 FROM apidb.OrthologGroupStats ogs 
 WHERE ogs.stat_Type = 'median' 
-AND ogs.evalue >= 1.0000E$$evalue_exponent_min$$ 
-AND ogs.evalue <= 1.0000E$$evalue_exponent_max$$
+AND ogs.evalue >= CONCAT('1.0000E', REPLACE('$$evalue_min$$', '.0', '')) 
+AND ogs.evalue <= CONCAT('1.0000E', REPLACE('$$evalue_max$$', '.0', ''))
+AND protein_subset IN ('C+P','R')
                 ]]>
             </sql>
         </sqlQuery>
