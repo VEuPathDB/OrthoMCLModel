@@ -17,6 +17,7 @@ GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPercentMatch		Group S
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPhyleticPattern		Evolution	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPhyleticPattern						menu	webservice
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsFromSequences		Group Statistics	GroupRecordClasses.GroupRecordClass		GroupQuestions.GroupsFromSequences						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.AllGroups		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.AllGroups						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByEValue		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByEValue						menu	webservice	
 													
 ## Group Attributes ##
 

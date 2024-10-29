@@ -136,15 +136,16 @@ AND og.number_of_members >= $$all_count_min$$ AND og.number_of_members <=$$all_c
         </sqlQuery>
 
         <sqlQuery name="ByEValue" isCacheable="true">
-            <paramRef ref="groupParams.evalue"/>
+            <paramRef ref="groupParams.evalue_exponent_min"/>
+            <paramRef ref="groupParams.evalue_exponent_max"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT og.name AS group_name
-FROM apidb.OrthologGroup og
-WHERE og.avg_evalue_exp >= $$evalue_min$$
-  AND og.avg_evalue_exp <= $$evalue_max$$
-  and og.core_peripheral_residual in ('P','R')
+SELECT ogs.group_id AS group_name 
+FROM apidb.OrthologGroupStats ogs 
+WHERE ogs.stat_Type = 'median' 
+AND ogs.evalue >= 1.0000E$$evalue_exponent_min$$ 
+AND ogs.evalue <= 1.0000E$$evalue_exponent_max$$
                 ]]>
             </sql>
         </sqlQuery>
