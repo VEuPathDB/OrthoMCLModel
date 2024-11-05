@@ -405,7 +405,7 @@
             <dynamicAttributes>
               <columnAttribute name="target_id" displayName="Target ID" internal="false" inReportMaker="false"/>
 	    </dynamicAttributes>
-            <attributesList summary="full_id,group_name,target_id" sorting="group_name desc, full_id desc"/>
+            <attributesList summary="full_id,group_link,target_id" sorting="group_link asc, full_id desc"/>
         </question>
 
         <question name="BySharedOrthologFromSequenceList" queryRef="SequenceIds.BySharedOrthologFromSequenceList"
@@ -419,7 +419,7 @@
             <dynamicAttributes>
               <columnAttribute name="target_id" displayName="Target ID" internal="false" inReportMaker="false"/>
 	    </dynamicAttributes>
-            <attributesList summary="full_id,group_name,target_id" sorting="group_name desc, full_id desc"/>
+            <attributesList summary="full_id,group_link,target_id" sorting="group_link asc, full_id desc"/>
         </question>
 
     </questionSet>
