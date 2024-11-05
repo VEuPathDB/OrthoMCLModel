@@ -826,7 +826,7 @@
                       ]]>
                    </displayText>
                    <url>
-                      <![CDATA[https://qa.orthomcl.org/orthomcl/app/record/group/$$similar_group$$]]>
+                      <![CDATA[https://feature.orthomcl.org/a/app/record/group/$$similar_group$$]]>
                    </url>
               </linkAttribute>
               <columnAttribute name="protein_count" inReportMaker="true" displayName="# Proteins"/>
