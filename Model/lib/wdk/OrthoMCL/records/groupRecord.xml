@@ -842,8 +842,11 @@
               <description><![CDATA[Group Statistics are a measure of cohesiveness for the proteins in an orthogroup. BLAST e-values are computed for all of the proteins in each group vs. a central protein in the group.]]></description>
               <columnAttribute name="group_name" internal="true" inReportMaker="true"/>
               <columnAttribute name="group_type" inReportMaker="true" displayName="Protein Subset"/>
-              <columnAttribute name="stat_type" inReportMaker="true" displayName="Statistic"/>
-              <columnAttribute name="evalue" inReportMaker="true" displayName="E-value"/>
+              <columnAttribute name="min" inReportMaker="true" displayName="min"/>
+              <columnAttribute name="twentyfive" inReportMaker="true" displayName="25th"/>
+              <columnAttribute name="median" inReportMaker="true" displayName="median"/>
+              <columnAttribute name="seventyfive" inReportMaker="true" displayName="75th"/>
+              <columnAttribute name="max" inReportMaker="true" displayName="max"/>
             </table>
 
             <table name="GroupName"

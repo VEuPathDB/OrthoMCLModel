@@ -704,14 +704,41 @@ FROM apidbtuning.PhyleticPattern
 
 	<sqlQuery name="GroupStat">
 	  <column name="group_name" />
-          <column name="stat_type" />
-	  <column name="evalue" />
 	  <column name="group_type" />
+	  <column name="min" />
+	  <column name="twentyfive" />
+	  <column name="median" />
+	  <column name="seventyfive" />
+	  <column name="max" />
 	  <sql>
-          SELECT og.group_id as group_name, ogs.stat_type, ogs.evalue, 
-          CASE ogs.protein_subset WHEN 'C' THEN 'Core only' WHEN 'C+P' THEN 'Core+Peripheral' WHEN 'R' THEN 'Peripheral only' ELSE '' END AS group_type 
-          FROM apidb.orthologgroupstats ogs, apidb.orthologgroup og 
-          WHERE og.group_id = ogs.group_id 
+          SELECT DISTINCT ogs.group_id as group_name, min.min as min, twentyfive.twentyfive as twentyfive, median.median as median, seventyfive.seventyfive as seventyfive, max.max as max,
+          CASE ogs.protein_subset WHEN 'C' THEN 'Core only' WHEN 'C+P' THEN 'Core+Peripheral' WHEN 'R' THEN 'Peripheral only' ELSE '' END AS group_type
+          FROM apidb.orthologgroupstats ogs
+          INNER JOIN (SELECT ogsa.group_id, ogsa.protein_subset, ogsa.evalue AS min 
+                      FROM apidb.orthologgroupstats ogsa 
+                      WHERE ogsa.stat_type = 'min') min 
+          ON ogs.group_id = min.group_id 
+          AND ogs.protein_subset = min.protein_subset
+          INNER JOIN (SELECT ogsb.group_id, ogsb.protein_subset, ogsb.evalue AS twentyfive 
+                      FROM apidb.orthologgroupstats ogsb 
+                      WHERE ogsb.stat_type = '25 PCT') twentyfive 
+          ON ogs.group_id = twentyfive.group_id 
+          AND ogs.protein_subset = twentyfive.protein_subset
+          INNER JOIN (SELECT ogsc.group_id, ogsc.protein_subset, ogsc.evalue AS median 
+                      FROM apidb.orthologgroupstats ogsc 
+                      WHERE ogsc.stat_type = 'median') median 
+          ON ogs.group_id = median.group_id 
+          AND ogs.protein_subset = median.protein_subset
+          INNER JOIN (SELECT ogsd.group_id, ogsd.protein_subset, ogsd.evalue AS seventyfive 
+                      FROM apidb.orthologgroupstats ogsd 
+                      WHERE ogsd.stat_type = '75 PCT') seventyfive 
+          ON ogs.group_id = seventyfive.group_id 
+          AND ogs.protein_subset = seventyfive.protein_subset
+          INNER JOIN (SELECT ogse.group_id, ogse.protein_subset, ogse.evalue AS max 
+                      FROM apidb.orthologgroupstats ogse 
+                      WHERE ogse.stat_type = 'max') max 
+          ON ogs.group_id = max.group_id 
+          AND ogs.protein_subset = max.protein_subset
       	  </sql>
 	</sqlQuery>
 
