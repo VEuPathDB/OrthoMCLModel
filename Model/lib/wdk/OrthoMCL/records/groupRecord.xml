@@ -587,6 +587,9 @@
                 <columnAttribute name="ec_numbers" displayName="EC Numbers"  help="Number of proteins in parentheses." />
             </attributeQueryRef>
 
+            <attributeQueryRef ref="GroupAttributes.PreviousGroups">
+                <columnAttribute name="previous_groups" displayName="Previous Groups"  help="Previous Groups that now have Proteins within this Group." />
+            </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Keywords">
                 <columnAttribute name="keywords" displayName="Keywords" help="Words found in at least 50% of protein descriptions." >
@@ -601,6 +604,7 @@
 		  </reporter>
 		</columnAttribute>
             </attributeQueryRef>
+
 
             <attributeQueryRef ref="GroupAttributes.Domains">
                 <columnAttribute name="descriptions" displayName="Top PFam Domains" help="Number of proteins in parentheses. Shown are the three most frequent domains (or more if there are ties in frequency)." >
@@ -630,12 +634,12 @@
                       <div class="eupathdb-RecordOverviewLeft">
                       <div class="eupathdb-RecordOverviewItem" data-label="Group Type">$$group_type$$</div>
                       <div class="eupathdb-RecordOverviewItem" data-label="Total Number of Proteins">$$number_of_members$$</div>
-
                       <div class="eupathdb-RecordOverviewItem" data-label="Number of Core Proteins">$$number_of_core_members$$</div>
                       <div class="eupathdb-RecordOverviewItem" data-label="Number of Peripheral Proteins">$$number_of_peripheral_members$$</div>
                       <div class="eupathdb-RecordOverviewItem" data-label="Keywords">$$keywords$$</div>
                       <div class="eupathdb-RecordOverviewItem" data-label="EC Numbers">$$ec_numbers$$</div>
                       <div class="eupathdb-RecordOverviewItem" data-label="Top PFam Domains">$$descriptions$$</div>
+                      <div class="eupathdb-RecordOverviewItem" data-label="Previous Groups">$$previous_groups$$</div>
                       </div>
                   </div>
               </div>

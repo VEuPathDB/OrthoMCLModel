@@ -367,6 +367,20 @@
 	  </sql>
 	</sqlQuery>
 
+	<sqlQuery name="PreviousGroups">
+	  <column name="group_name" />
+	  <column name="previous_groups" />
+	  <sql>
+            <![CDATA[
+               SELECT new_group_id as group_name,
+               LISTAGG(old_group_id, ', ') WITHIN GROUP (ORDER BY old_group_id) AS previous_groups
+               FROM apidb.groupmapping
+               WHERE new_group_id <> old_group_id
+               GROUP BY new_group_id
+            ]]>
+	  </sql>
+	</sqlQuery>
+
 	<sqlQuery name="Domains">
 	  <column name="group_name" />
 	  <column name="descriptions" />
