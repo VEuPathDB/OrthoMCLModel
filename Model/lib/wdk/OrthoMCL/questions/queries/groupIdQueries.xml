@@ -24,21 +24,13 @@
             <column name="group_name"/>
             <sql>
               <![CDATA[
-                SELECT og.group_id AS group_name
-                FROM apidb.OrthologGroup og, ($$group_names$$) ds
-                WHERE lower(og.group_id) = lower(ds.group_name)
-               UNION
-                SELECT sa.group_name
-                FROM ApidbTuning.SequenceAttributes sa,
-                     Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
-                     Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr,
-                	 ($$group_names$$) ds
-                WHERE sa.aa_sequence_id = seqref.aa_sequence_id
-                  AND seqref.db_ref_id = ref.db_ref_id
-                  AND ref.external_database_release_id = dbr.external_database_release_id
-                  AND dbr.external_database_id = db.external_database_id
-                  AND db.name = 'OrthoMCL Old Groups'
-                  AND lower(ref.primary_identifier) = lower(ds.group_name)
+                 SELECT og.group_id AS group_name 
+                 FROM apidb.OrthologGroup og
+                 WHERE lower(og.group_id) IN (SELECT DISTINCT(lower(gm.new_group_id)) as group_id
+                                              FROM apidb.GroupMapping gm, ($$group_names$$) ds
+                                              WHERE lower(gm.old_group_id) IN lower(ds.group_name)
+                                             )
+                 
 	      ]]>
             </sql>
         </sqlQuery>  
