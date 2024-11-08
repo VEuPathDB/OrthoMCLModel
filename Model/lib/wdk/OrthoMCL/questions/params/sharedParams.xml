@@ -159,6 +159,9 @@ FROM apidb.OrthomclTaxon t
                connect by prior parent_id = enzyme_class_id
                UNION 
                SELECT ec_number, ec_number, ec_number || ' (' || description || ')' AS display FROM leaves
+               UNION
+               SELECT 'N/A' AS internal, 'N/A' AS term, 'N/A' AS display
+               FROM dual
              </sql>
          </sqlQuery>
 
