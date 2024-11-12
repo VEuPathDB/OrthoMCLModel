@@ -372,14 +372,23 @@
 	  <column name="previous_groups" />
 	  <sql>
             <![CDATA[
-               SELECT new_group_id as group_name,
-               LISTAGG(old_group_id, ', ') WITHIN GROUP (ORDER BY old_group_id) AS previous_groups
-               FROM apidb.groupmapping
-               WHERE new_group_id <> old_group_id
-               GROUP BY new_group_id
+    SELECT new_group_id as group_name,
+           prev_groups || CASE WHEN cnt>6 THEN '...' END AS previous_groups
+    FROM (
+        select new_group_id,
+               count(*) as cnt,
+               listagg(case when seqnum <=6 then old_group_id  end, ', ')
+               WITHIN GROUP (ORDER BY old_group_id) AS  prev_groups
+        from(
+            select  old_group_id, new_group_id, row_number() over (partition by new_group_id order by new_group_id) as seqnum
+            from (select old_group_id, new_group_id from apidb.groupmapping)
+             )
+            group by new_group_id
+         )
             ]]>
 	  </sql>
 	</sqlQuery>
+
 
 	<sqlQuery name="Domains">
 	  <column name="group_name" />
