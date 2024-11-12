@@ -817,6 +817,15 @@
               <columnAttribute name="sequence_count" displayName="# Proteins"/>
             </table>
 
+
+            <table name="previousGroups"
+                   displayName="All previous groups"
+                   queryRef="GroupTables.previousGroups">
+              <columnAttribute name="group_name" internal="true" displayName="Ortholog Group"  inReportMaker="true"/>
+              <columnAttribute name="group_id" displayName="Previous Ortholog Groups" inReportMaker="true"/>
+            </table>
+
+
             <table name="SimilarGroup"
                    displayName="Similar Groups"
                    queryRef="GroupTables.SimilarGroup">

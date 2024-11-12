@@ -373,7 +373,7 @@
 	  <sql>
             <![CDATA[
     SELECT new_group_id as group_name,
-           prev_groups || CASE WHEN cnt>6 THEN '...' END AS previous_groups
+           prev_groups || CASE WHEN cnt>6 THEN '... &nbsp;&nbsp;<a href="#previousGroups">(See all ' ||cnt || ' groups)</a>' END AS previous_groups
     FROM (
         select new_group_id,
                count(*) as cnt,
@@ -381,7 +381,9 @@
                WITHIN GROUP (ORDER BY old_group_id) AS  prev_groups
         from(
             select  old_group_id, new_group_id, row_number() over (partition by new_group_id order by new_group_id) as seqnum
-            from (select old_group_id, new_group_id from apidb.groupmapping)
+            from (select old_group_id, new_group_id 
+                  from apidb.groupmapping 
+                  order by old_group_id desc)
              )
             group by new_group_id
          )
@@ -549,6 +551,17 @@ FROM apidbtuning.PhyleticPattern
       <defaultTestParamValues>
             <paramValue name="group_name">OG7_0008348</paramValue>
       </defaultTestParamValues>
+
+      <sqlQuery name="previousGroups">
+        <column name="group_name"/>
+        <column name="group_id"/>
+        <sql>
+            SELECT old_group_id AS group_id, new_group_id AS group_name
+            FROM apidb.groupmapping
+            ORDER BY old_group_id DESC 
+        </sql>
+      </sqlQuery>
+
 
 
       <sqlQuery name="TaxonCounts">

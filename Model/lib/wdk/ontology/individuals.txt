@@ -69,8 +69,9 @@ GroupRecordClasses.GroupRecordClass.GroupStat	http://edamontology.org/data_0907	
 GroupRecordClasses.GroupRecordClass.GroupName		Group	GroupRecordClasses.GroupRecordClass	table	GroupName								
 GroupRecordClasses.GroupRecordClass.DomainFrequency	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	DomainFrequency							download	
 GroupRecordClasses.GroupRecordClass.KeywordFrequency	http://edamontology.org/topic_0623	Gene and protein families	GroupRecordClasses.GroupRecordClass	table	KeywordFrequency							download
+GroupRecordClasses.GroupRecordClass.previousGroups	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	previousGroups					2	record	download
 
-													
+
 ## Sequence Questions ##													
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByIdList		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByIdList						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByGroupIdList		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByGroupIdList						menu	webservice	
