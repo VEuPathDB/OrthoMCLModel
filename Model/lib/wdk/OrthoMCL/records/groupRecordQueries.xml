@@ -383,6 +383,7 @@
             select  old_group_id, new_group_id, row_number() over (partition by new_group_id order by new_group_id) as seqnum
             from (select old_group_id, new_group_id 
                   from apidb.groupmapping 
+                  where new_group_id <> old_group_id
                   order by old_group_id desc)
              )
             group by new_group_id
@@ -556,9 +557,12 @@ FROM apidbtuning.PhyleticPattern
         <column name="group_name"/>
         <column name="group_id"/>
         <sql>
+           <![CDATA[
             SELECT old_group_id AS group_id, new_group_id AS group_name
             FROM apidb.groupmapping
+            WHERE new_group_id <> old_group_id
             ORDER BY old_group_id DESC 
+          ]]>
         </sql>
       </sqlQuery>
 
