@@ -5,11 +5,6 @@
 
     <paramSet name="groupParams">
 
-        <stringParam name="group_name" prompt="Group or Protein Name" number="false">
-            <help>Group or proteim name from current or previous releases. * can be used as wild card</help>
-            <suggest default="pfal|PF3D7_02086*" />
-        </stringParam>
-
         <stringParam name="min_num_proteins" prompt="Minimum Number of Proteins" number="true">
             <help>Minimum number of proteins in the group that contain this domain.</help>
             <suggest default="1" />
@@ -23,7 +18,7 @@
         <datasetParam name="group_names" prompt="Group Names"
 					  recordClassRef="GroupRecordClasses.GroupRecordClass">
             <help>Group name(s), separated by commas or new lines, from current or previous releases.</help>
-            <suggest default="OG6_106861, OG6_104404" />
+            <suggest default="OG7_0008348, OG7_0003896" />
         </datasetParam>
 
         <numberRangeParam name="core_count" 
@@ -32,8 +27,9 @@
 			  min="0"
 			  max="100000"
 			  increment="1">
+            
             <help>Set the minimum and maximum number of core proteins in the group</help>
-            <suggest default="{'min':'0', 'max':'499'}" />
+            <suggest default="{'min':'0', 'max':'100000'}" />
         </numberRangeParam>
 
         <numberRangeParam name="peripheral_count" 
@@ -42,8 +38,9 @@
 			  min="0"
 			  max="100000"
 			  increment="1">
+
             <help>Set the minimum and maximum number of peripheral proteins in the group</help>
-            <suggest default="{'min':'0', 'max':'499'}" />
+            <suggest default="{'min':'0', 'max':'100000'}" />
         </numberRangeParam>
 
         <numberRangeParam name="all_count" 
@@ -53,7 +50,7 @@
 			  max="100000"
 			  increment="1">
             <help>Set the minimum and maximum number of total proteins in the group</help>
-            <suggest default="{'min':'1', 'max':'499'}" />
+            <suggest default="{'min':'1', 'max':'1000'}" />
         </numberRangeParam>
 
         <numberRangeParam name="core_taxon" 
@@ -86,24 +83,14 @@
             <suggest default="{'min':'4', 'max':'20'}" />
         </numberRangeParam>
 
-        <numberRangeParam name="percent" 
-			  prompt="Percentage"
-			  integer="true"
-			  min="1"
-			  max="100"
-			  increment="1">
-            <help>Set the minimum and maximum percentage</help>
-            <suggest default="{'min':'80', 'max':'100'}" />
-        </numberRangeParam>
-
         <numberRangeParam name="evalue" 
 			  prompt="E-value exponent"
 			  integer="true"
 			  min="-200"
 			  max="-4"
 			  increment="1">
-            <help>Set the minimum and maximum number of total taxa in the group</help>
-            <suggest default="{'min':'-200', 'max':'-150'}" />
+            <help>Set the minimum and maximum exponent of the median blast evalue in the group (min: -200 max: -4)</help>
+            <suggest default="{'min':'-200', 'max':'-50'}" />
         </numberRangeParam>
 
         <stringParam name="phyletic_expression" prompt="Expression" number="false">
@@ -122,9 +109,9 @@
     <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 
         <stringParam name="ec_wildcard"
-                        prompt="EC Number wildcard search" number="false">
+                        prompt="EC Name wildcard search" number="false">
             <suggest default="N/A"/>
-            <help>Asterisks can be used as wildcard characters in an EC Number (e.g. "1.*"). To find genes with any EC Number, you may use "*" or "any".</help>
+            <help>Type an Enzyme name or partial name.</help>
         </stringParam>
 
 

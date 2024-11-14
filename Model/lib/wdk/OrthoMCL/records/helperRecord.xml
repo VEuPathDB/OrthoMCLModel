@@ -25,12 +25,13 @@
                 </text>
             </idAttribute>
 
+<!--
             <attributeQueryRef ref="HelperAttributes.Counts">
                 <columnAttribute name="organism_count"/>
                 <columnAttribute name="protein_count"/>
                 <columnAttribute name="group_count"/>
             </attributeQueryRef>
-
+-->
             <table name="Taxons"
                    displayName="Taxons"
                    queryRef="HelperTables.Taxons">
@@ -43,6 +44,8 @@
                 <columnAttribute name="name" displayName="Name" />
             </table>
   
+
+
             <table name="DataSummary"
                    displayName="Data Summary"
                    queryRef="HelperTables.DataSummary">
@@ -73,7 +76,7 @@
                     <displayText>$$ncbi_taxon_id$$</displayText>
                 </linkAttribute>
             </table>
-    
+
             <table name="RootTaxons" queryRef="HelperTables.RootTaxons">
                 <columnAttribute name="taxon_abbrev" />
                 <columnAttribute name="color" />

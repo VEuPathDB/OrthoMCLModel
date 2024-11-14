@@ -14,10 +14,10 @@ GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByHomology		Group Stati
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPercentMatchPairs		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPercentMatchPairs						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPercentIdentity		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPercentIdentity						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPercentMatch		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPercentMatch						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByEValue		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByEValue						menu	webservice	
-GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPhyleticPattern		Evolution	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPhyleticPattern						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByPhyleticPattern		Evolution	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByPhyleticPattern						menu	webservice
 GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsFromSequences		Group Statistics	GroupRecordClasses.GroupRecordClass		GroupQuestions.GroupsFromSequences						menu	webservice	
 GroupRecordClasses.GroupRecordClass.GroupQuestions.AllGroups		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.AllGroups						menu	webservice	
+GroupRecordClasses.GroupRecordClass.GroupQuestions.GroupsByEValue		Group Statistics	GroupRecordClasses.GroupRecordClass	search	GroupQuestions.GroupsByEValue						menu	webservice	
 													
 ## Group Attributes ##
 
@@ -45,19 +45,33 @@ GroupRecordClasses.GroupRecordClass.euglenozoa	http://edamontology.org/topic_329
 GroupRecordClasses.GroupRecordClass.metazoa	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	metazoa								results
 GroupRecordClasses.GroupRecordClass.viridiplantae	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	viridiplantae								results
 GroupRecordClasses.GroupRecordClass.other_eukaryotes	http://edamontology.org/topic_3293	Phyletic distribution	GroupRecordClasses.GroupRecordClass	attribute	other_eukaryotes								results
+GroupRecordClasses.GroupRecordClass.core_min_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_min_evalue								results
+GroupRecordClasses.GroupRecordClass.core_25_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_25_evalue								results
+GroupRecordClasses.GroupRecordClass.core_median_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_median_evalue								results
+GroupRecordClasses.GroupRecordClass.core_75_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_75_evalue								results
+GroupRecordClasses.GroupRecordClass.core_max_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_max_evalue								results
+GroupRecordClasses.GroupRecordClass.core_peripheral_min_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_peripheral_min_evalue								results
+GroupRecordClasses.GroupRecordClass.core_peripheral_25_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_peripheral_25_evalue								results
+GroupRecordClasses.GroupRecordClass.core_peripheral_median_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_peripheral_median_evalue								results
+GroupRecordClasses.GroupRecordClass.core_peripheral_75_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_peripheral_75_evalue								results
+GroupRecordClasses.GroupRecordClass.core_peripheral_max_evalue	http://edamontology.org/data_0907	Group summary	GroupRecordClasses.GroupRecordClass	attribute	core_peripheral_max_evalue								results
+
 ## Group Tables ##
 GroupRecordClasses.GroupRecordClass.Statistics	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	Statistics					1	record	download	
 GroupRecordClasses.GroupRecordClass.PhyleticDistributionCounts	http://edamontology.org/topic_3293	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	PhyleticDistributionCounts							download		
 GroupRecordClasses.GroupRecordClass.TaxonCounts	http://edamontology.org/topic_3293	Phylogenetics	GroupRecordClasses.GroupRecordClass	table	TaxonCounts						record	download	
 GroupRecordClasses.GroupRecordClass.Sequences	http://edamontology.org/topic_0623	Gene and protein families	GroupRecordClasses.GroupRecordClass	table	Sequences						record	download	
-GroupRecordClasses.GroupRecordClass.PFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	PFams					1	record	download	
-GroupRecordClasses.GroupRecordClass.ProteinPFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	ProteinPFams					2	record	download	
+GroupRecordClasses.GroupRecordClass.PFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	PFams					1	record	download
+GroupRecordClasses.GroupRecordClass.ProteinPFams	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	ProteinPFams					2	record-internal	download
 GroupRecordClasses.GroupRecordClass.EcNumber	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	EcNumber					2	record	download	
+GroupRecordClasses.GroupRecordClass.SimilarGroup	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	SimilarGroup					2	record-collapsed	download	
+GroupRecordClasses.GroupRecordClass.GroupStat	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	GroupStat					2	record-collapsed	download	
 GroupRecordClasses.GroupRecordClass.GroupName		Group	GroupRecordClasses.GroupRecordClass	table	GroupName								
 GroupRecordClasses.GroupRecordClass.DomainFrequency	http://edamontology.org/topic_2814	Protein structure analysis	GroupRecordClasses.GroupRecordClass	table	DomainFrequency							download	
 GroupRecordClasses.GroupRecordClass.KeywordFrequency	http://edamontology.org/topic_0623	Gene and protein families	GroupRecordClasses.GroupRecordClass	table	KeywordFrequency							download
+GroupRecordClasses.GroupRecordClass.previousGroups	http://edamontology.org/data_0907	Protein family report	GroupRecordClasses.GroupRecordClass	table	previousGroups					2	record	download
 
-													
+
 ## Sequence Questions ##													
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByIdList		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByIdList						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByGroupIdList		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByGroupIdList						menu	webservice	
@@ -68,9 +82,10 @@ SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByBlast		Group Stati
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByMotif		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByMotif						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.FromGroups		Group Statistics	SequenceRecordClasses.SequenceRecordClass		SequenceQuestions.FromGroups						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByEcNumber		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByEcNumber						menu	webservice	
-SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.ByEcAssignment		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.ByEcAssignment						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.AllSequences		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.AllSequences						menu	webservice	
 SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.SequencesByText		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.SequencesByText						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.BySharedOrtholog		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.BySharedOrtholog						menu	webservice	
+SequenceRecordClasses.SequenceRecordClass.SequenceQuestions.BySharedOrthologFromSequenceList		Group Statistics	SequenceRecordClasses.SequenceRecordClass	search	SequenceQuestions.BySharedOrthologFromSequenceList						menu	webservice	
 													
 ## Sequence Attributes ##													
 SequenceRecordClasses.SequenceRecordClass.record_overview	http://edamontology.org/topic_0219	Annotation and curation	SequenceRecordClasses.SequenceRecordClass	attribute	record_overview				sequence		record-internal		

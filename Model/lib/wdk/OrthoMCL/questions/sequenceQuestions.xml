@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <wdkModel>
 
     <!-- ************ -->
@@ -24,17 +24,6 @@
 			]]>
             </description>
         </question>
-
-        <question name="ByGroupIdList" queryRef="SequenceIds.ByGroupIdList" 
-				  displayName="Group ID(s)"
-                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
-            <description>
-			<![CDATA[
-                Find Proteins by OrthoMCL Group ID(s) (from the current or previous releases of OrthoMCL).
-			]]>
-            </description>
-        </question>
-
 
         <question name="ByAccession" queryRef="SequenceIds.ByAccession" 
                   displayName="Group or Protein Name"
@@ -212,7 +201,7 @@
              Specify the pattern with a (Perl style) "regular expression".
              (Regular expressions are more powerful than PROSITE patterns.)
              For a description of how to create regular expressions,
-             please see the <a href="regexp.jsp">Regular Expression Tutorial</a>.
+             please see the <a href="@WEBAPP_BASE_URL@/static-content/regexp.html">Regular Expression Tutorial</a>.
              <br><br>
 
              The following codes can be used to represent classes of amino acids.
@@ -364,6 +353,7 @@
             </description>
         </question>
 
+<!--
         <question name="ByEcAssignment" queryRef="SequenceIds.ByEcAssignment" 
                   displayName="EC Number (any)" shortDisplayName="Enzymes"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
@@ -371,7 +361,7 @@
                         <![CDATA[ Find all proteins that are assigned to at least one Enzyme Commission (EC) Number]]>
             </description>
         </question>
-
+-->
         <!-- Do not remove.  needed for Site Search tests -->
         <question name="AllSequences" queryRef="SequenceIds.AllSequences" 
                                   displayName="All Proteins"
@@ -402,6 +392,34 @@
             <attributesList
                  summary="taxon_name,product,length,ec_numbers,pfam_domains,core_peripheral,group_link,max_score"
                  sorting="max_score desc,full_id asc"/> 
+        </question>
+
+        <question name="BySharedOrtholog" queryRef="SequenceIds.BySharedOrtholog"
+                  displayName="Shared Orthologs By Organisms"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+                        <![CDATA[
+                Find orthologs shared between two organsims.
+                        ]]>
+            </description>
+            <dynamicAttributes>
+              <columnAttribute name="target_id" displayName="Target ID" internal="false" inReportMaker="false"/>
+	    </dynamicAttributes>
+            <attributesList summary="full_id,group_link,target_id" sorting="group_link asc, full_id desc"/>
+        </question>
+
+        <question name="BySharedOrthologFromSequenceList" queryRef="SequenceIds.BySharedOrthologFromSequenceList"
+                  displayName="Shared Orthologs From List"
+                  recordClassRef="SequenceRecordClasses.SequenceRecordClass">
+            <description>
+                        <![CDATA[
+                Find shared orthologs from a set of protein IDs.
+                        ]]>
+            </description>
+            <dynamicAttributes>
+              <columnAttribute name="target_id" displayName="Target ID" internal="false" inReportMaker="false"/>
+	    </dynamicAttributes>
+            <attributesList summary="full_id,group_link,target_id" sorting="group_link asc, full_id desc"/>
         </question>
 
     </questionSet>

@@ -3,8 +3,8 @@
 Annotation and curation	http://edamontology.org/topic_0219	Annotation	1
 Phylogenetics	http://edamontology.org/topic_3293	Phyletic distribution	2
 Protein family report	http://edamontology.org/data_0907	Group summary	3
-Gene and protein families	http://edamontology.org/topic_0623	List of proteins	4
-Protein structure analysis	http://edamontology.org/topic_2814	PFam domains	5
+Gene and protein families	http://edamontology.org/topic_0623	List of proteins	5
+Protein structure analysis	http://edamontology.org/topic_2814	Summary of Pfam domains	4
 Homology-based gene prediction	http://edamontology.org/operation_3663	Cluster graph	6
 Protein sequence	http://edamontology.org/data_2976	Protein sequence	7
 EC number	http://edamontology.org/data_1011	EC numbers	8

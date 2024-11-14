@@ -47,7 +47,8 @@
       <!-- =============================================================== -->
       <!--  Default summary attributes and sorting attributes -->  
       <!-- =============================================================== -->
-      
+
+
       <attributesList
         summary="taxon_name,product,length,ec_numbers,pfam_domains,core_peripheral,group_link"
         sorting="primary_key asc"/>
@@ -93,6 +94,7 @@
         </text>
       </idAttribute>
 
+
       <attributeQueryRef ref="SequenceAttributes.SequenceAttrs">  
         <columnAttribute name="source_id" displayName="Source ID" />
         <columnAttribute name="length" displayName="Length" help="Protein length in amino acids">
@@ -107,18 +109,14 @@
             <description>Display the terms in the attribute as a word cloud</description>
           </reporter>
         </columnAttribute>
+<!--
         <columnAttribute name="molecular_weight" displayName="Molecular Weight" help="Molecular weight in kiloDaltons (kD)">
           <reporter name="histogram" displayName="Histogram" scopes=""
                     implementation="org.gusdb.wdk.model.report.reporter.HistogramAttributeReporter">
             <description>Display the histogram of the values of this attribute</description>
           </reporter>
         </columnAttribute>
-        <columnAttribute name="ec_numbers" displayName="EC Numbers">
-          <reporter name="wordCloud" displayName="Word Cloud" scopes=""
-                    implementation="org.gusdb.wdk.model.report.reporter.WordCloudAttributeReporter">
-            <description>Display the terms in the attribute as a word cloud</description>
-          </reporter>
-        </columnAttribute>
+-->
         <columnAttribute name="pfam_domains" displayName="PFam Domains">
           <reporter name="wordCloud" displayName="Word Cloud" scopes=""
                     implementation="org.gusdb.wdk.model.report.reporter.WordCloudAttributeReporter">
@@ -140,11 +138,23 @@
 
       </attributeQueryRef>
 
+
+      <attributeQueryRef ref="SequenceAttributes.ECNumbersAttr">
+        <columnAttribute name="ec_numbers" displayName="EC Numbers">
+          <reporter name="wordCloud" displayName="Word Cloud" scopes=""
+                    implementation="org.gusdb.wdk.model.report.reporter.WordCloudAttributeReporter">
+            <description>Display the terms in the attribute as a word cloud</description>
+          </reporter>
+        </columnAttribute>
+      </attributeQueryRef>
+
+
       <attributeQueryRef ref="SequenceAttributes.SequenceGroup">
-        <columnAttribute name="core_peripheral" displayName="Core/Peripheral Species" internal="false" inReportMaker="true" />
         <columnAttribute name="group_name" displayName="Group ID" internal="false" inReportMaker="true" />
+        <columnAttribute name="core_peripheral" displayName="Core/Peripheral Species" internal="false" inReportMaker="true" />
         <columnAttribute name="num_core" displayName="Number of Core Proteins" internal="false"/>
         <columnAttribute name="num_peripheral" displayName="Number of Peripheral Proteins" internal="false"/>
+<!-- TODO?
         <columnAttribute name="old_groups" displayName="Previous ortholog groups" internal="false">
           <reporter name="wordCloud" displayName="Word Cloud" scopes=""
                     implementation="org.gusdb.wdk.model.report.reporter.WordCloudAttributeReporter">
@@ -153,7 +163,7 @@
         </columnAttribute>
         <columnAttribute name="source_url" displayName="Source Database Link" />
         <columnAttribute name="source_text" displayName="Source Database Name" />
-
+-->
       </attributeQueryRef>
 
       <attributeQueryRef ref="SequenceAttributes.SequenceSequence">
@@ -190,11 +200,8 @@
 				      <div class="eupathdb-RecordOverviewItem" data-label="Description">$$product$$</div>
 				      <div class="eupathdb-RecordOverviewItem" data-label="Organism">$$taxon_name$$</div>
 				      <div class="eupathdb-RecordOverviewItem" data-label="Organism abbreviation">$$abbreviation$$</div>
-				      <div class="eupathdb-RecordOverviewItem" data-label="Core/Peripheral species">$$core_peripheral$$</div>
-
+              <div class="eupathdb-RecordOverviewItem" data-label="Core/Peripheral species">$$core_peripheral$$</div>
 				      <div class="eupathdb-RecordOverviewItem" data-label="Ortholog group"><a href="@LEGACY_WEBAPP_BASE_URL@/app/record/group/$$group_name$$">$$group_name$$</a></div>
-				      <div class="eupathdb-RecordOverviewItem" data-label="Previous ortholog groups">$$old_groups$$</div>
-				      <div class="eupathdb-RecordOverviewItem" data-label="Link to protein source"><a href="$$source_url$$" target="_blank">$$source_text$$</a></div>
 			          </div>
 			      </div>
 			  </div>
@@ -202,8 +209,11 @@
               </text>
             </textAttribute>
 
+            <!-- TODO
 
-
+				      <div class="eupathdb-RecordOverviewItem" data-label="Previous ortholog groups">$$old_groups$$</div>
+				      <div class="eupathdb-RecordOverviewItem" data-label="Link to protein source"><a href="$$source_url$$" target="_blank">$$source_text$$</a></div>
+            -->
       <!-- =============================================================== -->
       <!-- Tables -->
       <!-- =============================================================== -->
@@ -238,7 +248,9 @@
              displayName="Pfam Domains"
              queryRef="SequenceTables.PFamDomains">
         <columnAttribute name="accession" displayName="Primary Identifier" />
+<!--
         <columnAttribute name="symbol" displayName="Secondary Identifier" />
+-->
         <columnAttribute name="description" displayName="Remark" />
         <columnAttribute name="length" displayName="Length" />
         <columnAttribute name="start_min" displayName="End" />

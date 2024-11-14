@@ -14,6 +14,116 @@
         ]]>
       </description>
 
+      <question name="GroupsBySequenceCount" queryRef="GroupIds.BySequenceCount" 
+                displayName="Number of Sequences"
+                shortDisplayName="Number Seqs"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+          <![CDATA[
+                Find Ortholog Groups that contain a specified number of proteins. To get Core Groups with peripheral proteins mapped in, choose >=1 for Min/Max Number of Core Proteins and >=1 for Min/Max Core Peripheral Proteins. To get Core Groups with NO peripheral proteins mapped in, choose >=1 for Min/Max Number of Core Proteins and 0 for Min/Max Number of Peripheral Proteins. To get Residual Groups, choose 0 for Min/Max Number of Core Proteins and >=1 for Min/Max Number of Peripheral Proteins. To restrict the total size of the group, set the Number of All Proteins. For example, setting a range of 2 to 499 for Number of All Proteins will show groups for which a cluster graph has been calculated.
+                        ]]>
+
+        </description>
+
+        <!-- TODO: set default in record
+        <attributesList
+            summary="core_num,peripheral_num,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
+            sorting="number_of_members desc"
+            />
+            -->
+
+      <dynamicAttributes>
+        <columnAttribute name="core_num" displayName="Num Core Proteins"/>
+        <columnAttribute name="peripheral_num" displayName="Num Peripheral Proteins"/>
+      </dynamicAttributes>
+
+      </question>
+
+      <question name="GroupsByGenomeCount" queryRef="GroupIds.ByGenomeCount" 
+                displayName="Number of Taxa"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+          <![CDATA[
+                Configure the search to find Ortholog Groups that contain a specified number of Core taxa and Peripheral taxa. For each number, the first box represents the minimum (min) number and the second box represents the maximum (max) number.</p>
+                <ul>
+                 <li>The <b>Number of All Taxa</b> can be restricted to a range of your choice by inputting numbers into the min and max boxes.</li>
+                 <li>To get <b>core groups with peripheral proteins mapped in</b>, input
+                    <ul>
+                    <li>Number of Core Taxa: min=1 and max=150</li>
+                    <li>Number of Peripheral Taxa: min=1 and max=700</li>
+                    </ul>
+                 </li>
+                 <li>To get <b>core groups with NO peripheral proteins mapped in</b>, input
+                 <ul>
+                    <li>Number of Core Taxa: min=1 and max=150</li>
+                    <li>Number of Peripheral Taxa: min=0 and max=0</li>
+                    </ul>
+                 </li>
+                 <li>To get <b>residual groups</b>, input
+                 <ul>
+                    <li>Number of Core Taxa: min=0 and max=0</li>
+                    <li>Number of Peripheral Taxa: min=1 and max=700</li>
+                    </ul>
+                 </li>
+               </ul>
+                        ]]>
+        </description>
+<!-- TODO: set default in record
+        <attributesList
+            summary="core_count,peripheral_count,all_count,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
+            sorting="all_count desc"
+            /> 
+-->
+      <dynamicAttributes>
+        <columnAttribute name="core_count" displayName="Num Core Taxa"/>
+        <columnAttribute name="peripheral_count" displayName="Num Peripheral Taxa"/>
+        <columnAttribute name="all_count" displayName="Num Total Taxa"/>
+      </dynamicAttributes>
+
+      </question>
+
+      <question name="GroupsBySingleCopy" queryRef="GroupIds.ByGenomeCount" 
+                displayName="Single Copy Orthogroups"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+          <![CDATA[
+                        ]]>
+        </description>
+
+        <!-- TODO: set default in record
+        <attributesList
+            summary="core_count,peripheral_count,all_count,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
+            sorting="all_count desc"
+            /> 
+-->
+      <dynamicAttributes>
+        <columnAttribute name="core_count" displayName="Num Core Taxa"/>
+        <columnAttribute name="peripheral_count" displayName="Num Peripheral Taxa"/>
+        <columnAttribute name="all_count" displayName="Num Total Taxa"/>
+      </dynamicAttributes>
+
+      </question>
+
+      <question name="GroupsByOverlap" queryRef="GroupIds.ByPfamIdOrKeyword" 
+                displayName="Group Overlap"
+                shortDisplayName="Overlap"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+          <![CDATA[
+                        ]]>
+        </description>
+      </question>
+
+      <question name="GroupsBySimilarity" queryRef="GroupIds.ByPfamIdOrKeyword" 
+                displayName="Number Of Similar Groups"
+                shortDisplayName="Similar"
+                recordClassRef="GroupRecordClasses.GroupRecordClass">
+        <description>
+          <![CDATA[
+                        ]]>
+        </description>
+      </question>
+
       <question name="GroupsByNameList" queryRef="GroupIds.ByNameList" 
 		displayName="Group ID(s)"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
@@ -21,17 +131,6 @@
 	  <![CDATA[
                 Find Ortholog Groups by ID(s) assigned in the current or previous releases of OrthoMCL.
 			]]>
-        </description>
-      </question>
-
-      <question name="GroupsByAccession" queryRef="GroupIds.ByAccession" 
-                displayName="Group or Sequence ID"
-                recordClassRef="GroupRecordClasses.GroupRecordClass"
-                noSummaryOnSingleRecord="true">
-        <description>
-          <![CDATA[
-                Find Ortholog Groups by an ID assigned in the current or previous releases of OrthoMCL.
-                        ]]>
         </description>
       </question>
 
@@ -50,11 +149,12 @@
                 <columnAttribute name="max_score"
                            displayName="Score" align="center"/>
             </dynamicAttributes>
+<!-- TODO: set default in record
             <attributesList
                summary="max_score,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
                sorting="max_score desc,number_of_members desc"/>
-      </question>
-
+-->
+</question>
 
       <question name="GroupsByPFamIdOrKeyword" queryRef="GroupIds.ByPfamIdOrKeyword" 
                 displayName="PFam ID or Keyword"
@@ -66,7 +166,6 @@
                         ]]>
         </description>
       </question>
-
 
       <question name="GroupsByEcNumber" queryRef="GroupIds.ByEcNumber" 
                 displayName="EC Number" shortDisplayName="Enzymes"
@@ -81,138 +180,15 @@
 
       </question>
 
-      <question name="GroupsBySequenceCount" queryRef="GroupIds.BySequenceCount" 
-                displayName="Number of Sequences"
-                shortDisplayName="Number Seqs"
+      <question name="GroupsByEValue" queryRef="GroupIds.ByEValue"
+                displayName="E-Value"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
           <![CDATA[
-                Find Ortholog Groups that contain a specified number of proteins. To get Core Groups with peripheral proteins mapped in, choose >=1 for Min/Max Number of Core Proteins and >=1 for Min/Max Core Peripheral Proteins. To get Core Groups with NO peripheral proteins mapped in, choose >=1 for Min/Max Number of Core Proteins and 0 for Min/Max Number of Peripheral Proteins. To get Residual Groups, choose 0 for Min/Max Number of Core Proteins and >=1 for Min/Max Number of Peripheral Proteins. To restrict the total size of the group, set the Number of All Proteins. For example, setting a range of 2 to 499 for Number of All Proteins will show groups for which a cluster graph has been calculated.
-                        ]]>
-        </description>
-
-        <attributesList
-            summary="core_num,peripheral_num,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-            sorting="number_of_members desc"
-            /> 
-
-      <dynamicAttributes>
-        <columnAttribute name="core_num" displayName="Num Core Proteins"/>
-        <columnAttribute name="peripheral_num" displayName="Num Peripheral Proteins"/>
-      </dynamicAttributes>
-
-      </question>
-
-
-      <question name="GroupsByGenomeCount" queryRef="GroupIds.ByGenomeCount" 
-                displayName="Number of Taxa"
-                recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <description>
-          <![CDATA[
-                Find Ortholog Groups that contain a specified number of Core taxa and Peripheral taxa. To get Core Groups with
-peripheral proteins mapped in, choose >=1 for Min/Max # Core Taxa and >=1 for Min/Max # Peripheral Taxa. To get Core Groups with NO peripheral proteins mapped in, choose >=1 for Min/Max Number of Core Taxa and 0 for Min/Max Number of Peripheral Taxa. To get Residual Groups, choose 0 for Min/Max Number of Core Taxa and >=1 for Min/Max Number of Peripheral Taxa. To restrict the total number of taxa represented in the group, set the Number of All Taxa.
-                        ]]>
-        </description>
-
-        <attributesList
-            summary="core_count,peripheral_count,all_count,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-            sorting="all_count desc"
-            /> 
-
-      <dynamicAttributes>
-        <columnAttribute name="core_count" displayName="Num Core Taxa"/>
-        <columnAttribute name="peripheral_count" displayName="Num Peripheral Taxa"/>
-        <columnAttribute name="all_count" displayName="Num Total Taxa"/>
-      </dynamicAttributes>
-
-      </question>
-
-      <question name="GroupsByHomology" queryRef="GroupIds.ByAvgHomology" 
-                displayName="Avg % Homology"
-                shortDisplayName="Avg Homol"
-                recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <attributesList
-           summary="avg_connectivity,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-           sorting="avg_connectivity desc"
-           /> 
-        <summary>
-          <![CDATA[
-                Find Ortholog Groups by the average percent homology of the sequences in the group.
-                        ]]>
-        </summary>
-        <description>
-          <![CDATA[
-                   Find Ortholog Groups by the average percent homology of proteins in the group. Importantly, homology only applies to core proteins in a 'Core' group and peripheral proteins in a 'Residual' group, because only these proteins are used in the OrthoMCL algorithm to define groups. (Peripheral proteins that map to a Core Group are not assigned homology, and thus are not included in this search.) For example, consider a Core group containing 5 core proteins. A protein in this group has 75% homology if it is a Ortholog, CoOrtholog or Inparalog of 3 of the 4 other proteins, as assigned by the OrthoMCL algorithm. The average percent equals each protein's % homology divided by the number of proteins in the group.
-                        ]]>
+		  Find Ortholog Groups by the average median BLAST e-value between all protein sequences within the group. This is a measure of group cohesiveness; smaller (more significant) e-values indicate a tighter group while larger e-values indicate a group that is more dispersed.
+          ]]>
         </description>
       </question>
-
-
-      <question name="GroupsByPercentMatchPairs" queryRef="GroupIds.ByPercentMatchPairs" 
-                displayName="% Pairs w/ Similarity"
-                shortDisplayName="% Sim Pairs"
-                recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <attributesList
-           summary="percent_match_pairs,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-           sorting="percent_match_pairs desc"
-           /> 
-        <summary>
-          <![CDATA[
-                Find Ortholog Groups by the percentage of the protein pairs that are considered similar, based on two thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. For examaple, a group of size 5 can have a maximum of 10 unique pairs. If 8 of these pairs meet the criteria, then the % matched pairs = 80%. Note that this search considers ALL of the proteins (core and peripheral) in a group.
-                        ]]>
-        </summary>
-        <description>
-          <![CDATA[
-		Find Ortholog Groups by the percentage of the protein pairs that are considered similar, based on two thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. For examaple, a group of size 5 can have a maximum of 10 unique pairs. If 8 of these pairs meet the criteria, then the % matched pairs = 80%. Note that this search considers ALL of the proteins (core and peripheral) in a group.
-                        ]]>
-        </description>
-      </question>
-
-
-      <question name="GroupsByPercentIdentity" queryRef="GroupIds.ByPercentIdentity" 
-                displayName="Avg % Identity"
-                recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <attributesList
-           summary="avg_percent_identity,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-           sorting="avg_percent_identity desc"
-           /> 
-        <description>
-          <![CDATA[
-		   Find Ortholog Groups by average percent identity between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group.
-                        ]]>
-        </description>
-      </question>
-
-
-      <question name="GroupsByPercentMatch" queryRef="GroupIds.ByPercentMatch" 
-                displayName="Avg % Match Length"
-                recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <attributesList
-           summary="avg_percent_match,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-           sorting="avg_percent_match desc"
-           /> 
-        <description>
-          <![CDATA[
-		   Find Ortholog Groups by the average percent match length between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group.
-
-                        ]]>
-        </description>
-      </question>
-
-      <question name="GroupsByEValue" queryRef="GroupIds.ByEValue" 
-                displayName="Avg E-Value"
-                recordClassRef="GroupRecordClasses.GroupRecordClass">
-        <attributesList
-           summary="evalue_display,number_of_members,keywords,descriptions,ec_numbers,archaea,bacteria,alveolata,amoeba,euglenozoa,fungi,metazoa,viridiplantae,other_eukaryotes"
-           sorting="avg_evalue_exp asc"
-           /> 
-        <description>
-          <![CDATA[
-		   Find Ortholog Groups by the average Blast e-value between two protein sequences in the group. Protein pairs are considered only if the pair meets two similarity thresholds: (1) Blast e-value < 1e-5 and (2) > 20% amino acid similarity. Note that this search considers ALL of the proteins (core and peripheral) in a group.
-                        ]]>
-        </description>
-      </question>
-
       
       <question name="GroupsByPhyleticPattern" queryRef="GroupIds.ByPhyleticPattern" 
 		displayName="Phyletic Pattern" shortDisplayName="Phyletic"

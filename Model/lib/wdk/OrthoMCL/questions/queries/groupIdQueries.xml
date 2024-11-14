@@ -12,21 +12,9 @@
             <column name="old_group_name"/>
             <sql>
               <![CDATA[
-                SELECT
-                    pr.group_name,
-                    pr.group_name AS old_group_name
-                FROM (
-                        SELECT name AS group_name
-                        FROM apidb.orthologgroup
-                        WHERE core_peripheral_residual IN ( 'P', 'R' )
-                    ) pr,
-                    (
-                        SELECT name AS group_name
-                        FROM apidb.orthologgroup
-                        WHERE core_peripheral_residual IN ( 'C', 'R' )
-                    ) cr
-                WHERE
-                    pr.group_name = cr.group_name (+)
+               select og.group_id as group_name,
+                      og.group_id as old_group_name
+              from apidb.orthologgroup og
               ]]>
             </sql>
         </sqlQuery>
@@ -36,56 +24,16 @@
             <column name="group_name"/>
             <sql>
               <![CDATA[
-                SELECT og.name AS group_name
-                FROM apidb.OrthologGroup og, ($$group_names$$) ds
-                WHERE lower(og.name) = lower(ds.group_name)
-		      and og.core_peripheral_residual in ('P','R')
-                UNION
-                SELECT sa.group_name
-                FROM ApidbTuning.SequenceAttributes sa,
-                     Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
-                     Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr,
-                	 ($$group_names$$) ds
-                WHERE sa.aa_sequence_id = seqref.aa_sequence_id
-                  AND seqref.db_ref_id = ref.db_ref_id
-                  AND ref.external_database_release_id = dbr.external_database_release_id
-                  AND dbr.external_database_id = db.external_database_id
-                  AND db.name = 'OrthoMCL Old Groups'
-                  AND lower(ref.primary_identifier) = lower(ds.group_name)
+                 SELECT og.group_id AS group_name 
+                 FROM apidb.OrthologGroup og
+                 WHERE lower(og.group_id) IN (SELECT DISTINCT(lower(gm.new_group_id)) as group_id
+                                              FROM apidb.GroupMapping gm, ($$group_names$$) ds
+                                              WHERE lower(gm.old_group_id) IN lower(ds.group_name)
+                                             )
+                 
 	      ]]>
             </sql>
         </sqlQuery>  
-
-
-        <sqlQuery name="ByAccession" isCacheable="true">
-          <paramRef ref="groupParams.group_name"/>
-          <column name="group_name"/>
-          <sql>
-            <![CDATA[
-              SELECT og.name AS group_name
-              FROM apidb.OrthologGroup og
-              WHERE og.name LIKE replace($$group_name$$, '*', '%')
-	            and og.core_peripheral_residual in ('P','R')
-              UNION
-              SELECT sa.group_name
-              FROM ApidbTuning.SequenceAttributes sa,
-                   Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
-                   Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr
-              WHERE sa.aa_sequence_id = seqref.aa_sequence_id
-                AND seqref.db_ref_id = ref.db_ref_id
-                AND ref.external_database_release_id = dbr.external_database_release_id
-                AND dbr.external_database_id = db.external_database_id
-                AND db.name = 'OrthoMCL Old Groups'
-                AND ref.primary_identifier LIKE replace($$group_name$$, '*', '%')
-              UNION
-              SELECT sa.group_name
-              FROM ApidbTuning.SequenceAttributes sa
-              WHERE (sa.source_id LIKE replace($$group_name$$, '*', '%')
-                     OR sa.full_id LIKE replace($$group_name$$, '*', '%'))
-            ]]>
-          </sql>
-        </sqlQuery>
-
 
         <sqlQuery name="ByPfamIdOrKeyword" 
 			isCacheable="true" doNotTest="true">
@@ -101,13 +49,12 @@
                   FROM ApidbTuning.DomainAssignment
                   WHERE group_name IS NOT NULL
                         AND (accession LIKE UPPER(REPLACE($$pfam_id_type_ahead$$,'*','%'))
-                        OR symbol LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
+                        -- OR symbol LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
                         OR description LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
 	          GROUP BY group_name
                   ) domain,
 		  apidb.OrthologGroup og
-	     WHERE og.core_peripheral_residual IN ('P','R')
-	           AND og.name = domain.group_name
+	     WHERE og.group_id = domain.group_name
 		   AND domain.num_proteins >= $$min_num_proteins$$
 		   AND (domain.num_proteins / og.number_of_members) >= $$min_fraction_proteins$$
             ]]>
@@ -131,39 +78,27 @@ WHERE sa.aa_sequence_id = asi.aa_sequence_id
 
 
         <sqlQuery name="BySequenceCount" isCacheable="true">
-            <paramRef ref="groupParams.core_count"/>
-            <paramRef ref="groupParams.peripheral_count"/>
             <paramRef ref="groupParams.all_count"/>
+            <paramRef ref="groupParams.core_count" groupRef="paramGroups.corePeripheralAdvancedParams"/>
+            <paramRef ref="groupParams.peripheral_count" groupRef="paramGroups.corePeripheralAdvancedParams"/>
             <column name="group_name"/>
             <column name="core_num"/>
             <column name="peripheral_num"/>
             <sql>
                 <![CDATA[
-WITH core AS (SELECT og.name, og.number_of_members as core_num
-              FROM apidb.OrthologGroup og
-              WHERE core_peripheral_residual = 'C' 
-              UNION
-              SELECT og.name, 0 as core_num
-	      FROM apidb.OrthologGroup og
-	      WHERE core_peripheral_residual = 'R' ),
-     peripheral AS (SELECT og.name, og.number_of_members as peripheral_num
-                    FROM apidb.OrthologGroup og
-	            WHERE core_peripheral_residual IN ('P','R'))
-SELECT c.name as group_name, c.core_num, p.peripheral_num-c.core_num AS peripheral_num
-FROM core c, peripheral p
-WHERE c.name = p.name
-      AND c.core_num>=$$core_count_min$$ AND c.core_num<=$$core_count_max$$
-      AND (p.peripheral_num-c.core_num)>=$$peripheral_count_min$$
-      AND (p.peripheral_num-c.core_num)<=$$peripheral_count_max$$
-      AND p.peripheral_num>=$$all_count_min$$ AND p.peripheral_num<=$$all_count_max$$
+select og.group_id as group_name, og.number_of_core_members as core_num, og.number_of_peripheral_members as peripheral_num
+from apidb.orthologgroup og
+WHERE og.number_of_core_members >= $$core_count_min$$ AND og.number_of_core_members <= $$core_count_max$$
+AND og.number_of_peripheral_members >= $$peripheral_count_min$$ AND og.number_of_peripheral_members <= $$peripheral_count_max$$
+AND og.number_of_members >= $$all_count_min$$ AND og.number_of_members <=$$all_count_max$$
                 ]]>
             </sql>
         </sqlQuery>
 
         <sqlQuery name="ByGenomeCount" isCacheable="true">
-            <paramRef ref="groupParams.core_taxon"/>
-            <paramRef ref="groupParams.peripheral_taxon"/>
             <paramRef ref="groupParams.all_taxon"/>
+            <paramRef ref="groupParams.core_taxon" groupRef="paramGroups.corePeripheralAdvancedParams"/>
+            <paramRef ref="groupParams.peripheral_taxon" groupRef="paramGroups.corePeripheralAdvancedParams"/>
             <column name="group_name"/>
             <column name="core_count"/>
             <column name="peripheral_count"/>
@@ -192,76 +127,17 @@ WHERE c.name = p.name
             </sql>
         </sqlQuery>
 
-
-        <sqlQuery name="ByAvgHomology" isCacheable="true">
-            <paramRef ref="groupParams.percent"/>
-            <column name="group_name"/>
-            <sql>
-                <![CDATA[
-SELECT name AS group_name
-FROM apidb.OrthologGroup
-WHERE DECODE(avg_connectivity,NULL,0,100*avg_connectivity/(number_of_members-1)) >= $$percent_min$$
-      AND DECODE(avg_connectivity,NULL,0,100*avg_connectivity/(number_of_members-1)) <= $$percent_max$$
-      AND core_peripheral_residual in ('C','R')
-                ]]>
-            </sql>
-        </sqlQuery>
-
-
-        <sqlQuery name="ByPercentMatchPairs" isCacheable="true">
-            <paramRef ref="groupParams.percent"/>
-            <column name="group_name"/>
-            <sql>
-                <![CDATA[
-SELECT name as group_name
-FROM apidb.OrthologGroup
-WHERE percent_match_pairs >= $$percent_min$$ AND percent_match_pairs <= $$percent_max$$
-      AND core_peripheral_residual in ('P','R')
-                ]]>
-            </sql>
-        </sqlQuery>
-
-
-        <sqlQuery name="ByPercentIdentity" isCacheable="true">
-            <paramRef ref="groupParams.percent"/>
-            <column name="group_name"/>
-            <sql>
-                <![CDATA[
-SELECT og.name AS group_name
-FROM apidb.OrthologGroup og
-WHERE og.avg_percent_identity >= $$percent_min$$
-  AND og.avg_percent_identity <= $$percent_max$$
-  AND og.core_peripheral_residual in ('P','R')
-                ]]>
-            </sql>
-        </sqlQuery>
-
-
-        <sqlQuery name="ByPercentMatch" isCacheable="true">
-            <paramRef ref="groupParams.percent"/>
-            <column name="group_name"/>
-            <sql>
-                <![CDATA[
-SELECT og.name AS group_name
-FROM apidb.OrthologGroup og
-WHERE og.avg_percent_match >= $$percent_min$$
-  AND og.avg_percent_match <= $$percent_max$$
-  and og.core_peripheral_residual in ('P','R')
-                ]]>
-            </sql>
-        </sqlQuery>
-
-
         <sqlQuery name="ByEValue" isCacheable="true">
             <paramRef ref="groupParams.evalue"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT og.name AS group_name
-FROM apidb.OrthologGroup og
-WHERE og.avg_evalue_exp >= $$evalue_min$$
-  AND og.avg_evalue_exp <= $$evalue_max$$
-  and og.core_peripheral_residual in ('P','R')
+SELECT ogs.group_id AS group_name
+FROM apidb.OrthologGroupStats ogs 
+WHERE ogs.stat_Type = 'median' 
+AND ogs.evalue >= CONCAT('1.0000E', REPLACE('$$evalue_min$$', '.0', '')) 
+AND ogs.evalue <= CONCAT('1.0000E', REPLACE('$$evalue_max$$', '.0', ''))
+AND protein_subset IN ('C+P','R')
                 ]]>
             </sql>
         </sqlQuery>
@@ -272,10 +148,9 @@ WHERE og.avg_evalue_exp >= $$evalue_min$$
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT og.name AS group_name
+SELECT og.group_id AS group_name
 FROM apidb.OrthologGroup og, ($$phyletic_expression$$) ex
-WHERE og.ortholog_group_id = ex.ortholog_group_id
-and og.core_peripheral_residual in ('P','R')
+WHERE og.group_id = ex.group_id
                 ]]>
             </sql>
         </sqlQuery>
@@ -287,17 +162,15 @@ and og.core_peripheral_residual in ('P','R')
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-                    select distinct sa.group_name 
-                    from ApidbTuning.SequenceAttributes sa, dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
-                    where (
-ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_number_type_ahead$$),' ',''),'-', '%'),'*','%'),'any','%')
-                OR
-                ec.ec_number LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_wildcard$$),' ',''),'-', '%'),'*','%'),'any','%')
-                OR
-                ec.description LIKE REPLACE(REPLACE(REPLACE(REPLACE(lower($$ec_wildcard$$),' ',''),'-', '%'),'*','%'),'any','%')
-)
-                      and asec.enzyme_class_id = ec.enzyme_class_id
-                      and sa.aa_sequence_id = asec.aa_sequence_id
+                   select distinct sec.group_name 
+                   from ApidbTuning.sequenceenzymeclass sec
+                   where (
+                      sec.ec_number LIKE REPLACE(REPLACE(lower($$ec_number_type_ahead$$),' ',''),'-', '%')
+                      OR
+                      sec.ec_number LIKE REPLACE(REPLACE(REPLACE(lower($$ec_wildcard$$),' ',''),'-', '%'),'*','%')
+                      OR
+                      sec.description LIKE REPLACE($$ec_wildcard$$, '*', '%')
+                     )
                  ]]>
             </sql>
         </sqlQuery>
@@ -321,9 +194,8 @@ GROUP BY sa.group_name
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT og.name AS group_name
+SELECT og.group_id AS group_name
 FROM apidb.OrthologGroup og
-WHERE og.core_peripheral_residual in ('P','R')
               ]]>
             </sql>
         </sqlQuery>

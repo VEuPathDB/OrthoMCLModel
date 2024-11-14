@@ -14,8 +14,8 @@ public class ExpressionParamHandler extends StringParamHandler {
 
   private static final Logger LOG = Logger.getLogger(ExpressionParamHandler.class);
 
-  private static final String GROUP_SQL = "(SELECT ortholog_group_id FROM ( " +
-      "SELECT ortholog_group_id, sum(number_of_taxa) as number_of_taxa, sum(number_of_proteins) as number_of_proteins " +
+  private static final String GROUP_SQL = "(SELECT group_id FROM ( " +
+      "SELECT group_id, sum(number_of_taxa) as number_of_taxa, sum(number_of_proteins) as number_of_proteins " +
       "FROM apidb.orthologgrouptaxon WHERE lower(three_letter_abbrev) IN (";
 
   private final ExpressionParser _parser = new ExpressionParser();
@@ -69,11 +69,11 @@ public class ExpressionParamHandler extends StringParamHandler {
         sqlTerms.append(species);
       }
       if (leaf.getCount() == 0 && leaf.getCondition().equals("=")) {
-        sql.append("((SELECT DISTINCT ortholog_group_id FROM apidb.orthologgrouptaxon) MINUS ");
+        sql.append("((SELECT DISTINCT group_id FROM apidb.orthologgrouptaxon) MINUS ");
       }
       sql.append(coreSql);
       sql.append(sqlTerms + ")");
-      sql.append(" GROUP BY ortholog_group_id) WHERE ");
+      sql.append(" GROUP BY group_id) WHERE ");
 
       if (leaf.isOnSpecies()) {
         sql.append("number_of_taxa");
