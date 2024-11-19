@@ -29,6 +29,7 @@ modelprop:
   WEBSERVICEMIRROR: /var/www/Common/apiSiteFilesMirror/webServices
   YOUTUBE_URL: https://youtube.com/user/EuPathDB/videos?sort=dd&flow=list&view=1
   SITE_SEARCH_SERVICE_URL: /site-search
+  MULTI_BLAST_SERVICE_URL: /multi-blast
 
 blastconfig_blastPath: '/opt/ncbi-blast+/bin/'
 blastconfig_idBlastRegex: '<![CDATA[^>*\s*\t*\s*(\S{4,8}\|\S+)]]>'
