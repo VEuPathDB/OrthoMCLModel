@@ -20,7 +20,8 @@ modelprop:
   )
 }}"
   COMMUNITY_SITE: "//{{ community_env_map[prefix]|default(community_env_map['default']) }}"
-    PREFIX: "{{ prefix }}"
+  PREFIX: "{{ prefix }}"
+  HOSTNAME: "{{ hostname }}"
 
 community_env_map:
    w_prefix: static-content.veupathdb.org/
