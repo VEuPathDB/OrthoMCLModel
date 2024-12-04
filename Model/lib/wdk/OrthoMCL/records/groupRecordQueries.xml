@@ -61,7 +61,7 @@
                     where protein_subset = 'C'
                     and stat_type = 'min')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as core_min_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -78,7 +78,7 @@
                     where protein_subset = 'C'
                     and stat_type = '25 PCT')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as core_25_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -95,7 +95,7 @@
                     where protein_subset = 'C'
                     and stat_type = 'median')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as core_median_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -112,7 +112,7 @@
                     where protein_subset = 'C'
                     and stat_type = '75 PCT')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as core_75_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -129,7 +129,7 @@
                     where protein_subset = 'C'
                     and stat_type = 'max')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as core_max_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -147,7 +147,7 @@
                     where protein_subset = 'C+P'
                     and stat_type = 'min')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as core_peripheral_min_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -164,7 +164,7 @@
                     where protein_subset = 'C+P'
                     and stat_type = '25 PCT')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as core_peripheral_25_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -181,7 +181,7 @@
                     where protein_subset = 'C+P'
                     and stat_type = 'median')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as core_peripheral_median_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -198,7 +198,7 @@
                     where protein_subset = 'C+P'
                     and stat_type = '75 PCT')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as core_peripheral_75_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -215,7 +215,7 @@
                     where protein_subset = 'C+P'
                     and stat_type = 'max')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as core_peripheral_max_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -233,7 +233,7 @@
                     where protein_subset = 'R'
                     and stat_type = 'min')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as residual_min_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -250,7 +250,7 @@
                     where protein_subset = 'R'
                     and stat_type = '25 PCT')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as residual_25_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -267,7 +267,7 @@
                     where protein_subset = 'R'
                     and stat_type = 'median')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as residual_median_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -284,7 +284,7 @@
                     where protein_subset = 'R'
                     and stat_type = '75 PCT')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as residual_75_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -301,7 +301,7 @@
                     where protein_subset = 'R'
                     and stat_type = 'max')
                 SELECT og.group_id as group_name,
-                    CASE WHEN (og.group_id = s.group_id) THEN s.evalue
+                    CASE WHEN (og.group_id = s.group_id) THEN trunc(s.evalue, 4)
                         ELSE NULL END as residual_max_evalue
                 FROM apidb.orthologgroup og, selection s
                 WHERE og.group_id = s.group_id(+)
@@ -754,27 +754,27 @@ FROM apidbtuning.PhyleticPattern
           SELECT DISTINCT ogs.group_id as group_name, min.min as min, twentyfive.twentyfive as twentyfive, median.median as median, seventyfive.seventyfive as seventyfive, max.max as max,
           CASE ogs.protein_subset WHEN 'C' THEN 'Core only' WHEN 'C+P' THEN 'Core+Peripheral' WHEN 'R' THEN 'Peripheral only' ELSE '' END AS group_type
           FROM apidb.orthologgroupstats ogs
-          INNER JOIN (SELECT ogsa.group_id, ogsa.protein_subset, ogsa.evalue AS min 
+          INNER JOIN (SELECT ogsa.group_id, ogsa.protein_subset, trunc(ogsa.evalue, 3) AS min 
                       FROM apidb.orthologgroupstats ogsa 
                       WHERE ogsa.stat_type = 'min') min 
           ON ogs.group_id = min.group_id 
           AND ogs.protein_subset = min.protein_subset
-          INNER JOIN (SELECT ogsb.group_id, ogsb.protein_subset, ogsb.evalue AS twentyfive 
+          INNER JOIN (SELECT ogsb.group_id, ogsb.protein_subset, trunc(ogsb.evalue, 3) AS twentyfive 
                       FROM apidb.orthologgroupstats ogsb 
                       WHERE ogsb.stat_type = '25 PCT') twentyfive 
           ON ogs.group_id = twentyfive.group_id 
           AND ogs.protein_subset = twentyfive.protein_subset
-          INNER JOIN (SELECT ogsc.group_id, ogsc.protein_subset, ogsc.evalue AS median 
+          INNER JOIN (SELECT ogsc.group_id, ogsc.protein_subset, trunc(ogsc.evalue, 3) AS median 
                       FROM apidb.orthologgroupstats ogsc 
                       WHERE ogsc.stat_type = 'median') median 
           ON ogs.group_id = median.group_id 
           AND ogs.protein_subset = median.protein_subset
-          INNER JOIN (SELECT ogsd.group_id, ogsd.protein_subset, ogsd.evalue AS seventyfive 
+          INNER JOIN (SELECT ogsd.group_id, ogsd.protein_subset, trunc(ogsd.evalue, 3) AS seventyfive 
                       FROM apidb.orthologgroupstats ogsd 
                       WHERE ogsd.stat_type = '75 PCT') seventyfive 
           ON ogs.group_id = seventyfive.group_id 
           AND ogs.protein_subset = seventyfive.protein_subset
-          INNER JOIN (SELECT ogse.group_id, ogse.protein_subset, ogse.evalue AS max 
+          INNER JOIN (SELECT ogse.group_id, ogse.protein_subset, trunc(ogse.evalue, 3) AS max 
                       FROM apidb.orthologgroupstats ogse 
                       WHERE ogse.stat_type = 'max') max 
           ON ogs.group_id = max.group_id 
