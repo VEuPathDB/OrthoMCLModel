@@ -180,12 +180,12 @@
 
       </question>
 
-      <question name="GroupsByEValue" queryRef="GroupIds.ByEValue"
-                displayName="E-Value"
+      <question name="GroupsByPercentIdentity" queryRef="GroupIds.ByPercentIdentity"
+                displayName="Percent Identity"
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
           <![CDATA[
-		  Find Ortholog Groups by the average median BLAST e-value between all protein sequences within the group. This is a measure of group cohesiveness; smaller (more significant) e-values indicate a tighter group while larger e-values indicate a group that is more dispersed.
+		  Find Ortholog Groups by the median percent identity between all protein sequences within the group. This is a measure of group cohesiveness. High median percent identity indicates a tighter group with few outliers, while lower median identity indicate a group that is more dispersed.
           ]]>
         </description>
       </question>

@@ -127,16 +127,16 @@ AND og.number_of_members >= $$all_count_min$$ AND og.number_of_members <=$$all_c
             </sql>
         </sqlQuery>
 
-        <sqlQuery name="ByEValue" isCacheable="true">
-            <paramRef ref="groupParams.evalue"/>
+        <sqlQuery name="ByPercentIdentity" isCacheable="true">
+            <paramRef ref="groupParams.percent"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
 SELECT ogs.group_id AS group_name
 FROM apidb.OrthologGroupStats ogs 
 WHERE ogs.stat_Type = 'median' 
-AND ogs.evalue >= CONCAT('1.0000E', REPLACE('$$evalue_min$$', '.0', '')) 
-AND ogs.evalue <= CONCAT('1.0000E', REPLACE('$$evalue_max$$', '.0', ''))
+AND ogs.evalue >= $$percent_min$$
+AND ogs.evalue <= $$percent_max$$
 AND protein_subset IN ('C+P','R')
                 ]]>
             </sql>
