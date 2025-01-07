@@ -185,7 +185,7 @@
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
           <![CDATA[
-		  Find Ortholog Groups by the average median BLAST e-value between all protein sequences within the group. This is a measure of group cohesiveness; smaller (more significant) e-values indicate a tighter group while larger e-values indicate a group that is more dispersed.
+		  Identify ortholog groups based on the median percent identity of all protein sequences within each group. Median percent identity serves as an indicator of group cohesiveness: higher values suggest a tightly clustered group with minimal outliers, while lower values indicate a more dispersed group. Percent identity is represented in decimal form and ranges from 0 to 1 (the equivalent of 0% to 100%). For example, setting the percent identity threshold between 0.8 and 1 will return ortholog groups with a median percent identity between 80% and 100%.
           ]]>
         </description>
       </question>
