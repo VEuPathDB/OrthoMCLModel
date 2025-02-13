@@ -14,7 +14,6 @@ import org.gusdb.wdk.model.WdkModel;
 import org.gusdb.wdk.model.WdkModelException;
 import org.gusdb.wdk.model.answer.AnswerValue;
 import org.gusdb.wdk.model.query.SqlQuery;
-import org.gusdb.wdk.model.question.Question;
 import org.gusdb.wdk.model.record.RecordClass;
 import org.orthomcl.service.core.layout.RenderingHelper;
 
@@ -33,12 +32,11 @@ public class GeneSetManager {
 
   public GeneSet getGeneSet(AnswerValue answer) throws WdkModelException {
     // check if the step is of the supported sequence type
-    Question question = answer.getAnswerSpec().getQuestion();
-    RecordClass recordClass = question.getRecordClass();
+    RecordClass recordClass = answer.getQuestion().getRecordClass();
     if (!recordClass.getFullName().equals(RECORD_CLASS))
       throw new WdkModelException("Only steps of type " + RECORD_CLASS + " are supported.");
 
-    GeneSet geneSet = new GeneSet(question.getDisplayName());
+    GeneSet geneSet = new GeneSet(answer.getQuestion().getDisplayName());
     loadGenes(answer, geneSet);
     loadPFamDomains(answer, geneSet);
     processPFamDomains(geneSet);

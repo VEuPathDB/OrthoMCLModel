@@ -6,8 +6,10 @@ import org.gusdb.fgputil.validation.ValidationLevel;
 import org.gusdb.wdk.model.Utilities;
 import org.gusdb.wdk.model.WdkModel;
 import org.gusdb.wdk.model.WdkModelException;
+import org.gusdb.wdk.model.answer.AnswerValue;
 import org.gusdb.wdk.model.answer.factory.AnswerValueFactory;
 import org.gusdb.wdk.model.user.Step;
+import org.gusdb.wdk.model.user.StepFactory;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,13 +29,14 @@ public class GeneSetLayoutTest {
   public void testLoadLayout() throws WdkModelException {
     // this step has 6 sequences from 2 groups with the same PFam domain;
     long stepId = 100069240;
-    RunnableObj<Step> runnableStep = _wdkModel.getStepFactory()
+    RunnableObj<Step> runnableStep = new StepFactory(_wdkModel.getSystemUser())
         .getStepByValidId(stepId, ValidationLevel.RUNNABLE)
         .getRunnable()
         .getOrThrow(step -> new WdkModelException(
             "Step with ID " + stepId + " is not runnable. " + step.getValidationBundle().toString()));
     GeneSetLayoutManager layoutManager = new GeneSetLayoutManager(_wdkModel);
-    GroupLayout layout = layoutManager.getLayout(AnswerValueFactory.makeAnswer(runnableStep), getLayoutJson().toString());
+    AnswerValue answer = AnswerValueFactory.makeAnswer(Step.getRunnableAnswerSpec(runnableStep));
+    GroupLayout layout = layoutManager.getLayout(answer, getLayoutJson().toString());
     Assert.assertEquals(6, layout.getNodes().size());
   }
 
