@@ -112,7 +112,7 @@ public class FastaReporter extends AbstractReporter {
 
   @Override
   public void write(OutputStream out) throws WdkModelException {
-    RecordClass sequenceRecordClass = _baseAnswer.getAnswerSpec().getQuestion().getRecordClass(); // it better be!
+    RecordClass sequenceRecordClass = _baseAnswer.getQuestion().getRecordClass(); // it better be!
 
     List<AttributeField> neededAttrs = Functions.mapToList(Arrays.asList(NEEDED_ATTRIBUTES),
         attrName -> sequenceRecordClass.getAttributeField(attrName).orElseThrow());

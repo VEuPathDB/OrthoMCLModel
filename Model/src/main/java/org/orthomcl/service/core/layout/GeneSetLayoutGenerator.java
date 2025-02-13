@@ -32,7 +32,7 @@ public class GeneSetLayoutGenerator {
     if (answer.getResultSizeFactory().getResultSize() > MAX_GENES)
       return null;
 
-    GeneSet geneSet = new GeneSet(answer.getAnswerSpec().getQuestion().getDisplayName());
+    GeneSet geneSet = new GeneSet(answer.getQuestion().getDisplayName());
     GroupLayout layout = new GroupLayout(geneSet, DEFAULT_SIZE);
     Map<String, GeneNode> nodes = loadNodes(layout, answer);
     loadEdges(layout, answer, nodes);
@@ -56,7 +56,7 @@ public class GeneSetLayoutGenerator {
     ResultSet resultSet = null;
     try {
       resultSet = SqlUtils.executeQuery(dataSource, sql,
-          answer.getAnswerSpec().getQuestion().getFullName() + "__ortho-gene-ids",
+          answer.getQuestion().getFullName() + "__ortho-gene-ids",
           1000);
       while (resultSet.next()) {
         String fullId = resultSet.getString("full_id");
@@ -95,7 +95,7 @@ public class GeneSetLayoutGenerator {
     DataSource dataSource = wdkModel.getAppDb().getDataSource();
     ResultSet resultSet = null;
     try {
-      resultSet = SqlUtils.executeQuery(dataSource, sql, answer.getAnswerSpec().getQuestion().getFullName() + "__ortho-blast-scores",
+      resultSet = SqlUtils.executeQuery(dataSource, sql, answer.getQuestion().getFullName() + "__ortho-blast-scores",
           1000);
       while (resultSet.next()) {
         String queryId = resultSet.getString("query_id");
@@ -152,7 +152,7 @@ public class GeneSetLayoutGenerator {
     DataSource dataSource = wdkModel.getAppDb().getDataSource();
     ResultSet resultSet = null;
     try {
-      resultSet = SqlUtils.executeQuery(dataSource, sql, answer.getAnswerSpec().getQuestion().getFullName()+ "__orthomcl-get-" +
+      resultSet = SqlUtils.executeQuery(dataSource, sql, answer.getQuestion().getFullName()+ "__orthomcl-get-" +
           tableName, 1000);
       while (resultSet.next()) {
         String queryId = resultSet.getString("query_id");
