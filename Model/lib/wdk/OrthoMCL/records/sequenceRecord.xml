@@ -188,32 +188,26 @@
       </linkAttribute>
 
 
-            <textAttribute name="record_overview" displayName="Record Overview HTML">
-              <text>
-                  <![CDATA[
-			   <div class="eupathdb-RecordOverview">
-			      <div class="eupathdb-RecordOverviewTitle">
-			      </div>
+      <textAttribute name="record_overview" displayName="Record Overview HTML">
+        <text>
+          <![CDATA[
+          <div class="eupathdb-RecordOverview">
+            <dl>
+              <dt>Description</dt><dd>$$product$$</dd>
+              <dt>Organism</dt><dd>$$taxon_name$$</dd>
+              <dt>Organism abbreviation</dt><dd>$$abbreviation$$</dd>
+              <dt>Core/Peripheral species</dt><dd>$$core_peripheral$$</dd>
+              <dt>Ortholog group</dt><dd><a href="@LEGACY_WEBAPP_BASE_URL@/app/record/group/$$group_name$$">$$group_name$$</a></dd>
+            </dl>
+          </div>
+            ]]>
+        </text>
+        <!-- TODO
+        <dt>Previous ortholog groups</dt><dd>$$old_groups$$</dd>
+        <dt>Link to protein source</dt><dd><a href="$$source_url$$" target="_blank">$$source_text$$</a></dd>
+        -->
+      </textAttribute>
 
-			      <div class="eupathdb-RecordOverviewPanels">
-			          <div class="eupathdb-RecordOverviewLeft">
-				      <div class="eupathdb-RecordOverviewItem" data-label="Description">$$product$$</div>
-				      <div class="eupathdb-RecordOverviewItem" data-label="Organism">$$taxon_name$$</div>
-				      <div class="eupathdb-RecordOverviewItem" data-label="Organism abbreviation">$$abbreviation$$</div>
-              <div class="eupathdb-RecordOverviewItem" data-label="Core/Peripheral species">$$core_peripheral$$</div>
-				      <div class="eupathdb-RecordOverviewItem" data-label="Ortholog group"><a href="@LEGACY_WEBAPP_BASE_URL@/app/record/group/$$group_name$$">$$group_name$$</a></div>
-			          </div>
-			      </div>
-			  </div>
-		  ]]>
-              </text>
-            </textAttribute>
-
-            <!-- TODO
-
-				      <div class="eupathdb-RecordOverviewItem" data-label="Previous ortholog groups">$$old_groups$$</div>
-				      <div class="eupathdb-RecordOverviewItem" data-label="Link to protein source"><a href="$$source_url$$" target="_blank">$$source_text$$</a></div>
-            -->
       <!-- =============================================================== -->
       <!-- Tables -->
       <!-- =============================================================== -->

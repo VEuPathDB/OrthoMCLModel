@@ -20,7 +20,7 @@ public class HelperRecord {
         .orElseThrow(() -> new WdkModelException(HELPER_QUESTION + " does not exist in this model."));
     User user = wdkModel.getSystemUser();
     AnswerValue answerValue = AnswerValueFactory
-        .makeAnswer(user, AnswerSpec
+        .makeAnswer(AnswerSpec
             .builder(wdkModel)
             .setQuestionFullName(question.getFullName())
             .buildRunnable(user, StepContainer.emptyContainer()));
