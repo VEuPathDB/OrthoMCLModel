@@ -24,6 +24,7 @@ modelprop:
 community_env_map:
    w_prefix: static-content.veupathdb.org/
    b_prefix: static-content.veupathdb.org/
+   l_prefix: legacy.static-content.veupathdb.org/
    default: qa.static-content.veupathdb.org/
 
 # construct a prefix from hostname, like w_prefix, q_prefix
