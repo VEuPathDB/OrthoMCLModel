@@ -12,9 +12,9 @@
             <column name="old_group_name"/>
             <sql>
               <![CDATA[
-               select og.NEW_GROUP_ID as group_name,
-                      og.OLD_GROUP_ID as old_group_name
-              from apidb.groupmapping og
+               select og.GROUP_ID as group_name,
+                      og.GROUP_ID as old_group_name
+              from apidb.orthologgroup og
               ]]>
             </sql>
         </sqlQuery>
