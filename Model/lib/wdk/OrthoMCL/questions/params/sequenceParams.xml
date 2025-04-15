@@ -547,10 +547,12 @@
             <column name="term" />
             <sql>
                 <![CDATA[
+SELECT *
+FROM (
   SELECT 
-   '@BLASTDB_PATH@/build-current/blast/proteinSeqs' as internal
-  ,'@BLASTDB_PATH@/build-current/blast/proteinSeqs' as term
-  FROM DUAL
+    '@BLASTDB_PATH@/build-current/blast/proteinSeqs' AS internal,
+    '@BLASTDB_PATH@/build-current/blast/proteinSeqs' AS term
+)
                 ]]>
             </sql>
         </sqlQuery>
