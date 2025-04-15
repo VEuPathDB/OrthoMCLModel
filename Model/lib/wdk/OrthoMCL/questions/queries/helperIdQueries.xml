@@ -28,7 +28,7 @@
             <column name="helper_id"/>
             <sql>
                 <![CDATA[
-SELECT 'helper' AS helper_id FROM dual
+SELECT 'helper' AS helper_id
                 ]]>
             </sql>
         </sqlQuery>  

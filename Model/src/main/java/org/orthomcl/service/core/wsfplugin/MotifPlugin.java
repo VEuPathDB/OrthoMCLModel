@@ -113,10 +113,10 @@ public class MotifPlugin extends AbstractPlugin {
     Pattern searchPattern = translateExpression(expression);
 
     // open the database and get a resultSet
-    String sql = "SELECT eas.secondary_identifier AS source_id, eas.sequence "
-        + " FROM dots.ExternalAaSequence eas, apidbTuning.SequenceAttributes sa "
+    String sql = "SELECT aas.secondary_identifier AS source_id, aas.sequence "
+        + " FROM dots.AaSequence aas, apidbTuning.SequenceAttributes sa "
         + " WHERE sa.taxon_abbreviation IN (" + organisms + ")"
-        + "   AND eas.secondary_identifier = sa.full_id";
+        + "   AND aas.secondary_identifier = sa.full_id";
     ResultSet resultSet = null;
     try {
       wdkModel = InstanceManager.getInstance(WdkModel.class, request.getProjectId());

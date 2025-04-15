@@ -5,8 +5,7 @@
        <sql>
 <![CDATA[ 
 SELECT count(*) 
-FROM apidb.OrthomclTaxon 
-WHERE is_species != 0
+FROM apidb.Organism 
 ]]>
        </sql>
      </sqlQuery> 
@@ -16,11 +15,10 @@ WHERE is_species != 0
        <name>all_sequences_count</name>
        <sql>
 <![CDATA[ 
-SELECT count(eas.aa_sequence_id) 
-FROM dots.ExternalAaSequence eas,
-     apidb.OrthomclTaxon ot
-WHERE ot.taxon_id = eas.taxon_id
-  AND ot.is_species != 0
+SELECT count(aas.aa_sequence_id) 
+FROM dots.AaSequence aas,
+     apidb.Organism og
+WHERE og.taxon_id = aas.taxon_id
 ]]>
        </sql>
      </sqlQuery> 
@@ -41,14 +39,12 @@ FROM ApiDB.OrthologGroup
        <name>all_taxa_info</name>
        <sql>
 <![CDATA[ 
-SELECT orthomcl_taxon_id AS taxon_id,
-       nvl(parent_id, orthomcl_taxon_id) AS parent_id,
-       three_letter_abbrev AS abbrev,
-       name, is_species, 
-       species_order AS sort_index,
-       common_name
-FROM apidb.OrthomclTaxon
-ORDER BY parent_id ASC, species_order ASC
+SELECT taxon_id AS taxon_id,
+       orthomcl_abbrev AS abbrev,
+       name_for_filenames as name, 1 as is_species, 
+       name_for_filenames as common_name
+FROM apidb.Organism
+ORDER BY taxon_id ASC
 ]]>
        </sql>
      </sqlQuery> 
@@ -58,15 +54,15 @@ ORDER BY parent_id ASC, species_order ASC
        <name>sequence_info_per_history_seq</name>
        <sql>
 <![CDATA[ 
-SELECT eas.source_id, og.name, ot.name
-FROM dots.ExternalAaSequence eas,
+SELECT aas.source_id, og.name, org.name_for_filenames as name
+FROM dots.AaSequence aas,
      apidb.OrthologGroup og,
      apidb.OrthologGroupAaSequence ogs,
-     apidb.OrthomclTaxon ot
-WHERE ot.taxon_id = eas.taxon_id
-  AND eas.aa_sequence_id = ogs.aa_sequence_id(+)
+     apidb.Organism org
+WHERE org.taxon_id = aas.taxon_id
+  AND aas.aa_sequence_id = ogs.aa_sequence_id(+)
   AND ogs.ortholog_group_id = og.ortholog_group_id(+)
-  AND eas.aa_sequence_id = ?
+  AND aas.aa_sequence_id = ?
 ]]>
        </sql>
      </sqlQuery> 
@@ -199,11 +195,11 @@ AND og.number_of_members  $number
 <![CDATA[ 
 SELECT DISTINCT ogs.ortholog_group_id 
 FROM apidb.OrthologGroupAaSequence ogs,
-dots.ExternalAaSequence eas
+dots.AaSequence aas
 WHERE ogs.ortholog_group_id != 0
-AND ogs.aa_sequence_id = eas.aa_sequence_id
+AND ogs.aa_sequence_id = aas.aa_sequence_id
 GROUP BY ogs.ortholog_group_id
-HAVING count(DISTINCT(eas.taxon_id))  $number
+HAVING count(DISTINCT(aas.taxon_id))  $number
 ]]>
        </sql>
      </sqlQuery> 
@@ -312,26 +308,32 @@ WHERE ogd.ortholog_group_id = ?
        <name>sequence_attributes_per_group</name>
        <sql>
 <![CDATA[ 
-SELECT eas.source_id, eas.name, eas.description,
-       eas.length, ot.name, orr.linkout_url, ot.three_letter_abbrev, 
-       (SELECT apidb.tab_to_string(CAST(COLLECT(DISTINCT ref.primary_identifier) AS apidb.varchartab), ', ')
-        FROM Sres.DbRef ref, 
-             Sres.ExternalDatabase db, 
-             Sres.ExternalDatabaseRelease dbr,
-             Dots.AaSequenceDbRef seqref
-        WHERE db.name = 'OrthoMCL Old Groups'
-          and dbr.external_database_id = db.external_database_id
-          and ref.external_database_release_id = dbr.external_database_release_id
-          and seqref.db_ref_id = ref.db_ref_id
-          and seqref.aa_sequence_id = eas.aa_sequence_id) AS previous_groups
-FROM apidb.OrthologGroupAaSequence ogs,
-     dots.ExternalAaSequence eas,
-     apidb.OrthomclResource orr,
-     apidb.OrthomclTaxon ot
-WHERE ogs.aa_sequence_id = eas.aa_sequence_id
-  AND ot.orthomcl_taxon_id = orr.orthomcl_taxon_id
-  AND eas.taxon_id = ot.taxon_id
-  AND ogs.ortholog_group_id = ?
+SELECT 
+    aas.source_id, 
+    aas.name, 
+    aas.description, 
+    aas.length, 
+    org.name_for_filenames as name, 
+    orr.linkout_url, 
+    org.orthomcl_abbrev, 
+    (
+        SELECT string_agg(DISTINCT ref.primary_identifier, ', ') 
+        FROM 
+            Sres.DbRef ref
+            JOIN Sres.ExternalDatabase db ON db.external_database_id = ref.external_database_id
+            JOIN Sres.ExternalDatabaseRelease dbr ON dbr.external_database_release_id = ref.external_database_release_id
+            JOIN Dots.AaSequenceDbRef seqref ON seqref.db_ref_id = ref.db_ref_id
+        WHERE 
+            db.name = 'OrthoMCL Old Groups'
+            AND seqref.aa_sequence_id = aas.aa_sequence_id
+    ) AS previous_groups
+FROM 
+    dots.AaSequence aas
+    JOIN apidb.OrthologGroupAaSequence ogs ON ogs.aa_sequence_id = aas.aa_sequence_id
+    JOIN apidb.OrthomclResource orr ON orr.orthomcl_taxon_id = org.taxon_id
+    JOIN apidb.Organism org ON aas.taxon_id = org.taxon_id
+WHERE 
+    ogs.ortholog_group_id = $1
 ]]>
        </sql>
      </sqlQuery> 
@@ -343,7 +345,7 @@ WHERE ogs.aa_sequence_id = eas.aa_sequence_id
        <sql>
 <![CDATA[ 
 SELECT aa_sequence_id 
-FROM dots.ExternalAaSequence 
+FROM dots.AaSequence 
 WHERE lower(source_id) = lower(?)
 UNION
 SELECT seqref.aa_sequence_id
@@ -383,10 +385,10 @@ WHERE seqref.db_ref_id = ref.db_ref_id
        <sql>
 <![CDATA[ 
 SELECT DISTINCT aa_sequence_id 
-FROM dots.ExternalAaSequence s, apidb.OrthomclTaxon t
-WHERE lower(s.source_id) = lower(?)
-AND t.three_letter_abbrev = lower(?)
-AND t.taxon_id = s.taxon_id
+FROM dots.AaSequence aas, apidb.Organism org
+WHERE lower(aas.source_id) = lower(?)
+AND org.orthomcl_abbrev = lower(?)
+AND org.taxon_id = aas.taxon_id
 UNION
 SELECT seqref.aa_sequence_id
 FROM Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
@@ -405,8 +407,8 @@ WHERE seqref.db_ref_id = ref.db_ref_id
        <sql>
 <![CDATA[ 
 SELECT aa_sequence_id
-FROM dots.ExternalAaSequence
-WHERE secondary_identifier = ?
+FROM dots.AaSequence
+WHERE source_id = ?
 ]]>
        </sql>
      </sqlQuery> 
@@ -445,11 +447,11 @@ WHERE asi.subclass_view = 'ExternalAASequence'
        <name>sequence_id_by_three_letter_abbrev</name>
        <sql>
 <![CDATA[ 
-SELECT eas.aa_sequence_id 
-FROM dots.ExternalAaSequence eas,
-apidb.OrthomclTaxon ot
-WHERE eas.taxon_id = ot.taxon_id 
-AND ot.three_letter_abbrev = '$querycode'
+SELECT aas.aa_sequence_id 
+FROM dots.AaSequence aas,
+apidb.Organism org
+WHERE aas.taxon_id = org.taxon_id 
+AND org.orthomcl_abbrev = '$querycode'
 ]]>
        </sql>
      </sqlQuery> 
@@ -525,9 +527,9 @@ AND ogs.aa_sequence_id=$seq_id
        <name>sequence_info_per_sequence_id</name>
        <sql>
 <![CDATA[ 
-SELECT eas.source_id, eas.secondary_identifier, 
-eas.description, eas.length, ot.name,
-orr.linkout_url, og.name, og.ortholog_group_id, ot.three_letter_abbrev, 
+SELECT aas.source_id, aas.source_id, 
+aas.description, aas.length, org.name_for_filenames as name,
+orr.linkout_url, og.name, og.ortholog_group_id, org.orthomcl_abbrev, 
        (SELECT apidb.tab_to_string(CAST(COLLECT(DISTINCT ref.primary_identifier) AS apidb.varchartab), ', ')
         FROM Sres.DbRef ref, 
              Sres.ExternalDatabase db, 
@@ -538,16 +540,16 @@ orr.linkout_url, og.name, og.ortholog_group_id, ot.three_letter_abbrev,
           and ref.external_database_release_id = dbr.external_database_release_id
           and seqref.db_ref_id = ref.db_ref_id
           and seqref.aa_sequence_id = eas.aa_sequence_id) AS previous_groups
-FROM dots.ExternalAaSequence eas,
+FROM dots.AaSequence aas,
 apidb.OrthomclResource orr,
-apidb.OrthomclTaxon ot,
+apidb.Organism org,
 apidb.OrthologGroup og,
 apidb.OrthologGroupAaSequence ogs
-WHERE ot.orthomcl_taxon_id = orr.orthomcl_taxon_id
-AND eas.taxon_id = ot.taxon_id
- AND eas.aa_sequence_id = ogs.aa_sequence_id(+)
+WHERE org.taxon_id = orr.orthomcl_taxon_id
+AND aas.taxon_id = org.taxon_id
+AND aas.aa_sequence_id = ogs.aa_sequence_id(+)
 AND ogs.ortholog_group_id = og.ortholog_group_id(+) 
-AND eas.aa_sequence_id = ?
+AND aas.aa_sequence_id = ?
 ]]>
        </sql>
      </sqlQuery> 
@@ -584,14 +586,14 @@ WHERE name = ?
        <name>sequence_info_per_group_id</name>
        <sql>
 <![CDATA[ 
-SELECT eas.aa_sequence_id, 
-eas.source_id, eas.description, 
-eas.length, ot.three_letter_abbrev 
+SELECT aas.aa_sequence_id, 
+aas.source_id, aas.description, 
+aas.length, org.orthomcl_abbrev 
 FROM apidb.OrthologGroupAaSequence ogs,
-dots.ExternalAaSequence eas,
-apidb.OrthomclTaxon ot
- WHERE ogs.aa_sequence_id = eas.aa_sequence_id
-AND eas.taxon_id = ot.taxon_id
+dots.AaSequence aas,
+apidb.Organism org
+ WHERE ogs.aa_sequence_id = aas.aa_sequence_id
+AND aas.taxon_id = org.taxon_id
 AND ogs.ortholog_group_id = ?
 ]]>
        </sql>
@@ -603,12 +605,12 @@ AND ogs.ortholog_group_id = ?
        <name>max_length_per_group_id</name>
        <sql>
 <![CDATA[ 
-SELECT MAX(eas.length)
+SELECT MAX(aas.length)
 FROM apidb.OrthologGroupAaSequence ogs,
- dots.ExternalAaSequence eas,
-apidb.OrthomclTaxon ot
- WHERE ogs.aa_sequence_id = eas.aa_sequence_id
-AND eas.taxon_id = ot.taxon_id
+ dots.AaSequence aas,
+apidb.Organism og
+ WHERE ogs.aa_sequence_id = aas.aa_sequence_id
+AND aas.taxon_id = org.taxon_id
  AND ogs.ortholog_group_id = ?
 ]]>
        </sql>
@@ -620,19 +622,19 @@ AND eas.taxon_id = ot.taxon_id
        <name>domains_info_per_sequence_id</name>
        <sql>
 <![CDATA[ 
-SELECT eas.source_id, db.primary_identifier,
+SELECT aas.source_id, db.primary_identifier,
 db.secondary_identifier, db.remark,
  al.start_min, al.end_max
-FROM dots.ExternalAaSequence eas,
+FROM dots.AaSequence aas,
 dots.DomainFeature df,
 dots.DbRefAaFeature dbaf,
 dots.AaLocation al,
 sres.DbRef db
-WHERE eas.aa_sequence_id = df.aa_sequence_id
+WHERE aas.aa_sequence_id = df.aa_sequence_id
 AND df.aa_feature_id = al.aa_feature_id
 AND df.aa_feature_id = dbaf.aa_feature_id
 AND dbaf.db_ref_id = db.db_ref_id
- AND eas.aa_sequence_id = ?
+ AND aas.aa_sequence_id = ?
 ]]>
        </sql>
      </sqlQuery> 
@@ -665,13 +667,13 @@ WHERE ogs.aa_sequence_id = seqref.aa_sequence_id
        <sql>
 <![CDATA[ 
 SELECT ogs.ortholog_group_id
-FROM dots.ExternalAaSequence s,
+FROM dots.AaSequence aas,
      apidb.OrthologGroupAaSequence ogs,
-     apidb.OrthomclTaxon t
-WHERE lower(s.source_id) = lower(?)
-  AND t.three_letter_abbrev = lower(?)
-  AND s.taxon_id = t.taxon_id
- AND ogs.aa_sequence_id = s.aa_sequence_id
+     apidb.Organism org
+WHERE lower(aas.source_id) = lower(?)
+  AND org.orthomcl_abbrev = lower(?)
+  AND aas.taxon_id = org.taxon_id
+ AND ogs.aa_sequence_id = aas.aa_sequence_id
 UNION
 SELECT ogs.ortholog_group_id
 FROM apidb.OrthologGroupAaSequence ogs,
@@ -693,10 +695,10 @@ WHERE ogs.aa_sequence_id = seqref.aa_sequence_id
        <sql>
 <![CDATA[ 
 SELECT ogs.ortholog_group_id
-FROM dots.ExternalAaSequence s,
+FROM dots.AaSequence aas,
      apidb.OrthologGroupAaSequence ogs
-WHERE lower(s.source_id) = lower(?)
- AND ogs.aa_sequence_id = s.aa_sequence_id
+WHERE lower(aas.source_id) = lower(?)
+ AND ogs.aa_sequence_id = aas.aa_sequence_id
 UNION
 SELECT ogs.ortholog_group_id
 FROM apidb.OrthologGroupAaSequence ogs,
@@ -719,9 +721,9 @@ WHERE ogs.aa_sequence_id = seqref.aa_sequence_id
        <name>sequence_info_per_source_id</name>
        <sql>
 <![CDATA[ 
-SELECT eas.source_id, orr.linkout_url, 
-       ot.name, og.name,
-       eas.description, eas.length, eas.secondary_identifier, eas.sequence,
+SELECT aas.source_id, orr.linkout_url, 
+       org.name_for_filenames as name, og.name,
+       aas.description, aas.length, aas.source_id, aas.sequence,
        (SELECT apidb.tab_to_string(CAST(COLLECT(DISTINCT ref.primary_identifier) AS apidb.varchartab), ', ')
         FROM Sres.DbRef ref, 
              Sres.ExternalDatabase db, 
@@ -732,17 +734,17 @@ SELECT eas.source_id, orr.linkout_url,
           and ref.external_database_release_id = dbr.external_database_release_id
           and seqref.db_ref_id = ref.db_ref_id
           and seqref.aa_sequence_id = eas.aa_sequence_id) AS previous_groups 
-FROM dots.ExternalAaSequence eas,
- apidb.OrthomclTaxon ot,
+FROM dots.AaSequence aas,
+ apidb.Organism org,
  apidb.OrthomclResource orr,
 apidb.OrthologGroupAaSequence ogs,
 apidb.OrthologGroup og
-WHERE eas.taxon_id = ot.taxon_id
+WHERE aas.taxon_id = org.taxon_id
 AND og.ortholog_group_id(+) = ogs.ortholog_group_id
-AND ot.orthomcl_taxon_id = orr.orthomcl_taxon_id
-AND eas.aa_sequence_id = ogs.aa_sequence_id(+)
-AND ot.three_letter_abbrev = lower(?)
-AND lower(eas.source_id) = lower(?)
+AND org.taxon_id = orr.orthomcl_taxon_id
+AND aas.aa_sequence_id = ogs.aa_sequence_id(+)
+AND og.orthomcl_abbrev = lower(?)
+AND lower(aas.source_id) = lower(?)
 ]]>
        </sql>
      </sqlQuery> 
@@ -755,8 +757,8 @@ AND lower(eas.source_id) = lower(?)
 <![CDATA[ 
 SELECT al.start_min, al.end_max, db.primary_identifier,
 db.secondary_identifier, db.remark
-FROM dots.ExternalAaSequence eas,
-apidb.OrthomclTaxon ot,
+FROM dots.AaSequence aas,
+apidb.Organism og,
 dots.DomainFeature df,
 dots.AaLocation al,
 dots.DbRefAaFeature dbaf,
@@ -765,9 +767,9 @@ WHERE eas.aa_sequence_id = df.aa_sequence_id
 AND df.aa_feature_id = al.aa_feature_id
 AND df.aa_feature_id = dbaf.aa_feature_id
 AND dbaf.db_ref_id = db.db_ref_id
-AND eas.taxon_id = ot.taxon_id
-AND ot.three_letter_abbrev = lower(?)
-AND lower(eas.source_id) = lower(?)
+AND aas.taxon_id = og.taxon_id
+AND og.orthomcl_abbrev = lower(?)
+AND lower(aas.source_id) = lower(?)
 ORDER BY al.start_min ASC, al.end_max DESC
 ]]>
        </sql>
@@ -778,12 +780,11 @@ ORDER BY al.start_min ASC, al.end_max DESC
        <name>species_details</name>
        <sql>
 <![CDATA[
-SELECT ot.taxon_id, ot.name, ot.three_letter_abbrev,
+SELECT og.taxon_id, og.name_for_filenames as name, og.orthomcl_abbrev,
        od.resource_name, od.resource_url, od.description
-FROM apidb.OrthomclTaxon ot,
+FROM apidb.Organism og,
      apidb.OrthomclResource od
-WHERE od.orthomcl_taxon_id = ot.orthomcl_taxon_id
-  AND ot.is_species != 0 
+WHERE od.orthomcl_taxon_id = og.taxon_id
 ]]>
        </sql>
      </sqlQuery> 
@@ -794,7 +795,7 @@ WHERE od.orthomcl_taxon_id = ot.orthomcl_taxon_id
        <sql>
 <![CDATA[ 
 SELECT COUNT(*) 
-FROM dots.ExternalAASequence 
+FROM dots.AASequence 
 WHERE taxon_id = ?
 ]]>
        </sql>
@@ -823,10 +824,10 @@ AND eas.taxon_id = ?
 <![CDATA[ 
 SELECT COUNT(DISTINCT(ogs.ortholog_group_id)) as group_count,
        COUNT(ogs.aa_sequence_id) as sequence_count
-FROM dots.ExternalAASequence eas,
+FROM dots.AASequence aas,
 apidb.OrthologGroupAaSequence ogs
-WHERE eas.aa_sequence_id = ogs.aa_sequence_id
-AND eas.taxon_id = ?
+WHERE aas.aa_sequence_id = ogs.aa_sequence_id
+AND aas.taxon_id = ?
 ]]>
        </sql>
      </sqlQuery> 
@@ -875,16 +876,16 @@ WHERE name = ?
        <name>sequence_info_per_group_name</name>
        <sql>
 <![CDATA[ 
-SELECT eas.source_id, eas.description, 
-       ot.name, eas.length, eas.sequence, ot.three_letter_abbrev 
+SELECT aas.source_id, aas.description, 
+       org.name_for_filenames as name, aas.length, aas.sequence, org.orthomcl_abbrev 
 FROM apidb.OrthologGroup og,
 apidb.OrthologGroupAaSequence ogs,
-dots.ExternalAaSequence eas,
- apidb.OrthomclTaxon ot
+dots.AaSequence aas,
+ apidb.Organism org
 WHERE og.ortholog_group_id = ogs.ortholog_group_id
-AND ogs.aa_sequence_id = eas.aa_sequence_id
-AND eas.taxon_id = ot.taxon_id
-AND og.name = ?
+AND ogs.aa_sequence_id = aas.aa_sequence_id
+AND aas.taxon_id = org.taxon_id
+AND org.name_for_filenames = ?
 ]]>
        </sql>
      </sqlQuery> 
@@ -894,14 +895,14 @@ AND og.name = ?
        <name>domain_sequence_info_per_group_id</name>
        <sql>
 <![CDATA[ 
-SELECT eas.aa_sequence_id, 
-     eas.source_id, eas.description, 
-      eas.length, ot.three_letter_abbrev 
+SELECT aas.aa_sequence_id, 
+     aas.source_id, aas.description, 
+      aas.length, og.orthomcl_abbrev 
 FROM apidb.OrthologGroupAaSequence ogs,
-     dots.ExternalAaSequence eas,
-      apidb.OrthomclTaxon ot
-WHERE ogs.aa_sequence_id = eas.aa_sequence_id
-    AND eas.taxon_id = ot.taxon_id
+     dots.AaSequence aas,
+      apidb.Organism og
+WHERE ogs.aa_sequence_id = aas.aa_sequence_id
+    AND aas.taxon_id = og.taxon_id
     AND ogs.ortholog_group_id = ?
 ]]>
        </sql>
@@ -912,13 +913,13 @@ WHERE ogs.aa_sequence_id = eas.aa_sequence_id
        <name>history_sequence_info_per_sequence_id</name>
        <sql>
 <![CDATA[ 
-SELECT eas.source_id, eas.description, 
-       ot.name, eas.length, eas.sequence,
-       ot.three_letter_abbrev
-FROM dots.ExternalAaSequence eas,
-apidb.OrthomclTaxon ot
-WHERE eas.taxon_id = ot.taxon_id
-AND eas.aa_sequence_id = ?
+SELECT aas.source_id, aas.description, 
+       og.name_for_filenames as name, aas.length, aas.sequence,
+       og.orthomcl_abbrev
+FROM dots.AaSequence aas,
+apidb.Organism og
+WHERE aas.taxon_id = og.taxon_id
+AND aas.aa_sequence_id = ?
 ]]>
        </sql>
      </sqlQuery> 
@@ -931,12 +932,12 @@ AND eas.aa_sequence_id = ?
 SELECT g.name 
 FROM apidb.OrthologGroupAaSequence ogs,
      apidb.OrthologGroup g,
-     apidb.OrthomclTaxon t,
-     dots.externalaasequence s
-WHERE lower(s.source_id) = lower(?)
-  AND t.three_letter_abbrev = lower(?)
-  AND s.taxon_id = t.taxon_id
-  AND ogs.aa_sequence_id = s.aa_sequence_id
+     apidb.Organism og,
+     dots.aasequence aas
+WHERE lower(aas.source_id) = lower(?)
+  AND og.orthomcl_abbrev = lower(?)
+  AND aas.taxon_id = og.taxon_id
+  AND ogs.aa_sequence_id = aas.aa_sequence_id
   AND g.ortholog_group_id  = ogs.ortholog_group_id
 ]]>
        </sql>

@@ -30,23 +30,22 @@
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-SELECT eas.secondary_identifier AS full_id 
-FROM dots.OrthoAaSequence eas, ($$source_ids$$) ds
-WHERE lower(eas.source_id) = lower(ds.full_id)
-   OR lower(eas.secondary_identifier) = lower(ds.full_id)
+SELECT aas.source_id AS full_id
+FROM dots.aasequence aas
+JOIN ($$source_ids$$) ds ON lower(aas.source_id) = lower(ds.full_id)
+   OR lower(aas.source_id) = lower(ds.full_id)
+
 UNION
-SELECT eas.secondary_identifier AS full_id
-FROM dots.OrthoAaSequence eas, Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
-     Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr,
-	 ($$source_ids$$) ds
-WHERE eas.aa_sequence_id = seqref.aa_sequence_id
-  AND seqref.db_ref_id = ref.db_ref_id
-  AND ref.external_database_release_id = dbr.external_database_release_id
-  AND dbr.external_database_id = db.external_database_id
-  AND db.name = 'OrthoMCL Old Seqs'
-  AND (lower(ref.primary_identifier) = lower(ds.full_id)
-       OR
-       lower(ref.secondary_identifier) = lower(ds.full_id))
+
+SELECT aas.source_id AS full_id
+FROM dots.aasequence aas
+JOIN Dots.AaSequenceDbRef seqref ON aas.aa_sequence_id = seqref.aa_sequence_id
+JOIN Sres.DbRef ref ON seqref.db_ref_id = ref.db_ref_id
+JOIN Sres.ExternalDatabaseRelease dbr ON dbr.external_database_release_id = ref.external_database_release_id
+JOIN Sres.ExternalDatabase db ON db.external_database_id = dbr.external_database_id
+JOIN ($$source_ids$$) ds ON lower(ref.primary_identifier) = lower(ds.full_id)
+   OR lower(ref.secondary_identifier) = lower(ds.full_id)
+WHERE db.name = 'OrthoMCL Old Seqs'
 				]]>
             </sql>
         </sqlQuery>  
@@ -57,24 +56,24 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-                SELECT full_id
-                FROM ApidbTuning.SequenceAttributes
-                WHERE source_id LIKE replace($$accession$$, '*', '%')
-                   OR full_id LIKE replace($$accession$$, '*', '%')
-                   OR group_name LIKE replace($$accession$$, '*', '%')
-                UNION
-                SELECT sa.full_id
-                FROM Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
-                     Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr,
-                     ApidbTuning.SequenceAttributes sa
-                WHERE sa.aa_sequence_id = seqref.aa_sequence_id
-                  AND seqref.db_ref_id = ref.db_ref_id
-                  AND ref.external_database_release_id = dbr.external_database_release_id
-                  AND dbr.external_database_id = db.external_database_id
-                  AND db.name IN ('OrthoMCL Old Groups', 'OrthoMCL Old Sequences')
-                  AND (ref.primary_identifier LIKE replace($$accession$$, '*', '%')
-                       OR
-                       ref.secondary_identifier LIKE replace($$accession$$, '*', '%'))
+SELECT sa.source_id as full_id
+FROM ApidbTuning.SequenceAttributes sa
+WHERE sa.source_id LIKE REPLACE($$accession$$, '*', '%')
+   OR sa.full_id LIKE REPLACE($$accession$$, '*', '%')
+   OR sa.group_name LIKE REPLACE($$accession$$, '*', '%')
+
+UNION
+
+SELECT sa.full_id
+FROM Dots.AaSequenceDbRef seqref
+JOIN Sres.DbRef ref ON seqref.db_ref_id = ref.db_ref_id
+JOIN Sres.ExternalDatabaseRelease dbr ON dbr.external_database_release_id = ref.external_database_release_id
+JOIN Sres.ExternalDatabase db ON db.external_database_id = dbr.external_database_id
+
+JOIN ApidbTuning.SequenceAttributes sa ON sa.aa_sequence_id = seqref.aa_sequence_id
+WHERE db.name IN ('OrthoMCL Old Groups', 'OrthoMCL Old Sequences')
+  AND (ref.primary_identifier LIKE REPLACE($$accession$$, '*', '%')
+       OR ref.secondary_identifier LIKE REPLACE($$accession$$, '*', '%'))
                ]]>
             </sql>
         </sqlQuery>
@@ -84,11 +83,11 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-SELECT eas.secondary_identifier AS full_id 
-FROM dots.AaSequenceImp asi, dots.OrthoAaSequence eas
-WHERE asi.subclass_view = 'OrthoAASequence'
-  AND CATSEARCH(asi.description, $$keyword$$, '') > 0
-  AND asi.aa_sequence_id = eas.aa_sequence_id
+SELECT aas.source_id AS full_id
+FROM dots.AaSequenceImp asi
+JOIN dots.aasequence aas ON asi.aa_sequence_id = aas.aa_sequence_id
+WHERE asi.subclass_view = 'ExternalAASequence'
+  AND to_tsvector('english', asi.description) @@ to_tsquery($$keyword$$)
                ]]>
             </sql>
         </sqlQuery>
@@ -102,12 +101,10 @@ WHERE asi.subclass_view = 'OrthoAASequence'
 
         <sql>
             <![CDATA[
-            SELECT distinct full_id 
-            FROM ApidbTuning.DomainAssignment
-            WHERE (accession
-                   LIKE UPPER(REPLACE($$pfam_id_type_ahead$$,'*','%'))
-                  OR description
-                   LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
+SELECT DISTINCT full_id
+FROM ApidbTuning.DomainAssignment
+WHERE (accession LIKE UPPER(REPLACE($$pfam_id_type_ahead$$, '*', '%'))
+       OR description LIKE REPLACE($$pfam_id_type_ahead$$, '*', '%'))
             ]]>
        </sql>
     </sqlQuery>
@@ -130,9 +127,10 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-                   select distinct sec.full_id
-                   from ApidbTuning.sequenceenzymeclass sec
-                   WHERE sec.ec_number LIKE REPLACE(REPLACE($$ec_number_type_ahead$$,' ',''),'-', '%')
+SELECT DISTINCT aas.source_id AS full_id
+FROM dots.aasequence aas
+JOIN dots.AaSequenceEnzymeClass asec ON eas.aa_sequence_id = asec.aa_sequence_id
+JOIN sres.enzymeClass ec ON asec.enzyme_class_id = ec.enzyme_class_id
                  ]]>
             </sql>
         </sqlQuery>
@@ -142,11 +140,10 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-                    SELECT distinct eas.secondary_identifier as full_id
-                    FROM dots.OrthoAaSequence eas,
-                         dots.AaSequenceEnzymeClass asec, sres.enzymeClass ec
-                    WHERE eas.aa_sequence_id = asec.aa_sequence_id
-                      AND asec.enzyme_class_id = ec.enzyme_class_id
+SELECT DISTINCT aas.source_id AS full_id
+FROM dots.aasequence aas
+JOIN dots.AaSequenceEnzymeClass asec ON aas.aa_sequence_id = asec.aa_sequence_id
+JOIN sres.enzymeClass ec ON asec.enzyme_class_id = ec.enzyme_class_id
                  ]]>
             </sql>
         </sqlQuery>
@@ -252,10 +249,10 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
             <column name="wdk_weight"/>
             <sql>
               <![CDATA[
-                SELECT sa.full_id, max(ga.wdk_weight) AS wdk_weight
-                FROM ApidbTuning.SequenceAttributes sa, ($$group_answer$$) ga
-                WHERE sa.group_name = ga.group_name
-                GROUP BY sa.full_id
+SELECT sa.full_id, MAX(ga.wdk_weight) AS wdk_weight
+FROM ApidbTuning.SequenceAttributes sa
+JOIN ($$group_answer$$) ga ON sa.group_name = ga.group_name
+GROUP BY sa.full_id
               ]]>
            </sql>
         </sqlQuery>
@@ -266,7 +263,7 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-SELECT eas.secondary_identifier AS full_id FROM dots.OrthoAaSequence eas
+SELECT aas.source_id AS full_id FROM dots.aasequence aas
                ]]>
             </sql>
         </sqlQuery>
@@ -309,18 +306,31 @@ SELECT eas.secondary_identifier AS full_id FROM dots.OrthoAaSequence eas
       <column name="target_id"/>
       <sql>
                 <![CDATA[
-               SELECT query.query as full_id, query.GroupID as group_name, target.target as target_id 
-               FROM (SELECT org1.secondary_identifier AS query, ogas.group_id AS GroupID 
-                     FROM apidb.orthologgroupaasequence ogas, (SELECT aa_sequence_id, secondary_identifier 
-                                                               FROM dots.orthoaasequence WHERE taxon_id = $$query_organism_type_ahead$$
-                                                               ORDER BY aa_sequence_id) org1
-                     WHERE ogas.aa_sequence_id = org1.aa_sequence_id) query 
-               INNER JOIN (SELECT LISTAGG(org2.secondary_identifier, ',' ON OVERFLOW TRUNCATE) AS target, ogas.group_id AS GroupID 
-                           FROM apidb.orthologgroupaasequence ogas, (SELECT aa_sequence_id, secondary_identifier 
-                                                                     FROM dots.orthoaasequence 
-                                                                     WHERE taxon_id = $$target_organism_type_ahead$$) org2
-                           WHERE ogas.aa_sequence_id = org2.aa_sequence_id 
-               GROUP BY group_id) target ON query.GroupID=target.GroupID
+SELECT query.query AS full_id, 
+       query.GroupID AS group_name, 
+       target.target AS target_id
+FROM (
+    SELECT org1.source_id AS query, 
+           ogas.group_id AS GroupID
+    FROM apidb.orthologgroupaasequence ogas
+    INNER JOIN (
+        SELECT aa_sequence_id, source_id
+        FROM dots.aasequence
+        WHERE taxon_id = $$query_organism_type_ahead$$
+        ORDER BY aa_sequence_id
+    ) org1 ON ogas.aa_sequence_id = org1.aa_sequence_id
+) query
+INNER JOIN (
+    SELECT string_agg(org2.source_id, ',' ORDER BY org2.source_id) AS target,
+           ogas.group_id AS GroupID
+    FROM apidb.orthologgroupaasequence ogas
+    INNER JOIN (
+        SELECT aa_sequence_id, source_id
+        FROM dots.aasequence
+        WHERE taxon_id = $$target_organism_type_ahead$$
+    ) org2 ON ogas.aa_sequence_id = org2.aa_sequence_id
+    GROUP BY ogas.group_id
+) target ON query.GroupID = target.GroupID
                ]]>
       </sql>
     </sqlQuery>
@@ -333,19 +343,31 @@ SELECT eas.secondary_identifier AS full_id FROM dots.OrthoAaSequence eas
       <column name="target_id"/>
       <sql>
                 <![CDATA[
-                SELECT query.query as full_id, query.GroupID as group_name, target.target as target_id 
-                FROM (SELECT sequenceID.sid as query, ogas.group_id as GroupID 
-                      FROM (SELECT oaas.aa_sequence_id as aasid, oaas.secondary_identifier as sid 
-                            FROM dots.orthoaasequence oaas 
-                            WHERE oaas.secondary_identifier IN ($$querySequenceList$$)) sequenceID, 
-                      apidb.orthologgroupaasequence ogas 
-                      WHERE ogas.aa_sequence_id = sequenceID.aasid) query 
-                INNER JOIN (SELECT LISTAGG(org2.secondary_identifier, ',' ON OVERFLOW TRUNCATE) AS target, ogas.group_id AS GroupID 
-                            FROM apidb.orthologgroupaasequence ogas, (SELECT aa_sequence_id, secondary_identifier 
-                                                                      FROM dots.orthoaasequence 
-                                                                      WHERE taxon_id = $$target_organism_type_ahead$$) org2
-                WHERE ogas.aa_sequence_id = org2.aa_sequence_id 
-                GROUP BY group_id) target ON query.GroupID=target.GroupID
+SELECT query.query AS full_id, 
+       query.GroupID AS group_name, 
+       target.target AS target_id
+FROM (
+    SELECT sequenceID.sid AS query, 
+           ogas.group_id AS GroupID
+    FROM (
+        SELECT aas.aa_sequence_id AS aasid, 
+               aas.source_id AS sid
+        FROM dots.aasequence aas
+        WHERE aas.source_id IN ($$querySequenceList$$)
+    ) sequenceID
+    INNER JOIN apidb.orthologgroupaasequence ogas ON ogas.aa_sequence_id = sequenceID.aasid
+) query
+INNER JOIN (
+    SELECT string_agg(org2.source_id, ',' ORDER BY org2.source_id) AS target, 
+           ogas.group_id AS GroupID
+    FROM apidb.orthologgroupaasequence ogas
+    INNER JOIN (
+        SELECT aa_sequence_id, source_id
+        FROM dots.aasequence
+        WHERE taxon_id = $$target_organism_type_ahead$$
+    ) org2 ON ogas.aa_sequence_id = org2.aa_sequence_id
+    GROUP BY ogas.group_id
+) target ON query.GroupID = target.GroupID
                ]]>
       </sql>
     </sqlQuery>

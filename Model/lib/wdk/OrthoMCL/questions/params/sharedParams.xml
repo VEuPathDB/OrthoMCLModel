@@ -122,10 +122,8 @@
             <column name="internal" />
             <sql>
                 <![CDATA[ 
-SELECT t.name AS display, t.three_letter_abbrev AS term, t.three_letter_abbrev AS internal,
-       (SELECT three_letter_abbrev FROM apidb.OrthomclTaxon p 
-        WHERE p.orthomcl_taxon_id = t.parent_id) AS parentTerm
-FROM apidb.OrthomclTaxon t
+SELECT org.name_for_filenames AS display, org.orthomcl_abbrev AS term, org.orthomcl_abbrev AS internal, org.orthomcl_abbrev AS parentTerm
+FROM apidb.Organism org
                 ]]>
             </sql>
         </sqlQuery>
@@ -135,12 +133,13 @@ FROM apidb.OrthomclTaxon t
             <column name="term" />
             <column name="display"/>
             <sql>
-                SELECT distinct accession AS internal,
-                       accession  AS term,
-                       accession  || ' ' ||description AS display,
-                       description
-                FROM ApidbTuning.DomainAssignment
-                ORDER BY lower(description)
+SELECT DISTINCT accession AS internal,
+                       accession AS term,
+                       accession || ' ' || description AS display,
+                       description,
+                       lower(description) AS lower_description
+FROM ApidbTuning.DomainAssignment
+ORDER BY lower_description
             </sql>
         </sqlQuery>
 
@@ -149,20 +148,38 @@ FROM apidb.OrthomclTaxon t
             <column name="term" />
             <column name="display"/>
             <sql>
-               WITH leaves AS (
-               SELECT DISTINCT ec_number, description
-               FROM apidbtuning.sequenceenzymeclass
-               )
-               SELECT ec_number AS term, ec_number AS internal, ec_number || ' (' || CASE WHEN ec_number = '-.-.-.-' THEN 'Any Enzyme' ELSE description end || ')' AS display 
-               from sres.ENZYMECLASS 
-               start with ec_number IN (SELECT ec_number FROM leaves)
-               connect by prior parent_id = enzyme_class_id
-               UNION 
-               SELECT ec_number, ec_number, ec_number || ' (' || description || ')' AS display FROM leaves
-               -- The value "N/A" is needed for the "radio-params" UI
-               UNION
-               SELECT 'N/A' AS internal, 'N/A' AS term, 'N/A' AS display
-               FROM dual
+WITH RECURSIVE recursive_enzyme_class AS (
+    -- Anchor member: get the initial rows that start the recursion
+    SELECT ec.ec_number, ec.parent_id, ec.enzyme_class_id, se.description
+    FROM sres.ENZYMECLASS ec
+    LEFT JOIN apidbtuning.sequenceenzymeclass se ON ec.ec_number = se.ec_number
+    WHERE ec.ec_number IN (SELECT ec_number FROM leaves)
+    
+    UNION ALL
+    
+    -- Recursive member: join to get the hierarchical rows
+    SELECT ec.ec_number, ec.parent_id, ec.enzyme_class_id, se.description
+    FROM sres.ENZYMECLASS ec
+    JOIN recursive_enzyme_class rec ON rec.enzyme_class_id = ec.parent_id
+    LEFT JOIN apidbtuning.sequenceenzymeclass se ON ec.ec_number = se.ec_number
+),
+leaves AS (
+    SELECT DISTINCT ec_number, description
+    FROM apidbtuning.sequenceenzymeclass
+)
+-- Final selection
+SELECT rec.ec_number AS term,
+       rec.ec_number AS internal,
+       rec.ec_number || ' (' || 
+           CASE WHEN rec.ec_number = '-.-.-.-' THEN 'Any Enzyme' 
+           ELSE rec.description 
+           END || ')' AS display
+FROM recursive_enzyme_class rec
+UNION
+SELECT l.ec_number, l.ec_number, l.ec_number || ' (' || l.description || ')' AS display
+FROM leaves l
+UNION
+SELECT 'N/A' AS internal, 'N/A' AS term, 'N/A' AS display
              </sql>
          </sqlQuery>
 

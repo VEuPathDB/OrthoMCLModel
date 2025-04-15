@@ -311,7 +311,7 @@
                      displayType="typeAhead"
 		     multiPick="false">
             <help>Type at least three characters of Query Organism name and then choose the organism.</help>
-            <suggest default="1742855"/>  <!-- Plasmodium falciparum 3D7 -->
+            <suggest default="Plas"/>  <!-- Plasmodium falciparum 3D7 -->
         </flatVocabParam>
 
          <flatVocabParam name="target_organism_type_ahead"
@@ -535,11 +535,10 @@
             <column name="term" />
             <column name="display"/>
             <sql>
-               SELECT ot.three_letter_abbrev AS internal,
-                      ot.three_letter_abbrev AS term,
-                      ot.three_letter_abbrev || ' (' || ot.name || ')' AS display
-               FROM apidb.orthomcltaxon ot
-               where is_species = 1
+               SELECT og.orthomcl_abbrev AS internal,
+                      og.orthomcl_abbrev AS term,
+                      og.orthomcl_abbrev || ' (' || og.name_for_filenames || ')' AS display
+               FROM apidb.organism og
              </sql>
         </sqlQuery>
 

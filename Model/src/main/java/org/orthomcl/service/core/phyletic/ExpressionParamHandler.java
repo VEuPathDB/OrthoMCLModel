@@ -14,9 +14,9 @@ public class ExpressionParamHandler extends StringParamHandler {
 
   private static final Logger LOG = Logger.getLogger(ExpressionParamHandler.class);
 
-  private static final String GROUP_SQL = "(SELECT group_id FROM ( " +
-      "SELECT group_id, sum(number_of_taxa) as number_of_taxa, sum(number_of_proteins) as number_of_proteins " +
-      "FROM apidb.orthologgrouptaxon WHERE lower(three_letter_abbrev) IN (";
+  private static final String GROUP_SQL =  "(SELECT group_id FROM ( " + 
+   "SELECT group_id, " + "SUM(CAST(number_of_taxa AS INTEGER)) AS number_of_taxa, " + "SUM(CAST(number_of_proteins AS INTEGER)) AS number_of_proteins " + 
+   "FROM apidb.orthologgrouptaxon " + "WHERE lower(three_letter_abbrev) IN (";
 
   private final ExpressionParser _parser = new ExpressionParser();
 
