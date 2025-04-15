@@ -263,7 +263,9 @@ GROUP BY sa.full_id
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-SELECT aas.source_id AS full_id FROM dots.aasequence aas
+SELECT aas.source_id AS full_id FROM dots.aasequence aas, apidbtuning.sequenceattributes sa
+WHERE aas.taxon_id in (select distinct(aas.taxon_id) from apidb.organism og, dots.aasequence aas where aas.taxon_id = og.taxon_id)
+AND aas.source_id = sa.full_id
                ]]>
             </sql>
         </sqlQuery>

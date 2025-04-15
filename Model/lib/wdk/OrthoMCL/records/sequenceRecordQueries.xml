@@ -30,6 +30,7 @@
 
         <testRowCountSql>
             SELECT count(*) FROM dots.aasequence
+            WHERE taxon_id in (select distinct(aas.taxon_id) from apidb.organism og, dots.aasequence aas where aas.taxon_id = og.taxon_id) 
         </testRowCountSql>
 
 
@@ -57,6 +58,8 @@ SELECT aas.source_id as full_id, sa.source_id,
      GROUP BY da.full_id) AS pfam_domains
 FROM apidbTuning.SequenceAttributes sa
 FULL OUTER JOIN dots.aasequence aas ON aas.source_id = sa.full_id
+WHERE aas.taxon_id in (select distinct(aas.taxon_id) from apidb.organism og, dots.aasequence aas where aas.taxon_id = og.taxon_id)
+AND aas.source_id = sa.full_id
  		]]>
             </sql>
         </sqlQuery>
@@ -67,13 +70,19 @@ FULL OUTER JOIN dots.aasequence aas ON aas.source_id = sa.full_id
            <sql>
              <![CDATA[
 SELECT sa.full_id, ec.ec_numbers
-FROM (
+FROM apidbtuning.sequenceattributes sa
+LEFT JOIN (
     SELECT full_id, string_agg(sec.ec_number, ', ' ORDER BY sec.ec_number) AS ec_numbers
     FROM apidbtuning.sequenceenzymeclass sec
     GROUP BY full_id
-) ec
-LEFT JOIN apidbtuning.sequenceattributes sa
-    ON sa.full_id = ec.full_id
+) ec ON sa.full_id = ec.full_id
+LEFT JOIN dots.aasequence aas 
+    ON aas.source_id = sa.full_id
+   AND aas.taxon_id IN (
+       SELECT DISTINCT og.taxon_id
+       FROM apidb.organism og
+       JOIN dots.aasequence aas2 ON aas2.taxon_id = og.taxon_id
+   )
              ]]>
            </sql>
         </sqlQuery>
