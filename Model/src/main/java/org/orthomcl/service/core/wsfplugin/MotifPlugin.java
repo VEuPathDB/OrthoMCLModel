@@ -114,7 +114,7 @@ public class MotifPlugin extends AbstractPlugin {
 
     // open the database and get a resultSet
     String sql = "SELECT eas.secondary_identifier AS source_id, eas.sequence "
-        + " FROM dots.ExternalAaSequence eas, apidbTuning.SequenceAttributes sa "
+        + " FROM dots.OrthoAaSequence eas, apidbTuning.SequenceAttributes sa "
         + " WHERE sa.taxon_abbreviation IN (" + organisms + ")"
         + "   AND eas.secondary_identifier = sa.full_id";
     ResultSet resultSet = null;
