@@ -2,7 +2,7 @@
 <wdkModel>
 
 
-    <constant name="releaseDate" includeProjects="OrthoMCL">1 January 1900 00:00</constant>
+    <constant name="releaseDate" includeProjects="OrthoMCL">16 April 2025 17:01</constant>
     <constant name="releaseVersion" includeProjects="OrthoMCL">7.0</constant>
     <constant name="buildNumber" includeProjects="OrthoMCL">7.0</constant>
 
