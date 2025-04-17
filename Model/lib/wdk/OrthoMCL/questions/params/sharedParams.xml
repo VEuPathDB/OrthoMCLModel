@@ -118,11 +118,13 @@
         <sqlQuery name="AllOrganisms">
             <column name="term" />
             <column name="display" />
-            <column name="parentTerm" />
             <column name="internal" />
             <sql>
                 <![CDATA[ 
-SELECT org.name_for_filenames AS display, org.orthomcl_abbrev AS term, org.orthomcl_abbrev AS internal, org.orthomcl_abbrev AS parentTerm
+SELECT
+  org.name_for_filenames AS display,
+  org.orthomcl_abbrev AS term,
+  org.orthomcl_abbrev AS internal
 FROM apidb.Organism org
                 ]]>
             </sql>

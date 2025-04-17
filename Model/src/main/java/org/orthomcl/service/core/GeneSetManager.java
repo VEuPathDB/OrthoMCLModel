@@ -50,7 +50,7 @@ public class GeneSetManager {
 
     String idSql = answer.getIdSql();
     SqlQuery attrQuery = (SqlQuery) _wdkModel.resolveReference(ATTRIBUTE_QUERY);
-    String sql = "SELECT aq.full_id, aq.product, aq.length, aq.abbreviation, aq.ec_numbers      " +
+    String sql = "SELECT aq.full_id, aq.product, aq.length, aq.abbreviation, " +
         " FROM (" + attrQuery.getSql() + ") aq, (SELECT * FROM (" + idSql + ")) idq " +
         " WHERE aq.full_id = idq.full_id";
     DataSource dataSource = _wdkModel.getAppDb().getDataSource();

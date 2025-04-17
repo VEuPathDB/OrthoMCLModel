@@ -311,7 +311,7 @@
                      displayType="typeAhead"
 		     multiPick="false">
             <help>Type at least three characters of Query Organism name and then choose the organism.</help>
-            <suggest default="Plas"/>  <!-- Plasmodium falciparum 3D7 -->
+            <suggest default=""/>  <!-- Plasmodium falciparum 3D7 -->
         </flatVocabParam>
 
          <flatVocabParam name="target_organism_type_ahead"
@@ -320,7 +320,7 @@
                      displayType="typeAhead"
 		     multiPick="false">
             <help>Type at least three characters of Target Organism name and then choose the organism.</help>
-            <suggest default="1760789"/>  <!-- Trypanosoma vivax Y486 -->
+            <suggest default=""/>  <!-- Trypanosoma vivax Y486 -->
         </flatVocabParam>
 
 
