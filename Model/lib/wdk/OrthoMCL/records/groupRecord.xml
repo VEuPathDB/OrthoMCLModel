@@ -620,39 +620,37 @@
 		</columnAttribute>
             </attributeQueryRef>
 
-
-
-
             <textAttribute name="record_overview" displayName="Record Overview HTML">
               <text>
-                  <![CDATA[
-               <div class="eupathdb-RecordOverview">
-                  <div class="eupathdb-RecordOverviewTitle">
-                  </div>
-
+                <![CDATA[
+                <div class="eupathdb-RecordOverview">
+                  <div class="eupathdb-RecordOverviewTitle"></div>
                   <div class="eupathdb-RecordOverviewPanels">
-                      <div class="eupathdb-RecordOverviewLeft">
-                      <div class="eupathdb-RecordOverviewItem" data-label="Group Type">$$group_type$$</div>
-                      <div class="eupathdb-RecordOverviewItem" data-label="Total Number of Proteins">$$number_of_members$$</div>
-                      <div class="eupathdb-RecordOverviewItem" data-label="Number of Core Proteins">$$number_of_core_members$$</div>
-                      <div class="eupathdb-RecordOverviewItem" data-label="Number of Peripheral Proteins">$$number_of_peripheral_members$$</div>
-                      <div class="eupathdb-RecordOverviewItem" data-label="Keywords">$$keywords$$</div>
-                      <div class="eupathdb-RecordOverviewItem" data-label="EC Numbers">$$ec_numbers$$</div>
-                      <div class="eupathdb-RecordOverviewItem" data-label="Top PFam Domains">$$descriptions$$</div>
-                      <div class="eupathdb-RecordOverviewItem" data-label="Previous Groups">$$previous_groups$$</div>
-                      </div>
+                    <div class="eupathdb-RecordOverviewLeft">
+                      <dl>
+                        <dt>Group Type</dt>
+                        <dd>$$group_type$$</dd>
+                        <dt>Total Number of Proteins</dt>
+                        <dd>$$number_of_members$$</dd>
+                        <dt>Number of Core Proteins</dt>
+                        <dd>$$number_of_core_members$$</dd>
+                        <dt>Number of Peripheral Proteins</dt>
+                        <dd>$$number_of_peripheral_members$$</dd>
+                        <dt>Keywords</dt>
+                        <dd>$$keywords$$</dd>
+                        <dt>EC Numbers</dt>
+                        <dd>$$ec_numbers$$</dd>
+                        <dt>Top PFam Domains</dt>
+                        <dd>$$descriptions$$</dd>
+                        <dt>Previous Groups</dt>
+                        <dd>$$previous_groups$$</dd>
+                      </dl>
+                    </div>
                   </div>
-              </div>
-          ]]>
-
+                </div>
+                ]]>
               </text>
-
-
-
-
-
             </textAttribute>
-
 
       <!-- =============================================================== -->
       <!-- Tables -->
