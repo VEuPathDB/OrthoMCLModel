@@ -100,13 +100,14 @@ SELECT
     og.taxon_id AS parent_id,
     og.orthomcl_abbrev AS abbreviation,
     1 as is_species,
-    og.name_for_filenames as name,
-    og.name_for_filenames as common_name,
+    tn.name as name,
+    tn.name as common_name,
     cats.taxon_group,
-    ROW_NUMBER() OVER (ORDER BY cats.taxon_group NULLS FIRST, og.name_for_filenames) AS sort_index
+    ROW_NUMBER() OVER (ORDER BY cats.taxon_group NULLS FIRST, tn.name) AS sort_index
 FROM apidb.Organism og
+LEFT JOIN sres.taxonname tn ON og.taxon_id = tn.taxon_id
 LEFT JOIN taxonHierarchy cats ON og.orthomcl_abbrev = cats.three_letter_abbrev
-ORDER BY cats.taxon_group NULLS FIRST, og.name_for_filenames
+ORDER BY cats.taxon_group NULLS FIRST, tn.name
 			]]>
             </sql>
         </sqlQuery>
@@ -130,7 +131,7 @@ ORDER BY cats.taxon_group NULLS FIRST, og.name_for_filenames
             <![CDATA[
 SELECT
   'helper' AS helper_id,
-  og.name_for_filenames AS name,
+  tn.name AS name,
   og.orthomcl_abbrev AS three_letter_abbrev,
 
   CASE
@@ -184,7 +185,7 @@ LEFT JOIN (
 WHERE stats.clustered_sequences IS NOT NULL
   AND od.resource_url IS NOT NULL
 
-ORDER BY og.name_for_filenames
+ORDER BY tn.name
 
             ]]>
             </sql>

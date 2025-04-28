@@ -537,8 +537,9 @@
             <sql>
                SELECT og.orthomcl_abbrev AS internal,
                       og.orthomcl_abbrev AS term,
-                      og.orthomcl_abbrev || ' (' || og.name_for_filenames || ')' AS display
-               FROM apidb.organism og
+                      og.orthomcl_abbrev || ' (' || tn.name || ')' AS display
+               FROM apidb.organism og, sres.taxonname tn
+               WHERE og.taxon_id = tn.taxon_id
              </sql>
         </sqlQuery>
 

@@ -122,10 +122,12 @@
             <sql>
                 <![CDATA[ 
 SELECT
-  org.name_for_filenames AS display,
+  tn.name AS display,
   org.orthomcl_abbrev AS term,
   org.orthomcl_abbrev AS internal
 FROM apidb.Organism org
+LEFT JOIN sres.taxonname tn
+ON org.taxon_id  = tn.taxon_id
                 ]]>
             </sql>
         </sqlQuery>
