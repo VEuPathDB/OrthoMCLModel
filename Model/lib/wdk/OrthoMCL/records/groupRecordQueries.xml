@@ -390,9 +390,10 @@ FROM (
         SELECT old_group_id, new_group_id,
                ROW_NUMBER() OVER (PARTITION BY new_group_id ORDER BY old_group_id) AS seqnum
         FROM apidb.groupmapping
-        AND new_group_id <> old_group_id
+        WHERE new_group_id <> old_group_id
         UNION ALL
-        SELECT NULL AS old_group_id, 'OGR7_0006056' AS new_group_id, NULL AS seqnum FROM dual
+        SELECT NULL AS old_group_id, new_group_id, NULL AS seqnum
+        FROM apidb.groupmapping
     )
     GROUP BY new_group_id
 )
