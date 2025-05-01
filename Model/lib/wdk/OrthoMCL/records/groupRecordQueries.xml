@@ -553,20 +553,17 @@ FROM apidbtuning.PhyleticPattern
             <paramValue name="group_name">OG7_0008348</paramValue>
       </defaultTestParamValues>
 
-      <sqlQuery name="previousGroups">
-        <column name="group_name"/>
-        <column name="group_id"/>
-        <sql>
-           <![CDATA[
-            SELECT old_group_id AS group_id, new_group_id AS group_name
-            FROM apidb.groupmapping
-            WHERE new_group_id <> old_group_id
-            ORDER BY old_group_id DESC 
-          ]]>
-        </sql>
+       <sqlQuery name="previousGroups">
+          <column name="group_name" />
+          <column name="previous_group_name" />
+          <column name="overlap_count" />
+          <column name="group_size" />
+          <sql>
+            <![CDATA[
+              SELECT new_group_id AS group_name, old_group_id as previous_group_name, overlap_count, group_size from apidb.groupmapping WHERE new_group_id <> old_group_id ORDER BY old_group_id DESC
+            ]]>
+          </sql>
       </sqlQuery>
-
-
 
       <sqlQuery name="TaxonCounts">
         <column name="group_name"/>

@@ -817,7 +817,9 @@
                    displayName="All previous groups"
                    queryRef="GroupTables.previousGroups">
               <columnAttribute name="group_name" internal="true" displayName="Ortholog Group"  inReportMaker="true"/>
-              <columnAttribute name="group_id" displayName="Previous Ortholog Groups" inReportMaker="true"/>
+              <columnAttribute name="previous_group_name" displayName="Previous Group Name" inReportMaker="true"/>
+              <columnAttribute name="overlap_count" displayName="Overlap Count"  inReportMaker="true"/>
+              <columnAttribute name="group_size" displayName="Group Size"  inReportMaker="true"/>
             </table>
 
 
