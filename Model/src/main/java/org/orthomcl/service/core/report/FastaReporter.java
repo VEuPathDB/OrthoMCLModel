@@ -162,13 +162,17 @@ public class FastaReporter extends AbstractReporter {
 
   private static String format(String sequence) {
     StringBuilder buffer = new StringBuilder();
-    int pos = 0;
-    while (pos < sequence.length()) {
-      int end = Math.min(sequence.length(), pos + FASTA_LINE_LENGTH);
-      buffer.append(sequence.subSequence(pos, end));
-      if (end < sequence.length())
-        buffer.append("\n");
-      pos = end;
+    int charsInLine = 0;
+    for (int i = 0; i < sequence.length(); i++) {
+      char c = sequence.charAt(i);
+      if (c != '\n') {
+        buffer.append(c);
+        charsInLine++;
+      }
+      if (charsInLine == FASTA_LINE_LENGTH) {
+        buffer.append('\n');
+        charsInLine = 0;
+      }
     }
     return buffer.toString();
   }
