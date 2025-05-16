@@ -25,17 +25,59 @@
             <column name="number_of_peripheral_members"/>
             <sql>
             <![CDATA[
-            SELECT
-              group_id AS group_name,
-              number_of_members,
-              number_of_core_members,
-              number_of_peripheral_members,
-              CASE 
-                WHEN is_residual = 1 THEN 'Residual'
-                ELSE 'Core'
-              END AS group_type
-            FROM
-              apidb.ORTHOLOGGROUP
+SELECT 
+  og.group_id AS group_name,
+  CASE 
+    WHEN og.is_residual = 1 THEN 'Residual'
+    ELSE 'Core'
+  END AS group_type,
+  COALESCE(nm.number_of_members, 0) AS number_of_members,
+  COALESCE(cm.number_of_core_members, 0) AS number_of_core_members,
+  COALESCE(pm.number_of_peripheral_members, 0) AS number_of_peripheral_members
+FROM apidb.orthologgroup og
+LEFT JOIN (
+  SELECT COUNT(aa_sequence_id) AS number_of_members, group_id
+  FROM apidb.orthologgroupaasequence
+  GROUP BY group_id
+) nm ON og.group_id = nm.group_id
+LEFT JOIN (
+  SELECT COUNT(core.aa_sequence_id) AS number_of_core_members, group_id
+  FROM (
+    SELECT ogas.aa_sequence_id, ogas.group_id
+    FROM apidb.organism og
+    JOIN dots.externalaasequence deas ON deas.taxon_id = og.taxon_id
+    JOIN apidb.orthologgroupaasequence ogas ON ogas.aa_sequence_id = deas.aa_sequence_id
+    WHERE og.core_peripheral = 'core'
+
+    UNION
+
+    SELECT ogas.aa_sequence_id, ogas.group_id
+    FROM apidb.organism og
+    JOIN dots.aasequence das ON das.taxon_id = og.taxon_id
+    JOIN apidb.orthologgroupaasequence ogas ON ogas.aa_sequence_id = das.aa_sequence_id
+    WHERE og.core_peripheral = 'core'
+  ) AS core
+  GROUP BY group_id
+) cm ON og.group_id = cm.group_id
+LEFT JOIN (
+  SELECT COUNT(peripheral.aa_sequence_id) AS number_of_peripheral_members, group_id
+  FROM (
+    SELECT ogas.aa_sequence_id, ogas.group_id
+    FROM apidb.organism og
+    JOIN dots.externalaasequence deas ON deas.taxon_id = og.taxon_id
+    JOIN apidb.orthologgroupaasequence ogas ON ogas.aa_sequence_id = deas.aa_sequence_id
+    WHERE og.core_peripheral = 'peripheral'
+
+    UNION
+
+    SELECT ogas.aa_sequence_id, ogas.group_id
+    FROM apidb.organism og
+    JOIN dots.aasequence das ON das.taxon_id = og.taxon_id
+    JOIN apidb.orthologgroupaasequence ogas ON ogas.aa_sequence_id = das.aa_sequence_id
+    WHERE og.core_peripheral = 'peripheral'
+  ) AS peripheral
+  GROUP BY group_id
+) pm ON og.group_id = pm.group_id
       ]]>
             </sql>
         </sqlQuery>
@@ -62,14 +104,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'C'
-    AND stat_type = 'min'
+      AND stat_type = 'min'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL
-    END AS core_min_evalue
+    s.evalue AS core_min_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -83,14 +122,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'C'
-    AND stat_type = '25 PCT'
+      AND stat_type = '25 PCT'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL
-    END AS core_25_evalue
+    s.evalue AS core_25_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -104,14 +140,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'C'
-    AND stat_type = 'median'
+      AND stat_type = 'median'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL 
-    END AS core_median_evalue
+    s.evalue AS core_median_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -125,14 +158,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'C'
-    AND stat_type = '75 PCT'
+      AND stat_type = '75 PCT'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL 
-    END AS core_75_evalue
+    s.evalue AS core_75_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -146,14 +176,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'C'
-    AND stat_type = 'max'
+      AND stat_type = 'max'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL 
-    END AS core_max_evalue
+    s.evalue AS core_max_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -168,14 +195,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'C+P'
-    AND stat_type = 'min'
+      AND stat_type = 'min'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL 
-    END AS core_peripheral_min_evalue
+    s.evalue AS core_peripheral_min_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -189,14 +213,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'C+P'
-    AND stat_type = '25 PCT'
+      AND stat_type = '25 PCT'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL 
-    END AS core_peripheral_25_evalue
+    s.evalue AS core_peripheral_25_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -210,14 +231,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'C+P'
-    AND stat_type = 'median'
+      AND stat_type = 'median'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL 
-    END AS core_peripheral_median_evalue
+    s.evalue AS core_peripheral_median_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -231,14 +249,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'C+P'
-    AND stat_type = '75 PCT'
+      AND stat_type = '75 PCT'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL 
-    END AS core_peripheral_75_evalue
+    s.evalue AS core_peripheral_75_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -252,14 +267,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'C+P'
-    AND stat_type = 'max'
+      AND stat_type = 'max'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL 
-    END AS core_peripheral_max_evalue
+    s.evalue AS core_peripheral_max_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -274,14 +286,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'R'
-    AND stat_type = 'min'
+      AND stat_type = 'min'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL 
-    END AS residual_min_evalue
+    s.evalue AS residual_min_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -295,14 +304,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'R'
-    AND stat_type = '25 PCT'
+      AND stat_type = '25 PCT'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL 
-    END AS residual_25_evalue
+    s.evalue AS residual_25_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -316,14 +322,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'R'
-    AND stat_type = 'median'
+      AND stat_type = 'median'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL 
-    END AS residual_median_evalue
+    s.evalue AS residual_median_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -337,14 +340,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'R'
-    AND stat_type = '75 PCT'
+      AND stat_type = '75 PCT'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL 
-    END AS residual_75_evalue
+    s.evalue AS residual_75_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -358,14 +358,11 @@ WITH selection AS (
     SELECT group_id, evalue
     FROM apidb.orthologgroupstats
     WHERE protein_subset = 'R'
-    AND stat_type = 'max'
+      AND stat_type = 'max'
 )
-SELECT 
+SELECT
     og.group_id AS group_name,
-    CASE 
-        WHEN og.group_id = s.group_id THEN ROUND(s.evalue::numeric, 4)
-        ELSE NULL 
-    END AS residual_max_evalue
+    s.evalue AS residual_max_evalue
 FROM apidb.orthologgroup og
 LEFT JOIN selection s ON og.group_id = s.group_id
           </sql>
@@ -888,7 +885,7 @@ INNER JOIN
     (SELECT 
         ogsa.group_id, 
         ogsa.protein_subset, 
-        ROUND(ogsa.evalue::numeric, 3) AS min
+        ogsa.evalue AS min
      FROM 
         apidb.orthologgroupstats ogsa
      WHERE 
@@ -899,7 +896,7 @@ INNER JOIN
     (SELECT 
         ogsb.group_id, 
         ogsb.protein_subset, 
-        ROUND(ogsb.evalue::numeric, 3) AS twentyfive
+        ogsb.evalue AS twentyfive
      FROM 
         apidb.orthologgroupstats ogsb
      WHERE 
@@ -910,7 +907,7 @@ INNER JOIN
     (SELECT 
         ogsc.group_id, 
         ogsc.protein_subset, 
-        ROUND(ogsc.evalue::numeric, 3) AS median
+        ogsc.evalue AS median
      FROM 
         apidb.orthologgroupstats ogsc
      WHERE 
@@ -921,7 +918,7 @@ INNER JOIN
     (SELECT 
         ogsd.group_id, 
         ogsd.protein_subset, 
-        ROUND(ogsd.evalue::numeric, 3) AS seventyfive
+        ogsd.evalue AS seventyfive
      FROM 
         apidb.orthologgroupstats ogsd
      WHERE 
@@ -932,7 +929,7 @@ INNER JOIN
     (SELECT 
         ogse.group_id, 
         ogse.protein_subset, 
-        ROUND(ogse.evalue::numeric, 3) AS max
+        ogse.evalue AS max
      FROM 
         apidb.orthologgroupstats ogse
      WHERE 
