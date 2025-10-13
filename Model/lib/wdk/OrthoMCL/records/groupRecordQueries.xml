@@ -430,20 +430,23 @@ ON og.group_id = verbiage.ortholog_group_id
 	  <sql>
             <![CDATA[
 WITH prevgps AS (
-    SELECT new_group_id,
-           COUNT(*) AS cnt,
-           string_agg(CASE WHEN seqnum <= 6 THEN old_group_id END, ', ' ORDER BY old_group_id) AS prev_groups
-    FROM (
-        SELECT old_group_id, new_group_id,
-               ROW_NUMBER() OVER (PARTITION BY new_group_id ORDER BY new_group_id) AS seqnum
-        FROM apidb.groupMapping
-    ) subquery
+    SELECT 
+        new_group_id,
+        COUNT(*) AS cnt,
+        string_agg(old_group_id, ', ' ORDER BY old_group_id) AS prev_groups
+    FROM apidb.groupMapping
     GROUP BY new_group_id
 )
-SELECT og.group_id AS group_name,
-       prev_groups || CASE WHEN cnt > 6 THEN '...   <a href="#previousGroups">(See all ' || cnt || ' groups)</a>' END AS previous_groups
+SELECT 
+    og.group_id AS group_name,
+    prev_groups ||
+        CASE 
+            WHEN cnt > 6 THEN 
+                '...   <a href="#previousGroups">(See all ' || cnt || ' groups)</a>'
+        END AS previous_groups
 FROM prevgps pg
-LEFT JOIN apidb.orthologGroup og ON og.group_id = pg.new_group_id
+LEFT JOIN apidb.orthologGroup og 
+    ON og.group_id = pg.new_group_id;
             ]]>
 	  </sql>
 	</sqlQuery>
