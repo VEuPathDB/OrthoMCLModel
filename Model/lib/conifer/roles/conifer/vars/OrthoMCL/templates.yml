@@ -26,6 +26,9 @@ tomcat_context.xml:
 rebuilder.conf:
   src: 'EbrcWebsiteCommon/rebuilder.conf.j2'
   dest: '{{ gus_home }}/config/rebuilder.conf'
+robots.txt:
+  src: 'EbrcWebsiteCommon/robots.txt.j2'
+  dest: '{{ gus_home }}/../html/robots.txt'
 401.shtml:
   src: 'EbrcWebsiteCommon/401.html.j2'
   dest: '{{ gus_home }}/../html/401.shtml'
