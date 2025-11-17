@@ -17,9 +17,10 @@ multiblast-config.xml:
 projects.xml:
   src: 'EbrcWebsiteCommon/projects.xml.j2'
   dest: '{{ gus_home }}/config/projects.xml'
-container_env:
-  src: 'EbrcWebsiteCommon/container_env.j2'
-  dest: '{{ gus_home }}/config/{{ project }}/container_env'
+# Nov 17 2025 Ortho does not need to run jenkins_presenter_update (site search)
+#container_env:
+#  src: 'EbrcWebsiteCommon/container_env.j2'
+#  dest: '{{ gus_home }}/config/{{ project }}/container_env'
 tomcat_context.xml:
   src: 'WDK/tomcat_context.xml.j2'
   dest: '{{ gus_home }}/config/{{ webapp_ctx }}.xml'
