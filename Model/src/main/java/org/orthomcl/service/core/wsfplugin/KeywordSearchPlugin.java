@@ -12,6 +12,7 @@ import org.eupathdb.websvccommon.wsfplugin.EuPathServiceException;
 import org.eupathdb.websvccommon.wsfplugin.textsearch.AbstractOracleTextSearchPlugin;
 import org.eupathdb.websvccommon.wsfplugin.textsearch.ResponseResultContainer;
 import org.gusdb.fgputil.db.SqlUtils;
+import org.gusdb.fgputil.db.SqlUtils.Autocommit;
 import org.gusdb.fgputil.runtime.InstanceManager;
 import org.gusdb.wdk.model.WdkModel;
 import org.gusdb.wsf.plugin.PluginModelException;
@@ -69,7 +70,7 @@ public class KeywordSearchPlugin extends AbstractOracleTextSearchPlugin {
       wdkModel = InstanceManager.getInstance(WdkModel.class, projectId);
       
       String sql = getQuery(detailTable, primaryKeyColumn, projectId, quotedFields.toString());
-      ps = SqlUtils.getPreparedStatement(wdkModel.getAppDb().getDataSource(), sql);
+      ps = SqlUtils.getPreparedStatement(wdkModel.getAppDb().getDataSource(), sql, Autocommit.OFF);
       logger.debug("oracleTextExpression = \"" + oracleTextExpression + "\"");
       ps.setString(1, oracleTextExpression);
       textSearch(results, ps, primaryKeyColumn, sql, "OrthoMclTextSearch");
