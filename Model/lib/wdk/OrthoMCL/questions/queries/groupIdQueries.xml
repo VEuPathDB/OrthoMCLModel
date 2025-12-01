@@ -46,19 +46,45 @@ WHERE lower(og.group_id) IN (
 
        <sql>
             <![CDATA[
-            SELECT domain.group_name
-	    FROM (SELECT group_name, COUNT(distinct full_id) as num_proteins
-                  FROM ApidbTuning.DomainAssignment
-                  WHERE group_name IS NOT NULL
-                        AND (accession LIKE UPPER(REPLACE($$pfam_id_type_ahead$$,'*','%'))
-                        -- OR symbol LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
-                        OR description LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
-	          GROUP BY group_name
-                  ) domain,
-		  apidb.OrthologGroup og
-	     WHERE og.group_id = domain.group_name
-		   AND domain.num_proteins >= $$min_num_proteins$$
-		   AND (domain.num_proteins / og.number_of_members) >= $$min_fraction_proteins$$
+WITH group_counts AS (
+    SELECT
+        ogas.group_id,
+        COUNT(*) AS number_of_members,
+        COUNT(*) FILTER (WHERE og.core_peripheral = 'core') AS number_of_core_members,
+        COUNT(*) FILTER (WHERE og.core_peripheral = 'peripheral') AS number_of_peripheral_members
+    FROM
+        apidb.orthologgroupaasequence AS ogas
+        JOIN dots.aasequence AS das
+          ON ogas.aa_sequence_id = das.aa_sequence_id
+        JOIN apidb.organism AS og
+          ON das.taxon_id = og.taxon_id
+    GROUP BY
+        ogas.group_id
+),
+domain AS (
+    SELECT
+        group_name,
+        COUNT(DISTINCT full_id) AS num_proteins
+    FROM
+        ApidbTuning.DomainAssignment
+    WHERE
+        group_name IS NOT NULL
+        AND (
+            accession LIKE UPPER(REPLACE($$pfam_id_type_ahead$$, '*', '%'))
+            OR description LIKE REPLACE($$pfam_id_type_ahead$$, '*', '%')
+        )
+    GROUP BY
+        group_name
+)
+SELECT
+    domain.group_name
+FROM
+    domain
+    JOIN group_counts AS gc ON gc.group_id = domain.group_name
+WHERE
+    domain.num_proteins >= $$min_num_proteins$$
+    AND (domain.num_proteins::numeric / gc.number_of_members) >= $$min_fraction_proteins$$
+
             ]]>
        </sql>
     </sqlQuery>
@@ -87,19 +113,32 @@ WHERE asi.subclass_view = 'ExternalAASequence'
             <column name="peripheral_num"/>
             <sql>
                 <![CDATA[
-SELECT 
-    og.group_id AS group_name, 
-    og.number_of_core_members AS core_num, 
-    og.number_of_peripheral_members AS peripheral_num
-FROM 
-    apidb.orthologgroup og
-WHERE 
-    og.number_of_core_members >= $$core_count_min$$ 
-    AND og.number_of_core_members <= $$core_count_max$$
-    AND og.number_of_peripheral_members >= $$peripheral_count_min$$ 
-    AND og.number_of_peripheral_members <= $$peripheral_count_max$$
-    AND og.number_of_members >= $$all_count_min$$ 
-    AND og.number_of_members <= $$all_count_max$$
+WITH group_counts AS (
+    SELECT
+        ogas.group_id,
+        COUNT(*) AS number_of_members,
+        COUNT(*) FILTER (WHERE og.core_peripheral = 'core') AS number_of_core_members,
+        COUNT(*) FILTER (WHERE og.core_peripheral = 'peripheral') AS number_of_peripheral_members
+    FROM
+        apidb.orthologgroupaasequence AS ogas
+        JOIN dots.aasequence AS das
+            ON ogas.aa_sequence_id = das.aa_sequence_id
+        JOIN apidb.organism AS og
+            ON das.taxon_id = og.taxon_id
+    GROUP BY
+        ogas.group_id
+)
+SELECT
+    gc.group_id AS group_name,
+    gc.number_of_core_members AS core_num,
+    gc.number_of_peripheral_members AS peripheral_num,
+    gc.number_of_members AS total_num
+FROM
+    group_counts AS gc
+WHERE
+    gc.number_of_core_members BETWEEN $$core_count_min$$ AND $$core_count_max$$
+    AND gc.number_of_peripheral_members BETWEEN $$peripheral_count_min$$ AND $$peripheral_count_max$$
+    AND gc.number_of_members BETWEEN $$all_count_min$$ AND $$all_count_max$$
                 ]]>
             </sql>
         </sqlQuery>
@@ -114,36 +153,40 @@ WHERE
             <column name="all_count"/>
             <sql>
               <![CDATA[
-SELECT 
-    group_name, 
-    core_count, 
-    peripheral_count, 
+SELECT
+    group_name,
+    core_count,
+    peripheral_count,
     core_count + peripheral_count AS all_count
 FROM (
-    SELECT 
-        CASE WHEN c.group_name IS NULL THEN p.group_name ELSE c.group_name END AS group_name,
-        CASE WHEN c.core_count IS NULL THEN 0 ELSE c.core_count END AS core_count,
-        CASE WHEN p.peripheral_count IS NULL THEN 0 ELSE p.peripheral_count END AS peripheral_count
+    SELECT
+        COALESCE(c.group_name, p.group_name) AS group_name,
+        COALESCE(c.core_count, 0) AS core_count,
+        COALESCE(p.peripheral_count, 0) AS peripheral_count
     FROM (
-        SELECT group_name, COUNT(DISTINCT taxon_abbreviation) AS core_count
+        SELECT
+            group_name,
+            COUNT(DISTINCT taxon_abbreviation) AS core_count
         FROM ApidbTuning.SequenceAttributes
         WHERE core_peripheral = 'C'
         GROUP BY group_name
     ) c
     FULL OUTER JOIN (
-        SELECT group_name, COUNT(DISTINCT taxon_abbreviation) AS peripheral_count
+        SELECT
+            group_name,
+            COUNT(DISTINCT taxon_abbreviation) AS peripheral_count
         FROM ApidbTuning.SequenceAttributes
         WHERE core_peripheral = 'P'
         GROUP BY group_name
     ) p
     ON c.group_name = p.group_name
 ) subquery
-WHERE 
-    core_count >= $$core_taxon_min$$ 
+WHERE
+    core_count >= $$core_taxon_min$$
     AND core_count <= $$core_taxon_max$$
-    AND peripheral_count >= $$peripheral_taxon_min$$ 
+    AND peripheral_count >= $$peripheral_taxon_min$$
     AND peripheral_count <= $$peripheral_taxon_max$$
-    AND (core_count + peripheral_count) >= $$all_taxon_min$$ 
+    AND (core_count + peripheral_count) >= $$all_taxon_min$$
     AND (core_count + peripheral_count) <= $$all_taxon_max$$
               ]]>
             </sql>
@@ -154,12 +197,14 @@ WHERE
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT ogs.group_id AS group_name
-FROM apidb.OrthologGroupStats ogs 
-WHERE ogs.stat_Type = 'median' 
-AND ogs.evalue >= $$percent_min$$
-AND ogs.evalue <= $$percent_max$$
-AND protein_subset IN ('C+P','R')
+    SELECT
+        ogs.group_id AS group_name
+    FROM
+         apidb.orthologgroupstats AS ogs
+    WHERE
+        ogs.stat_type = 'median'
+        AND ogs.evalue::numeric BETWEEN $$percent_min$$ AND $$percent_max$$
+        AND ogs.protein_subset IN ('C+P', 'R')
                 ]]>
             </sql>
         </sqlQuery>

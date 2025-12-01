@@ -308,23 +308,22 @@ AND aas.source_id = sa.full_id
       <column name="target_id"/>
       <sql>
                 <![CDATA[
-SELECT query.query AS full_id, 
-       query.GroupID AS group_name, 
+SELECT query.query AS full_id,
+       query.group_id AS group_name,
        target.target AS target_id
 FROM (
-    SELECT org1.source_id AS query, 
-           ogas.group_id AS GroupID
+    SELECT org1.source_id AS query,
+           ogas.group_id
     FROM apidb.orthologgroupaasequence ogas
     INNER JOIN (
         SELECT aa_sequence_id, source_id
         FROM dots.aasequence
         WHERE taxon_id = $$query_organism_type_ahead$$
-        ORDER BY aa_sequence_id
     ) org1 ON ogas.aa_sequence_id = org1.aa_sequence_id
 ) query
 INNER JOIN (
     SELECT string_agg(org2.source_id, ',' ORDER BY org2.source_id) AS target,
-           ogas.group_id AS GroupID
+           ogas.group_id
     FROM apidb.orthologgroupaasequence ogas
     INNER JOIN (
         SELECT aa_sequence_id, source_id
@@ -332,7 +331,7 @@ INNER JOIN (
         WHERE taxon_id = $$target_organism_type_ahead$$
     ) org2 ON ogas.aa_sequence_id = org2.aa_sequence_id
     GROUP BY ogas.group_id
-) target ON query.GroupID = target.GroupID
+) target ON query.group_id = target.group_id
                ]]>
       </sql>
     </sqlQuery>
