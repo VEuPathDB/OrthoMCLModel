@@ -185,7 +185,7 @@
                 recordClassRef="GroupRecordClasses.GroupRecordClass">
         <description>
           <![CDATA[
-		  Find Ortholog Groups by the median percent identity between all protein sequences within the group. This is a measure of group cohesiveness. High median percent identity indicates a tighter group with few outliers, while lower median identity indicate a group that is more dispersed.
+		  Find Ortholog Groups by the median percent identity between all protein sequences within the group. This is a measure of group cohesiveness. High median percent identity indicates a tighter group with few outliers, while lower median percent identity indicate a group that is more dispersed.
           ]]>
         </description>
       </question>

@@ -8,17 +8,17 @@
         <datasetParam name="source_ids" prompt="Sequence Ids"
 		      recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <help>>Sequence source ids from current or previous releases.</help>
-            <suggest default="PF11_0344" />
+            <suggest default="acid|C1F2M9" />
         </datasetParam>
 
         <stringParam name="accession" prompt="Accession" number="false">
             <help>Sequence source ids from current release. Wild card is supported</help>
-            <suggest default="PF3D7_1133400" />
+            <suggest default="acid|C1F2M9" />
         </stringParam>
        
         <stringParam name="querySequenceList" prompt="Query Sequence List" number="false">
             <help>List of Query Sequences</help>
-            <suggest default="pfal|PF3D7_1474700" />
+            <suggest default="acid|C1F2M9" />
         </stringParam>
 
          <flatVocabParam name="taxon_type_ahead"
