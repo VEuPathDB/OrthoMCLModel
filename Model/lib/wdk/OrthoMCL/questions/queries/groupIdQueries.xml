@@ -14,7 +14,8 @@
               <![CDATA[
                select og.NEW_GROUP_ID as group_name,
                       og.OLD_GROUP_ID as old_group_name
-              from apidb.groupmapping og
+               from apidb.groupmapping og
+               where og.NEW_GROUP_ID = og.OLD_GROUP_ID
               ]]>
             </sql>
         </sqlQuery>
@@ -24,13 +25,15 @@
             <column name="group_name"/>
             <sql>
               <![CDATA[
-                 SELECT og.group_id AS group_name 
-                 FROM apidb.OrthologGroup og
-                 WHERE lower(og.group_id) IN (SELECT DISTINCT(lower(gm.new_group_id)) as group_id
-                                              FROM apidb.GroupMapping gm, ($$group_names$$) ds
-                                              WHERE lower(gm.old_group_id) IN lower(ds.group_name)
-                                             )
-                 
+SELECT og.group_id AS group_name
+FROM apidb.OrthologGroup og
+WHERE lower(og.group_id) IN (
+    SELECT DISTINCT lower(gm.new_group_id) AS group_id
+    FROM apidb.GroupMapping gm
+    JOIN (
+        $$group_names$$
+    ) AS ds(group_name) ON lower(gm.old_group_id) = lower(ds.group_name)
+)
 	      ]]>
             </sql>
         </sqlQuery>  
@@ -44,19 +47,45 @@
 
        <sql>
             <![CDATA[
-            SELECT domain.group_name
-	    FROM (SELECT group_name, COUNT(distinct full_id) as num_proteins
-                  FROM ApidbTuning.DomainAssignment
-                  WHERE group_name IS NOT NULL
-                        AND (accession LIKE UPPER(REPLACE($$pfam_id_type_ahead$$,'*','%'))
-                        -- OR symbol LIKE REPLACE($$pfam_id_type_ahead$$,'*','%')
-                        OR description LIKE REPLACE($$pfam_id_type_ahead$$,'*','%'))
-	          GROUP BY group_name
-                  ) domain,
-		  apidb.OrthologGroup og
-	     WHERE og.group_id = domain.group_name
-		   AND domain.num_proteins >= $$min_num_proteins$$
-		   AND (domain.num_proteins / og.number_of_members) >= $$min_fraction_proteins$$
+WITH group_counts AS (
+    SELECT
+        ogas.group_id,
+        COUNT(*) AS number_of_members,
+        COUNT(*) FILTER (WHERE og.core_peripheral = 'core') AS number_of_core_members,
+        COUNT(*) FILTER (WHERE og.core_peripheral = 'peripheral') AS number_of_peripheral_members
+    FROM
+        apidb.orthologgroupaasequence AS ogas
+        JOIN dots.aasequence AS das
+          ON ogas.aa_sequence_id = das.aa_sequence_id
+        JOIN apidb.organism AS og
+          ON das.taxon_id = og.taxon_id
+    GROUP BY
+        ogas.group_id
+),
+domain AS (
+    SELECT
+        group_name,
+        COUNT(DISTINCT full_id) AS num_proteins
+    FROM
+        ApidbTuning.DomainAssignment
+    WHERE
+        group_name IS NOT NULL
+        AND (
+            accession LIKE UPPER(REPLACE($$pfam_id_type_ahead$$, '*', '%'))
+            OR description LIKE REPLACE($$pfam_id_type_ahead$$, '*', '%')
+        )
+    GROUP BY
+        group_name
+)
+SELECT
+    domain.group_name
+FROM
+    domain
+    JOIN group_counts AS gc ON gc.group_id = domain.group_name
+WHERE
+    domain.num_proteins >= $$min_num_proteins$$
+    AND (domain.num_proteins::numeric / gc.number_of_members) >= $$min_fraction_proteins$$
+
             ]]>
        </sql>
     </sqlQuery>
@@ -67,11 +96,10 @@
             <sql>
                 <![CDATA[
 SELECT DISTINCT sa.group_name
-FROM ApidbTuning.SequenceAttributes sa,
-     dots.AaSequenceImp asi
-WHERE sa.aa_sequence_id = asi.aa_sequence_id
-  AND asi.subclass_view = 'ExternalAASequence'
-  AND CATSEARCH(asi.description, $$keyword$$, '')>0
+FROM ApidbTuning.SequenceAttributes sa
+JOIN dots.AaSequenceImp asi ON sa.aa_sequence_id = asi.aa_sequence_id
+WHERE asi.subclass_view = 'ExternalAASequence'
+  AND POSITION($$keyword$$ IN asi.description) > 0
                 ]]>
             </sql>
         </sqlQuery>
@@ -86,11 +114,32 @@ WHERE sa.aa_sequence_id = asi.aa_sequence_id
             <column name="peripheral_num"/>
             <sql>
                 <![CDATA[
-select og.group_id as group_name, og.number_of_core_members as core_num, og.number_of_peripheral_members as peripheral_num
-from apidb.orthologgroup og
-WHERE og.number_of_core_members >= $$core_count_min$$ AND og.number_of_core_members <= $$core_count_max$$
-AND og.number_of_peripheral_members >= $$peripheral_count_min$$ AND og.number_of_peripheral_members <= $$peripheral_count_max$$
-AND og.number_of_members >= $$all_count_min$$ AND og.number_of_members <=$$all_count_max$$
+WITH group_counts AS (
+    SELECT
+        ogas.group_id,
+        COUNT(*) AS number_of_members,
+        COUNT(*) FILTER (WHERE og.core_peripheral = 'core') AS number_of_core_members,
+        COUNT(*) FILTER (WHERE og.core_peripheral = 'peripheral') AS number_of_peripheral_members
+    FROM
+        apidb.orthologgroupaasequence AS ogas
+        JOIN dots.aasequence AS das
+            ON ogas.aa_sequence_id = das.aa_sequence_id
+        JOIN apidb.organism AS og
+            ON das.taxon_id = og.taxon_id
+    GROUP BY
+        ogas.group_id
+)
+SELECT
+    gc.group_id AS group_name,
+    gc.number_of_core_members AS core_num,
+    gc.number_of_peripheral_members AS peripheral_num,
+    gc.number_of_members AS total_num
+FROM
+    group_counts AS gc
+WHERE
+    gc.number_of_core_members BETWEEN $$core_count_min$$ AND $$core_count_max$$
+    AND gc.number_of_peripheral_members BETWEEN $$peripheral_count_min$$ AND $$peripheral_count_max$$
+    AND gc.number_of_members BETWEEN $$all_count_min$$ AND $$all_count_max$$
                 ]]>
             </sql>
         </sqlQuery>
@@ -105,39 +154,58 @@ AND og.number_of_members >= $$all_count_min$$ AND og.number_of_members <=$$all_c
             <column name="all_count"/>
             <sql>
               <![CDATA[
-	   SELECT group_name, core_count, peripheral_count, core_count+peripheral_count AS all_count
-	   FROM (
-                SELECT DECODE(c.group_name,NULL,p.group_name,c.group_name) as group_name,
-		       DECODE(c.core_count,NULL,0,c.core_count) as core_count,
-		       DECODE(p.peripheral_count,NULL,0,p.peripheral_count) as peripheral_count
-		FROM (SELECT group_name, COUNT(distinct taxon_abbreviation) AS core_count
-                      FROM ApidbTuning.SequenceAttributes
-                      WHERE core_peripheral='C'
-		      GROUP BY group_name) c
-		FULL OUTER JOIN (SELECT group_name, COUNT(distinct taxon_abbreviation) AS peripheral_count
-                      FROM ApidbTuning.SequenceAttributes
-                      WHERE core_peripheral='P'
-		      GROUP BY group_name) p
-		ON c.group_name = p.group_name
-		)
-	   WHERE core_count>=$$core_taxon_min$$ AND core_count<=$$core_taxon_max$$
-		 AND peripheral_count>=$$peripheral_taxon_min$$ AND peripheral_count<=$$peripheral_taxon_max$$
-		 AND (core_count+peripheral_count)>=$$all_taxon_min$$ AND (core_count+peripheral_count)<=$$all_taxon_max$$
+SELECT
+    group_name,
+    core_count,
+    peripheral_count,
+    core_count + peripheral_count AS all_count
+FROM (
+    SELECT
+        COALESCE(c.group_name, p.group_name) AS group_name,
+        COALESCE(c.core_count, 0) AS core_count,
+        COALESCE(p.peripheral_count, 0) AS peripheral_count
+    FROM (
+        SELECT
+            group_name,
+            COUNT(DISTINCT taxon_abbreviation) AS core_count
+        FROM ApidbTuning.SequenceAttributes
+        WHERE core_peripheral = 'C'
+        GROUP BY group_name
+    ) c
+    FULL OUTER JOIN (
+        SELECT
+            group_name,
+            COUNT(DISTINCT taxon_abbreviation) AS peripheral_count
+        FROM ApidbTuning.SequenceAttributes
+        WHERE core_peripheral = 'P'
+        GROUP BY group_name
+    ) p
+    ON c.group_name = p.group_name
+) subquery
+WHERE
+    core_count >= $$core_taxon_min$$
+    AND core_count <= $$core_taxon_max$$
+    AND peripheral_count >= $$peripheral_taxon_min$$
+    AND peripheral_count <= $$peripheral_taxon_max$$
+    AND (core_count + peripheral_count) >= $$all_taxon_min$$
+    AND (core_count + peripheral_count) <= $$all_taxon_max$$
               ]]>
             </sql>
         </sqlQuery>
 
-        <sqlQuery name="ByEValue" isCacheable="true">
-            <paramRef ref="groupParams.evalue"/>
+        <sqlQuery name="ByPercentIdentity" isCacheable="true">
+            <paramRef ref="groupParams.percent"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-SELECT ogs.group_id AS group_name
-FROM apidb.OrthologGroupStats ogs 
-WHERE ogs.stat_Type = 'median' 
-AND ogs.evalue >= CONCAT('1.0000E', REPLACE('$$evalue_min$$', '.0', '')) 
-AND ogs.evalue <= CONCAT('1.0000E', REPLACE('$$evalue_max$$', '.0', ''))
-AND protein_subset IN ('C+P','R')
+    SELECT
+        ogs.group_id AS group_name
+    FROM
+         apidb.orthologgroupstats AS ogs
+    WHERE
+        ogs.stat_type = 'median'
+        AND ogs.evalue::numeric BETWEEN $$percent_min$$ AND $$percent_max$$
+        AND ogs.protein_subset IN ('C+P', 'R')
                 ]]>
             </sql>
         </sqlQuery>
@@ -149,8 +217,8 @@ AND protein_subset IN ('C+P','R')
             <sql>
                 <![CDATA[
 SELECT og.group_id AS group_name
-FROM apidb.OrthologGroup og, ($$phyletic_expression$$) ex
-WHERE og.group_id = ex.group_id
+FROM apidb.OrthologGroup og
+WHERE og.group_id = ANY($$phyletic_expression$$)
                 ]]>
             </sql>
         </sqlQuery>
@@ -162,15 +230,15 @@ WHERE og.group_id = ex.group_id
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-                   select distinct sec.group_name 
-                   from ApidbTuning.sequenceenzymeclass sec
-                   where (
-                      sec.ec_number LIKE REPLACE(REPLACE(lower($$ec_number_type_ahead$$),' ',''),'-', '%')
-                      OR
-                      sec.ec_number LIKE REPLACE(REPLACE(REPLACE(lower($$ec_wildcard$$),' ',''),'-', '%'),'*','%')
-                      OR
-                      sec.description LIKE REPLACE($$ec_wildcard$$, '*', '%')
-                     )
+SELECT DISTINCT sec.group_name
+FROM ApidbTuning.sequenceenzymeclass sec
+WHERE (
+    sec.ec_number LIKE REPLACE(REPLACE(lower($$ec_number_type_ahead$$), ' ', ''), '-', '%')
+    OR
+    sec.ec_number LIKE REPLACE(REPLACE(REPLACE(lower($$ec_wildcard$$), ' ', ''), '-', '%'), '*', '%')
+    OR
+    sec.description LIKE REPLACE($$ec_wildcard$$, '*', '%')
+)
                  ]]>
             </sql>
         </sqlQuery>
@@ -181,9 +249,9 @@ WHERE og.group_id = ex.group_id
             <column name="wdk_weight"/>
             <sql>
                 <![CDATA[
-SELECT sa.group_name, sum(answer.wdk_weight) AS wdk_weight
-FROM ApidbTuning.SequenceAttributes sa, ($$sequence_answer$$) answer
-WHERE sa.full_id = answer.full_id
+SELECT sa.group_name, SUM(answer.wdk_weight) AS wdk_weight
+FROM ApidbTuning.SequenceAttributes sa
+JOIN ($$sequence_answer$$) answer ON sa.full_id = answer.full_id
 GROUP BY sa.group_name
                 ]]>
             </sql>

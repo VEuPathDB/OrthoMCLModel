@@ -8,17 +8,17 @@
         <datasetParam name="source_ids" prompt="Sequence Ids"
 		      recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <help>>Sequence source ids from current or previous releases.</help>
-            <suggest default="PF11_0344" />
+            <suggest default="acid|C1F2M9" />
         </datasetParam>
 
         <stringParam name="accession" prompt="Accession" number="false">
             <help>Sequence source ids from current release. Wild card is supported</help>
-            <suggest default="PF3D7_1133400" />
+            <suggest default="acid|C1F2M9" />
         </stringParam>
        
         <stringParam name="querySequenceList" prompt="Query Sequence List" number="false">
             <help>List of Query Sequences</help>
-            <suggest default="pfal|PF3D7_1474700" />
+            <suggest default="acid|C1F2M9" />
         </stringParam>
 
          <flatVocabParam name="taxon_type_ahead"
@@ -311,7 +311,7 @@
                      displayType="typeAhead"
 		     multiPick="false">
             <help>Type at least three characters of Query Organism name and then choose the organism.</help>
-            <suggest default="1742855"/>  <!-- Plasmodium falciparum 3D7 -->
+            <suggest default=""/>  <!-- Plasmodium falciparum 3D7 -->
         </flatVocabParam>
 
          <flatVocabParam name="target_organism_type_ahead"
@@ -320,7 +320,7 @@
                      displayType="typeAhead"
 		     multiPick="false">
             <help>Type at least three characters of Target Organism name and then choose the organism.</help>
-            <suggest default="1760789"/>  <!-- Trypanosoma vivax Y486 -->
+            <suggest default=""/>  <!-- Trypanosoma vivax Y486 -->
         </flatVocabParam>
 
 
@@ -535,11 +535,11 @@
             <column name="term" />
             <column name="display"/>
             <sql>
-               SELECT ot.three_letter_abbrev AS internal,
-                      ot.three_letter_abbrev AS term,
-                      ot.three_letter_abbrev || ' (' || ot.name || ')' AS display
-               FROM apidb.orthomcltaxon ot
-               where is_species = 1
+               SELECT og.orthomcl_abbrev AS internal,
+                      og.orthomcl_abbrev AS term,
+                      og.orthomcl_abbrev || ' (' || tn.name || ')' AS display
+               FROM apidb.organism og, sres.taxonname tn
+               WHERE og.taxon_id = tn.taxon_id
              </sql>
         </sqlQuery>
 
@@ -548,10 +548,12 @@
             <column name="term" />
             <sql>
                 <![CDATA[
+SELECT *
+FROM (
   SELECT 
-   '@BLASTDB_PATH@/build-current/blast/proteinSeqs' as internal
-  ,'@BLASTDB_PATH@/build-current/blast/proteinSeqs' as term
-  FROM DUAL
+    '@BLASTDB_PATH@/build-current/blast/proteinSeqs' AS internal,
+    '@BLASTDB_PATH@/build-current/blast/proteinSeqs' AS term
+)
                 ]]>
             </sql>
         </sqlQuery>

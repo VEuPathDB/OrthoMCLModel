@@ -31,19 +31,19 @@
             <column name="group_count"/>
             <sql>
             <![CDATA[
-SELECT 'helper' AS helper_id, organism_count, protein_count, group_count    
-FROM 
-    ( select count(orthomcl_taxon_id) as organism_count
-      from apidb.OrthomclTaxon
-      where core_peripheral in ('C','P') ),
-    ( select count(ogas.ortholog_group_aa_sequence_id) AS protein_count   
-      from APIDB.orthologgroupaasequence ogas
-           , APIDB.orthologgroup og
-      where ogas.ortholog_group_id = og.ortholog_group_id
-            and og.core_peripheral_residual in ('P','R') ),
-    ( select count(ortholog_group_id) AS group_count
-      from APIDB.orthologgroup
-      where core_peripheral_residual in ('P','R') )
+SELECT 
+    'helper' AS helper_id, 
+    organism_count, 
+    protein_count, 
+    group_count
+FROM
+    (SELECT count(organism_id) AS organism_count
+     FROM apidb.Organism) AS organism_count_query,
+    (SELECT count(ogas.ortholog_group_aa_sequence_id) AS protein_count
+     FROM APIDB.orthologgroupaasequence ogas
+     JOIN APIDB.orthologgroup og ON ogas.ortholog_group_aa_sequence_id = og.ortholog_group_id) AS protein_count_query,
+    (SELECT count(ortholog_group_id) AS group_count
+     FROM APIDB.orthologgroup) AS group_count_query
             ]]>
             </sql>
         </sqlQuery>
@@ -67,27 +67,47 @@ FROM
             <column name="name"/>
             <sql>
             <![CDATA[
-select q.*, rownum as sort_index
-from (
-select 'helper' AS helper_id,
-       omt.orthomcl_taxon_id as taxon_id,
-       nvl(omt.parent_id, omt.orthomcl_taxon_id) AS parent_id,
-       omt.three_letter_abbrev as abbreviation,
-       omt.is_species,
-       omt.common_name,
-       omt.name,
-       cats.category
-from apidb.OrthomclTaxon omt,
-     (select orthomcl_taxon_id, name, connect_by_root name as category
-      from apidb.OrthomclTaxon
-      start with name
-            in ('Archaea', 'Bacteria', 'Alveolates', 'Amoebozoa', 'Euglenozoa',
-                'Fungi', 'Metazoa', 'Other Eukaryota', 'Viridiplantae')
-      connect by parent_id = prior orthomcl_taxon_id
-     ) cats
-where omt.orthomcl_taxon_id = cats.orthomcl_taxon_id(+)
-order by cats.category nulls first, is_species desc, name
-) q
+WITH RECURSIVE TaxonHierarchy AS (
+  -- Base case
+  SELECT
+    three_letter_abbrev,
+    orthomcl_clade_id,
+    name,
+    core_peripheral,
+    name AS taxon_group,
+    parent_id
+  FROM apidb.OrthomclClade
+  WHERE name IN ('Archaea', 'Bacteria', 'Alveolates', 'Amoebozoa', 'Euglenozoa',
+                 'Fungi', 'Metazoa', 'Other Eukaryota', 'Viridiplantae')
+
+  UNION ALL
+
+  -- Recursive case
+  SELECT
+    child.three_letter_abbrev,
+    child.orthomcl_clade_id,
+    child.name,
+    child.core_peripheral,
+    parent.taxon_group,
+    child.parent_id
+  FROM apidb.OrthomclClade child
+  JOIN TaxonHierarchy parent ON child.parent_id = parent.orthomcl_clade_id
+) 
+
+SELECT 
+    'helper' AS helper_id,
+    og.taxon_id AS taxon_id,
+    og.taxon_id AS parent_id,
+    og.orthomcl_abbrev AS abbreviation,
+    1 as is_species,
+    tn.name as name,
+    tn.name as common_name,
+    cats.taxon_group,
+    ROW_NUMBER() OVER (ORDER BY cats.taxon_group NULLS FIRST, tn.name) AS sort_index
+FROM apidb.Organism og
+LEFT JOIN sres.taxonname tn ON og.taxon_id = tn.taxon_id
+LEFT JOIN taxonHierarchy cats ON og.orthomcl_abbrev = cats.three_letter_abbrev
+ORDER BY cats.taxon_group NULLS FIRST, tn.name
 			]]>
             </sql>
         </sqlQuery>
@@ -109,28 +129,64 @@ order by cats.category nulls first, is_species desc, name
             <column name="most_recent"/>
             <sql>
             <![CDATA[
-SELECT 'helper' AS helper_id, ot.name as name, ot.three_letter_abbrev as three_letter_abbrev,
-       CASE when (od.resource_url = '-') then '-' else od.resource_name end as resource_name,
-       od.resource_url as resource_url, od.resource_version as resource_version,
-       case ot.core_peripheral when 'C' then 'Core' when 'P' then 'Peripheral' else '' end as core_peripheral,
-       CASE SUBSTR(ot.three_letter_abbrev,5,4) WHEN '-old' THEN 'no' ELSE 'most_recent' END as most_recent,
-       t.ncbi_tax_id as ncbi_taxon_id,
-'https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=' || t.ncbi_tax_id AS ncbi_taxon_url,
-       stats.sequences as sequences, stats.clustered_sequences as clustered_sequences, stats.groups as groups
-FROM apidb.OrthomclTaxon ot, apidb.OrthomclResource od, sres.Taxon t, sres.taxonname tn,
-     (select orthomcl_taxon_id, count(*) sequences,
-             count(distinct ortholog_group_id) groups,
-             sum(case when ortholog_group_id is null then 0 else 1 end) clustered_sequences
-      from ApidbTuning.SequenceAttributes
-      group by orthomcl_taxon_id) stats
-WHERE od.orthomcl_taxon_id(+) = ot.orthomcl_taxon_id
-      AND ot.orthomcl_taxon_id = stats.orthomcl_taxon_id(+)
-      AND ot.is_species != 0
-      AND ot.name = tn.name
-      AND tn.taxon_id = t.taxon_id(+)
-      AND stats.clustered_sequences IS NOT NULL
-      AND od.resource_url IS NOT NULL
-ORDER BY ot.name
+SELECT
+  'helper' AS helper_id,
+  tn.name AS name,
+  og.orthomcl_abbrev AS three_letter_abbrev,
+
+  CASE
+    WHEN od.resource_url = '-' THEN '-'
+    ELSE od.resource_name
+  END AS resource_name,
+
+  od.resource_url AS resource_url,
+  od.resource_version AS resource_version,
+
+  CASE
+    WHEN og.core_peripheral = 'core' THEN 'Core'
+    WHEN og.core_peripheral = 'peripheral' THEN 'Peripheral'
+    ELSE ''
+  END AS core_peripheral,
+
+  CASE
+    WHEN SUBSTRING(og.orthomcl_abbrev FROM 5 FOR 4) = '-old' THEN 'no'
+    ELSE 'most_recent'
+  END AS most_recent,
+
+  t.ncbi_tax_id AS ncbi_taxon_id,
+  'https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=' || t.ncbi_tax_id AS ncbi_taxon_url,
+
+  stats.sequences,
+  stats.clustered_sequences,
+  stats.groups
+
+FROM apidb.Organism og
+
+LEFT JOIN apidb.OrthomclResource od
+  ON od.orthomcl_taxon_id = og.taxon_id
+
+LEFT JOIN sres.TaxonName tn
+  ON og.taxon_id = tn.taxon_id
+
+LEFT JOIN sres.Taxon t
+  ON t.taxon_id = tn.taxon_id
+
+LEFT JOIN (
+  SELECT
+    orthomcl_taxon_id,
+    COUNT(*) AS sequences,
+    SUM(CASE WHEN ortholog_group_id IS NULL THEN 0 ELSE 1 END) AS clustered_sequences,
+    COUNT(DISTINCT ortholog_group_id) AS groups
+  FROM ApidbTuning.SequenceAttributes
+  GROUP BY orthomcl_taxon_id
+) stats
+  ON og.taxon_id = stats.orthomcl_taxon_id
+
+WHERE stats.clustered_sequences IS NOT NULL
+  AND od.resource_url IS NOT NULL
+
+ORDER BY tn.name
+
             ]]>
             </sql>
         </sqlQuery>
@@ -142,29 +198,30 @@ ORDER BY ot.name
            <column name="color"/>
            <sql>
            <![CDATA[
-           SELECT 'helper' AS helper_id, t.* FROM (
-             SELECT 'OBAC' AS taxon_abbrev, '#9999CC' AS color FROM dual
-             UNION
-             SELECT 'FIRM' AS taxon_abbrev, '#33CC99' AS color FROM dual
-             UNION
-             SELECT 'PROT' AS taxon_abbrev, '#99CC66' AS color FROM dual
-             UNION
-             SELECT 'ARCH' AS taxon_abbrev, '#77CCDD' AS color FROM dual
-             UNION
-             SELECT 'OEUK' AS taxon_abbrev, '#CC9999' AS color FROM dual
-             UNION
-             SELECT 'VIRI' AS taxon_abbrev, '#CC9933' AS color FROM dual
-             UNION
-             SELECT 'EUGL' AS taxon_abbrev, '#CCCC66' AS color FROM dual
-             UNION
-             SELECT 'ALVE' AS taxon_abbrev, '#CC3399' AS color FROM dual
-             UNION
-             SELECT 'FUNG' AS taxon_abbrev, '#AA44DD' AS color FROM dual
-             UNION
-             SELECT 'META' AS taxon_abbrev, '#CC6666' AS color FROM dual
-             UNION
-             SELECT 'AMOE' AS taxon_abbrev, '#3399CC' AS color FROM dual
-             ) t
+SELECT 'helper' AS helper_id, t.*
+FROM (
+    SELECT 'OBAC' AS taxon_abbrev, '#9999CC' AS color
+    UNION ALL
+    SELECT 'FIRM' AS taxon_abbrev, '#33CC99' AS color
+    UNION ALL
+    SELECT 'PROT' AS taxon_abbrev, '#99CC66' AS color
+    UNION ALL
+    SELECT 'ARCH' AS taxon_abbrev, '#77CCDD' AS color
+    UNION ALL
+    SELECT 'OEUK' AS taxon_abbrev, '#CC9999' AS color
+    UNION ALL
+    SELECT 'VIRI' AS taxon_abbrev, '#CC9933' AS color
+    UNION ALL
+    SELECT 'EUGL' AS taxon_abbrev, '#CCCC66' AS color
+    UNION ALL
+    SELECT 'ALVE' AS taxon_abbrev, '#CC3399' AS color
+    UNION ALL
+    SELECT 'FUNG' AS taxon_abbrev, '#AA44DD' AS color
+    UNION ALL
+    SELECT 'META' AS taxon_abbrev, '#CC6666' AS color
+    UNION ALL
+    SELECT 'AMOE' AS taxon_abbrev, '#3399CC' AS color
+) t
            ]]>
            </sql>
        </sqlQuery>

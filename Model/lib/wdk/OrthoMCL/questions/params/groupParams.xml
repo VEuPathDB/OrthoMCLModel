@@ -18,7 +18,7 @@
         <datasetParam name="group_names" prompt="Group Names"
 					  recordClassRef="GroupRecordClasses.GroupRecordClass">
             <help>Group name(s), separated by commas or new lines, from current or previous releases.</help>
-            <suggest default="OG7_0008348, OG7_0003896" />
+            <suggest default="OG8_0000000, OG8_0000001" />
         </datasetParam>
 
         <numberRangeParam name="core_count" 
@@ -83,14 +83,14 @@
             <suggest default="{'min':'4', 'max':'20'}" />
         </numberRangeParam>
 
-        <numberRangeParam name="evalue" 
-			  prompt="E-value exponent"
-			  integer="true"
-			  min="-200"
-			  max="-4"
-			  increment="1">
-            <help>Set the minimum and maximum exponent of the median blast evalue in the group (min: -200 max: -4)</help>
-            <suggest default="{'min':'-200', 'max':'-50'}" />
+        <numberRangeParam name="percent" 
+                          prompt="Percent Identity"
+			  integer="false"
+			  min="0"
+			  max="1"
+			  increment=".01">
+            <help>Set the minimum and maximum values of the median percent identity in the group (min: 0 max: 1)</help>
+            <suggest default="{'min':'0', 'max':'0.01'}" />
         </numberRangeParam>
 
         <stringParam name="phyletic_expression" prompt="Expression" number="false">

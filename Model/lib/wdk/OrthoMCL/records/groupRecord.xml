@@ -162,63 +162,63 @@
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.CoreMinEvalue">
-                <columnAttribute name="core_min_evalue" displayName="Min E-value (CORE)" inReportMaker="false" />
+                <columnAttribute name="core_min_evalue" displayName="Min Percent Identity (CORE)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Core25Evalue">
-                <columnAttribute name="core_25_evalue" displayName="25% E-value (CORE)" inReportMaker="false" />
+                <columnAttribute name="core_25_evalue" displayName="25% Percent Identity (CORE)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.CoreMedianEvalue">
-                <columnAttribute name="core_median_evalue" displayName="Median E-value (CORE)" inReportMaker="false" />
+                <columnAttribute name="core_median_evalue" displayName="Median Percent Identity (CORE)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Core75Evalue">
-                <columnAttribute name="core_75_evalue" displayName="75% E-value (CORE)" inReportMaker="false" />
+                <columnAttribute name="core_75_evalue" displayName="75% Percent Identity (CORE)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.CoreMaxEvalue">
-                <columnAttribute name="core_max_evalue" displayName="Max E-value (CORE)" inReportMaker="false" />
+                <columnAttribute name="core_max_evalue" displayName="Max Percent Identity (CORE)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.CorePeripheralMinEvalue">
-                <columnAttribute name="core_peripheral_min_evalue" displayName="Min E-value (CORE+PERIPHERAL)" inReportMaker="false" />
+                <columnAttribute name="core_peripheral_min_evalue" displayName="Min Percent Identity (CORE+PERIPHERAL)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.CorePeripheral25Evalue">
-                <columnAttribute name="core_peripheral_25_evalue" displayName="25% E-value (CORE+PERIPHERAL)" inReportMaker="false" />
+                <columnAttribute name="core_peripheral_25_evalue" displayName="25% Percent Identity (CORE+PERIPHERAL)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.CorePeripheralMedianEvalue">
-                <columnAttribute name="core_peripheral_median_evalue" displayName="Median E-value (CORE+PERIPHERAL)" inReportMaker="false" />
+                <columnAttribute name="core_peripheral_median_evalue" displayName="Median Percent Identity (CORE+PERIPHERAL)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.CorePeripheral75Evalue">
-                <columnAttribute name="core_peripheral_75_evalue" displayName="75% E-value (CORE+PERIPHERAL)" inReportMaker="false" />
+                <columnAttribute name="core_peripheral_75_evalue" displayName="75% Percent Identity (CORE+PERIPHERAL)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.CorePeripheralMaxEvalue">
-                <columnAttribute name="core_peripheral_max_evalue" displayName="Max E-value (CORE+PERIPHERAL)" inReportMaker="false" />
+                <columnAttribute name="core_peripheral_max_evalue" displayName="Max Percent Identity (CORE+PERIPHERAL)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.ResidualMinEvalue">
-                <columnAttribute name="residual_min_evalue" displayName="Min E-value (RESIDUAL)" inReportMaker="false" />
+                <columnAttribute name="residual_min_evalue" displayName="Min Percent Identity (RESIDUAL)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Residual25Evalue">
-                <columnAttribute name="residual_25_evalue" displayName="25% E-value (RESIDUAL)" inReportMaker="false" />
+                <columnAttribute name="residual_25_evalue" displayName="25% Percent Identity (RESIDUAL)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.ResidualMedianEvalue">
-                <columnAttribute name="residual_median_evalue" displayName="Median E-value (RESIDUAL)" inReportMaker="false" />
+                <columnAttribute name="residual_median_evalue" displayName="Median Percent Identity (RESIDUAL)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.Residual75Evalue">
-                <columnAttribute name="residual_75_evalue" displayName="75% E-value (RESIDUAL)" inReportMaker="false" />
+                <columnAttribute name="residual_75_evalue" displayName="75% Percent Identity (RESIDUAL)" inReportMaker="false" />
             </attributeQueryRef>
 
             <attributeQueryRef ref="GroupAttributes.ResidualMaxEvalue">
-                <columnAttribute name="residual_max_evalue" displayName="Max E-value (RESIDUAL)" inReportMaker="false" />
+                <columnAttribute name="residual_max_evalue" displayName="Max Percent Identity (RESIDUAL)" inReportMaker="false" />
             </attributeQueryRef>
 
 
@@ -274,9 +274,9 @@
 	      <columnAttribute name="archaea_nano_total" internal="true" />
 	      <columnAttribute name="archaea_kora_actual" internal="true" />
 	      <columnAttribute name="archaea_kora_total" internal="true" />
-	      <columnAttribute name="oeuk_genera_html" internal="true" />
-	      <columnAttribute name="eugl_genera_html" internal="true" />
-	      <columnAttribute name="amoe_genera_html" internal="true" />
+	      <!--<columnAttribute name="oeuk_genera_html" internal="true" />-->
+              <!--<columnAttribute name="eugl_genera_html" internal="true" />-->
+              <!--<columnAttribute name="amoe_genera_html" internal="true" />-->
 	      <columnAttribute name="alveolata_alve_actual" internal="true" />
 	      <columnAttribute name="alveolata_alve_total" internal="true" />
 	      <columnAttribute name="alveolata_cili_actual" internal="true" />
@@ -391,7 +391,7 @@
                   <![CDATA[
 		      <div class="phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
 		          <span class="phyletic-distribution-tooltiptext"><div style="text-align:center";><b>AMOEBA genera</b></div>
-			        $$amoe_genera_html$$
+
 			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$amoeba_percent$$%; height: 100%; background-color: #3399CC;">
@@ -474,7 +474,7 @@
                   <![CDATA[
 		      <div class="phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
 		          <span class="phyletic-distribution-tooltiptext"><div style="text-align:center";><b>EUGLENOZOA genera</b></div>
-			        $$eugl_genera_html$$
+
 			  </span>
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$euglenozoa_percent$$%; height: 100%; background-color: #CCCC66;">
@@ -557,7 +557,7 @@
                   <![CDATA[
 		      <div class="phyletic-distribution-tooltip" style="display: flex; width: 8em; align-items: flex-end; padding: 0.5em;">
 		          <span class="phyletic-distribution-tooltiptext"><div style="text-align:center";><b>OTHER EUKARYOTES genera</b></div>
-			       $$oeuk_genera_html$$
+			       
 			  </span>			  
 			  <div style="width: 100%; height: 1em; background-color: white; border: 1px solid gray;">
 			      <div style="width: $$other_eukaryotes_percent$$%; height: 100%; background-color: #CC9999;">
@@ -620,34 +620,37 @@
 		</columnAttribute>
             </attributeQueryRef>
 
-
-
-
             <textAttribute name="record_overview" displayName="Record Overview HTML">
               <text>
-                  <![CDATA[
-               <div class="eupathdb-RecordOverview">
-                  <dl>
-                    <dt>Group Type</dt><dd>$$group_type$$</dd>
-                    <dt>Total Number of Proteins</dt><dd>$$number_of_members$$</dd>
-                    <dt>Number of Core Proteins</dt><dd>$$number_of_core_members$$</dd>
-                    <dt>Number of Peripheral Proteins</dt><dd>$$number_of_peripheral_members$$</dd>
-                    <dt>Keywords</dt><dd>$$keywords$$</dd>
-                    <dt>EC Numbers</dt><dd>$$ec_numbers$$</dd>
-                    <dt>Top PFam Domains</dt><dd>$$descriptions$$</dd>
-                    <dt>Previous Groups</dt><dd>$$previous_groups$$</dd>
-                  </dl>
-              </div>
-          ]]>
-
+                <![CDATA[
+                <div class="eupathdb-RecordOverview">
+                  <div class="eupathdb-RecordOverviewTitle"></div>
+                  <div class="eupathdb-RecordOverviewPanels">
+                    <div class="eupathdb-RecordOverviewLeft">
+                      <dl>
+                        <dt>Group Type</dt>
+                        <dd>$$group_type$$</dd>
+                        <dt>Total Number of Proteins</dt>
+                        <dd>$$number_of_members$$</dd>
+                        <dt>Number of Core Proteins</dt>
+                        <dd>$$number_of_core_members$$</dd>
+                        <dt>Number of Peripheral Proteins</dt>
+                        <dd>$$number_of_peripheral_members$$</dd>
+                        <dt>Keywords</dt>
+                        <dd>$$keywords$$</dd>
+                        <dt>EC Numbers</dt>
+                        <dd>$$ec_numbers$$</dd>
+                        <dt>Top PFam Domains</dt>
+                        <dd>$$descriptions$$</dd>
+                        <dt>Previous Groups</dt>
+                        <dd>$$previous_groups$$</dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+                ]]>
               </text>
-
-
-
-
-
             </textAttribute>
-
 
       <!-- =============================================================== -->
       <!-- Tables -->
@@ -846,8 +849,8 @@
             <table name="GroupStat"
                    displayName="Group Statistics"
                    queryRef="GroupTables.GroupStat"
-                   help="Group Statistics are a measure of cohesiveness for the proteins in an orthogroup. A pairwise BLAST e-value is computed between each protein and the Representative Sequence, which is the centroid of the group. A tight group will have a highly significant median of these pairwise e-values and also a significant maximum e-value (ie. less than 1e-10, since smaller e-values are more significant). The maximum e-value is a measure of the distance between the most dissimilar protein compared to the Representative Sequence.">
-              <description><![CDATA[Group Statistics are a measure of cohesiveness for the proteins in an orthogroup. BLAST e-values are computed for all of the proteins in each group vs. a central protein in the group.]]></description>
+                   help="Group Statistics are a measure of dispersion for the proteins in an orthogroup. Percent identity values are computed with Mash (MinHash) as 3 amino acid shared kmers between all of the proteins vs. a central protein in the group.">
+              <description><![CDATA[Group Statistics are a measure of dispersion for an orthogroup. Percent identity values are computed between all of the proteins vs. a central protein in the group.]]></description>
               <columnAttribute name="group_name" internal="true" inReportMaker="true"/>
               <columnAttribute name="group_type" inReportMaker="true" displayName="Protein Subset"/>
               <columnAttribute name="min" inReportMaker="true" displayName="min"/>

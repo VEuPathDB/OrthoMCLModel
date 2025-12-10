@@ -29,7 +29,8 @@
        </defaultTestParamValues>
 
         <testRowCountSql>
-            SELECT count(*) FROM dots.Orthoaasequence
+            SELECT count(*) FROM dots.aasequence
+            WHERE taxon_id in (select distinct(aas.taxon_id) from apidb.organism og, dots.aasequence aas where aas.taxon_id = og.taxon_id) 
         </testRowCountSql>
 
 
@@ -46,16 +47,19 @@
             <column name="pfam_domains"/>          
             <sql>
 		<![CDATA[
-SELECT sa.full_id, sa.source_id,
-    sa.length, sa.product,
+SELECT aas.source_id as full_id, sa.source_id,  
+    sa.length as length, sa.product as product, 
     --round(sa.molecular_weight/1000,1) AS molecular_weight,
     sa.taxon_abbreviation AS abbreviation, 
-    sa.organism_name as taxon_name,
-    (SELECT apidb.tab_to_string(set(cast(collect(da.accession) as apidb.varchartab)), ', ')
-    FROM ApidbTuning.DomainAssignment da
-    WHERE da.aa_sequence_id = sa.aa_sequence_id
-    GROUP BY da.full_id ) as pfam_domains
+    sa.organism_name AS taxon_name, 
+    (SELECT string_agg(da.accession, ', ') 
+     FROM ApidbTuning.DomainAssignment da 
+     WHERE da.aa_sequence_id = sa.aa_sequence_id 
+     GROUP BY da.full_id) AS pfam_domains
 FROM apidbTuning.SequenceAttributes sa
+FULL OUTER JOIN dots.aasequence aas ON aas.source_id = sa.full_id
+WHERE aas.taxon_id in (select distinct(aas.taxon_id) from apidb.organism og, dots.aasequence aas where aas.taxon_id = og.taxon_id)
+AND aas.source_id = sa.full_id
  		]]>
             </sql>
         </sqlQuery>
@@ -65,12 +69,20 @@ FROM apidbTuning.SequenceAttributes sa
            <column name="ec_numbers"/>          
            <sql>
              <![CDATA[
-                  select sa.full_id, ec.ec_numbers
-                  from (
-                  select full_id, listagg(sec.ec_number, ', ') WITHIN GROUP (ORDER BY sec.ec_number) AS ec_numbers
-                  from apidbtuning.sequenceenzymeclass sec
-                  group by full_id) ec, apidbtuning.sequenceattributes sa
-                  where sa.full_id = ec.full_id (+)
+SELECT sa.full_id, ec.ec_numbers
+FROM apidbtuning.sequenceattributes sa
+LEFT JOIN (
+    SELECT full_id, string_agg(sec.ec_number, ', ' ORDER BY sec.ec_number) AS ec_numbers
+    FROM apidbtuning.sequenceenzymeclass sec
+    GROUP BY full_id
+) ec ON sa.full_id = ec.full_id
+LEFT JOIN dots.aasequence aas 
+    ON aas.source_id = sa.full_id
+   AND aas.taxon_id IN (
+       SELECT DISTINCT og.taxon_id
+       FROM apidb.organism og
+       JOIN dots.aasequence aas2 ON aas2.taxon_id = og.taxon_id
+   )
              ]]>
            </sql>
         </sqlQuery>
@@ -88,12 +100,16 @@ FROM apidbTuning.SequenceAttributes sa
 -->
             <sql>
              <![CDATA[
-            SELECT sa.full_id, sa.group_name, --, sa.old_groups,
-                             CASE sa.core_peripheral WHEN 'C' THEN 'Core' WHEN 'P' THEN 'Peripheral' END AS core_peripheral,
-                             number_of_core_members AS num_core,
-                             number_of_peripheral_members AS num_peripheral
-                                 --sa.source_url, sa.source_text
-                                 FROM ApidbTuning.SequenceAttributes sa
+SELECT sa.full_id as full_id, 
+       sa.group_name as group_name,
+       CASE sa.core_peripheral 
+           WHEN 'C' THEN 'Core' 
+           WHEN 'P' THEN 'Peripheral' 
+       END AS core_peripheral, 
+       number_of_core_members AS num_core, 
+       number_of_peripheral_members AS num_peripheral
+       --sa.source_url, sa.source_text
+FROM ApidbTuning.SequenceAttributes sa
              ]]>
            </sql>
         </sqlQuery>
@@ -103,8 +119,8 @@ FROM apidbTuning.SequenceAttributes sa
             <column name="sequence"/>
             <sql>
 			<![CDATA[
-            SELECT eas.secondary_identifier AS full_id, eas.sequence 
-            FROM dots.Orthoaasequence eas
+SELECT aas.source_id AS full_id, aas.sequence
+FROM dots.aasequence aas
  			]]>
             </sql>
         </sqlQuery>
@@ -118,15 +134,13 @@ FROM apidbTuning.SequenceAttributes sa
             <column name="group_name"/>
             <sql>
                         <![CDATA[
-SELECT eas.secondary_identifier AS full_id, ref.primary_identifier AS group_name
-FROM dots.Orthoaasequence eas,
-     Dots.AaSequenceDbRef seqref, Sres.DbRef ref,
-     Sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr
-WHERE eas.aa_sequence_id = seqref.aa_sequence_id
-  AND seqref.db_ref_id = ref.db_ref_id
-  AND ref.external_database_release_id = dbr.external_database_release_id
-  AND dbr.external_database_id = db.external_database_id
-  AND db.name = 'OrthoMCL Old Groups'
+SELECT aas.source_id AS full_id, ref.primary_identifier AS group_name
+FROM dots.aasequence aas
+JOIN Dots.AaSequenceDbRef seqref ON aas.aa_sequence_id = seqref.aa_sequence_id
+JOIN Sres.DbRef ref ON seqref.db_ref_id = ref.db_ref_id
+JOIN Sres.ExternalDatabaseRelease dbr ON ref.external_database_release_id = dbr.external_database_release_id
+JOIN Sres.ExternalDatabase db ON dbr.external_database_id = db.external_database_id
+WHERE db.name = 'OrthoMCL Old Groups'
                         ]]>
             </sql>
         </sqlQuery>
@@ -146,12 +160,12 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             <column name="length"/>
             <sql>
                         <![CDATA[
-     SELECT da.full_id, da.accession, da.description, da.domain_index,
-            (SELECT MAX(domain_index) FROM ApidbTuning.DomainAssignment) AS max_index,
-            da.start_min, da.end_max, sa.length
-     FROM ApidbTuning.DomainAssignment da, ApidbTuning.SequenceAttributes sa
-     WHERE da.full_id = sa.full_id
-     ORDER BY da.full_id, da.start_min
+SELECT da.full_id as full_id, da.accession as accession, da.description as description, da.domain_index as domain_index,
+       (SELECT MAX(domain_index) FROM ApidbTuning.DomainAssignment) AS max_index,
+       da.start_min as start_min, da.end_max as end_max, sa.length as length
+FROM ApidbTuning.DomainAssignment da
+JOIN ApidbTuning.SequenceAttributes sa ON da.full_id = sa.full_id
+ORDER BY da.full_id, da.start_min
             ]]>
           </sql>
         </sqlQuery>
@@ -164,12 +178,12 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             <column name="expasy_url"/>
             <sql>
                 <![CDATA[
-                    SELECT sec.full_id, sec.ec_number, sec.description,
-                                 'http://enzyme.expasy.org/cgi-bin/enzyme/enzyme-search-ec?field1=' || sec.ec_number_1
-                                 || chr(38) || 'field2=' || sec.ec_number_2
-                                 || chr(38) || 'field3=' || sec.ec_number_3
-                                 || chr(38) || 'field4=' || sec.ec_number_4 as expasy_url
-                    FROM apidbtuning.sequenceenzymeclass sec
+SELECT sec.full_id as full_id, sec.ec_number, sec.description,
+       'http://enzyme.expasy.org/cgi-bin/enzyme/enzyme-search-ec?field1=' || sec.ec_number_1
+       || '&field2=' || sec.ec_number_2
+       || '&field3=' || sec.ec_number_3
+       || '&field4=' || sec.ec_number_4 AS expasy_url
+FROM apidbtuning.sequenceenzymeclass sec
  		]]>
             </sql>
         </sqlQuery>
@@ -182,10 +196,10 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             <column name="id_string"/>
             <sql>
 		<![CDATA[
-                  SELECT eas.secondary_identifier AS full_id,
-                         eas.description AS product,
-                         eas.secondary_identifier AS id_string
-                  FROM dots.Orthoaasequence eas
+SELECT aas.source_id AS full_id,
+       aas.description AS product,
+       aas.source_id AS id_string
+FROM dots.aasequence aas
  		]]>
             </sql>
         </sqlQuery>
@@ -196,7 +210,7 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             <column name="abbreviation"/>
             <sql>
 		<![CDATA[
-                  SELECT full_id, taxon_abbreviation AS abbreviation, organism_name AS taxon
+                  SELECT full_id as full_id, taxon_abbreviation AS abbreviation, organism_name AS taxon
                   FROM apidbtuning.sequenceattributes
  		]]>
             </sql>
@@ -207,22 +221,23 @@ WHERE eas.aa_sequence_id = seqref.aa_sequence_id
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-                    with sequences as
-                         (select full_id, group_name, aa_sequence_id
-                          from ApidbTuning.SequenceAttributes)
-                      select s.full_id, s.group_name
-                      from sequences s
-                      where s.group_name is not null
-                    union
-                      select s.full_id, ref.primary_identifier AS group_name
-                      from sequences s, 
-                           dots.AaSequenceDbRef seqref, Sres.DbRef ref,
-                           sres.ExternalDatabase db, Sres.ExternalDatabaseRelease dbr
-                      where s.aa_sequence_id = seqref.aa_sequence_id
-                        and seqref.db_ref_id = ref.db_ref_id
-                        and ref.external_database_release_id = dbr.external_database_release_id
-                        and dbr.external_database_id = db.external_database_id
-                        and db.name = 'OrthoMCL Old Groups'
+WITH sequences AS (
+    SELECT full_id, group_name, aa_sequence_id
+    FROM ApidbTuning.SequenceAttributes
+)
+SELECT s.full_id, s.group_name
+FROM sequences s
+WHERE s.group_name IS NOT NULL
+
+UNION
+
+SELECT s.full_id, ref.primary_identifier AS group_name
+FROM sequences s
+JOIN dots.AaSequenceDbRef seqref ON s.aa_sequence_id = seqref.aa_sequence_id
+JOIN Sres.DbRef ref ON seqref.db_ref_id = ref.db_ref_id
+JOIN Sres.ExternalDatabase db ON ref.external_database_release_id = db.external_database_id
+JOIN Sres.ExternalDatabaseRelease dbr ON dbr.external_database_release_id = ref.external_database_release_id
+WHERE db.name = 'OrthoMCL Old Groups'
  		]]>
             </sql>
         </sqlQuery>
