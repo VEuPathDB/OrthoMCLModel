@@ -46,16 +46,6 @@ LEFT JOIN (
   FROM (
     SELECT ogas.aa_sequence_id, ogas.group_id
     FROM apidb.organism og
-    JOIN dots.externalaasequence deas 
-      ON deas.taxon_id = og.taxon_id
-    JOIN apidb.orthologgroupaasequence ogas 
-      ON ogas.aa_sequence_id = deas.aa_sequence_id
-    WHERE og.core_peripheral = 'core'
-
-    UNION ALL
-
-    SELECT ogas.aa_sequence_id, ogas.group_id
-    FROM apidb.organism og
     JOIN dots.aasequence das 
       ON das.taxon_id = og.taxon_id
     JOIN apidb.orthologgroupaasequence ogas 
@@ -68,16 +58,6 @@ LEFT JOIN (
 LEFT JOIN (
   SELECT COUNT(peripheral.aa_sequence_id) AS number_of_peripheral_members, group_id
   FROM (
-    SELECT ogas.aa_sequence_id, ogas.group_id
-    FROM apidb.organism og
-    JOIN dots.externalaasequence deas 
-      ON deas.taxon_id = og.taxon_id
-    JOIN apidb.orthologgroupaasequence ogas 
-      ON ogas.aa_sequence_id = deas.aa_sequence_id
-    WHERE og.core_peripheral = 'peripheral'
-
-    UNION ALL
-
     SELECT ogas.aa_sequence_id, ogas.group_id
     FROM apidb.organism og
     JOIN dots.aasequence das 
@@ -441,23 +421,22 @@ ON og.group_id = verbiage.ortholog_group_id
 	  <sql>
             <![CDATA[
 WITH prevgps AS (
-    SELECT 
-        new_group_id,
-        COUNT(*) AS cnt,
-        string_agg(old_group_id, ', ' ORDER BY old_group_id) AS prev_groups
-    FROM apidb.groupMapping
-    GROUP BY new_group_id
+  SELECT
+    old_group_id,
+    COUNT(new_group_id) AS cnt,
+    string_agg(new_group_id, ', ' ORDER BY new_group_id) AS new_groups
+  FROM apidb.groupMapping
+  GROUP BY old_group_id
+  ORDER BY old_group_id
 )
-SELECT 
-    og.group_id AS group_name,
-    prev_groups ||
-        CASE 
-            WHEN cnt > 6 THEN 
-                '...   <a href="#previousGroups">(See all ' || cnt || ' groups)</a>'
-        END AS previous_groups
+SELECT og.group_id AS group_name,
+       new_groups ||
+         CASE WHEN cnt > 6 THEN
+           '... <a href="#previousGroups">(See all ' || cnt || ' groups)</a>'
+         END AS previous_groups
 FROM prevgps pg
-LEFT JOIN apidb.orthologGroup og 
-    ON og.group_id = pg.new_group_id;
+LEFT JOIN apidb.orthologGroup og
+  ON og.group_id = pg.old_group_id
             ]]>
 	  </sql>
 	</sqlQuery>
@@ -628,10 +607,10 @@ FROM apidbtuning.PhyleticPattern
         <column name="group_id"/>
         <sql>
            <![CDATA[
-SELECT old_group_id AS group_id, new_group_id AS group_name
+SELECT old_group_id AS group_name, new_group_id AS group_id
 FROM apidb.groupmapping
 WHERE new_group_id <> old_group_id
-ORDER BY old_group_id DESC
+ORDER BY new_group_id DESC
           ]]>
         </sql>
       </sqlQuery>
@@ -985,9 +964,13 @@ INNER JOIN
           <column name="frequency" />
           <sql>
             <![CDATA[
-SELECT og.group_id AS group_name, d.description AS keyword, d.frequency
+SELECT 
+    og.group_id AS group_name, 
+    d.description AS keyword, 
+    d.frequency
 FROM apidb.OrthologGroup og
-INNER JOIN apidb.OrthomclGroupDomain d ON og.ortholog_group_id = d.ortholog_group_id
+INNER JOIN apidb.OrthomclGroupDomain d 
+    ON og.ortholog_group_id::text = d.ortholog_group_id
             ]]>
           </sql>
         </sqlQuery>

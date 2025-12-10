@@ -88,9 +88,9 @@
 			  integer="false"
 			  min="0"
 			  max="1"
-			  increment=".00001">
+			  increment=".01">
             <help>Set the minimum and maximum values of the median percent identity in the group (min: 0 max: 1)</help>
-            <suggest default="{'min':'0.00000', 'max':'.000001'}" />
+            <suggest default="{'min':'0', 'max':'0.01'}" />
         </numberRangeParam>
 
         <stringParam name="phyletic_expression" prompt="Expression" number="false">

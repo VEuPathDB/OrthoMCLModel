@@ -14,7 +14,8 @@
               <![CDATA[
                select og.NEW_GROUP_ID as group_name,
                       og.OLD_GROUP_ID as old_group_name
-              from apidb.groupmapping og
+               from apidb.groupmapping og
+               where og.NEW_GROUP_ID = og.OLD_GROUP_ID
               ]]>
             </sql>
         </sqlQuery>

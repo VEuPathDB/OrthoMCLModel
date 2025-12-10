@@ -160,7 +160,7 @@ WHERE db.name = 'OrthoMCL Old Groups'
             <column name="length"/>
             <sql>
                         <![CDATA[
-SELECT da.full_id as full_id, da.accession as accession, da.description as decription, da.domain_index as domain_index,
+SELECT da.full_id as full_id, da.accession as accession, da.description as description, da.domain_index as domain_index,
        (SELECT MAX(domain_index) FROM ApidbTuning.DomainAssignment) AS max_index,
        da.start_min as start_min, da.end_max as end_max, sa.length as length
 FROM ApidbTuning.DomainAssignment da
