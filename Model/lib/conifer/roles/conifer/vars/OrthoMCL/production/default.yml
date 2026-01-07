@@ -3,11 +3,8 @@
 modelconfig_adminEmail:
   - "{{ 'aurreco$uga.edu'|replace('$', '@') }}"
   - "{{ 'epharper$upenn.edu'|replace('$', '@') }}"
-  - "{{ 'dfalke$uga.edu'|replace('$', '@') }}"
   - "{{ 'rdoherty$upenn.edu'|replace('$', '@') }}"
   - "{{ 'sfischer$pcbi.upenn.edu'|replace('$', '@') }}"
-  - "{{ 'jtlong$upenn.edu'|replace('$', '@') }}"
-  - "{{ 'dmgaldi$upenn.edu'|replace('$', '@') }}"
 
 modelconfig_appDb_maxIdle: 10
 modelconfig_appDb_maxActive: 40
@@ -23,7 +20,7 @@ modelprop:
 
 community_env_map:
    w_prefix: static-content.veupathdb.org/
-   b_prefix: static-content.veupathdb.org/
+   b_prefix: qa.static-content.veupathdb.org/
    default: qa.static-content.veupathdb.org/
 
 # construct a prefix from hostname, like w_prefix, q_prefix
