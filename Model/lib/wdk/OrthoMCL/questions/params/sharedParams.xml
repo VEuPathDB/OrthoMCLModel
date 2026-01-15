@@ -162,9 +162,8 @@ recursive_enzyme_class AS (
         ec.ec_number, 
         ec.parent_id, 
         ec.enzyme_class_id, 
-        se.description
+        ec.description
     FROM sres.enzymeclass ec
-    LEFT JOIN apidbtuning.sequenceenzymeclass se ON ec.ec_number = se.ec_number
     WHERE ec.ec_number IN (SELECT ec_number FROM leaves)
 
     UNION ALL
@@ -174,10 +173,9 @@ recursive_enzyme_class AS (
         ec.ec_number, 
         ec.parent_id, 
         ec.enzyme_class_id, 
-        se.description
+        ec.description
     FROM sres.enzymeclass ec
-    JOIN recursive_enzyme_class rec ON rec.enzyme_class_id = ec.parent_id
-    LEFT JOIN apidbtuning.sequenceenzymeclass se ON ec.ec_number = se.ec_number
+    JOIN recursive_enzyme_class rec ON ec.enzyme_class_id = rec.parent_id
 )
 
 -- Final selection with filtering for non-null display
@@ -192,14 +190,6 @@ FROM (
                 ELSE rec.description
             END || ')' AS display
     FROM recursive_enzyme_class rec
-
-    UNION
-
-    SELECT 
-        l.ec_number AS term,
-        l.ec_number AS internal,
-        l.ec_number || ' (' || l.description || ')' AS display
-    FROM leaves l
 
     UNION
 
