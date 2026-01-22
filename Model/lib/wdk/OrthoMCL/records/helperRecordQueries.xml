@@ -65,10 +65,12 @@ FROM
             <column name="sort_index"/>
             <column name="common_name"/>
             <column name="name"/>
+            <column name="taxon_group"/>
+            <column name="color"/>	    
             <sql>
             <![CDATA[
 WITH RECURSIVE TaxonHierarchy AS (
-  -- Base case
+  -- Base case: major clades
   SELECT
     three_letter_abbrev,
     orthomcl_clade_id,
@@ -77,12 +79,21 @@ WITH RECURSIVE TaxonHierarchy AS (
     name AS taxon_group,
     parent_id
   FROM apidb.OrthomclClade
-  WHERE name IN ('Archaea', 'Bacteria', 'Alveolates', 'Amoebozoa', 'Euglenozoa',
-                 'Fungi', 'Metazoa', 'Other Eukaryota', 'Viridiplantae')
+  WHERE name IN (
+    'Archaea',
+    'Bacteria',
+    'Alveolates',
+    'Amoebozoa',
+    'Euglenozoa',
+    'Fungi',
+    'Metazoa',
+    'Other Eukaryota',
+    'Viridiplantae'
+  )
 
   UNION ALL
 
-  -- Recursive case
+  -- Recursive case: descend clade hierarchy
   SELECT
     child.three_letter_abbrev,
     child.orthomcl_clade_id,
@@ -91,23 +102,109 @@ WITH RECURSIVE TaxonHierarchy AS (
     parent.taxon_group,
     child.parent_id
   FROM apidb.OrthomclClade child
-  JOIN TaxonHierarchy parent ON child.parent_id = parent.orthomcl_clade_id
-) 
+  JOIN TaxonHierarchy parent
+    ON child.parent_id = parent.orthomcl_clade_id
+),
 
-SELECT 
+-- ------------------------------------------------------------------
+-- Taxon group → color mapping
+-- ------------------------------------------------------------------
+TaxonColors AS (
+  SELECT *
+  FROM (
+    VALUES
+      ('Archaea',           '#77CCDD'),
+      ('Bacteria',          '#99CC33'),
+      ('Alveolates',        '#CC3399'),
+      ('Amoebozoa',         '#3399CC'),
+      ('Euglenozoa',        '#CCCC66'),
+      ('Fungi',             '#AA44DD'),
+      ('Metazoa',           '#CC6666'),
+      ('Other Eukaryota',   '#CC9999'),
+      ('Viridiplantae',     '#CC9933')
+  ) AS t(taxon_group, color)
+),
+
+-- ------------------------------------------------------------------
+-- Root taxon rows (non-species)
+-- ------------------------------------------------------------------
+RootTaxons AS (
+  SELECT
+    'helper' AS helper_id,
+    orthomcl_clade_id AS taxon_id,
+    orthomcl_clade_id AS parent_id,
+    three_letter_abbrev AS abbreviation,
+    0 AS is_species,
+    name,
+    name AS common_name,
+    name AS taxon_group,
+    ROW_NUMBER() OVER (ORDER BY name) AS sort_index
+  FROM apidb.OrthomclClade
+  WHERE name IN (
+    'Archaea',
+    'Bacteria',
+    'Alveolates',
+    'Amoebozoa',
+    'Euglenozoa',
+    'Fungi',
+    'Metazoa',
+    'Other Eukaryota',
+    'Viridiplantae'
+  )
+),
+
+-- ------------------------------------------------------------------
+-- Species rows (FIXED parent_id)
+-- ------------------------------------------------------------------
+SpeciesTaxons AS (
+  SELECT
     'helper' AS helper_id,
     og.taxon_id AS taxon_id,
-    og.taxon_id AS parent_id,
+
+    -- FIX: parent_id now points to the correct root clade
+    root.orthomcl_clade_id AS parent_id,
+
     og.orthomcl_abbrev AS abbreviation,
-    1 as is_species,
-    tn.name as name,
-    tn.name as common_name,
+    1 AS is_species,
+    tn.name AS name,
+    tn.name AS common_name,
     cats.taxon_group,
-    ROW_NUMBER() OVER (ORDER BY cats.taxon_group NULLS FIRST, tn.name) AS sort_index
-FROM apidb.Organism og
-LEFT JOIN sres.taxonname tn ON og.taxon_id = tn.taxon_id
-LEFT JOIN taxonHierarchy cats ON og.orthomcl_abbrev = cats.three_letter_abbrev
-ORDER BY cats.taxon_group NULLS FIRST, tn.name
+    ROW_NUMBER() OVER (
+      ORDER BY cats.taxon_group NULLS FIRST, tn.name
+    ) AS sort_index
+  FROM apidb.Organism og
+  LEFT JOIN TaxonHierarchy cats
+    ON og.orthomcl_abbrev = cats.three_letter_abbrev
+  LEFT JOIN sres.taxonname tn
+    ON og.taxon_id = tn.taxon_id
+    AND cats.name = tn.name
+
+  -- Join to root clade by taxon_group name
+  LEFT JOIN apidb.OrthomclClade root
+    ON root.name = cats.taxon_group
+
+  WHERE og.is_annotated_genome = 1
+),
+
+-- ------------------------------------------------------------------
+-- Combined result with color
+-- ------------------------------------------------------------------
+AllTaxons AS (
+  SELECT * FROM RootTaxons
+  UNION ALL
+  SELECT * FROM SpeciesTaxons
+)
+
+SELECT
+  a.*,
+  c.color
+FROM AllTaxons a
+LEFT JOIN TaxonColors c
+  ON a.taxon_group = c.taxon_group
+ORDER BY
+  is_species,
+  taxon_group NULLS FIRST,
+  sort_index
 			]]>
             </sql>
         </sqlQuery>

@@ -41,7 +41,8 @@
                 <columnAttribute name="is_species" displayName="Is Species" />
                 <columnAttribute name="sort_index" displayName="Sorting Index" />
                 <columnAttribute name="common_name" displayName="Common Name" />    
-                <columnAttribute name="name" displayName="Name" />
+                <columnAttribute name="taxon_group" displayName="Taxon Group" />
+                <columnAttribute name="color" displayName="Color" />		
             </table>
   
 
