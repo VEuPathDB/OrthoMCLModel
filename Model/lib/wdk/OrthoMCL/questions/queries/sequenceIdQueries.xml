@@ -129,8 +129,12 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
                 <![CDATA[
 SELECT DISTINCT aas.source_id AS full_id
 FROM dots.aasequence aas
-JOIN dots.AaSequenceEnzymeClass asec ON aas.aa_sequence_id = asec.aa_sequence_id
-JOIN sres.enzymeClass ec ON asec.enzyme_class_id = ec.enzyme_class_id
+JOIN apidb.orthologgroupaasequence ogas
+  ON aas.aa_sequence_id = ogas.aa_sequence_id
+JOIN dots.AaSequenceEnzymeClass asec
+  ON aas.aa_sequence_id = asec.aa_sequence_id
+JOIN sres.enzymeClass ec
+  ON asec.enzyme_class_id = ec.enzyme_class_id
                  ]]>
             </sql>
         </sqlQuery>
@@ -142,8 +146,12 @@ JOIN sres.enzymeClass ec ON asec.enzyme_class_id = ec.enzyme_class_id
                 <![CDATA[
 SELECT DISTINCT aas.source_id AS full_id
 FROM dots.aasequence aas
-JOIN dots.AaSequenceEnzymeClass asec ON aas.aa_sequence_id = asec.aa_sequence_id
-JOIN sres.enzymeClass ec ON asec.enzyme_class_id = ec.enzyme_class_id
+JOIN apidb.orthologgroupaasequence ogas
+  ON aas.aa_sequence_id = ogas.aa_sequence_id
+JOIN dots.AaSequenceEnzymeClass asec
+  ON aas.aa_sequence_id = asec.aa_sequence_id
+JOIN sres.enzymeClass ec
+  ON asec.enzyme_class_id = ec.enzyme_class_id
                  ]]>
             </sql>
         </sqlQuery>

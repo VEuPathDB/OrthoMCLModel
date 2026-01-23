@@ -29,9 +29,10 @@
        </defaultTestParamValues>
 
         <testRowCountSql>
-            SELECT count(*) FROM dots.aasequence
-            WHERE taxon_id in (select distinct(aas.taxon_id) from apidb.organism og, dots.aasequence aas where aas.taxon_id = og.taxon_id) 
-        </testRowCountSql>
+            SELECT count(*) FROM dots.aasequence aas, apidbTuning.SequenceAttributes sa
+            WHERE aas.taxon_id in (select distinct(aas.taxon_id) from apidb.organism og, dots.aasequence aas where aas.taxon_id = og.taxon_id)
+	    AND aas.aa_sequence_id = sa.aa_sequence_id
+         </testRowCountSql>
 
 
         <sqlQuery name="SequenceAttrs">
