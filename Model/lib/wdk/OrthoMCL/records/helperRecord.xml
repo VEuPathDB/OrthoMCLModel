@@ -35,14 +35,13 @@
             <table name="Taxons"
                    displayName="Taxons"
                    queryRef="HelperTables.Taxons">
-                <columnAttribute name="taxon_id" displayName="Taxon Id" />
-                <columnAttribute name="parent_id" displayName="Parent Id" />
-                <columnAttribute name="abbreviation" displayName="Abbreviation" />
-                <columnAttribute name="is_species" displayName="Is Species" />
-                <columnAttribute name="sort_index" displayName="Sorting Index" />
-                <columnAttribute name="common_name" displayName="Common Name" />    
-                <columnAttribute name="taxon_group" displayName="Taxon Group" />
-                <columnAttribute name="color" displayName="Color" />		
+                <columnAttribute name="orthomcl_clade_id" displayName="orthomcl_clade_id"/>
+                <columnAttribute name="taxon_group" displayName="taxon_group"/>
+                <columnAttribute name="parent_id" displayName="parent_id"/>
+                <columnAttribute name="three_letter_abbrev" displayName="three_letter_abbrev"/>
+                <columnAttribute name="name" displayName="name"/>
+                <columnAttribute name="color" displayName="color"/>
+                <columnAttribute name="core_peripheral" displayName="core_peripheral"/>
             </table>
   
 
@@ -79,8 +78,11 @@
             </table>
 
             <table name="RootTaxons" queryRef="HelperTables.RootTaxons">
-                <columnAttribute name="taxon_abbrev" />
-                <columnAttribute name="color" />
+	      <columnAttribute name="orthomcl_clade_id" displayName="Orthomcl Clade Id" />
+	      <columnAttribute name="parent_id" displayName="Parent Id" />
+	      <columnAttribute name="taxon_abbrev" displayName="Taxon Abbrev" />
+	      <columnAttribute name="color" displayName="Color" />
+	      <columnAttribute name="name" displayName="Name" />
             </table>
 
         </recordClass>
