@@ -66,7 +66,7 @@ FROM
             <column name="common_name"/>
             <column name="name"/>
             <column name="taxon_group"/>
-            <column name="color"/>	    
+            <column name="color"/>
             <sql>
             <![CDATA[
 WITH RECURSIVE TaxonHierarchy AS (

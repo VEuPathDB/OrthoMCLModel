@@ -2,9 +2,11 @@ package org.orthomcl.service.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.gusdb.wdk.model.WdkModel;
 import org.gusdb.wdk.model.WdkModelException;
@@ -30,6 +32,44 @@ public class TaxonManager {
   }
 
   private static synchronized Map<String, Taxon> loadTaxons(WdkModel wdkModel) throws WdkModelException {
+    try {
+      Map<String, Taxon> outputMap = new HashMap<>();
+      Map<Integer, Taxon> taxonIdMap = new HashMap<>();
+      TableValue taxonTable = HelperRecord.get(wdkModel).getTableValueMap().get(TABLE_TAXONS);
+      for (Map<String, AttributeValue> row : taxonTable) {
+        // columns: taxon_id | parent_id | abbreviation | is_species | name | common_name | taxon_group | sort_index |  color
+        Taxon taxon = new Taxon(Integer.valueOf(row.get("taxon_id").getValue()));
+        taxon.setAbbrev(row.get("abbreviation").getValue());
+        taxon.setSpecies(row.get("is_species").getValue().toString().equals("1"));
+        taxon.setName(row.get("name").getValue());
+        taxon.setCommonName(row.get("common_name").getValue());
+        taxon.setSortIndex(Integer.valueOf(row.get("sort_index").getValue()));
+        taxon.setParentId(Integer.valueOf(row.get("parent_id").getValue()));
+        taxon.setColor(row.get("color").getValue());
+        taxon.setTaxonGroup(row.get("taxon_group").getValue());
+
+        // add to output map
+        outputMap.put(taxon.getAbbrev(), taxon);
+
+        // temporary map used only to assign children
+        taxonIdMap.put(taxon.getId(), taxon);
+      }
+
+      // assign children
+      for (Taxon taxon : outputMap.values()) {
+        if (!taxon.isClade()) {
+          taxonIdMap.get(taxon.getParentId()).addChild(taxon);
+        }
+      }
+
+      return outputMap;
+    }
+    catch (WdkUserException e) {
+      throw new WdkModelException("Unable to generate taxon cache", e);
+    }
+  }
+/*
+  private static synchronized Map<String, Taxon> loadTaxonsOld(WdkModel wdkModel) throws WdkModelException {
     try {
       RecordInstance record = HelperRecord.get(wdkModel);
   
@@ -60,7 +100,7 @@ public class TaxonManager {
           Taxon parent = newTaxons.get(abbreviations.get(parentId));
           if (taxon != parent) {
             taxon.setParent(parent);
-            parent.addChildren(taxon);
+            parent.addChild(taxon);
           }
         }
       }
@@ -121,4 +161,5 @@ public class TaxonManager {
       RenderingHelper.assignRandomColors(list);
     }
   }
+*/
 }
