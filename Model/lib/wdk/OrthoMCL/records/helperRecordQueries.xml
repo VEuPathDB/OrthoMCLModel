@@ -57,6 +57,7 @@ FROM
        </defaultTestParamValues>
 
        <sqlQuery name="Taxons" isCacheable="true">
+            <column name="helper_id"/>	 
             <column name="orthomcl_clade_id"/>
             <column name="taxon_group"/>
             <column name="parent_id"/>
@@ -146,6 +147,7 @@ ResolvedColors AS (
 )
 
 SELECT
+  'helper' AS helper_id, 
   h.*,
   rc.color
 FROM TaxonHierarchy h
@@ -244,6 +246,7 @@ ORDER BY tn.name
 
 
 	<sqlQuery name="RootTaxons" isCacheable="true">
+           <column name="helper_id"/>	  
            <column name="orthomcl_clade_id"/>  
            <column name="parent_id"/>
            <column name="taxon_abbrev"/>
@@ -305,6 +308,7 @@ ColoredHierarchy AS (
 )
 
 SELECT
+  'helper' AS helper_id, 
   c.orthomcl_clade_id,
   c.parent_id,
   c.name,
