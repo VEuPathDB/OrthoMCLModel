@@ -57,14 +57,14 @@ FROM
        </defaultTestParamValues>
 
        <sqlQuery name="Taxons" isCacheable="true">
-            <column name="helper_id"/>	 
+            <column name="helper_id"/>
             <column name="orthomcl_clade_id"/>
             <column name="taxon_group"/>
             <column name="parent_id"/>
             <column name="three_letter_abbrev"/>
             <column name="name"/>
             <column name="color"/>
-            <column name="core_peripheral"/>	    	    
+            <column name="core_peripheral"/>
             <sql>
             <![CDATA[
 WITH RECURSIVE
@@ -161,7 +161,7 @@ WHERE h.core_peripheral IN ('C', 'P')
       AND o.is_annotated_genome = 1
   )
 ORDER BY h.taxon_group, h.name
-			]]>
+]]>
             </sql>
         </sqlQuery>
 
@@ -247,11 +247,11 @@ ORDER BY tn.name
 
 	<sqlQuery name="RootTaxons" isCacheable="true">
            <column name="helper_id"/>	  
-           <column name="orthomcl_clade_id"/>  
+           <column name="orthomcl_clade_id"/>
            <column name="parent_id"/>
            <column name="taxon_abbrev"/>
            <column name="color"/>
-           <column name="name"/>	   
+           <column name="name"/>
            <sql>
            <![CDATA[
 WITH RECURSIVE

@@ -17,7 +17,7 @@ public class Taxon implements Comparable<Taxon>, Renderable, ToJson {
   private int sortIndex;
   private boolean species;
   private String taxonGroup;
-  private int parentId;
+  private Integer parentId;
   private Taxon parent;
   private Taxon root;
   private String groupColor;
@@ -84,11 +84,11 @@ public class Taxon implements Comparable<Taxon>, Renderable, ToJson {
     this.species = species;
   }
 
-  public int getParentId() {
+  public Integer getParentId() {
     return parentId;
   }
 
-  public void setParentId(int parentId) {
+  public void setParentId(Integer parentId) {
     this.parentId = parentId;
   }
 
@@ -113,6 +113,7 @@ public class Taxon implements Comparable<Taxon>, Renderable, ToJson {
 
   public void addChild(Taxon child) {
     this.children.put(child.getId(), child);
+    child.setSortIndex(children.size());
   }
 
   public Taxon getRoot() {

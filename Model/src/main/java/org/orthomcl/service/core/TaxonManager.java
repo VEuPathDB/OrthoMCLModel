@@ -1,20 +1,15 @@
 package org.orthomcl.service.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.gusdb.wdk.model.WdkModel;
 import org.gusdb.wdk.model.WdkModelException;
 import org.gusdb.wdk.model.WdkUserException;
-import org.gusdb.wdk.model.record.RecordInstance;
 import org.gusdb.wdk.model.record.TableValue;
 import org.gusdb.wdk.model.record.attribute.AttributeValue;
-import org.orthomcl.service.core.layout.RenderingHelper;
 
 public class TaxonManager {
 
@@ -33,133 +28,81 @@ public class TaxonManager {
 
   private static synchronized Map<String, Taxon> loadTaxons(WdkModel wdkModel) throws WdkModelException {
     try {
-      Map<String, Taxon> outputMap = new HashMap<>();
-      Map<Integer, Taxon> taxonIdMap = new HashMap<>();
-      TableValue taxonTable = HelperRecord.get(wdkModel).getTableValueMap().get(TABLE_TAXONS);
-      for (Map<String, AttributeValue> row : taxonTable) {
-        // columns: taxon_id | parent_id | abbreviation | is_species | name | common_name | taxon_group | sort_index |  color
-        Taxon taxon = new Taxon(Integer.valueOf(row.get("taxon_id").getValue()));
-        taxon.setAbbrev(row.get("abbreviation").getValue());
-        taxon.setSpecies(row.get("is_species").getValue().toString().equals("1"));
-        taxon.setName(row.get("name").getValue());
-        taxon.setCommonName(row.get("common_name").getValue());
-        taxon.setSortIndex(Integer.valueOf(row.get("sort_index").getValue()));
-        taxon.setParentId(Integer.valueOf(row.get("parent_id").getValue()));
+      // get helper record tables
+      Map<String, TableValue> tables = HelperRecord.get(wdkModel).getTableValueMap();
+
+      // map to hold return value (abbrev -> Taxon)
+      Map<String, Taxon> result = new LinkedHashMap<>();
+
+      // first load the clade tree
+      TableValue cladeTable = tables.get(TABLE_ROOTS);
+      Map<Integer,Taxon> cladeIdMap = new LinkedHashMap<>();
+      for (Map<String, AttributeValue> row : cladeTable) {
+        Taxon taxon = new Taxon(Integer.valueOf(row.get("orthomcl_clade_id").getValue()));
+        taxon.setSpecies(false);
+        String parentIdStr = row.get("parent_id").getValue();
+        if (parentIdStr != null)
+          taxon.setParentId(Integer.valueOf(parentIdStr));
+        taxon.setAbbrev(row.get("taxon_abbrev").getValue());
+        taxon.setTaxonGroup(taxon.getAbbrev());
         taxon.setColor(row.get("color").getValue());
-        taxon.setTaxonGroup(row.get("taxon_group").getValue());
-
-        // add to output map
-        outputMap.put(taxon.getAbbrev(), taxon);
-
-        // temporary map used only to assign children
-        taxonIdMap.put(taxon.getId(), taxon);
+        taxon.setGroupColor(taxon.getColor());
+        taxon.setName(row.get("name").getValue());
+        taxon.setCommonName(taxon.getName());
+        // sort index will be assigned during tree creation
+        cladeIdMap.put(taxon.getId(), taxon);
+        result.put(taxon.getAbbrev(), taxon);
       }
 
-      // assign children
-      for (Taxon taxon : outputMap.values()) {
-        if (!taxon.isClade()) {
-          taxonIdMap.get(taxon.getParentId()).addChild(taxon);
+      // build out clade tree
+      for (Taxon taxon : cladeIdMap.values()) {
+        Integer parentId = taxon.getParentId();
+        if (parentId != null) {
+          Taxon parent = cladeIdMap.get(taxon.getParentId());
+          if (parent == null)
+            throw new WdkModelException("Clade with ID " + taxon.getId() + " has parent ID " + parentId + " which does not match any clade.");
+          taxon.setParent(parent);
+          parent.addChild(taxon);
         }
       }
 
-      return outputMap;
+      // load species (leaves)
+      TableValue taxonTable = tables.get(TABLE_TAXONS);
+      List<Taxon> taxonList = new ArrayList<>();
+      for (Map<String, AttributeValue> row : taxonTable) {
+        Taxon taxon = new Taxon(Integer.valueOf(row.get("orthomcl_clade_id").getValue()));
+        taxon.setSpecies(true);
+        String parentIdStr = row.get("parent_id").getValue();
+        if (parentIdStr != null)
+          // setting this but current understanding is this is unused; species are assigned to clades based on name
+          taxon.setParentId(Integer.valueOf(parentIdStr));
+        else
+          throw new WdkModelException("Species row with ID " + taxon.getId() + " does not have a parent (only clades cannot have parents).");
+        taxon.setAbbrev(row.get("three_letter_abbrev").getValue());
+        taxon.setTaxonGroup(row.get("taxon_group").getValue()); // must match a clade name
+        taxon.setColor(row.get("color").getValue());
+        taxon.setGroupColor(taxon.getColor());
+        taxon.setName(row.get("name").getValue());
+        taxon.setCommonName(taxon.getName());
+        // sort index will be assigned during tree creation
+        taxonList.add(taxon);
+        result.put(taxon.getAbbrev(), taxon);
+      }
+
+      // assign children
+      for (Taxon taxon : taxonList) {
+        Taxon parent = result.get(taxon.getTaxonGroup());
+        if (parent == null)
+          throw new WdkModelException("Species with ID " + taxon.getId() + " has taxon_group " + taxon.getTaxonGroup() + " which does not match any clade.");
+        taxon.setParent(parent);
+        parent.addChild(taxon);
+      }
+
+      return result;
     }
     catch (WdkUserException e) {
       throw new WdkModelException("Unable to generate taxon cache", e);
     }
   }
-/*
-  private static synchronized Map<String, Taxon> loadTaxonsOld(WdkModel wdkModel) throws WdkModelException {
-    try {
-      RecordInstance record = HelperRecord.get(wdkModel);
-  
-      Map<String, Taxon> newTaxons = new LinkedHashMap<>();
-      Map<Integer, Integer> parents = new HashMap<>();
-      Map<Integer, String> abbreviations = new HashMap<>();
-      Map<String, TableValue> tables = record.getTableValueMap();
-  
-      TableValue taxonTable = tables.get(TABLE_TAXONS);
-      for (Map<String, AttributeValue> row : taxonTable) {
-        Taxon taxon = new Taxon(Integer.valueOf(row.get("taxon_id").getValue()));
-        taxon.setAbbrev(row.get("abbreviation").getValue());
-        taxon.setSpecies(row.get("is_species").getValue().toString().equals("1"));
-        taxon.setName(row.get("name").getValue());
-        taxon.setCommonName(row.get("name").getValue());
-        taxon.setSortIndex(Integer.valueOf(row.get("sort_index").getValue()));
-        newTaxons.put(taxon.getAbbrev(), taxon);
-        abbreviations.put(taxon.getId(), taxon.getAbbrev());
-  
-        int parentId = Integer.valueOf(row.get("parent_id").getValue());
-        parents.put(taxon.getId(), parentId);
-      }
-  
-      // resolve parent/children
-      for (Taxon taxon : newTaxons.values()) {
-        int parentId = parents.get(taxon.getId());
-        if (taxon.getId() != parentId || abbreviations.containsKey(parentId)) {
-          Taxon parent = newTaxons.get(abbreviations.get(parentId));
-          if (taxon != parent) {
-            taxon.setParent(parent);
-            parent.addChild(taxon);
-          }
-        }
-      }
-  
-      // assign root to each taxon
-      TableValue rootTable = tables.get(TABLE_ROOTS);
-      assignRoots(newTaxons, rootTable);
-  
-      // assign colors
-      assignColors(newTaxons);
-  
-      return newTaxons;
-    }
-    catch (WdkUserException e) {
-      throw new WdkModelException("Could not load taxons", e);
-    }
-  }
 
-  private static void assignRoots(Map<String, Taxon> taxons, TableValue rootTable) throws WdkModelException,
-      WdkUserException {
-    Map<String, String> roots = new HashMap<>();
-    for (Map<String, AttributeValue> row : rootTable) {
-      String abbrev = row.get("taxon_abbrev").getValue();
-      String groupColor = row.get("color").getValue();
-      roots.put(abbrev, groupColor);
-      taxons.get(abbrev).setGroupColor(groupColor);
-    }
-
-    for (Taxon taxon : taxons.values()) {
-      if (!taxon.isSpecies())
-        continue;
-      Taxon parent = taxon.getParent();
-      while (parent != null) {
-        if (roots.containsKey(parent.getAbbrev())) {
-          taxon.setRoot(parent);
-          break;
-        }
-        parent = parent.getParent();
-      }
-    }
-  }
-
-  private static void assignColors(Map<String, Taxon> taxons) {
-    // only assign colors to species, and group species by roots
-    Map<String, List<Taxon>> species = new HashMap<>();
-    for (Taxon taxon : taxons.values()) {
-      if (taxon.isSpecies()) {
-        String rootId = taxon.getRoot().getAbbrev();
-        List<Taxon> list = species.get(rootId);
-        if (list == null) {
-          list = new ArrayList<>();
-          species.put(rootId, list);
-        }
-        list.add(taxon);
-      }
-    }
-    for (List<Taxon> list : species.values()) {
-      RenderingHelper.assignRandomColors(list);
-    }
-  }
-*/
 }
