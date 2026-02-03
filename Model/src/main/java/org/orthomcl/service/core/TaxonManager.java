@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.gusdb.wdk.model.WdkModel;
 import org.gusdb.wdk.model.WdkModelException;
@@ -92,8 +93,10 @@ public class TaxonManager {
       // assign children
       for (Taxon taxon : taxonList) {
         Taxon parent = result.get(taxon.getTaxonGroup());
-        if (parent == null)
-          throw new WdkModelException("Species with ID " + taxon.getId() + " has taxon_group " + taxon.getTaxonGroup() + " which does not match any clade.");
+        if (parent == null || parent.isSpecies())
+          throw new WdkModelException("Species with ID " + taxon.getId() + " has taxon_group " +
+              taxon.getTaxonGroup() + " which does not match any clade.  Available clades: " +
+              taxonList.stream().filter(t -> t.isClade()).map(Taxon::getAbbrev).collect(Collectors.joining(", ")));
         taxon.setParent(parent);
         parent.addChild(taxon);
       }
