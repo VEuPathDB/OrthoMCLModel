@@ -43,11 +43,11 @@ public class TaxonManager {
         String parentIdStr = row.get("parent_id").getValue();
         if (parentIdStr != null)
           taxon.setParentId(Integer.valueOf(parentIdStr));
-        taxon.setAbbrev(row.get("taxon_abbrev").getValue());
+        taxon.setAbbrev(row.get("taxon_abbrev").getValue().trim());
         taxon.setTaxonGroup(taxon.getAbbrev());
         taxon.setColor(row.get("color").getValue());
         taxon.setGroupColor(taxon.getColor());
-        taxon.setName(row.get("name").getValue());
+        taxon.setName(row.get("name").getValue().trim());
         taxon.setCommonName(taxon.getName());
         // sort index will be assigned during tree creation
         cladeIdMap.put(taxon.getId(), taxon);
@@ -78,11 +78,11 @@ public class TaxonManager {
           taxon.setParentId(Integer.valueOf(parentIdStr));
         else
           throw new WdkModelException("Species row with ID " + taxon.getId() + " does not have a parent (only clades cannot have parents).");
-        taxon.setAbbrev(row.get("three_letter_abbrev").getValue());
+        taxon.setAbbrev(row.get("three_letter_abbrev").getValue().trim());
         taxon.setTaxonGroup(row.get("taxon_group").getValue()); // must match a clade name
         taxon.setColor(row.get("color").getValue());
         taxon.setGroupColor(taxon.getColor());
-        taxon.setName(row.get("name").getValue());
+        taxon.setName(row.get("name").getValue().trim());
         taxon.setCommonName(taxon.getName());
         // sort index will be assigned during tree creation
         taxonList.add(taxon);
