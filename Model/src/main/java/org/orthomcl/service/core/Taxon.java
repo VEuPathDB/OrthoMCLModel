@@ -148,6 +148,9 @@ public class Taxon implements Comparable<Taxon>, Renderable, ToJson {
   public String getGroupColor() {
     if (groupColor == null && parent != null)
       groupColor = parent.getGroupColor();
+    if (groupColor == null) {
+      return "#000000"; // always have a group color (black as default)
+    }
     return groupColor;
   }
 
@@ -200,7 +203,7 @@ public class Taxon implements Comparable<Taxon>, Renderable, ToJson {
       .put("commonName", commonName)
       .put("sortIndex", sortIndex)
       .put("species", isSpecies)
-      .put("groupColor", groupColor)
+      .put("groupColor", getGroupColor())
       .put("color", color)
       .put("children", ToJson.mapToJson(children));
   }
