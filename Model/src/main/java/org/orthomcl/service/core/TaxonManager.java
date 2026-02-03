@@ -79,7 +79,7 @@ public class TaxonManager {
         else
           throw new WdkModelException("Species row with ID " + taxon.getId() + " does not have a parent (only clades cannot have parents).");
         taxon.setAbbrev(row.get("three_letter_abbrev").getValue().trim());
-        taxon.setTaxonGroup(row.get("taxon_group").getValue()); // must match a clade name
+        taxon.setTaxonGroup(row.get("taxon_group").getValue().trim()); // must match a clade name
         taxon.setColor(row.get("color").getValue());
         taxon.setGroupColor(taxon.getColor());
         taxon.setName(row.get("name").getValue().trim());
