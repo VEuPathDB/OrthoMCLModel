@@ -15,7 +15,7 @@ public class Taxon implements Comparable<Taxon>, Renderable, ToJson {
   private String name;
   private String commonName;
   private int sortIndex;
-  private boolean species;
+  private boolean isSpecies;
   private String taxonGroup;
   private Integer parentId;
   private Taxon parent;
@@ -33,7 +33,7 @@ public class Taxon implements Comparable<Taxon>, Renderable, ToJson {
   }
 
   public boolean isClade() {
-    return id == parentId;
+    return !isSpecies;
   }
 
   public String getAbbrev() {
@@ -77,11 +77,11 @@ public class Taxon implements Comparable<Taxon>, Renderable, ToJson {
   }
 
   public boolean isSpecies() {
-    return species;
+    return isSpecies;
   }
 
   public void setSpecies(boolean species) {
-    this.species = species;
+    this.isSpecies = species;
   }
 
   public Integer getParentId() {
@@ -199,7 +199,7 @@ public class Taxon implements Comparable<Taxon>, Renderable, ToJson {
       .put("name", name)
       .put("commonName", commonName)
       .put("sortIndex", sortIndex)
-      .put("species", species)
+      .put("species", isSpecies)
       .put("groupColor", groupColor)
       .put("color", color)
       .put("children", ToJson.mapToJson(children));
