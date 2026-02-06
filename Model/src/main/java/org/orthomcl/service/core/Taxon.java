@@ -113,7 +113,7 @@ public class Taxon implements Comparable<Taxon>, Renderable, ToJson {
 
   public void addChild(Taxon child) {
     this.children.put(child.getId(), child);
-    child.setSortIndex(children.size());
+    //child.setSortIndex(children.size());
   }
 
   public Taxon getRoot() {

@@ -34,6 +34,9 @@ public class TaxonManager {
       // map to hold return value (abbrev -> Taxon)
       Map<String, Taxon> result = new LinkedHashMap<>();
 
+      // initialize universal sort index
+      int sortIndex = 1;
+
       // first load the clade tree
       TableValue cladeTable = tables.get(TABLE_ROOTS);
       Map<Integer,Taxon> cladeIdMap = new LinkedHashMap<>();
@@ -49,7 +52,7 @@ public class TaxonManager {
         taxon.setGroupColor(taxon.getColor());
         taxon.setName(row.get("name").getValue().trim());
         taxon.setCommonName(taxon.getName());
-        // sort index will be assigned during tree creation
+        taxon.setSortIndex(sortIndex++);
         cladeIdMap.put(taxon.getId(), taxon);
         result.put(taxon.getAbbrev(), taxon);
       }
@@ -84,7 +87,7 @@ public class TaxonManager {
         taxon.setGroupColor(taxon.getColor());
         taxon.setName(row.get("name").getValue().trim());
         taxon.setCommonName(taxon.getName());
-        // sort index will be assigned during tree creation
+        taxon.setSortIndex(sortIndex++);
         taxonList.add(taxon);
         result.put(taxon.getAbbrev(), taxon);
       }
