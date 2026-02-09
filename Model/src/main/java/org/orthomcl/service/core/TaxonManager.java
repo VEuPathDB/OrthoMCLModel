@@ -73,6 +73,7 @@ public class TaxonManager {
       List<Taxon> taxonList = new ArrayList<>();
       for (Map<String, AttributeValue> row : taxonTable) {
         Taxon taxon = new Taxon(Integer.valueOf(row.get("orthomcl_clade_id").getValue()));
+        if (result.containsKey(taxon.getId())) continue;
         taxon.setSpecies(true);
         Integer parentId = Integer.valueOf(row.get("parent_id").getValue());
         taxon.setAbbrev(row.get("three_letter_abbrev").getValue().trim());
