@@ -78,13 +78,15 @@ public class TaxonManager {
         taxon.setAbbrev(row.get("three_letter_abbrev").getValue().trim());
         taxon.setParentId(Integer.valueOf(row.get("parent_id").getValue()));
         taxon.setTaxonGroup(row.get("taxon_group").getValue().trim());
-        if (cladeIdMap.containsKey(taxon.getId())) {
-          Taxon old = cladeIdMap.get(taxon.getId());
+
+        if (result.containsKey(taxon.getAbbrev())) {
+          Taxon old = result.get(taxon.getAbbrev());
           LOG.info("Found duplicate taxon and will skip new one!");
           LOG.info("Old: "+ old.getId() + "(" + old.getAbbrev() + "), parent " + old.getParentId() + ", group " + old.getTaxonGroup());
           LOG.info("New: "+ taxon.getId() + "(" + taxon.getAbbrev() + "), parent " + taxon.getParentId() + ", group " + taxon.getTaxonGroup());
           continue;
         }
+
         taxon.setSpecies(true);
         taxon.setColor(row.get("color").getValue());
         taxon.setName(row.get("name").getValue().trim());
