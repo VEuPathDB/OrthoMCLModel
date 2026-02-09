@@ -148,9 +148,9 @@ public class Taxon implements Comparable<Taxon>, Renderable, ToJson {
   public String getGroupColor() {
     if (groupColor == null && parent != null)
       groupColor = parent.getGroupColor();
-    if (groupColor == null) {
-      return "#000000"; // always have a group color (black as default)
-    }
+    //if (groupColor == null) {
+    //  return "#000000"; // always have a group color (black as default)
+    //}
     return groupColor;
   }
 

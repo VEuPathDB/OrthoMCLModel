@@ -48,8 +48,7 @@ public class TaxonManager {
           taxon.setParentId(Integer.valueOf(parentIdStr));
         taxon.setAbbrev(row.get("taxon_abbrev").getValue().trim());
         taxon.setTaxonGroup(taxon.getAbbrev());
-        taxon.setColor(row.get("color").getValue());
-        taxon.setGroupColor(taxon.getColor());
+        taxon.setGroupColor(row.get("color").getValue());
         taxon.setName(row.get("name").getValue().trim());
         taxon.setCommonName(taxon.getName());
         taxon.setSortIndex(sortIndex++);
@@ -84,7 +83,6 @@ public class TaxonManager {
         taxon.setAbbrev(row.get("three_letter_abbrev").getValue().trim());
         taxon.setTaxonGroup(row.get("taxon_group").getValue().trim()); // must match a clade name
         taxon.setColor(row.get("color").getValue());
-        taxon.setGroupColor(taxon.getColor());
         taxon.setName(row.get("name").getValue().trim());
         taxon.setCommonName(taxon.getName());
         taxon.setSortIndex(sortIndex++);
