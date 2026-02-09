@@ -74,12 +74,7 @@ public class TaxonManager {
       for (Map<String, AttributeValue> row : taxonTable) {
         Taxon taxon = new Taxon(Integer.valueOf(row.get("orthomcl_clade_id").getValue()));
         taxon.setSpecies(true);
-        String parentIdStr = row.get("parent_id").getValue();
-        if (parentIdStr != null)
-          // setting this but current understanding is this is unused; species are assigned to clades based on name
-          taxon.setParentId(Integer.valueOf(parentIdStr));
-        else
-          throw new WdkModelException("Species row with ID " + taxon.getId() + " does not have a parent (only clades cannot have parents).");
+        Integer parentId = Integer.valueOf(row.get("parent_id").getValue());
         taxon.setAbbrev(row.get("three_letter_abbrev").getValue().trim());
         taxon.setTaxonGroup(row.get("taxon_group").getValue().trim()); // must match a clade name
         taxon.setColor(row.get("color").getValue());
@@ -88,10 +83,17 @@ public class TaxonManager {
         taxon.setSortIndex(sortIndex++);
         taxonList.add(taxon);
         result.put(taxon.getAbbrev(), taxon);
+
+        // assign parent (same logic as above)
+        Taxon parent = cladeIdMap.get(parentId);
+        if (parent == null)
+          throw new WdkModelException("Species with ID " + taxon.getId() + " has parent ID " + parentId + " which does not match any clade.");
+        taxon.setParent(parent);
+        parent.addChild(taxon);
       }
 
       // assign children
-      for (Taxon taxon : taxonList) {
+/*      for (Taxon taxon : taxonList) {
         Taxon parent = result.values().stream()
             .filter(Taxon::isClade)
             .filter(t -> t.getName().equals(taxon.getTaxonGroup()))
@@ -100,7 +102,7 @@ public class TaxonManager {
                 taxon.getTaxonGroup() + " which does not match any clade."));
         taxon.setParent(parent);
         parent.addChild(taxon);
-      }
+      }*/
 
       return result;
     }
