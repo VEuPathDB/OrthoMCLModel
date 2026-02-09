@@ -1,10 +1,9 @@
 package org.orthomcl.service.core;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.gusdb.wdk.model.WdkModel;
 import org.gusdb.wdk.model.WdkModelException;
 import org.gusdb.wdk.model.WdkUserException;
@@ -12,6 +11,8 @@ import org.gusdb.wdk.model.record.TableValue;
 import org.gusdb.wdk.model.record.attribute.AttributeValue;
 
 public class TaxonManager {
+
+  private static final Logger LOG = Logger.getLogger(TaxonManager.class);
 
   private static final String TABLE_TAXONS = "Taxons";
   private static final String TABLE_ROOTS = "RootTaxons";
@@ -70,25 +71,32 @@ public class TaxonManager {
 
       // load species (leaves)
       TableValue taxonTable = tables.get(TABLE_TAXONS);
-      List<Taxon> taxonList = new ArrayList<>();
+      //List<Taxon> taxonList = new ArrayList<>();
       for (Map<String, AttributeValue> row : taxonTable) {
         Taxon taxon = new Taxon(Integer.valueOf(row.get("orthomcl_clade_id").getValue()));
-        if (result.containsKey(taxon.getId())) continue;
-        taxon.setSpecies(true);
-        Integer parentId = Integer.valueOf(row.get("parent_id").getValue());
         taxon.setAbbrev(row.get("three_letter_abbrev").getValue().trim());
-        taxon.setTaxonGroup(row.get("taxon_group").getValue().trim()); // must match a clade name
+        taxon.setParentId(Integer.valueOf(row.get("parent_id").getValue()));
+        taxon.setTaxonGroup(row.get("taxon_group").getValue().trim());
+        if (result.containsKey(taxon.getId())) {
+          Taxon old = result.get(taxon.getId());
+          LOG.info("Found duplicate taxon and will skip new one!");
+          LOG.info("Old: "+ old.getId() + "(" + old.getAbbrev() + "), parent " + old.getParentId() + ", group " + old.getTaxonGroup());
+          LOG.info("New: "+ taxon.getId() + "(" + taxon.getAbbrev() + "), parent " + taxon.getParentId() + ", group " + taxon.getTaxonGroup());
+          continue;
+        }
+        taxon.setSpecies(true);
         taxon.setColor(row.get("color").getValue());
         taxon.setName(row.get("name").getValue().trim());
         taxon.setCommonName(taxon.getName());
         taxon.setSortIndex(sortIndex++);
-        taxonList.add(taxon);
+
+        //taxonList.add(taxon);
         result.put(taxon.getAbbrev(), taxon);
 
         // assign parent (same logic as above)
-        Taxon parent = cladeIdMap.get(parentId);
+        Taxon parent = cladeIdMap.get(taxon.getParentId());
         if (parent == null)
-          throw new WdkModelException("Species with ID " + taxon.getId() + " has parent ID " + parentId + " which does not match any clade.");
+          throw new WdkModelException("Species with ID " + taxon.getId() + " has parent ID " + taxon.getParentId() + " which does not match any clade.");
         taxon.setParent(parent);
         parent.addChild(taxon);
       }
