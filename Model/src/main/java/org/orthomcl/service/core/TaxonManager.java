@@ -28,6 +28,7 @@ public class TaxonManager {
   }
 
   private static synchronized Map<String, Taxon> loadTaxons(WdkModel wdkModel) throws WdkModelException {
+    LOG.info("Loading taxons...");
     try {
       // get helper record tables
       Map<String, TableValue> tables = HelperRecord.get(wdkModel).getTableValueMap();
@@ -77,8 +78,8 @@ public class TaxonManager {
         taxon.setAbbrev(row.get("three_letter_abbrev").getValue().trim());
         taxon.setParentId(Integer.valueOf(row.get("parent_id").getValue()));
         taxon.setTaxonGroup(row.get("taxon_group").getValue().trim());
-        if (result.containsKey(taxon.getId())) {
-          Taxon old = result.get(taxon.getId());
+        if (cladeIdMap.containsKey(taxon.getId())) {
+          Taxon old = cladeIdMap.get(taxon.getId());
           LOG.info("Found duplicate taxon and will skip new one!");
           LOG.info("Old: "+ old.getId() + "(" + old.getAbbrev() + "), parent " + old.getParentId() + ", group " + old.getTaxonGroup());
           LOG.info("New: "+ taxon.getId() + "(" + taxon.getAbbrev() + "), parent " + taxon.getParentId() + ", group " + taxon.getTaxonGroup());
