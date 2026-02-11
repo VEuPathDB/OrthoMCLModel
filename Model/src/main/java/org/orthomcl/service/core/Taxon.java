@@ -203,7 +203,7 @@ public class Taxon implements Comparable<Taxon>, Renderable, ToJson {
       .put("commonName", commonName)
       .put("sortIndex", sortIndex)
       .put("species", isSpecies)
-      .put("groupColor", getGroupColor())
+      .put("groupColor", groupColor)
       .put("color", color)
       .put("children", ToJson.mapToJson(children));
   }
