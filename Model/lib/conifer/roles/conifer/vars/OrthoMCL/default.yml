@@ -31,6 +31,6 @@ modelprop:
   SITE_SEARCH_SERVICE_URL: /site-search
   MULTI_BLAST_SERVICE_URL: /multi-blast
 
-blastconfig_blastPath: '/opt/ncbi-blast+/bin/'
+blastconfig_blastPath: '/opt/ncbi-blast+/'
 blastconfig_idBlastRegex: '<![CDATA[^>*\s*\t*\s*(\S{4,8}\|\S+)]]>'
 blastconfig_tempBlastPath: /var/www/Common/tmp/blast
