@@ -551,8 +551,8 @@
 SELECT *
 FROM (
   SELECT 
-    '@BLASTDB_PATH@/build-current/blast/proteinSeqs' AS internal,
-    '@BLASTDB_PATH@/build-current/blast/proteinSeqs' AS term
+    '@BLASTDB_PATH@/build-8.0/blast/proteinSeqs' AS internal,
+    '@BLASTDB_PATH@/build-8.0/blast/proteinSeqs' AS term
 )
                 ]]>
             </sql>
