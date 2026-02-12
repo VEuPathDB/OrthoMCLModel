@@ -108,26 +108,109 @@
             <help>
              Choose one or more organisms to search with the given motif
             </help>
-            <suggest default="pfal"/>
+	    <suggest default="pfal"/>
         </flatVocabParam>
 
     </paramSet>
 
   <querySet name="SharedVQ" queryType="vocab" isCacheable="true">
 
-        <sqlQuery name="AllOrganisms">
+
+<!-- combine this with your new clade functionality to resolve this -->
+<sqlQuery name="AllOrganisms">
             <column name="term" />
             <column name="display" />
+	    <column name="parentTerm" />
             <column name="internal" />
             <sql>
                 <![CDATA[ 
+SELECT DISTINCT ON (term)
+term,
+display,
+parentterm,
+internal
+FROM (
+WITH RECURSIVE TaxonHierarchy AS (
+  -- Higher-level clades
+  SELECT
+    orthomcl_clade_id,
+    parent_id,
+    name,
+    three_letter_abbrev,
+    is_species
+  FROM apidb.OrthomclClade
+  WHERE is_species = 0
+
+  UNION ALL
+
+  -- Push hierarchy downward
+  SELECT
+    child.orthomcl_clade_id,
+    child.parent_id,
+    child.name,
+    child.three_letter_abbrev,
+    child.is_species
+  FROM apidb.OrthomclClade child
+  JOIN TaxonHierarchy parent
+    ON child.parent_id = parent.orthomcl_clade_id
+),
+
+-- Clade rows
+CladeRows AS (
+  SELECT DISTINCT ON (c.three_letter_abbrev)
+    c.three_letter_abbrev AS term,
+    c.name AS display,
+    CASE
+      WHEN c.three_letter_abbrev = 'ALL' THEN NULL
+      WHEN parent.three_letter_abbrev IS NULL THEN 'ALL'
+      ELSE parent.three_letter_abbrev
+    END AS parentTerm,
+    c.three_letter_abbrev AS internal,
+    0 AS sort_order
+  FROM apidb.OrthomclClade c
+  LEFT JOIN apidb.OrthomclClade parent
+    ON parent.orthomcl_clade_id = c.parent_id
+  ORDER BY c.three_letter_abbrev
+),
+
+-- Organism rows (annotated genomes)
+OrganismRows AS (
+  SELECT DISTINCT ON (org.orthomcl_abbrev)
+    org.orthomcl_abbrev AS term,
+    tn.name AS display,
+    CASE
+      WHEN parent.three_letter_abbrev IS NULL THEN 'ALL'
+      ELSE parent.three_letter_abbrev
+    END AS parentTerm,
+    org.orthomcl_abbrev AS internal,
+    1 AS sort_order
+  FROM apidb.Organism org
+  LEFT JOIN sres.taxonname tn
+    ON org.taxon_id = tn.taxon_id
+  LEFT JOIN apidb.OrthomclClade c
+    ON c.three_letter_abbrev = org.orthomcl_abbrev
+  LEFT JOIN apidb.OrthomclClade parent
+    ON parent.orthomcl_clade_id = c.parent_id
+  WHERE org.is_annotated_genome = 1
+  ORDER BY org.orthomcl_abbrev
+)
+
+-- Final vocab output
 SELECT
-  tn.name AS display,
-  org.orthomcl_abbrev AS term,
-  org.orthomcl_abbrev AS internal
-FROM apidb.Organism org
-LEFT JOIN sres.taxonname tn
-ON org.taxon_id  = tn.taxon_id
+  term,
+  display,
+  parentTerm,
+  internal
+FROM (
+  SELECT * FROM CladeRows
+  UNION ALL
+  SELECT * FROM OrganismRows
+) t
+ORDER BY
+  sort_order,
+  parentTerm NULLS FIRST,
+  display
+)
                 ]]>
             </sql>
         </sqlQuery>

@@ -56,18 +56,36 @@ FROM
             <paramValue name="helper_id">helper</paramValue>
        </defaultTestParamValues>
 
-        <sqlQuery name="Taxons" isCacheable="true">
+       <sqlQuery name="Taxons" isCacheable="true">
             <column name="helper_id"/>
-            <column name="taxon_id"/>
+            <column name="orthomcl_clade_id"/>
+            <column name="taxon_group"/>
             <column name="parent_id"/>
-            <column name="abbreviation"/>
-            <column name="is_species"/>
-            <column name="sort_index"/>
-            <column name="common_name"/>
+            <column name="three_letter_abbrev"/>
             <column name="name"/>
+            <column name="color"/>
+            <column name="core_peripheral"/>
             <sql>
             <![CDATA[
-WITH RECURSIVE TaxonHierarchy AS (
+WITH RECURSIVE
+
+TaxonColors AS (
+  SELECT *
+  FROM (
+    VALUES
+      ('Archaea',           '#77CCDD'),
+      ('Bacteria',          '#99CC33'),
+      ('Alveolates',        '#CC3399'),
+      ('Amoebozoa',         '#3399CC'),
+      ('Euglenozoa',        '#CCCC66'),
+      ('Fungi',             '#AA44DD'),
+      ('Metazoa',           '#CC6666'),
+      ('Other Eukaryota',   '#CC9999'),
+      ('Viridiplantae',     '#CC9933')
+  ) AS t(taxon_group, color)
+),
+
+TaxonHierarchy AS (
   -- Base case
   SELECT
     three_letter_abbrev,
@@ -77,9 +95,8 @@ WITH RECURSIVE TaxonHierarchy AS (
     name AS taxon_group,
     parent_id
   FROM apidb.OrthomclClade
-  WHERE name IN ('Archaea', 'Bacteria', 'Alveolates', 'Amoebozoa', 'Euglenozoa',
-                 'Fungi', 'Metazoa', 'Other Eukaryota', 'Viridiplantae')
-
+  WHERE name IN (select name from apidb.orthomclClade where is_species = 0)
+  
   UNION ALL
 
   -- Recursive case
@@ -91,24 +108,60 @@ WITH RECURSIVE TaxonHierarchy AS (
     parent.taxon_group,
     child.parent_id
   FROM apidb.OrthomclClade child
-  JOIN TaxonHierarchy parent ON child.parent_id = parent.orthomcl_clade_id
-) 
+  JOIN TaxonHierarchy parent
+    ON child.parent_id = parent.orthomcl_clade_id
+),
 
-SELECT 
-    'helper' AS helper_id,
-    og.taxon_id AS taxon_id,
-    og.taxon_id AS parent_id,
-    og.orthomcl_abbrev AS abbreviation,
-    1 as is_species,
-    tn.name as name,
-    tn.name as common_name,
-    cats.taxon_group,
-    ROW_NUMBER() OVER (ORDER BY cats.taxon_group NULLS FIRST, tn.name) AS sort_index
-FROM apidb.Organism og
-LEFT JOIN sres.taxonname tn ON og.taxon_id = tn.taxon_id
-LEFT JOIN taxonHierarchy cats ON og.orthomcl_abbrev = cats.three_letter_abbrev
-ORDER BY cats.taxon_group NULLS FIRST, tn.name
-			]]>
+ColorWalk AS (
+  SELECT
+    h.orthomcl_clade_id AS origin_clade_id,
+    h.taxon_group,
+    h.parent_id,
+    tc.color
+  FROM TaxonHierarchy h
+  LEFT JOIN TaxonColors tc
+    ON tc.taxon_group = h.taxon_group
+
+  UNION ALL
+
+  SELECT
+    w.origin_clade_id,
+    p.name AS taxon_group,
+    p.parent_id,
+    tc.color
+  FROM ColorWalk w
+  JOIN apidb.OrthomclClade p
+    ON p.orthomcl_clade_id = w.parent_id
+  LEFT JOIN TaxonColors tc
+    ON tc.taxon_group = p.name
+  WHERE w.color IS NULL
+),
+
+ResolvedColors AS (
+  SELECT DISTINCT ON (origin_clade_id)
+    origin_clade_id,
+    color
+  FROM ColorWalk
+  WHERE color IS NOT NULL
+  ORDER BY origin_clade_id
+)
+
+SELECT
+  'helper' AS helper_id, 
+  h.*,
+  rc.color
+FROM TaxonHierarchy h
+LEFT JOIN ResolvedColors rc
+  ON rc.origin_clade_id = h.orthomcl_clade_id
+WHERE h.core_peripheral IN ('C', 'P')
+  AND EXISTS (
+    SELECT 1
+    FROM apidb.organism o
+    WHERE o.orthomcl_abbrev = h.three_letter_abbrev
+      AND o.is_annotated_genome = 1
+  )
+ORDER BY h.taxon_group, h.name
+]]>
             </sql>
         </sqlQuery>
 
@@ -192,36 +245,79 @@ ORDER BY tn.name
         </sqlQuery>
 
 
-       <sqlQuery name="RootTaxons" isCacheable="true">
-           <column name="helper_id"/>
+	<sqlQuery name="RootTaxons" isCacheable="true">
+           <column name="helper_id"/>	  
+           <column name="orthomcl_clade_id"/>
+           <column name="parent_id"/>
            <column name="taxon_abbrev"/>
            <column name="color"/>
+           <column name="name"/>
            <sql>
            <![CDATA[
-SELECT 'helper' AS helper_id, t.*
-FROM (
-    SELECT 'OBAC' AS taxon_abbrev, '#9999CC' AS color
-    UNION ALL
-    SELECT 'FIRM' AS taxon_abbrev, '#33CC99' AS color
-    UNION ALL
-    SELECT 'PROT' AS taxon_abbrev, '#99CC66' AS color
-    UNION ALL
-    SELECT 'ARCH' AS taxon_abbrev, '#77CCDD' AS color
-    UNION ALL
-    SELECT 'OEUK' AS taxon_abbrev, '#CC9999' AS color
-    UNION ALL
-    SELECT 'VIRI' AS taxon_abbrev, '#CC9933' AS color
-    UNION ALL
-    SELECT 'EUGL' AS taxon_abbrev, '#CCCC66' AS color
-    UNION ALL
-    SELECT 'ALVE' AS taxon_abbrev, '#CC3399' AS color
-    UNION ALL
-    SELECT 'FUNG' AS taxon_abbrev, '#AA44DD' AS color
-    UNION ALL
-    SELECT 'META' AS taxon_abbrev, '#CC6666' AS color
-    UNION ALL
-    SELECT 'AMOE' AS taxon_abbrev, '#3399CC' AS color
-) t
+WITH RECURSIVE
+
+TaxonColors AS (
+  SELECT *
+  FROM (
+    VALUES
+      ('Archaea',           '#77CCDD'),
+      ('Bacteria',          '#99CC33'),
+      ('Alveolates',        '#CC3399'),
+      ('Amoebozoa',         '#3399CC'),
+      ('Euglenozoa',        '#CCCC66'),
+      ('Fungi',             '#AA44DD'),
+      ('Metazoa',           '#CC6666'),
+      ('Other Eukaryota',   '#CC9999'),
+      ('Viridiplantae',     '#CC9933')
+  ) AS t(taxon_group, color)
+),
+
+AllClades AS (
+  SELECT *
+  FROM apidb.orthomclclade
+  WHERE is_species = 0
+),
+
+ColoredHierarchy AS (
+  -- Base case: nodes that have a top-level color
+  SELECT
+    c.orthomcl_clade_id,
+    c.parent_id,
+    c.name,
+    c.three_letter_abbrev,
+    c.name AS taxon_group,
+    tc.color
+  FROM AllClades c
+  LEFT JOIN TaxonColors tc
+    ON c.name = tc.taxon_group
+  WHERE tc.color IS NOT NULL
+
+  UNION ALL
+
+  -- Recursive step: propagate color to children
+  SELECT
+    child.orthomcl_clade_id,
+    child.parent_id,
+    child.name,
+    child.three_letter_abbrev,
+    parent.taxon_group,
+    parent.color
+  FROM AllClades child
+  JOIN ColoredHierarchy parent
+    ON child.parent_id = parent.orthomcl_clade_id
+)
+
+SELECT
+  'helper' AS helper_id, 
+  c.orthomcl_clade_id,
+  c.parent_id,
+  c.name,
+  c.three_letter_abbrev as taxon_abbrev,
+  ch.color
+FROM AllClades c
+LEFT JOIN ColoredHierarchy ch
+  ON c.orthomcl_clade_id = ch.orthomcl_clade_id
+ORDER BY c.orthomcl_clade_id, c.name
            ]]>
            </sql>
        </sqlQuery>

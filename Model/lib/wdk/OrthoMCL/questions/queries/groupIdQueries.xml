@@ -192,25 +192,25 @@ WHERE
               ]]>
             </sql>
         </sqlQuery>
-
-        <sqlQuery name="ByPercentIdentity" isCacheable="true">
-            <paramRef ref="groupParams.percent"/>
+ 
+        <sqlQuery name="ByEValue" isCacheable="true">
+            <paramRef ref="groupParams.evalue"/>
             <column name="group_name"/>
             <sql>
                 <![CDATA[
-    SELECT
-        ogs.group_id AS group_name
-    FROM
-         apidb.orthologgroupstats AS ogs
-    WHERE
-        ogs.stat_type = 'median'
-        AND ogs.evalue::numeric BETWEEN $$percent_min$$ AND $$percent_max$$
-        AND ogs.protein_subset IN ('C+P', 'R')
+
+SELECT ogs.group_id AS group_name
+FROM apidb.OrthologGroupStats ogs
+WHERE ogs.stat_Type = 'median'
+AND ogs.evalue::double precision >=
+    ('1e' || REPLACE('$$evalue_min$$', '.0', ''))::double precision
+AND ogs.evalue::double precision <=
+    ('1e' || REPLACE('$$evalue_max$$', '.0', ''))::double precision
+AND protein_subset IN ('C+P','R')
                 ]]>
             </sql>
         </sqlQuery>
-
-
+	
         <sqlQuery name="ByPhyleticPattern" isCacheable="true">
             <paramRef ref="groupParams.phyletic_expression"/>
             <column name="group_name"/>
