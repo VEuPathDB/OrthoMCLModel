@@ -316,30 +316,36 @@ AND aas.source_id = sa.full_id
       <column name="target_id"/>
       <sql>
                 <![CDATA[
-SELECT query.query AS full_id,
-       query.group_id AS group_name,
-       target.target AS target_id
+SELECT 
+    q.query AS full_id,
+    q.group_id AS group_name,
+    COALESCE(t.target, 'No Ortholog Found') AS target_id
 FROM (
-    SELECT org1.source_id AS query,
-           ogas.group_id
-    FROM apidb.orthologgroupaasequence ogas
-    INNER JOIN (
+    SELECT 
+        org1.source_id AS query,
+        ogas.group_id
+    FROM (
         SELECT aa_sequence_id, source_id
         FROM dots.aasequence
         WHERE taxon_id = $$query_organism_type_ahead$$
-    ) org1 ON ogas.aa_sequence_id = org1.aa_sequence_id
-) query
-INNER JOIN (
-    SELECT string_agg(org2.source_id, ',' ORDER BY org2.source_id) AS target,
-           ogas.group_id
+    ) org1
+    LEFT JOIN apidb.orthologgroupaasequence ogas
+        ON ogas.aa_sequence_id = org1.aa_sequence_id
+) q
+LEFT JOIN (
+    SELECT 
+        string_agg(org2.source_id, ',' ORDER BY org2.source_id) AS target,
+        ogas.group_id
     FROM apidb.orthologgroupaasequence ogas
     INNER JOIN (
         SELECT aa_sequence_id, source_id
         FROM dots.aasequence
         WHERE taxon_id = $$target_organism_type_ahead$$
-    ) org2 ON ogas.aa_sequence_id = org2.aa_sequence_id
+    ) org2
+        ON ogas.aa_sequence_id = org2.aa_sequence_id
     GROUP BY ogas.group_id
-) target ON query.group_id = target.group_id
+) t
+ON q.group_id = t.group_id
                ]]>
       </sql>
     </sqlQuery>
