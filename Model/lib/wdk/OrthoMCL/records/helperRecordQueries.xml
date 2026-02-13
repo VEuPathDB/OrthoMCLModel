@@ -182,9 +182,18 @@ ORDER BY h.taxon_group, h.name
             <column name="most_recent"/>
             <sql>
             <![CDATA[
+WITH stats AS (
+  SELECT
+    orthomcl_taxon_id,
+    COUNT(*) AS sequences,
+    COUNT(ortholog_group_id) AS clustered_sequences,
+    COUNT(DISTINCT ortholog_group_id) AS groups
+  FROM ApidbTuning.SequenceAttributes
+  GROUP BY orthomcl_taxon_id
+)
 SELECT
   'helper' AS helper_id,
-  tn.name AS name,
+  oc.name AS name,
   og.orthomcl_abbrev AS three_letter_abbrev,
 
   CASE
@@ -192,54 +201,41 @@ SELECT
     ELSE od.resource_name
   END AS resource_name,
 
-  od.resource_url AS resource_url,
-  od.resource_version AS resource_version,
+  od.resource_url,
+  od.resource_version,
 
-  CASE
-    WHEN og.core_peripheral = 'core' THEN 'Core'
-    WHEN og.core_peripheral = 'peripheral' THEN 'Peripheral'
+  CASE og.core_peripheral
+    WHEN 'core' THEN 'Core'
+    WHEN 'peripheral' THEN 'Peripheral'
     ELSE ''
   END AS core_peripheral,
 
   CASE
-    WHEN SUBSTRING(og.orthomcl_abbrev FROM 5 FOR 4) = '-old' THEN 'no'
+    WHEN SUBSTRING(og.orthomcl_abbrev FROM 5 FOR 4) = '-old'
+      THEN 'no'
     ELSE 'most_recent'
   END AS most_recent,
 
   t.ncbi_tax_id AS ncbi_taxon_id,
-  'https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=' || t.ncbi_tax_id AS ncbi_taxon_url,
+  'https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id='
+    || t.ncbi_tax_id AS ncbi_taxon_url,
 
   stats.sequences,
   stats.clustered_sequences,
   stats.groups
 
 FROM apidb.Organism og
-
-LEFT JOIN apidb.OrthomclResource od
-  ON od.orthomcl_taxon_id = og.taxon_id
-
-LEFT JOIN sres.TaxonName tn
-  ON og.taxon_id = tn.taxon_id
-
-LEFT JOIN sres.Taxon t
-  ON t.taxon_id = tn.taxon_id
-
-LEFT JOIN (
-  SELECT
-    orthomcl_taxon_id,
-    COUNT(*) AS sequences,
-    SUM(CASE WHEN ortholog_group_id IS NULL THEN 0 ELSE 1 END) AS clustered_sequences,
-    COUNT(DISTINCT ortholog_group_id) AS groups
-  FROM ApidbTuning.SequenceAttributes
-  GROUP BY orthomcl_taxon_id
-) stats
+JOIN stats
   ON og.taxon_id = stats.orthomcl_taxon_id
-
-WHERE stats.clustered_sequences IS NOT NULL
-  AND od.resource_url IS NOT NULL
-
-ORDER BY tn.name
-
+JOIN apidb.OrthomclResource od
+  ON od.orthomcl_taxon_id = og.taxon_id
+ AND od.resource_url IS NOT NULL
+JOIN apidb.orthomclClade oc
+  ON oc.three_letter_abbrev = og.orthomcl_abbrev
+JOIN sres.Taxon t
+  ON t.taxon_id = og.taxon_id
+WHERE og.is_annotated_genome = 1
+ORDER BY oc.name
             ]]>
             </sql>
         </sqlQuery>
