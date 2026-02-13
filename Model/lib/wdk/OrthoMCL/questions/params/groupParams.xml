@@ -100,7 +100,7 @@
 			]]>
 			</help>
 	    <handler implementation="org.orthomcl.service.core.phyletic.ExpressionParamHandler" />
-            <suggest default="EUKA>=5T AND hsap>=10" />
+            <suggest default="amac+acaq=2T" />
         </stringParam>
 
 
