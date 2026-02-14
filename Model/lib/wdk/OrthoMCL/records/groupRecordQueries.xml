@@ -43,277 +43,43 @@ from apidbtuning.groupattributes
           </sql>
         </sqlQuery>
 
-
-
-        <sqlQuery name="CoreMinEvalue">
+        <sqlQuery name="GroupStatsFull">
           <column name="group_name"/>
           <column name="core_min_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'C'
-      AND stat_type = 'min'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS core_min_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-        <sqlQuery name="Core25Evalue">
-          <column name="group_name"/>
           <column name="core_25_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'C'
-      AND stat_type = '25 PCT'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS core_25_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-        <sqlQuery name="CoreMedianEvalue">
-          <column name="group_name"/>
           <column name="core_median_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'C'
-      AND stat_type = 'median'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS core_median_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-        <sqlQuery name="Core75Evalue">
-          <column name="group_name"/>
           <column name="core_75_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'C'
-      AND stat_type = '75 PCT'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS core_75_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-        <sqlQuery name="CoreMaxEvalue">
-          <column name="group_name"/>
           <column name="core_max_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'C'
-      AND stat_type = 'max'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS core_max_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-
-        <sqlQuery name="CorePeripheralMinEvalue">
-          <column name="group_name"/>
           <column name="core_peripheral_min_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'C+P'
-      AND stat_type = 'min'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS core_peripheral_min_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-        <sqlQuery name="CorePeripheral25Evalue">
-          <column name="group_name"/>
           <column name="core_peripheral_25_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'C+P'
-      AND stat_type = '25 PCT'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS core_peripheral_25_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-        <sqlQuery name="CorePeripheralMedianEvalue">
-          <column name="group_name"/>
           <column name="core_peripheral_median_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'C+P'
-      AND stat_type = 'median'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS core_peripheral_median_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-        <sqlQuery name="CorePeripheral75Evalue">
-          <column name="group_name"/>
           <column name="core_peripheral_75_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'C+P'
-      AND stat_type = '75 PCT'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS core_peripheral_75_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-        <sqlQuery name="CorePeripheralMaxEvalue">
-          <column name="group_name"/>
           <column name="core_peripheral_max_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'C+P'
-      AND stat_type = 'max'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS core_peripheral_max_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-
-        <sqlQuery name="ResidualMinEvalue">
-          <column name="group_name"/>
           <column name="residual_min_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'R'
-      AND stat_type = 'min'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS residual_min_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-        <sqlQuery name="Residual25Evalue">
-          <column name="group_name"/>
           <column name="residual_25_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'R'
-      AND stat_type = '25 PCT'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS residual_25_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-        <sqlQuery name="ResidualMedianEvalue">
-          <column name="group_name"/>
           <column name="residual_median_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'R'
-      AND stat_type = 'median'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS residual_median_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-        <sqlQuery name="Residual75Evalue">
-          <column name="group_name"/>
           <column name="residual_75_evalue"/>
-          <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'R'
-      AND stat_type = '75 PCT'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS residual_75_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
-          </sql>
-        </sqlQuery>
-
-        <sqlQuery name="ResidualMaxEvalue">
-          <column name="group_name"/>
           <column name="residual_max_evalue"/>
           <sql>
-WITH selection AS (
-    SELECT group_id, evalue
-    FROM apidb.orthologgroupstats
-    WHERE protein_subset = 'R'
-      AND stat_type = 'max'
-)
-SELECT
-    og.group_id AS group_name,
-    s.evalue AS residual_max_evalue
-FROM apidb.orthologgroup og
-LEFT JOIN selection s ON og.group_id = s.group_id
+            <![CDATA[
+SELECT group_name,
+       core_min_evalue,
+       core_25_evalue,
+       core_median_evalue,
+       core_75_evalue,
+       core_max_evalue,
+       core_peripheral_min_evalue,
+       core_peripheral_25_evalue,
+       core_peripheral_median_evalue,
+       core_peripheral_75_evalue,
+       core_peripheral_max_evalue,
+       residual_min_evalue,
+       residual_25_evalue,
+       residual_median_evalue,
+       residual_75_evalue,
+       residual_max_evalue
+FROM apidbtuning.groupstatsfull
+            ]]>
           </sql>
         </sqlQuery>
 
