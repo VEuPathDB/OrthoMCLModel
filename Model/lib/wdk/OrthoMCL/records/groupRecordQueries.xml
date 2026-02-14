@@ -43,7 +43,7 @@ from apidbtuning.groupattributes
           </sql>
         </sqlQuery>
 
-        <sqlQuery name="GroupStatsFull">
+        <sqlQuery name="GroupStatsWide">
           <column name="group_name"/>
           <column name="core_min_evalue"/>
           <column name="core_25_evalue"/>
@@ -78,7 +78,7 @@ SELECT group_name,
        residual_median_evalue,
        residual_75_evalue,
        residual_max_evalue
-FROM apidbtuning.groupstatsfull
+FROM apidbtuning.groupstatswide
             ]]>
           </sql>
         </sqlQuery>

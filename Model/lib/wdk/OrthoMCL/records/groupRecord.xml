@@ -161,7 +161,7 @@
                 <columnAttribute name="max_length" displayName="Longest Sequence" internal="true" inReportMaker="false" />
             </attributeQueryRef>
 
-            <attributeQueryRef ref="GroupAttributes.GroupStatsFull">
+            <attributeQueryRef ref="GroupAttributes.GroupStatsWide">
                 <columnAttribute name="core_min_evalue" displayName="Min Percent Identity (CORE)" inReportMaker="false" />
                 <columnAttribute name="core_25_evalue" displayName="25% Percent Identity (CORE)" inReportMaker="false" />
                 <columnAttribute name="core_median_evalue" displayName="Median Percent Identity (CORE)" inReportMaker="false" />
