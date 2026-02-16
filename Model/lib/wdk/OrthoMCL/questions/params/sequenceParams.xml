@@ -18,7 +18,7 @@
        
         <stringParam name="querySequenceList" prompt="Query Sequence List" number="false">
             <help>List of Query Sequences</help>
-            <suggest default="acid|C1F2M9" />
+            <suggest default="Pf7G8_020017900-t41_1-p1" />
         </stringParam>
 
          <flatVocabParam name="taxon_type_ahead"
@@ -564,12 +564,11 @@ FROM (
             <column name="term" />
             <column name="display"/>
             <sql>
-              SELECT distinct tn.taxon_id AS internal,
-                     tn.taxon_id AS term, 
-                     tn.name AS display
-              FROM sres.taxonname tn, dots.orthoaasequence oas
-              WHERE oas.taxon_id = tn.taxon_id
-              AND tn.name_class = 'scientific name'
+SELECT distinct tn.taxon_id AS internal, tn.taxon_id AS term, tn.name AS display
+FROM sres.taxonname tn, apidb.organism og                                                                                   
+WHERE og.taxon_id = tn.taxon_id                                                                                                                                                             
+AND tn.name_class = 'scientific name'
+AND og.is_annotated_genome = 1
             </sql>
         </sqlQuery>
 
