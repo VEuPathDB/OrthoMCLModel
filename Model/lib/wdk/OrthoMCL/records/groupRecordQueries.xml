@@ -486,22 +486,8 @@ ORDER BY num_proteins DESC
      The minimum of all lengths was shown for each protein. The original phrase that resulted in this
      error was sa.length, but the current phrase round(sa.length,0) fixed this in an unknown way.  -->
             <![CDATA[
-SELECT sa.group_name, 
-       sa.full_id, 
-       ROUND(sa.length::numeric, 0) AS protein_length, 
-       sa.organism_name AS taxon_name, 
-       CASE 
-           WHEN sa.core_peripheral = 'C' THEN 'Core' 
-           WHEN sa.core_peripheral = 'P' THEN 'Peripheral' 
-           ELSE '' 
-       END AS core_peripheral, 
-       da.accession, 
-       da.domain_index, 
-       da.start_min, 
-       da.end_max
-FROM ApidbTuning.SequenceAttributes sa
-LEFT OUTER JOIN ApidbTuning.DomainAssignment da 
-    ON da.full_id = sa.full_id
+SELECT group_name, full_id, protein_length, taxon_name, core_peripheral, accession, domain_index, start_min, end_max
+FROM apidbtuning.groupproteinpfam
 ORDER BY sa.full_id, da.start_min
             ]]>
           </sql>
@@ -534,43 +520,9 @@ ORDER BY sequence_count DESC
 	  <column name="evalue" />
 
 	  <sql>
-SELECT 
-    og.group_id AS group_name, 
-    sog.similar_group_id AS similar_group,  
-    groupProteinCount.protein_count AS protein_count, 
-    verbiage.keywords AS keyword, 
-    domains.pfam, 
-    evalue
-FROM 
-    apidb.SimilarOrthologGroup sog
-JOIN 
-    apidb.orthologgroup og ON og.group_id = sog.group_id
-JOIN 
-    (SELECT 
-        ogas.group_id, 
-        COUNT(ogas.aa_sequence_id) AS protein_count
-     FROM 
-        apidb.orthologgroupaasequence ogas
-     GROUP BY 
-        ogas.group_id) groupProteinCount ON sog.similar_group_id = groupProteinCount.group_id
-JOIN 
-    (SELECT 
-        ortholog_group_id, 
-        string_agg(keyword, '; ' ORDER BY CAST(frequency AS NUMERIC) DESC) AS keywords
-     FROM 
-        apidb.OrthomclGroupKeyword
-     GROUP BY 
-        ortholog_group_id) verbiage ON sog.similar_group_id = verbiage.ortholog_group_id
-JOIN 
-    (SELECT 
-        group_name, 
-        string_agg(DISTINCT accession, ', ') AS pfam
-     FROM 
-        ApidbTuning.DomainAssignment
-     GROUP BY 
-        group_name) domains ON sog.similar_group_id = domains.group_name
-ORDER BY 
-    evalue ASC
+	    select group_name, similar_group, protein_count, keyword, pfam, evalue
+	    from apidbtuning.SimilarOrthologGroup
+	    order by evalue
       	  </sql>
 	</sqlQuery>
 
@@ -583,76 +535,38 @@ ORDER BY
 	  <column name="seventyfive" />
 	  <column name="max" />
 	  <sql>
-SELECT DISTINCT 
-    ogs.group_id AS group_name, 
-    min.min AS min, 
-    twentyfive.twentyfive AS twentyfive, 
-    median.median AS median, 
-    seventyfive.seventyfive AS seventyfive, 
-    max.max AS max,                 
-    CASE 
-        WHEN ogs.protein_subset = 'C' THEN 'Core only' 
-        WHEN ogs.protein_subset = 'C+P' THEN 'Core+Peripheral' 
-        WHEN ogs.protein_subset = 'R' THEN 'Peripheral only' 
-        ELSE '' 
-    END AS group_type
-FROM 
-    apidb.orthologgroupstats ogs
-INNER JOIN 
-    (SELECT 
-        ogsa.group_id, 
-        ogsa.protein_subset, 
-        ogsa.evalue AS min
-     FROM 
-        apidb.orthologgroupstats ogsa
-     WHERE 
-        ogsa.stat_type = 'min') min
-    ON ogs.group_id = min.group_id
-    AND ogs.protein_subset = min.protein_subset
-INNER JOIN 
-    (SELECT 
-        ogsb.group_id, 
-        ogsb.protein_subset, 
-        ogsb.evalue AS twentyfive
-     FROM 
-        apidb.orthologgroupstats ogsb
-     WHERE 
-        ogsb.stat_type = '25 PCT') twentyfive
-    ON ogs.group_id = twentyfive.group_id
-    AND ogs.protein_subset = twentyfive.protein_subset
-INNER JOIN 
-    (SELECT 
-        ogsc.group_id, 
-        ogsc.protein_subset, 
-        ogsc.evalue AS median
-     FROM 
-        apidb.orthologgroupstats ogsc
-     WHERE 
-        ogsc.stat_type = 'median') median
-    ON ogs.group_id = median.group_id
-    AND ogs.protein_subset = median.protein_subset
-INNER JOIN 
-    (SELECT 
-        ogsd.group_id, 
-        ogsd.protein_subset, 
-        ogsd.evalue AS seventyfive
-     FROM 
-        apidb.orthologgroupstats ogsd
-     WHERE 
-        ogsd.stat_type = '75 PCT') seventyfive
-    ON ogs.group_id = seventyfive.group_id
-    AND ogs.protein_subset = seventyfive.protein_subset
-INNER JOIN 
-    (SELECT 
-        ogse.group_id, 
-        ogse.protein_subset, 
-        ogse.evalue AS max
-     FROM 
-        apidb.orthologgroupstats ogse
-     WHERE 
-        ogse.stat_type = 'max') max
-    ON ogs.group_id = max.group_id
-    AND ogs.protein_subset = max.protein_subset
+            <![CDATA[
+  SELECT group_name, 'Core only' AS group_type,
+         core_min_evalue AS min,
+         core_25_evalue AS twentyfive,
+         core_median_evalue AS median,
+         core_75_evalue AS seventyfive,
+         core_max_evalue AS max
+  FROM apidbtuning.groupstatswide
+  WHERE core_min_evalue IS NOT NULL
+
+  UNION ALL
+
+  SELECT group_name, 'Core+Peripheral' AS group_type,
+         core_peripheral_min_evalue AS min,
+         core_peripheral_25_evalue AS twentyfive,
+         core_peripheral_median_evalue AS median,
+         core_peripheral_75_evalue AS seventyfive,
+         core_peripheral_max_evalue AS max
+  FROM apidbtuning.groupstatswide
+  WHERE core_peripheral_min_evalue IS NOT NULL
+
+  UNION ALL
+
+  SELECT group_name, 'Peripheral only' AS group_type,
+         residual_min_evalue AS min,
+         residual_25_evalue AS twentyfive,
+         residual_median_evalue AS median,
+         residual_75_evalue AS seventyfive,
+         residual_max_evalue AS max
+  FROM apidbtuning.groupstatswide
+  WHERE residual_min_evalue IS NOT NULL
+            ]]>
       	  </sql>
 	</sqlQuery>
 
