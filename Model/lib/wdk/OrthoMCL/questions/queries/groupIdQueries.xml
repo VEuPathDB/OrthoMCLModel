@@ -114,32 +114,16 @@ WHERE asi.subclass_view = 'ExternalAASequence'
             <column name="peripheral_num"/>
             <sql>
                 <![CDATA[
-WITH group_counts AS (
-    SELECT
-        ogas.group_id,
-        COUNT(*) AS number_of_members,
-        COUNT(*) FILTER (WHERE og.core_peripheral = 'core') AS number_of_core_members,
-        COUNT(*) FILTER (WHERE og.core_peripheral = 'peripheral') AS number_of_peripheral_members
-    FROM
-        apidb.orthologgroupaasequence AS ogas
-        JOIN dots.aasequence AS das
-            ON ogas.aa_sequence_id = das.aa_sequence_id
-        JOIN apidb.organism AS og
-            ON das.taxon_id = og.taxon_id
-    GROUP BY
-        ogas.group_id
-)
-SELECT
-    gc.group_id AS group_name,
-    gc.number_of_core_members AS core_num,
-    gc.number_of_peripheral_members AS peripheral_num,
-    gc.number_of_members AS total_num
-FROM
-    group_counts AS gc
-WHERE
-    gc.number_of_core_members BETWEEN $$core_count_min$$ AND $$core_count_max$$
-    AND gc.number_of_peripheral_members BETWEEN $$peripheral_count_min$$ AND $$peripheral_count_max$$
-    AND gc.number_of_members BETWEEN $$all_count_min$$ AND $$all_count_max$$
+  SELECT
+    group_name,
+    number_of_core_members as core_num,
+    number_of_peripheral_members as peripheral_num
+    FROM apidbtuning.groupattributes
+ WHERE
+    number_of_core_members BETWEEN $$core_count_min$$ AND $$core_count_max$$
+    AND number_of_peripheral_members BETWEEN $$peripheral_count_min$$ AND $$peripheral_count_max$$
+    AND number_of_members BETWEEN $$all_count_min$$ AND $$all_count_max$$
+
                 ]]>
             </sql>
         </sqlQuery>
@@ -154,41 +138,18 @@ WHERE
             <column name="all_count"/>
             <sql>
               <![CDATA[
-SELECT
-    group_name,
-    core_count,
-    peripheral_count,
-    core_count + peripheral_count AS all_count
-FROM (
     SELECT
-        COALESCE(c.group_name, p.group_name) AS group_name,
-        COALESCE(c.core_count, 0) AS core_count,
-        COALESCE(p.peripheral_count, 0) AS peripheral_count
-    FROM (
-        SELECT
-            group_name,
-            COUNT(DISTINCT taxon_abbreviation) AS core_count
-        FROM ApidbTuning.SequenceAttributes
-        WHERE core_peripheral = 'C'
-        GROUP BY group_name
-    ) c
-    FULL OUTER JOIN (
-        SELECT
-            group_name,
-            COUNT(DISTINCT taxon_abbreviation) AS peripheral_count
-        FROM ApidbTuning.SequenceAttributes
-        WHERE core_peripheral = 'P'
-        GROUP BY group_name
-    ) p
-    ON c.group_name = p.group_name
-) subquery
-WHERE
-    core_count >= $$core_taxon_min$$
-    AND core_count <= $$core_taxon_max$$
-    AND peripheral_count >= $$peripheral_taxon_min$$
-    AND peripheral_count <= $$peripheral_taxon_max$$
-    AND (core_count + peripheral_count) >= $$all_taxon_min$$
-    AND (core_count + peripheral_count) <= $$all_taxon_max$$
+      group_name,
+      core_taxa_count as core_count,
+      peripheral_taxa_count as peripheral_count,
+      taxa_count AS all_count
+    FROM apidbtuning.groupattributes
+    WHERE core_taxa_count >= $$core_taxon_min$$
+    AND core_taxa_count <= $$core_taxon_max$$
+    AND peripheral_taxa_count >= $$peripheral_taxon_min$$
+    AND peripheral_taxa_count <= $$peripheral_taxon_max$$
+    AND taxa_count >= $$all_taxon_min$$
+    AND taxa_count <= $$all_taxon_max$$
               ]]>
             </sql>
         </sqlQuery>
