@@ -48,19 +48,13 @@
             <column name="pfam_domains"/>          
             <sql>
 		<![CDATA[
-SELECT aas.source_id as full_id, sa.source_id,  
+SELECT sa.full_id, sa.source_id,  
     sa.length as length, sa.product as product, 
     --round(sa.molecular_weight/1000,1) AS molecular_weight,
     sa.taxon_abbreviation AS abbreviation, 
     sa.organism_name AS taxon_name, 
-    (SELECT string_agg(da.accession, ', ') 
-     FROM ApidbTuning.DomainAssignment da 
-     WHERE da.aa_sequence_id = sa.aa_sequence_id 
-     GROUP BY da.full_id) AS pfam_domains
+    sa.pfam_domains
 FROM apidbTuning.SequenceAttributes sa
-FULL OUTER JOIN dots.aasequence aas ON aas.source_id = sa.full_id
-WHERE aas.taxon_id in (select distinct(aas.taxon_id) from apidb.organism og, dots.aasequence aas where aas.taxon_id = og.taxon_id)
-AND aas.source_id = sa.full_id
  		]]>
             </sql>
         </sqlQuery>
@@ -77,13 +71,6 @@ LEFT JOIN (
     FROM apidbtuning.sequenceenzymeclass sec
     GROUP BY full_id
 ) ec ON sa.full_id = ec.full_id
-LEFT JOIN dots.aasequence aas 
-    ON aas.source_id = sa.full_id
-   AND aas.taxon_id IN (
-       SELECT DISTINCT og.taxon_id
-       FROM apidb.organism og
-       JOIN dots.aasequence aas2 ON aas2.taxon_id = og.taxon_id
-   )
              ]]>
            </sql>
         </sqlQuery>

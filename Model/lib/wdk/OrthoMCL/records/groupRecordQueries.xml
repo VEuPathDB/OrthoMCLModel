@@ -488,7 +488,7 @@ ORDER BY num_proteins DESC
             <![CDATA[
 SELECT group_name, full_id, protein_length, taxon_name, core_peripheral, accession, domain_index, start_min, end_max
 FROM apidbtuning.groupproteinpfam
-ORDER BY sa.full_id, da.start_min
+ORDER BY full_id, start_min
             ]]>
           </sql>
         </sqlQuery>
