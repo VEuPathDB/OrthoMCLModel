@@ -602,13 +602,7 @@ ORDER BY sequence_count DESC
           <column name="frequency" />
           <sql>
             <![CDATA[
-SELECT 
-    og.group_id AS group_name, 
-    d.description AS keyword, 
-    d.frequency
-FROM apidb.OrthologGroup og
-INNER JOIN apidb.OrthomclGroupDomain d 
-    ON og.ortholog_group_id::text = d.ortholog_group_id
+            SELECT * FROM apidbtuning.GroupDomainFrequency
             ]]>
           </sql>
         </sqlQuery>
