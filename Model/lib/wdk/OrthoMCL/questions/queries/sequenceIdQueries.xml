@@ -367,6 +367,7 @@ query_proteins AS (
     -- Match by protein_id directly
     SELECT aas.aa_sequence_id, aas.source_id
     FROM dots.aasequence aas
+    JOIN ApidbTuning.SequenceAttributes sa ON sa.full_id = aas.source_id
     JOIN input_ids i ON lower(aas.source_id) = lower(i.input_id)
 
     UNION
@@ -376,6 +377,7 @@ query_proteins AS (
     FROM input_ids i
     JOIN apidbtuning.transcriptattributes ta ON lower(ta.gene_source_id) = lower(i.input_id)
     JOIN dots.aasequence aas ON lower(aas.source_id) = lower(ta.protein_source_id)
+    JOIN ApidbTuning.SequenceAttributes sa ON sa.full_id = aas.source_id
 ),
 
 q AS (
