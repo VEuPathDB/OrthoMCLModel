@@ -358,11 +358,24 @@ ON q.group_id = t.group_id
       <column name="target_id"/>
       <sql>
                 <![CDATA[
-WITH query_proteins AS (
-    -- Convert comma-separated string into an array
-    SELECT aa_sequence_id, source_id
-    FROM dots.aasequence
-    WHERE source_id = ANY(string_to_array($$querySequenceList$$, ','))
+WITH input_ids AS (
+    -- Split comma-separated list into individual trimmed IDs
+    SELECT TRIM(unnest(string_to_array($$querySequenceList$$, ','))) AS input_id
+),
+
+query_proteins AS (
+    -- Match by protein_id directly
+    SELECT aas.aa_sequence_id, aas.source_id
+    FROM dots.aasequence aas
+    JOIN input_ids i ON lower(aas.source_id) = lower(i.input_id)
+
+    UNION
+
+    -- Match by gene_id via transcriptattributes (one protein per transcript)
+    SELECT aas.aa_sequence_id, aas.source_id
+    FROM input_ids i
+    JOIN apidbtuning.transcriptattributes ta ON lower(ta.gene_source_id) = lower(i.input_id)
+    JOIN dots.aasequence aas ON lower(aas.source_id) = lower(ta.protein_source_id)
 ),
 
 q AS (
