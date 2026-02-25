@@ -137,16 +137,11 @@
                 <columnAttribute name="core_median_evalue" displayName="Median E-value (CORE)" inReportMaker="false" />
                 <columnAttribute name="core_75_evalue" displayName="75% E-value (CORE)" inReportMaker="false" />
                 <columnAttribute name="core_max_evalue" displayName="Max E-value (CORE)" inReportMaker="false" />
-                <columnAttribute name="core_peripheral_min_evalue" displayName="Min E-value (CORE+PERIPHERAL)" inReportMaker="false" />
-                <columnAttribute name="core_peripheral_25_evalue" displayName="25% E-value (CORE+PERIPHERAL)" inReportMaker="false" />
-                <columnAttribute name="core_peripheral_median_evalue" displayName="Median E-value (CORE+PERIPHERAL)" inReportMaker="false" />
-                <columnAttribute name="core_peripheral_75_evalue" displayName="75% E-value (CORE+PERIPHERAL)" inReportMaker="false" />
-                <columnAttribute name="core_peripheral_max_evalue" displayName="Max E-value (CORE+PERIPHERAL)" inReportMaker="false" />
-                <columnAttribute name="residual_min_evalue" displayName="Min E-value (RESIDUAL)" inReportMaker="false" />
-                <columnAttribute name="residual_25_evalue" displayName="25% E-value (RESIDUAL)" inReportMaker="false" />
-                <columnAttribute name="residual_median_evalue" displayName="Median E-value (RESIDUAL)" inReportMaker="false" />
-                <columnAttribute name="residual_75_evalue" displayName="75% E-value (RESIDUAL)" inReportMaker="false" />
-                <columnAttribute name="residual_max_evalue" displayName="Max E-value (RESIDUAL)" inReportMaker="false" />
+                <columnAttribute name="all_min_evalue" displayName="Min E-value (ALL)" inReportMaker="false" />
+                <columnAttribute name="all_25_evalue" displayName="25% E-value (ALL)" inReportMaker="false" />
+                <columnAttribute name="all_median_evalue" displayName="Median E-value (ALL)" inReportMaker="false" />
+                <columnAttribute name="all_75_evalue" displayName="75% E-value (ALL)" inReportMaker="false" />
+                <columnAttribute name="all_max_evalue" displayName="Max E-value (ALL)" inReportMaker="false" />
             </attributeQueryRef>
 
 

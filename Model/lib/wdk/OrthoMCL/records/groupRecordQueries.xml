@@ -50,35 +50,34 @@ from apidbtuning.groupattributes
           <column name="core_median_evalue"/>
           <column name="core_75_evalue"/>
           <column name="core_max_evalue"/>
-          <column name="core_peripheral_min_evalue"/>
-          <column name="core_peripheral_25_evalue"/>
-          <column name="core_peripheral_median_evalue"/>
-          <column name="core_peripheral_75_evalue"/>
-          <column name="core_peripheral_max_evalue"/>
-          <column name="residual_min_evalue"/>
-          <column name="residual_25_evalue"/>
-          <column name="residual_median_evalue"/>
-          <column name="residual_75_evalue"/>
-          <column name="residual_max_evalue"/>
+          <column name="all_min_evalue"/>
+          <column name="all_25_evalue"/>
+          <column name="all_median_evalue"/>
+          <column name="all_75_evalue"/>
+          <column name="all_max_evalue"/>
           <sql>
             <![CDATA[
-SELECT group_name,
-       core_min_evalue,
-       core_25_evalue,
-       core_median_evalue,
-       core_75_evalue,
-       core_max_evalue,
-       core_peripheral_min_evalue,
-       core_peripheral_25_evalue,
-       core_peripheral_median_evalue,
-       core_peripheral_75_evalue,
-       core_peripheral_max_evalue,
-       residual_min_evalue,
-       residual_25_evalue,
-       residual_median_evalue,
-       residual_75_evalue,
-       residual_max_evalue
+SELECT
+    group_name,
+
+    -- core fields
+    core_min_evalue,
+    core_25_evalue,
+    core_median_evalue,
+    core_75_evalue,
+    core_max_evalue,
+
+    -- all = core_peripheral OR residual
+    COALESCE(core_peripheral_min_evalue, residual_min_evalue)       AS all_min_evalue,
+    COALESCE(core_peripheral_25_evalue, residual_25_evalue)        AS all_25_evalue,
+    COALESCE(core_peripheral_median_evalue, residual_median_evalue) AS all_median_evalue,
+    COALESCE(core_peripheral_75_evalue, residual_75_evalue)        AS all_75_evalue,
+    COALESCE(core_peripheral_max_evalue, residual_max_evalue)      AS all_max_evalue
+
 FROM apidbtuning.groupstatswide
+WHERE core_min_evalue IS NOT NULL
+   OR core_peripheral_min_evalue IS NOT NULL
+   OR residual_min_evalue IS NOT NULL
             ]]>
           </sql>
         </sqlQuery>
