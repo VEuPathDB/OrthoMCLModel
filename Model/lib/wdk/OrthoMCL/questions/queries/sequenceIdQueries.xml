@@ -135,6 +135,7 @@ JOIN dots.AaSequenceEnzymeClass asec
   ON aas.aa_sequence_id = asec.aa_sequence_id
 JOIN sres.enzymeClass ec
   ON asec.enzyme_class_id = ec.enzyme_class_id
+WHERE ec.ec_number = $$ec_number_type_ahead$$
                  ]]>
             </sql>
         </sqlQuery>
