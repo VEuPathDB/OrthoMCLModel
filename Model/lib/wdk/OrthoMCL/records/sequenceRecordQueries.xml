@@ -113,6 +113,22 @@ FROM dots.aasequence aas
             </sql>
         </sqlQuery>
 
+        <sqlQuery name="SequenceSourceLink">
+            <column name="full_id"/>
+            <column name="gene_source_id"/>
+            <column name="gene_source_url"/>
+            <sql>
+                <![CDATA[
+SELECT pa.source_id AS full_id,
+       pa.gene_source_id,
+       'https://beta.' || lower(pa.project_id) || '.org/' ||
+       lower(replace(pa.project_id, 'DB', '')) || '.beta/app/record/gene/' ||
+       pa.gene_source_id AS gene_source_url
+FROM apidbtuning.proteinattributes pa
+                ]]>
+            </sql>
+        </sqlQuery>
+
     </querySet>
 
     <querySet name="SequenceTables" queryType="table" isCacheable="false">
