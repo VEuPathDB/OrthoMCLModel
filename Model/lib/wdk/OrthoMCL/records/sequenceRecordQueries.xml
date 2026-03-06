@@ -113,6 +113,33 @@ FROM dots.aasequence aas
             </sql>
         </sqlQuery>
 
+        <sqlQuery name="SequenceSourceLink">
+            <column name="full_id"/>
+            <column name="gene_source_id"/>
+            <column name="gene_source_url"/>
+            <sql>
+                <![CDATA[
+SELECT sa.full_id,
+       CASE
+           WHEN pa.source_id IS NOT NULL THEN pa.gene_source_id
+           ELSE sa.source_text
+       END AS gene_source_id,
+       CASE
+           WHEN pa.source_id IS NOT NULL THEN
+               'https://beta.' || lower(pa.project_id) || '.org/' ||
+               lower(replace(pa.project_id, 'DB', '')) || '.beta/app/record/gene/' ||
+               pa.gene_source_id
+           ELSE r.resource_url
+       END AS gene_source_url
+FROM apidbtuning.sequenceattributes sa
+LEFT JOIN apidbtuning.proteinattributes pa
+    ON sa.full_id = pa.source_id AND pa.project_id != 'OrthoMCL'
+LEFT JOIN apidb.orthomclresource r
+    ON sa.orthomcl_taxon_id = r.orthomcl_taxon_id
+                ]]>
+            </sql>
+        </sqlQuery>
+
     </querySet>
 
     <querySet name="SequenceTables" queryType="table" isCacheable="false">
