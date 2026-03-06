@@ -126,8 +126,7 @@ SELECT sa.full_id,
        END AS gene_source_id,
        CASE
            WHEN pa.source_id IS NOT NULL THEN
-               'https://beta.' || lower(pa.project_id) || '.org/' ||
-               lower(replace(pa.project_id, 'DB', '')) || '.beta/app/record/gene/' ||
+               'https://beta.' || lower(pa.project_id) || '.org/a/app/record/gene/' ||
                pa.gene_source_id
            ELSE r.resource_url
        END AS gene_source_url
