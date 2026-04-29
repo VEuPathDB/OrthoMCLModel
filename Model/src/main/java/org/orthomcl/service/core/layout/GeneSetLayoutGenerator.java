@@ -79,7 +79,7 @@ public class GeneSetLayoutGenerator {
       throw new WdkModelException(ex);
     }
     finally {
-      SqlUtils.closeResultSetAndStatement(resultSet, null);
+      SqlUtils.closeResultSetAndStatement(resultSet);
     }
     return nodes;
   }
@@ -129,7 +129,7 @@ public class GeneSetLayoutGenerator {
       throw new WdkModelException(ex);
     }
     finally {
-      SqlUtils.closeResultSetAndStatement(resultSet, null);
+      SqlUtils.closeResultSetAndStatement(resultSet);
     }
   }
 
@@ -165,7 +165,7 @@ public class GeneSetLayoutGenerator {
       throw new WdkModelException(ex);
     }
     finally {
-      SqlUtils.closeResultSetAndStatement(resultSet, null);
+      SqlUtils.closeResultSetAndStatement(resultSet);
     }
   }
 

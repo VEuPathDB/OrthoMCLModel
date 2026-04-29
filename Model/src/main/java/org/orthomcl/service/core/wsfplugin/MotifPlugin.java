@@ -131,7 +131,7 @@ public class MotifPlugin extends AbstractPlugin {
     } catch (SQLException ex) {
       throw new PluginModelException(ex);
     } finally {
-      SqlUtils.closeResultSetAndStatement(resultSet, null);
+      SqlUtils.closeResultSetAndStatement(resultSet);
     }
   }
 
