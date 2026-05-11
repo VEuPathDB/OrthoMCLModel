@@ -37,4 +37,5 @@ blastconfig_idBlastRegex: '<![CDATA[^>*\s*\t*\s*(\S+)]]>'
 blastconfig_tempBlastPath: /var/www/Common/tmp/blast
 
 solrDomain: "solr-sitesearch-dev.local.apidb.org"
+solrBaseUrl: "https://{{ solrDomain }}:8443/solr"
 solrUrl: "https://{{ solrDomain }}:8443/solr/orthosearch/"
