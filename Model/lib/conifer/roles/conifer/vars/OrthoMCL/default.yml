@@ -12,6 +12,7 @@ modelconfig_oauthClientSecret: "{{ lookup('csvfile',
     col=1
     delimiter=:') | trim
   }}"
+modelconfig_maxTableValueRows: 50000
 
 modelprop:
   BLASTDB_PATH: /var/www/Common/apiSiteFilesMirror/webServices/OrthoMCL
