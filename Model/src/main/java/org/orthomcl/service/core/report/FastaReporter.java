@@ -116,7 +116,7 @@ public class FastaReporter extends AbstractReporter {
 
     List<AttributeField> neededAttrs = Functions.mapToList(Arrays.asList(NEEDED_ATTRIBUTES),
         attrName -> sequenceRecordClass.getAttributeField(attrName).orElseThrow());
-    try (FileBasedRecordStream records = new FileBasedRecordStream(_baseAnswer, neededAttrs, Collections.EMPTY_LIST)) {
+    try (FileBasedRecordStream records = new FileBasedRecordStream(_baseAnswer, neededAttrs, Collections.emptyList())) {
       PrintWriter writer = new PrintWriter(new OutputStreamWriter(out));
   
       for (RecordInstance record : records) {
