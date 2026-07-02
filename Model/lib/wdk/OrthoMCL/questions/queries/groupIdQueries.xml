@@ -26,13 +26,9 @@
               <![CDATA[
 SELECT og.group_id AS group_name
 FROM apidb.OrthologGroup og
-WHERE lower(og.group_id) IN (
-    SELECT DISTINCT lower(gm.new_group_id) AS group_id
-    FROM apidb.GroupMapping gm
-    JOIN (
-        $$group_names$$
-    ) AS ds(group_name) ON lower(gm.old_group_id) = lower(ds.group_name)
-)
+JOIN (
+    $$group_names$$
+) AS ds(group_name) ON lower(og.group_id) = lower(ds.group_name)
 	      ]]>
             </sql>
         </sqlQuery>  
