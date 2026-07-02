@@ -152,8 +152,6 @@
       <attributeQueryRef ref="SequenceAttributes.SequenceGroup">
         <columnAttribute name="group_name" displayName="Group ID" internal="false" inReportMaker="true" />
         <columnAttribute name="core_peripheral" displayName="Core/Peripheral Species" internal="false" inReportMaker="true" />
-        <columnAttribute name="num_core" displayName="Number of Core Proteins" internal="false"/>
-        <columnAttribute name="num_peripheral" displayName="Number of Peripheral Proteins" internal="false"/>
 <!-- TODO?
         <columnAttribute name="old_groups" displayName="Previous ortholog groups" internal="false">
           <reporter name="wordCloud" displayName="Word Cloud" scopes=""
