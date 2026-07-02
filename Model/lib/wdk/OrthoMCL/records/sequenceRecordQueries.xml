@@ -91,7 +91,7 @@ SELECT sa.full_id as full_id,
        CASE sa.core_peripheral 
            WHEN 'C' THEN 'Core' 
            WHEN 'P' THEN 'Peripheral' 
-       END AS core_peripheral, 
+       END AS core_peripheral
        --sa.source_url, sa.source_text
 FROM ApidbTuning.SequenceAttributes sa
              ]]>
