@@ -79,8 +79,6 @@ LEFT JOIN (
            <column name="full_id"/>
            <column name="core_peripheral"/>
            <column name="group_name"/>
-           <column name="num_core"/>
-           <column name="num_peripheral"/>
 <!-- TODO??
            <column name="source_url"/>
            <column name="source_text"/>
@@ -94,8 +92,6 @@ SELECT sa.full_id as full_id,
            WHEN 'C' THEN 'Core' 
            WHEN 'P' THEN 'Peripheral' 
        END AS core_peripheral, 
-       number_of_core_members AS num_core, 
-       number_of_peripheral_members AS num_peripheral
        --sa.source_url, sa.source_text
 FROM ApidbTuning.SequenceAttributes sa
              ]]>
