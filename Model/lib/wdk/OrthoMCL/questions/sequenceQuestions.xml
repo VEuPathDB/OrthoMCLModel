@@ -14,13 +14,13 @@
         </description>
 
 
-        <question name="ByIdList" queryRef="SequenceIds.ByIdList" 
-				  displayName="Protein ID(s)"
+        <question name="ByIdList" queryRef="SequenceIds.ByIdList"
+				  displayName="Protein ID(s) or VEuPathDB GeneID(s)"
 				  shortDisplayName="Seq ID(s)"
                   recordClassRef="SequenceRecordClasses.SequenceRecordClass">
             <description>
 			<![CDATA[
-                Find Proteins by OrthoMCL Protein ID(s) (from the current or previous releases of OrthoMCL).
+                Find Proteins by OrthoMCL Protein ID(s) (from the current or previous releases of OrthoMCL) or by VEuPathDB Gene ID(s).
 			]]>
             </description>
         </question>
