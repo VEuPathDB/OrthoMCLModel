@@ -46,6 +46,13 @@ JOIN Sres.ExternalDatabase db ON db.external_database_id = dbr.external_database
 JOIN ($$source_ids$$) ds ON lower(ref.primary_identifier) = lower(ds.full_id)
    OR lower(ref.secondary_identifier) = lower(ds.full_id)
 WHERE db.name = 'OrthoMCL Old Seqs'
+
+UNION
+
+SELECT aas.source_id AS full_id
+FROM dots.aasequence aas
+JOIN apidbtuning.transcriptattributes ta ON lower(aas.source_id) = lower(ta.protein_source_id)
+JOIN ($$source_ids$$) ds ON lower(ta.gene_source_id) = lower(ds.full_id)
 				]]>
             </sql>
         </sqlQuery>  
