@@ -52,6 +52,7 @@ UNION
 SELECT aas.source_id AS full_id
 FROM dots.aasequence aas
 JOIN apidbtuning.transcriptattributes ta ON lower(aas.source_id) = lower(ta.protein_source_id)
+JOIN apidbTuning.SequenceAttributes sa ON sa.full_id = aas.source_id
 JOIN ($$source_ids$$) ds ON lower(ta.gene_source_id) = lower(ds.full_id)
 				]]>
             </sql>
