@@ -313,7 +313,7 @@ SELECT
 FROM AllClades c
 LEFT JOIN ColoredHierarchy ch
   ON c.orthomcl_clade_id = ch.orthomcl_clade_id
-ORDER BY c.orthomcl_clade_id, c.name
+ORDER BY c.name
            ]]>
            </sql>
        </sqlQuery>
