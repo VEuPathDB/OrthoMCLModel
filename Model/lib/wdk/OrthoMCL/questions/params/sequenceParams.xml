@@ -535,11 +535,16 @@
             <column name="term" />
             <column name="display"/>
             <sql>
-               SELECT og.orthomcl_abbrev AS internal,
+               SELECT DISTINCT
+                      og.orthomcl_abbrev AS internal,
                       og.orthomcl_abbrev AS term,
-                      og.orthomcl_abbrev || ' (' || tn.name || ')' AS display
-               FROM apidb.organism og, sres.taxonname tn
-               WHERE og.taxon_id = tn.taxon_id
+                      og.orthomcl_abbrev || ' (' || c.name || ')' AS display
+               FROM apidb.organism og
+               JOIN apidb.OrthomclClade c
+                 ON c.three_letter_abbrev = og.orthomcl_abbrev
+               WHERE c.is_species = 1
+                 AND (og.is_annotated_genome = 1
+                      OR (og.is_annotated_genome = 0 AND og.project_name = 'OrthoMCL'))
              </sql>
         </sqlQuery>
 
