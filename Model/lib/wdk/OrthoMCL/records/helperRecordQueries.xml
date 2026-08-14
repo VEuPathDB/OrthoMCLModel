@@ -232,14 +232,14 @@ SELECT
   og.orthomcl_abbrev AS three_letter_abbrev,
 
   CASE
-    WHEN od.resource_name = 'Uniprot' THEN od.resource_name
+    WHEN lower(od.resource_name) = 'uniprot' THEN od.resource_name
     WHEN gd.dataset_presenter_id IS NOT NULL AND pd.domain IS NOT NULL THEN og.project_name
     WHEN od.resource_url = '-' THEN '-'
     ELSE od.resource_name
   END AS resource_name,
 
   CASE
-    WHEN od.resource_name = 'Uniprot'
+    WHEN lower(od.resource_name) = 'uniprot'
       THEN 'https://www.uniprot.org/taxonomy/' || t.ncbi_tax_id
     WHEN gd.dataset_presenter_id IS NOT NULL AND pd.domain IS NOT NULL
       THEN 'https://' || pd.domain || '/app/record/dataset/' || gd.dataset_presenter_id
