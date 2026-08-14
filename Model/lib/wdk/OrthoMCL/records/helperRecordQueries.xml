@@ -201,7 +201,11 @@ SELECT
     ELSE od.resource_name
   END AS resource_name,
 
-  od.resource_url,
+  CASE
+    WHEN od.resource_name = 'Uniprot'
+      THEN 'https://www.uniprot.org/taxonomy/' || t.ncbi_tax_id
+    ELSE od.resource_url
+  END AS resource_url,
   od.resource_version,
 
   CASE og.core_peripheral
