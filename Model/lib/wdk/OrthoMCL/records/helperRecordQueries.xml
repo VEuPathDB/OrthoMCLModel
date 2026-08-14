@@ -190,6 +190,41 @@ WITH stats AS (
     COUNT(DISTINCT ortholog_group_id) AS groups
   FROM ApidbTuning.SequenceAttributes
   GROUP BY orthomcl_taxon_id
+),
+
+-- Each annotated genome's "primary genome" dataset record, so we can link
+-- to the actual VEuPathDB dataset page (record/dataset/{dataset_presenter_id})
+-- instead of a per-protein cross-reference URL template that has no single
+-- external ID to substitute at the organism level.
+genome_dataset AS (
+  SELECT DISTINCT ga.taxon_id, dsp.dataset_presenter_id
+  FROM ApidbTuning.GeneAttributes ga
+  JOIN ApidbTuning.DatasetPresenter dsp
+    ON dsp.name = ga.external_db_name
+  WHERE ga.external_db_name LIKE '%_primary_genome_RSRC'
+),
+
+-- Same project domain/shortcode map used to build these organisms'
+-- resource_url in UpdateSpeciesResourcesEc.pm's getVeupathUrl(). Keyed by
+-- apidb.organism.project_name -- od.resource_name is not reliably the site
+-- name (e.g. it's literally "See URL" for some organisms).
+project_domains AS (
+  SELECT * FROM (
+    VALUES
+      ('MicrosporidiaDB', 'microsporidiadb.org/micro'),
+      ('ToxoDB',          'toxodb.org/toxo'),
+      ('AmoebaDB',        'amoebadb.org/amoeba'),
+      ('CryptoDB',        'cryptodb.org/cryptodb'),
+      ('FungiDB',         'fungidb.org/fungidb'),
+      ('GiardiaDB',       'giardiadb.org/giardiadb'),
+      ('PiroplasmaDB',    'piroplasmadb.org/piro'),
+      ('PlasmoDB',        'plasmodb.org/plasmo'),
+      ('TrichDB',         'trichdb.org/trichdb'),
+      ('TriTrypDB',       'tritrypdb.org/tritrypdb'),
+      ('HostDB',          'hostdb.org/hostdb'),
+      ('SchistoDB',       'schistodb.net/schisto'),
+      ('VectorBase',      'vectorbase.org/vectorbase')
+  ) AS t(project_name, domain)
 )
 SELECT
   'helper' AS helper_id,
@@ -197,6 +232,8 @@ SELECT
   og.orthomcl_abbrev AS three_letter_abbrev,
 
   CASE
+    WHEN od.resource_name = 'Uniprot' THEN od.resource_name
+    WHEN gd.dataset_presenter_id IS NOT NULL AND pd.domain IS NOT NULL THEN og.project_name
     WHEN od.resource_url = '-' THEN '-'
     ELSE od.resource_name
   END AS resource_name,
@@ -204,6 +241,8 @@ SELECT
   CASE
     WHEN od.resource_name = 'Uniprot'
       THEN 'https://www.uniprot.org/taxonomy/' || t.ncbi_tax_id
+    WHEN gd.dataset_presenter_id IS NOT NULL AND pd.domain IS NOT NULL
+      THEN 'https://' || pd.domain || '/app/record/dataset/' || gd.dataset_presenter_id
     ELSE od.resource_url
   END AS resource_url,
   od.resource_version,
@@ -238,6 +277,10 @@ JOIN apidb.orthomclClade oc
   ON oc.three_letter_abbrev = og.orthomcl_abbrev
 JOIN sres.Taxon t
   ON t.taxon_id = og.taxon_id
+LEFT JOIN genome_dataset gd
+  ON gd.taxon_id = og.taxon_id
+LEFT JOIN project_domains pd
+  ON pd.project_name = og.project_name
 WHERE og.is_annotated_genome = 1
 ORDER BY oc.name
             ]]>
