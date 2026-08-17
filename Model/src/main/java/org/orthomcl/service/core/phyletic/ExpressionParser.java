@@ -31,13 +31,18 @@ public class ExpressionParser {
     private final Pattern conditionPattern;
 
     public ExpressionParser() {
-        booleanPattern = Pattern.compile(BOOLEAN_PATTERN);
+        booleanPattern = Pattern.compile(BOOLEAN_PATTERN, Pattern.CASE_INSENSITIVE);
         conditionPattern = Pattern.compile(CONDITION_PATTERN);
     }
 
     public ExpressionNode parse(String expression) throws WdkModelException {
-        expression = expression.toLowerCase();
-
+        // NOTE: do not lowercase the whole expression here. Taxon
+        // abbreviations are case-significant in apidb.orthologgrouptaxon --
+        // e.g. 'nema' (the species Nematocida ausubeli) and 'NEMA' (the
+        // Nematoda clade) are distinct rows that differ only by case.
+        // Lowercasing terms would collapse them into the same match.
+        // Boolean operators (and/or/not) are matched case-insensitively
+        // below instead.
         Map<String, String> blocks = new HashMap<String, String>();
         return parseNode(expression, blocks);
     }
@@ -62,7 +67,7 @@ public class ExpressionParser {
             ExpressionNode leftNode = parseNode(left, blocks);
             String right = expression.substring(matcher.end() + 1);
             ExpressionNode rightNode = parseNode(right, blocks);
-            String operator = BOOLEAN.get(matcher.group());
+            String operator = BOOLEAN.get(matcher.group().toLowerCase());
             return new BooleanNode(leftNode, rightNode, operator);
         } else { // it is not a boolean expression
             return parseLeaf(expression, blocks);
@@ -110,7 +115,7 @@ public class ExpressionParser {
     private void parseCounts(LeafNode leaf, String counts)
             throws WdkModelException {
         counts = counts.trim();
-        boolean onSpecies = counts.endsWith("t");
+        boolean onSpecies = counts.toLowerCase().endsWith("t");
         if (onSpecies) counts = counts.substring(0, counts.length() - 1);
         try {
             int count = Integer.valueOf(counts);
