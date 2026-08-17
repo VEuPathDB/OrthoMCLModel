@@ -1,9 +1,16 @@
 package org.orthomcl.model.phyletic;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+
 import org.gusdb.wdk.model.WdkModelException;
 import org.junit.Test;
+import org.orthomcl.service.core.phyletic.BooleanNode;
 import org.orthomcl.service.core.phyletic.ExpressionNode;
 import org.orthomcl.service.core.phyletic.ExpressionParser;
+import org.orthomcl.service.core.phyletic.LeafNode;
 
 public class ExpressionTest {
 
@@ -65,6 +72,27 @@ public class ExpressionTest {
     @Test(expected=WdkModelException.class)
     public void testInvalidSpeciesFlag() throws WdkModelException {
         testExpression("abcd+cdes=3P");
+    }
+
+    // Regression test: 'nema' (species Nematocida ausubeli) and 'NEMA' (the
+    // Nematoda clade) are distinct rows in apidb.orthologgrouptaxon that
+    // differ only by case. Terms must be preserved exactly as typed, not
+    // folded to a single case, or the two get conflated at query time.
+    @Test
+    public void testTermCaseIsPreserved() throws WdkModelException {
+        ExpressionNode node = parser.parse("NEMA+nema=2");
+        assertTrue(node instanceof LeafNode);
+        LeafNode leaf = (LeafNode) node;
+        assertEquals(Arrays.asList("NEMA", "nema"), leaf.getTerms());
+    }
+
+    // Boolean operators should still be recognized regardless of case, even
+    // though terms themselves are no longer forced to lowercase.
+    @Test
+    public void testBooleanOperatorCaseInsensitive() throws WdkModelException {
+        ExpressionNode node = parser.parse("nema=1 AND NEMA=1");
+        assertTrue(node instanceof BooleanNode);
+        assertEquals("and", ((BooleanNode) node).getOperator());
     }
 
     private void testExpression(String exp) throws WdkModelException {
