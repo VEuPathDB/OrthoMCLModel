@@ -29,9 +29,19 @@ FROM apidb.OrthologGroup og
 JOIN (
     $$group_names$$
 ) AS ds(group_name) ON lower(og.group_id) = lower(ds.group_name)
+
+UNION
+
+SELECT og.group_id AS group_name
+FROM apidb.groupmapping gm
+JOIN apidb.OrthologGroup og
+    ON og.group_id = gm.new_group_id
+JOIN (
+    $$group_names$$
+) AS ds(group_name) ON lower(gm.old_group_id) = lower(ds.group_name)
 	      ]]>
             </sql>
-        </sqlQuery>  
+        </sqlQuery>
 
         <sqlQuery name="ByPfamIdOrKeyword" 
 			isCacheable="true" doNotTest="true">
