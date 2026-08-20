@@ -145,21 +145,22 @@ ON og.group_id = verbiage.ortholog_group_id
             <![CDATA[
 WITH prevgps AS (
   SELECT
-    old_group_id,
-    COUNT(new_group_id) AS cnt,
-    string_agg(new_group_id, ', ' ORDER BY new_group_id) AS new_groups
+    new_group_id,
+    COUNT(old_group_id) AS cnt,
+    string_agg(old_group_id, ', ' ORDER BY old_group_id) AS prev_groups
   FROM apidb.groupMapping
-  GROUP BY old_group_id
-  ORDER BY old_group_id
+  WHERE new_group_id <> old_group_id
+  GROUP BY new_group_id
+  ORDER BY new_group_id
 )
 SELECT og.group_id AS group_name,
-       new_groups ||
+       prev_groups ||
          CASE WHEN cnt > 6 THEN
            '... <a href="#previousGroups">(See all ' || cnt || ' groups)</a>'
          END AS previous_groups
 FROM prevgps pg
 LEFT JOIN apidb.orthologGroup og
-  ON og.group_id = pg.old_group_id
+  ON og.group_id = pg.new_group_id
             ]]>
 	  </sql>
 	</sqlQuery>
@@ -330,10 +331,10 @@ FROM apidbtuning.PhyleticPattern
         <column name="group_id"/>
         <sql>
            <![CDATA[
-SELECT old_group_id AS group_name, new_group_id AS group_id
+SELECT new_group_id AS group_name, old_group_id AS group_id
 FROM apidb.groupmapping
 WHERE new_group_id <> old_group_id
-ORDER BY new_group_id DESC
+ORDER BY old_group_id DESC
           ]]>
         </sql>
       </sqlQuery>
