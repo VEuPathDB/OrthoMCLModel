@@ -52,9 +52,19 @@ SELECT sa.full_id
 FROM apidbtuning.SequenceAttributes sa
 JOIN apidbtuning.transcriptattributes ta ON lower(sa.full_id) = lower(ta.protein_source_id)
 JOIN ($$source_ids$$) ds ON lower(ta.gene_source_id) = lower(ds.full_id)
+
+UNION
+
+-- ortho7-formatted ids (abbrev|gene_id), e.g. herc|A0H76_1000 -> A0H76_1000-t39_1-p1
+SELECT sa.full_id
+FROM apidbtuning.SequenceAttributes sa
+JOIN apidbtuning.transcriptattributes ta ON lower(sa.full_id) = lower(ta.protein_source_id)
+JOIN ($$source_ids$$) ds
+    ON lower(ta.gene_source_id) = lower(regexp_replace(ds.full_id, '^[^|]*\|', ''))
+WHERE ds.full_id LIKE '%|%'
 				]]>
             </sql>
-        </sqlQuery>  
+        </sqlQuery>
 
 
         <sqlQuery name="ByAccession" isCacheable="true">
