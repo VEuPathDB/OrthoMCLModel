@@ -30,16 +30,15 @@
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-SELECT aas.source_id AS full_id
-FROM dots.aasequence aas
-JOIN ($$source_ids$$) ds ON lower(aas.source_id) = lower(ds.full_id)
-   OR lower(aas.source_id) = lower(ds.full_id)
+SELECT sa.full_id
+FROM apidbtuning.SequenceAttributes sa
+JOIN ($$source_ids$$) ds ON lower(sa.full_id) = lower(ds.full_id)
 
 UNION
 
-SELECT aas.source_id AS full_id
-FROM dots.aasequence aas
-JOIN Dots.AaSequenceDbRef seqref ON aas.aa_sequence_id = seqref.aa_sequence_id
+SELECT sa.full_id
+FROM apidbtuning.SequenceAttributes sa
+JOIN Dots.AaSequenceDbRef seqref ON sa.aa_sequence_id = seqref.aa_sequence_id
 JOIN Sres.DbRef ref ON seqref.db_ref_id = ref.db_ref_id
 JOIN Sres.ExternalDatabaseRelease dbr ON dbr.external_database_release_id = ref.external_database_release_id
 JOIN Sres.ExternalDatabase db ON db.external_database_id = dbr.external_database_id
@@ -49,10 +48,9 @@ WHERE db.name = 'OrthoMCL Old Seqs'
 
 UNION
 
-SELECT aas.source_id AS full_id
-FROM dots.aasequence aas
-JOIN apidbtuning.transcriptattributes ta ON lower(aas.source_id) = lower(ta.protein_source_id)
-JOIN apidbTuning.SequenceAttributes sa ON sa.full_id = aas.source_id
+SELECT sa.full_id
+FROM apidbtuning.SequenceAttributes sa
+JOIN apidbtuning.transcriptattributes ta ON lower(sa.full_id) = lower(ta.protein_source_id)
 JOIN ($$source_ids$$) ds ON lower(ta.gene_source_id) = lower(ds.full_id)
 				]]>
             </sql>
