@@ -1,12 +1,11 @@
 package org.orthomcl.service.core.wsfplugin;
 
-import org.eupathdb.websvccommon.wsfplugin.blast.AbstractBlastPlugin;
-import org.eupathdb.websvccommon.wsfplugin.blast.AbstractMultiBlastServicePlugin;
-import org.eupathdb.websvccommon.wsfplugin.blast.MBlastJobConfig;
+import org.eupathdb.websvccommon.wsfplugin.blast.*;
 import org.veupathdb.lib.blast.BlastTool;
 import org.veupathdb.lib.blast.field.Dust;
 import org.veupathdb.lib.blast.field.Seg;
 
+import java.util.List;
 import java.util.Map;
 
 public class OrthoMCLBlastPlugin extends AbstractMultiBlastServicePlugin {
@@ -66,6 +65,12 @@ public class OrthoMCLBlastPlugin extends AbstractMultiBlastServicePlugin {
     }
 
     return out;
+  }
+
+  @Override
+  protected List<MBlastJobRequest.JobTarget> buildBlastTargetList(Map<String, String> params) {
+    params.put(MultiBlastServiceParams.BLAST_DATABASE_ORGANISM_PARAM_NAME, params.get(PARAM_DATABASE));
+    return super.buildBlastTargetList(params);
   }
 
   private static Long longFrom(String value) {
