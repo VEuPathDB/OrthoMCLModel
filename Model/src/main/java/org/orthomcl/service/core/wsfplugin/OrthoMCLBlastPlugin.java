@@ -70,6 +70,7 @@ public class OrthoMCLBlastPlugin extends AbstractMultiBlastServicePlugin {
   @Override
   protected List<MBlastJobRequest.JobTarget> buildBlastTargetList(Map<String, String> params) {
     params.put(MultiBlastServiceParams.BLAST_DATABASE_ORGANISM_PARAM_NAME, params.get(PARAM_DATABASE));
+    params.put(MultiBlastServiceParams.BLAST_DATABASE_TYPE_PARAM_NAME, params.get(PARAM_DATABASE));
     return super.buildBlastTargetList(params);
   }
 
