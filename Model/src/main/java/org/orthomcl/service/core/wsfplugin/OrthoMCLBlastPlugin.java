@@ -73,9 +73,9 @@ public class OrthoMCLBlastPlugin extends AbstractMultiBlastServicePlugin {
     if (database.charAt(0) == '\'')
       database = database.substring(1, database.length()-1);
 
-//    var lastSlash = database.lastIndexOf('/');
-//    if (lastSlash > -1)
-//      database = database.substring(lastSlash+1);
+    var lastSlash = database.lastIndexOf('/');
+    if (lastSlash > -1)
+      database = database.substring(lastSlash+1);
 
     params.put(MultiBlastServiceParams.BLAST_DATABASE_ORGANISM_PARAM_NAME, database);
     params.put(MultiBlastServiceParams.BLAST_DATABASE_TYPE_PARAM_NAME, "");
