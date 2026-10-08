@@ -5,6 +5,7 @@ import org.veupathdb.lib.blast.BlastTool;
 import org.veupathdb.lib.blast.field.Dust;
 import org.veupathdb.lib.blast.field.Seg;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -77,9 +78,7 @@ public class OrthoMCLBlastPlugin extends AbstractMultiBlastServicePlugin {
     if (lastSlash > -1)
       database = database.substring(lastSlash+1);
 
-    params.put(MultiBlastServiceParams.BLAST_DATABASE_ORGANISM_PARAM_NAME, database);
-    params.put(MultiBlastServiceParams.BLAST_DATABASE_TYPE_PARAM_NAME, "");
-    return super.buildBlastTargetList(params);
+    return Collections.singletonList(new MBlastJobRequest.JobTarget(null, database));
   }
 
   private static Long longFrom(String value) {
