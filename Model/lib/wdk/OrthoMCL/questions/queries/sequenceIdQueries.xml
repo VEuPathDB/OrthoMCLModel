@@ -44,7 +44,7 @@ JOIN Sres.ExternalDatabaseRelease dbr ON dbr.external_database_release_id = ref.
 JOIN Sres.ExternalDatabase db ON db.external_database_id = dbr.external_database_id
 JOIN ($$source_ids$$) ds ON lower(ref.primary_identifier) = lower(ds.full_id)
    OR lower(ref.secondary_identifier) = lower(ds.full_id)
-WHERE db.name = 'OrthoMCL Old Seqs'
+WHERE db.name like '%_RSRC'
 
 UNION
 
