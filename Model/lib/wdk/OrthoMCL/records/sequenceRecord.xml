@@ -82,7 +82,7 @@
       <favorite noteField="product" />
 -->
 
-      <primaryKey aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin">
+      <primaryKey aliasQueryRef="SequenceAttributes.SequenceAlias">
         <columnRef>full_id</columnRef>
       </primaryKey>
 
