@@ -1,22 +1,27 @@
 package org.orthomcl.service.core;
 
+import static org.gusdb.fgputil.FormatUtil.NL;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.gusdb.fgputil.db.pool.DatabaseInstance;
 import org.gusdb.fgputil.db.runner.SQLRunner;
 import org.gusdb.wdk.model.WdkModel;
 import org.gusdb.wdk.model.WdkModelException;
+import org.gusdb.wdk.model.query.SqlQuery;
+import org.gusdb.wdk.model.query.param.Param;
 import org.gusdb.wdk.model.record.PrimaryKeyAliasPlugin;
 import org.gusdb.wdk.model.record.RecordNotFoundException;
 import org.gusdb.wdk.model.user.User;
-import org.gusdb.wdk.model.query.SqlQuery;
-import org.gusdb.wdk.model.query.param.Param;
 
 public class SequenceAliasPlugin implements PrimaryKeyAliasPlugin {
+
+  private static final Logger LOG = Logger.getLogger(SequenceAliasPlugin.class);
 
   private static final String
       SEQUENCE_PK_COL_NAME = "full_id",
@@ -35,6 +40,8 @@ public class SequenceAliasPlugin implements PrimaryKeyAliasPlugin {
         .orElseThrow(() -> new RecordNotFoundException("Primary key for sequence did not contain full_id column."))
         .toString();
 
+    LOG.info("Sequence alias plugin called with full_id " + fullId);
+
     // check for SQL injection
     if (!ID_REGEX.matcher(fullId).find()) {
       throw new RecordNotFoundException("Record not found.");
@@ -51,10 +58,14 @@ public class SequenceAliasPlugin implements PrimaryKeyAliasPlugin {
 
     String idQuerySql = param.replaceSql(query.getSql(), null, datasetSql);
 
+    LOG.info("Supplied full_id passed regex.  Will call the following SQL: " + NL + idQuerySql);
+
     List<Map<String, Object>> foundPks = new SQLRunner(appDb.getDataSource(), idQuerySql).executeQuery(rs -> {
       List<Map<String, Object>> rows = new ArrayList<>();
       while (rs.next()) {
-        rows.add(Map.of(SEQUENCE_PK_COL_NAME, rs.getString(SEQUENCE_PK_COL_NAME)));
+        String id = rs.getString(SEQUENCE_PK_COL_NAME);
+        LOG.info("Found mapped ID: " + id);
+        rows.add(Map.of(SEQUENCE_PK_COL_NAME, id));
       }
       return rows;
     });
