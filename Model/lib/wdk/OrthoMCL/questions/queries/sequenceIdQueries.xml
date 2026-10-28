@@ -25,32 +25,32 @@
 
     <querySet name="SequenceIds" queryType="id" isCacheable="false">
 
-      <sqlQuery name="ByIdList" isCacheable="true">
+        <sqlQuery name="ByIdList" isCacheable="true">
             <paramRef ref="sequenceParams.source_ids"/>
             <column name="full_id"/>
             <sql>
-                <![CDATA[
-SELECT sa.full_id
-FROM apidbtuning.SequenceAttributes sa
-JOIN ($$source_ids$$) ds ON lower(sa.full_id) = lower(ds.full_id)
+              <![CDATA[
+                SELECT sa.full_id
+                FROM apidbtuning.SequenceAttributes sa
+                JOIN ($$source_ids$$) ds ON lower(sa.full_id) = lower(ds.full_id)
 
-UNION
+                UNION
 
-SELECT sa.full_id
-FROM apidbtuning.SequenceAttributes sa
-JOIN apidbtuning.transcriptattributes ta ON lower(sa.full_id) = lower(ta.protein_source_id)
-JOIN ($$source_ids$$) ds ON lower(ta.gene_source_id) = lower(ds.full_id)
+                SELECT sa.full_id
+                FROM apidbtuning.SequenceAttributes sa
+                JOIN apidbtuning.transcriptattributes ta ON lower(sa.full_id) = lower(ta.protein_source_id)
+                JOIN ($$source_ids$$) ds ON lower(ta.gene_source_id) = lower(ds.full_id)
 
-UNION
+                UNION
 
--- ortho7-formatted ids (abbrev|gene_id), e.g. herc|A0H76_1000 -> A0H76_1000-t39_1-p1
-SELECT sa.full_id
-FROM apidbtuning.SequenceAttributes sa
-JOIN apidbtuning.transcriptattributes ta ON lower(sa.full_id) = lower(ta.protein_source_id)
-JOIN ($$source_ids$$) ds
-    ON lower(ta.gene_source_id) = lower(regexp_replace(ds.full_id, '^[^|]*\|', ''))
-WHERE ds.full_id LIKE '%|%'
-				]]>
+                -- ortho7-formatted ids (abbrev|gene_id), e.g. herc|A0H76_1000 -> A0H76_1000-t39_1-p1
+                SELECT sa.full_id
+                FROM apidbtuning.SequenceAttributes sa
+                JOIN apidbtuning.transcriptattributes ta ON lower(sa.full_id) = lower(ta.protein_source_id)
+                JOIN ($$source_ids$$) ds
+                  ON lower(ta.gene_source_id) = lower(regexp_replace(ds.full_id, '^[^|]*\|', ''))
+                WHERE ds.full_id LIKE '%|%'
+              ]]>
             </sql>
         </sqlQuery>
 
