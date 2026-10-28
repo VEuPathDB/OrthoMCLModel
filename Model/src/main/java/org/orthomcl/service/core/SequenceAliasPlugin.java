@@ -29,7 +29,7 @@ public class SequenceAliasPlugin implements PrimaryKeyAliasPlugin {
       ID_SEARCH_QUERY_NAME = "ByIdList",
       ID_SEARCH_PARAM_NAME = "source_ids";
 
-  private static final Pattern ID_REGEX = Pattern.compile("^[\\w\\-\\|\\.]+$");
+  private static final Pattern ID_REGEX = Pattern.compile("^[\\w\\-\\|\\.\\:]+$");
 
   @Override
   public List<Map<String, Object>> getPrimaryKey(User user, Map<String, Object> inputPkValues)
