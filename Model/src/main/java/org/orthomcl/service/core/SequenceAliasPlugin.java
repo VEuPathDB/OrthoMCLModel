@@ -40,7 +40,7 @@ public class SequenceAliasPlugin implements PrimaryKeyAliasPlugin {
         .orElseThrow(() -> new RecordNotFoundException("Primary key for sequence did not contain full_id column."))
         .toString();
 
-    LOG.info("Sequence alias plugin called with full_id " + fullId);
+    LOG.debug("Sequence alias plugin called with full_id " + fullId);
 
     // check for SQL injection
     if (!ID_REGEX.matcher(fullId).find()) {
@@ -58,13 +58,13 @@ public class SequenceAliasPlugin implements PrimaryKeyAliasPlugin {
 
     String idQuerySql = param.replaceSql(query.getSql(), null, datasetSql);
 
-    LOG.info("Supplied full_id passed regex.  Will call the following SQL: " + NL + idQuerySql);
+    LOG.debug("Supplied full_id passed regex.  Will call the following SQL: " + NL + idQuerySql);
 
     List<Map<String, Object>> foundPks = new SQLRunner(appDb.getDataSource(), idQuerySql).executeQuery(rs -> {
       List<Map<String, Object>> rows = new ArrayList<>();
       while (rs.next()) {
         String id = rs.getString(SEQUENCE_PK_COL_NAME);
-        LOG.info("Found mapped ID: " + id);
+        LOG.debug("Found mapped ID: " + id);
         rows.add(Map.of(SEQUENCE_PK_COL_NAME, id));
       }
       return rows;
