@@ -34,7 +34,6 @@
 	    AND aas.aa_sequence_id = sa.aa_sequence_id
          </testRowCountSql>
 
-
         <sqlQuery name="SequenceAttrs">
             <column name="full_id"/>
             <column name="source_id"/>
