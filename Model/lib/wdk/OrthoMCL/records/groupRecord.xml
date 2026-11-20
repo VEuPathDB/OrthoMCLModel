@@ -578,7 +578,7 @@
       <!-- =============================================================== -->
 
             <table name="TaxonCounts" inReportMaker="false"
-                   displayName="Phlyetic Distribution of Proteins"
+                   displayName="Phyletic Distribution of Proteins"
                    queryRef="GroupTables.TaxonCounts"
 		   help="Numbers refer to the number of proteins in that organism or taxonomic group. In order to see organisms and taxonomic groups without proteins in this ortholog group, uncheck 'Hide zero counts.'" >
 
