@@ -74,7 +74,7 @@
                 <![CDATA[
 SELECT sa.full_id
 FROM ApidbTuning.SequenceAttributes sa
-WHERE sa.aa_sequence_source_id LIKE REPLACE($$accession$$, '*', '%')
+WHERE sa.source_id LIKE REPLACE($$accession$$, '*', '%')
    OR sa.full_id LIKE REPLACE($$accession$$, '*', '%')
    OR sa.group_name LIKE REPLACE($$accession$$, '*', '%')
 
