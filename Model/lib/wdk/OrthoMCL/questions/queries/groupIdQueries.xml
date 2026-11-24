@@ -53,19 +53,14 @@ JOIN (
        <sql>
             <![CDATA[
 WITH group_counts AS (
-    SELECT
-        ogas.group_id,
-        COUNT(*) AS number_of_members,
-        COUNT(*) FILTER (WHERE og.core_peripheral = 'core') AS number_of_core_members,
-        COUNT(*) FILTER (WHERE og.core_peripheral = 'peripheral') AS number_of_peripheral_members
+    -- group_size is apidb.orthologgroup's own stored total member count,
+    -- already carried on every SequenceAttributes row for the group -- no
+    -- need to re-derive it via a fresh COUNT(*) over the raw tables.
+    SELECT DISTINCT
+        group_name,
+        group_size AS number_of_members
     FROM
-        apidb.orthologgroupaasequence AS ogas
-        JOIN dots.aasequence AS das
-          ON ogas.aa_sequence_id = das.aa_sequence_id
-        JOIN apidb.organism AS og
-          ON das.taxon_id = og.taxon_id
-    GROUP BY
-        ogas.group_id
+        ApidbTuning.SequenceAttributes
 ),
 domain AS (
     SELECT
@@ -86,7 +81,7 @@ SELECT
     domain.group_name
 FROM
     domain
-    JOIN group_counts AS gc ON gc.group_id = domain.group_name
+    JOIN group_counts AS gc ON gc.group_name = domain.group_name
 WHERE
     domain.num_proteins >= $$min_num_proteins$$
     AND (domain.num_proteins::numeric / gc.number_of_members) >= $$min_fraction_proteins$$

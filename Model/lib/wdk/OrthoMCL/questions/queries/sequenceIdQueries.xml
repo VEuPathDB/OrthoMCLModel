@@ -74,7 +74,7 @@
                 <![CDATA[
 SELECT sa.full_id
 FROM ApidbTuning.SequenceAttributes sa
-WHERE sa.source_id LIKE REPLACE($$accession$$, '*', '%')
+WHERE sa.aa_sequence_source_id LIKE REPLACE($$accession$$, '*', '%')
    OR sa.full_id LIKE REPLACE($$accession$$, '*', '%')
    OR sa.group_name LIKE REPLACE($$accession$$, '*', '%')
 
@@ -101,8 +101,7 @@ WHERE db.name IN ('OrthoMCL Old Groups', 'OrthoMCL Old Sequences')
                 <![CDATA[
 SELECT sa.full_id
 FROM dots.AaSequenceImp asi
-JOIN dots.aasequence aas ON asi.aa_sequence_id = aas.aa_sequence_id
-JOIN apidbTuning.SequenceAttributes sa ON sa.aa_sequence_id = aas.aa_sequence_id
+JOIN apidbTuning.SequenceAttributes sa ON sa.aa_sequence_id = asi.aa_sequence_id
 WHERE asi.subclass_view = 'ExternalAASequence'
   AND to_tsvector('english', asi.description) @@ to_tsquery($$keyword$$)
                ]]>
@@ -145,13 +144,11 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
             <sql>
                 <![CDATA[
 SELECT DISTINCT sa.full_id
-FROM dots.aasequence aas
-JOIN apidbTuning.SequenceAttributes sa
-  ON sa.aa_sequence_id = aas.aa_sequence_id
+FROM apidbTuning.SequenceAttributes sa
 JOIN apidb.orthologgroupaasequence ogas
-  ON aas.aa_sequence_id = ogas.aa_sequence_id
+  ON sa.aa_sequence_id = ogas.aa_sequence_id
 JOIN dots.AaSequenceEnzymeClass asec
-  ON aas.aa_sequence_id = asec.aa_sequence_id
+  ON sa.aa_sequence_id = asec.aa_sequence_id
 JOIN sres.enzymeClass ec
   ON asec.enzyme_class_id = ec.enzyme_class_id
 WHERE ec.ec_number = $$ec_number_type_ahead$$
@@ -165,13 +162,11 @@ WHERE ec.ec_number = $$ec_number_type_ahead$$
             <sql>
                 <![CDATA[
 SELECT DISTINCT sa.full_id
-FROM dots.aasequence aas
-JOIN apidbTuning.SequenceAttributes sa
-  ON sa.aa_sequence_id = aas.aa_sequence_id
+FROM apidbTuning.SequenceAttributes sa
 JOIN apidb.orthologgroupaasequence ogas
-  ON aas.aa_sequence_id = ogas.aa_sequence_id
+  ON sa.aa_sequence_id = ogas.aa_sequence_id
 JOIN dots.AaSequenceEnzymeClass asec
-  ON aas.aa_sequence_id = asec.aa_sequence_id
+  ON sa.aa_sequence_id = asec.aa_sequence_id
 JOIN sres.enzymeClass ec
   ON asec.enzyme_class_id = ec.enzyme_class_id
                  ]]>
@@ -412,9 +407,9 @@ t AS (
     -- Collect orthologs from the target taxon only
     SELECT
         ogas.group_id,
-        string_agg(org2.source_id, ',' ORDER BY org2.source_id) AS target_id
+        string_agg(org2.full_id, ',' ORDER BY org2.full_id) AS target_id
     FROM apidb.orthologgroupaasequence ogas
-    JOIN dots.aasequence org2
+    JOIN apidbTuning.SequenceAttributes org2
         ON org2.aa_sequence_id = ogas.aa_sequence_id
     WHERE org2.taxon_id = $$target_organism_type_ahead$$
     GROUP BY ogas.group_id

@@ -143,9 +143,8 @@ LEFT JOIN apidbtuning.proteinattributes pa
             <sql>
                         <![CDATA[
 SELECT sa.full_id, ref.primary_identifier AS group_name
-FROM dots.aasequence aas
-JOIN apidbTuning.SequenceAttributes sa ON sa.aa_sequence_id = aas.aa_sequence_id
-JOIN Dots.AaSequenceDbRef seqref ON aas.aa_sequence_id = seqref.aa_sequence_id
+FROM apidbTuning.SequenceAttributes sa
+JOIN Dots.AaSequenceDbRef seqref ON sa.aa_sequence_id = seqref.aa_sequence_id
 JOIN Sres.DbRef ref ON seqref.db_ref_id = ref.db_ref_id
 JOIN Sres.ExternalDatabaseRelease dbr ON ref.external_database_release_id = dbr.external_database_release_id
 JOIN Sres.ExternalDatabase db ON dbr.external_database_id = db.external_database_id
@@ -206,10 +205,9 @@ FROM apidbtuning.sequenceenzymeclass sec
             <sql>
 		<![CDATA[
 SELECT sa.full_id,
-       aas.description AS product,
-       aas.source_id AS id_string
-FROM dots.aasequence aas
-JOIN apidbTuning.SequenceAttributes sa ON sa.aa_sequence_id = aas.aa_sequence_id
+       sa.product,
+       sa.source_id AS id_string
+FROM apidbTuning.SequenceAttributes sa
  		]]>
             </sql>
         </sqlQuery>
