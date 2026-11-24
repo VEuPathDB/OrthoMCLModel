@@ -48,19 +48,19 @@
 
                 UNION
 
+                -- SequenceAttributes.source_id is now the gene id directly --
+                -- no need to bridge through transcriptattributes any more.
                 SELECT sa.full_id
                 FROM apidbtuning.SequenceAttributes sa
-                JOIN apidbtuning.transcriptattributes ta ON lower(sa.full_id) = lower(ta.protein_source_id)
-                JOIN ($$source_ids$$) ds ON lower(ta.gene_source_id) = lower(ds.full_id)
+                JOIN ($$source_ids$$) ds ON lower(sa.source_id) = lower(ds.full_id)
 
                 UNION
 
-                -- ortho7-formatted ids (abbrev|gene_id), e.g. herc|A0H76_1000 -> A0H76_1000-t39_1-p1
+                -- ortho7-formatted ids (abbrev|gene_id), e.g. herc|A0H76_1000
                 SELECT sa.full_id
                 FROM apidbtuning.SequenceAttributes sa
-                JOIN apidbtuning.transcriptattributes ta ON lower(sa.full_id) = lower(ta.protein_source_id)
                 JOIN ($$source_ids$$) ds
-                  ON lower(ta.gene_source_id) = lower(regexp_replace(ds.full_id, '^[^|]*\|', ''))
+                  ON lower(sa.source_id) = lower(regexp_replace(ds.full_id, '^[^|]*\|', ''))
                 WHERE ds.full_id LIKE '%|%'
               ]]>
             </sql>
@@ -379,18 +379,18 @@ WITH input_ids AS (
 ),
 
 query_proteins AS (
-    -- Match by protein_id directly
+    -- Match by full_id directly
     SELECT sa.aa_sequence_id, sa.full_id AS source_id
     FROM ApidbTuning.SequenceAttributes sa
     JOIN input_ids i ON lower(sa.full_id) = lower(i.input_id)
 
     UNION
 
-    -- Match by gene_id via transcriptattributes (one protein per transcript)
+    -- Match by gene_id directly -- SequenceAttributes.source_id IS the gene
+    -- id now, no need to bridge through transcriptattributes any more.
     SELECT sa.aa_sequence_id, sa.full_id AS source_id
     FROM input_ids i
-    JOIN apidbtuning.transcriptattributes ta ON lower(ta.gene_source_id) = lower(i.input_id)
-    JOIN ApidbTuning.SequenceAttributes sa ON lower(sa.full_id) = lower(ta.protein_source_id)
+    JOIN ApidbTuning.SequenceAttributes sa ON lower(sa.source_id) = lower(i.input_id)
 ),
 
 q AS (
