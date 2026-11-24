@@ -116,19 +116,9 @@ JOIN apidbTuning.SequenceAttributes sa ON sa.aa_sequence_id = aas.aa_sequence_id
             <sql>
                 <![CDATA[
 SELECT sa.full_id,
-       CASE
-           WHEN pa.source_id IS NOT NULL THEN pa.gene_source_id
-           ELSE sa.source_text
-       END AS gene_source_id,
-       CASE
-           WHEN pa.source_id IS NOT NULL THEN
-               'https://' || lower(pa.project_id) || '.org/a/app/record/gene/' ||
-               pa.gene_source_id
-           ELSE sa.source_url
-       END AS gene_source_url
+       sa.source_id AS gene_source_id,
+       sa.source_url AS gene_source_url
 FROM apidbtuning.sequenceattributes sa
-LEFT JOIN apidbtuning.proteinattributes pa
-    ON sa.full_id = pa.source_id AND pa.project_id != 'OrthoMCL'
                 ]]>
             </sql>
         </sqlQuery>
