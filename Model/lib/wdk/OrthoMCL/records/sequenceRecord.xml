@@ -171,8 +171,8 @@
       </attributeQueryRef>
 
       <attributeQueryRef ref="SequenceAttributes.SequenceSourceLink">
-        <columnAttribute name="gene_source_id" displayName="Protein Source ID" internal="true" inReportMaker="true"/>
-        <columnAttribute name="gene_source_url" displayName="Protein Source URL" internal="true" inReportMaker="false"/>
+        <columnAttribute name="gene_source_id" displayName="Gene Source ID" internal="true" inReportMaker="true"/>
+        <columnAttribute name="gene_source_url" displayName="Gene Source URL" internal="true" inReportMaker="false"/>
       </attributeQueryRef>
 
       <linkAttribute displayName="Group ID" name="group_link" inReportMaker="false" internal="false" >
@@ -190,7 +190,7 @@
         </url>
       </linkAttribute>
 
-      <linkAttribute displayName="Link to Protein Source" name="gene_source_link" inReportMaker="false" internal="false">
+      <linkAttribute displayName="Link to Gene Source" name="gene_source_link" inReportMaker="false" internal="false">
         <displayText>
           <![CDATA[ $$gene_source_id$$ ]]>
         </displayText>
@@ -217,7 +217,7 @@
         <dd>$$core_peripheral$$</dd>
         <dt>Ortholog group</dt>
         <dd><a href="@LEGACY_WEBAPP_BASE_URL@/app/record/group/$$group_name$$">$$group_name$$</a></dd>
-        <dt>Link to protein source</dt>
+        <dt>Link to gene source</dt>
         <dd><a href="$$gene_source_url$$" target="_blank">$$gene_source_id$$</a></dd>
       </dl>
     </div>

@@ -558,7 +558,7 @@ ORDER BY sequence_count DESC
 
   UNION ALL
 
-  SELECT group_name, 'Peripheral only' AS group_type,
+  SELECT group_name, 'Residual only' AS group_type,
          residual_min_evalue AS min,
          residual_25_evalue AS twentyfive,
          residual_median_evalue AS median,

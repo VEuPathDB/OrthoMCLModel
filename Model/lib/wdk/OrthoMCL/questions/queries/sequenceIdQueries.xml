@@ -48,19 +48,19 @@
 
                 UNION
 
+                -- SequenceAttributes.source_id is now the gene id directly --
+                -- no need to bridge through transcriptattributes any more.
                 SELECT sa.full_id
                 FROM apidbtuning.SequenceAttributes sa
-                JOIN apidbtuning.transcriptattributes ta ON lower(sa.full_id) = lower(ta.protein_source_id)
-                JOIN ($$source_ids$$) ds ON lower(ta.gene_source_id) = lower(ds.full_id)
+                JOIN ($$source_ids$$) ds ON lower(sa.source_id) = lower(ds.full_id)
 
                 UNION
 
-                -- ortho7-formatted ids (abbrev|gene_id), e.g. herc|A0H76_1000 -> A0H76_1000-t39_1-p1
+                -- ortho7-formatted ids (abbrev|gene_id), e.g. herc|A0H76_1000
                 SELECT sa.full_id
                 FROM apidbtuning.SequenceAttributes sa
-                JOIN apidbtuning.transcriptattributes ta ON lower(sa.full_id) = lower(ta.protein_source_id)
                 JOIN ($$source_ids$$) ds
-                  ON lower(ta.gene_source_id) = lower(regexp_replace(ds.full_id, '^[^|]*\|', ''))
+                  ON lower(sa.source_id) = lower(regexp_replace(ds.full_id, '^[^|]*\|', ''))
                 WHERE ds.full_id LIKE '%|%'
               ]]>
             </sql>
@@ -72,7 +72,7 @@
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-SELECT sa.source_id as full_id
+SELECT sa.full_id
 FROM ApidbTuning.SequenceAttributes sa
 WHERE sa.source_id LIKE REPLACE($$accession$$, '*', '%')
    OR sa.full_id LIKE REPLACE($$accession$$, '*', '%')
@@ -99,9 +99,9 @@ WHERE db.name IN ('OrthoMCL Old Groups', 'OrthoMCL Old Sequences')
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-SELECT aas.source_id AS full_id
+SELECT sa.full_id
 FROM dots.AaSequenceImp asi
-JOIN dots.aasequence aas ON asi.aa_sequence_id = aas.aa_sequence_id
+JOIN apidbTuning.SequenceAttributes sa ON sa.aa_sequence_id = asi.aa_sequence_id
 WHERE asi.subclass_view = 'ExternalAASequence'
   AND to_tsvector('english', asi.description) @@ to_tsquery($$keyword$$)
                ]]>
@@ -143,12 +143,12 @@ WHERE taxon_abbreviation IN ($$taxon_type_ahead$$)
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-SELECT DISTINCT aas.source_id AS full_id
-FROM dots.aasequence aas
+SELECT DISTINCT sa.full_id
+FROM apidbTuning.SequenceAttributes sa
 JOIN apidb.orthologgroupaasequence ogas
-  ON aas.aa_sequence_id = ogas.aa_sequence_id
+  ON sa.aa_sequence_id = ogas.aa_sequence_id
 JOIN dots.AaSequenceEnzymeClass asec
-  ON aas.aa_sequence_id = asec.aa_sequence_id
+  ON sa.aa_sequence_id = asec.aa_sequence_id
 JOIN sres.enzymeClass ec
   ON asec.enzyme_class_id = ec.enzyme_class_id
 WHERE ec.ec_number = $$ec_number_type_ahead$$
@@ -161,12 +161,12 @@ WHERE ec.ec_number = $$ec_number_type_ahead$$
             <column name="full_id"/>
             <sql>
                 <![CDATA[
-SELECT DISTINCT aas.source_id AS full_id
-FROM dots.aasequence aas
+SELECT DISTINCT sa.full_id
+FROM apidbTuning.SequenceAttributes sa
 JOIN apidb.orthologgroupaasequence ogas
-  ON aas.aa_sequence_id = ogas.aa_sequence_id
+  ON sa.aa_sequence_id = ogas.aa_sequence_id
 JOIN dots.AaSequenceEnzymeClass asec
-  ON aas.aa_sequence_id = asec.aa_sequence_id
+  ON sa.aa_sequence_id = asec.aa_sequence_id
 JOIN sres.enzymeClass ec
   ON asec.enzyme_class_id = ec.enzyme_class_id
                  ]]>
@@ -331,30 +331,30 @@ SELECT full_id FROM apidbtuning.sequenceattributes
       <column name="target_id"/>
       <sql>
                 <![CDATA[
-SELECT 
+SELECT
     q.query AS full_id,
     q.group_id AS group_name,
     COALESCE(t.target, 'No Ortholog Found') AS target_id
 FROM (
-    SELECT 
-        org1.source_id AS query,
+    SELECT
+        org1.full_id AS query,
         ogas.group_id
     FROM (
-        SELECT aa_sequence_id, source_id
-        FROM dots.aasequence
+        SELECT aa_sequence_id, full_id
+        FROM apidbTuning.SequenceAttributes
         WHERE taxon_id = $$query_organism_type_ahead$$
     ) org1
     LEFT JOIN apidb.orthologgroupaasequence ogas
         ON ogas.aa_sequence_id = org1.aa_sequence_id
 ) q
 LEFT JOIN (
-    SELECT 
-        string_agg(org2.source_id, ',' ORDER BY org2.source_id) AS target,
+    SELECT
+        string_agg(org2.full_id, ',' ORDER BY org2.full_id) AS target,
         ogas.group_id
     FROM apidb.orthologgroupaasequence ogas
     INNER JOIN (
-        SELECT aa_sequence_id, source_id
-        FROM dots.aasequence
+        SELECT aa_sequence_id, full_id
+        FROM apidbTuning.SequenceAttributes
         WHERE taxon_id = $$target_organism_type_ahead$$
     ) org2
         ON ogas.aa_sequence_id = org2.aa_sequence_id
@@ -379,18 +379,18 @@ WITH input_ids AS (
 ),
 
 query_proteins AS (
-    -- Match by protein_id directly
+    -- Match by full_id directly
     SELECT sa.aa_sequence_id, sa.full_id AS source_id
     FROM ApidbTuning.SequenceAttributes sa
     JOIN input_ids i ON lower(sa.full_id) = lower(i.input_id)
 
     UNION
 
-    -- Match by gene_id via transcriptattributes (one protein per transcript)
+    -- Match by gene_id directly -- SequenceAttributes.source_id IS the gene
+    -- id now, no need to bridge through transcriptattributes any more.
     SELECT sa.aa_sequence_id, sa.full_id AS source_id
     FROM input_ids i
-    JOIN apidbtuning.transcriptattributes ta ON lower(ta.gene_source_id) = lower(i.input_id)
-    JOIN ApidbTuning.SequenceAttributes sa ON lower(sa.full_id) = lower(ta.protein_source_id)
+    JOIN ApidbTuning.SequenceAttributes sa ON lower(sa.source_id) = lower(i.input_id)
 ),
 
 q AS (
@@ -407,9 +407,9 @@ t AS (
     -- Collect orthologs from the target taxon only
     SELECT
         ogas.group_id,
-        string_agg(org2.source_id, ',' ORDER BY org2.source_id) AS target_id
+        string_agg(org2.full_id, ',' ORDER BY org2.full_id) AS target_id
     FROM apidb.orthologgroupaasequence ogas
-    JOIN dots.aasequence org2
+    JOIN apidbTuning.SequenceAttributes org2
         ON org2.aa_sequence_id = ogas.aa_sequence_id
     WHERE org2.taxon_id = $$target_organism_type_ahead$$
     GROUP BY ogas.group_id
